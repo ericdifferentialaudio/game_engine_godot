@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "effects.schema.json",
+  "title": "Status Effects",
+  "type": "object",
+  "required": ["effects"],
+  "properties": {
+    "effects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "display_name"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "display_name": { "type": "string" },
+          "description": { "type": "string" },
+          "duration": { "type": "number", "minimum": 0 },
+          "stacking": { "enum": ["refresh", "stack", "independent", "ignore"] },
+          "max_stacks": { "type": "integer", "minimum": 1 },
+          "stat_mods": { "type": "object", "additionalProperties": { "type": "number" } },
+          "stat_mods_percent": { "type": "object", "additionalProperties": { "type": "number" } },
+          "resistances": { "type": "object", "additionalProperties": { "type": "number" } },
+          "tick_interval": { "type": "number", "minimum": 0 },
+          "tick_damage": { "$ref": "items.schema.json#/$defs/damage_table" },
+          "tick_heal": { "type": "number", "minimum": 0 },
+          "tick_resources": { "type": "object", "additionalProperties": { "type": "number" } },
+          "flags": { "type": "array", "items": { "type": "string" } },
+          "immunities": { "type": "array", "items": { "type": "string" } },
+          "debuff": { "type": "boolean" },
+          "dispellable": { "type": "boolean" },
+          "vfx": { "type": "string" },
+          "icon": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "metadata": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

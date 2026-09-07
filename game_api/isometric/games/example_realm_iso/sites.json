@@ -1,0 +1,159 @@
+{
+  "sites": [
+    {
+      "id": "hollowmere",
+      "map": "overworld",
+      "display_name": "Hollowmere",
+      "description": "A fishing village on the marsh edge. Elder Maren remembers everything.",
+      "category": "village",
+      "coord": [10, 9],
+      "visual": "site.village",
+      "owner": "hollowmere_folk",
+      "capturable": false,
+      "discover_intel": ["seen_hollowmere"],
+      "yields": { "gold": 1 },
+      "spawns": [{ "unit": "elder_maren", "faction": "hollowmere_folk", "count": 1, "radius": 0 }],
+      "interactions": [
+        {
+          "kind": "dialogue", "speaker": "Elder Maren", "portrait": "portrait.maren", "start": "greet", "consumes": false,
+          "nodes": {
+            "greet": { "text": "Welcome, traveller. Few come to Hollowmere without a reason.", "choices": [
+              { "text": "Heard any rumours of old ruins?", "next": "rumour" },
+              { "text": "Who trades here?", "next": "trade" },
+              { "text": "About the warden's ledger...", "next": "warden", "requires": { "has": "warden_seen" } },
+              { "text": "Farewell.", "next": null }
+            ] },
+            "rumour": { "text": "Look where the reeds grow thickest, west of the mill. The stones are under them.", "grant_intel": ["rumor_crypt_reeds"], "set_faction_flags": ["asked_maren_rumour"], "next": null },
+            "trade": { "text": "Marrow sells curios. Ask him about the tide charts - and don't say I told you.", "grant_intel": ["rumor_marrow_smuggles"], "next": null },
+            "warden": { "text": "So the bone-warden still walks? Then trust nothing a drunk tells you about its rest.", "grant_intel": ["schedule_ossuary_guard_false"], "next": null }
+          }
+        },
+        {
+          "kind": "shop", "shop_id": "marrow_curios", "currency": "gold", "buys_intel": true, "intel_price_multiplier": 1.0,
+          "stock": [
+            { "item": "healing_herb", "price": 10, "stock": 5 },
+            { "item": "spyglass", "price": 45, "stock": 1 },
+            { "item": "smugglers_map", "price": 60, "stock": 1, "requires": { "has": "rumor_marrow_smuggles", "min_reliability": 0.5 } }
+          ]
+        }
+      ],
+      "tags": ["settlement", "informant"]
+    },
+    {
+      "id": "standing_stones",
+      "map": "overworld",
+      "display_name": "Standing Stones",
+      "description": "Weathered menhirs carved with a half-legible verse.",
+      "category": "ruins",
+      "coord": [8, 6],
+      "visual": "site.ruins",
+      "interactions": [
+        { "kind": "intel", "tokens": ["ruin_inscription"], "channel": "read", "once_per_faction": true, "message": "You trace the inscription: 'Below the mill where reeds drink, the dead keep the tide.'" },
+        { "kind": "reward", "resources": { "gold": 15 }, "once": true, "message": "Coins lie among the stones." }
+      ],
+      "tags": ["lore"]
+    },
+    {
+      "id": "wolf_den",
+      "map": "overworld",
+      "display_name": "Wolf Den",
+      "category": "camp",
+      "coord": [14, 14],
+      "visual": "site.camp",
+      "owner": "wilds",
+      "capturable": true,
+      "spawns": [{ "unit": "wolf", "faction": "wilds", "count": 2, "radius": 1, "respawn_turns": 8 }],
+      "interactions": [
+        { "kind": "reward", "items": { "wolf_pelt": 2 }, "resources": { "gold": 10 }, "once": true, "message": "You clear the den and take what the wolves hoarded." }
+      ],
+      "tags": ["monster"]
+    },
+    {
+      "id": "old_mill",
+      "map": "overworld",
+      "display_name": "The Old Mill",
+      "category": "ruins",
+      "coord": [5, 8],
+      "visual": "site.ruins",
+      "interactions": [
+        { "kind": "intel", "tokens": ["rumor_crypt_west"], "channel": "observed", "reliability": 0.5, "once_per_faction": true, "message": "From the mill you can see reeds choking the western shallows." }
+      ],
+      "tags": ["landmark"]
+    },
+    {
+      "id": "sunken_crypt_entrance",
+      "map": "overworld",
+      "display_name": "Sunken Crypt",
+      "description": "Stone steps vanish under the reeds.",
+      "category": "dungeon",
+      "coord": [3, 8],
+      "visual": "site.dungeon",
+      "hidden_until": { "any": [ { "has": "crypt_location", "min_reliability": 0.6 }, { "faction_flag": "found_crypt_by_foot" } ] },
+      "enter_requires": { "has": "crypt_location", "min_reliability": 0.6 },
+      "interactions": [
+        { "kind": "portal", "target_map": "sunken_crypt_1", "target_coord": [1, 1], "direction": "descend", "message": "You descend into the Upper Vaults." }
+      ],
+      "tags": ["dungeon", "portal"]
+    },
+
+    {
+      "id": "crypt_stairs_up",
+      "map": "sunken_crypt_1",
+      "display_name": "Stairs to the surface",
+      "category": "generic",
+      "coord": [1, 1],
+      "visual": "site.stairs",
+      "interactions": [
+        { "kind": "portal", "direction": "ascend", "target_map": "overworld", "target_coord": [3, 8], "requires": { "faction_flag": "vault_visited" } }
+      ]
+    },
+    {
+      "id": "crypt_shrine",
+      "map": "sunken_crypt_1",
+      "display_name": "Drowned Shrine",
+      "category": "shrine",
+      "coord": [5, 5],
+      "visual": "site.shrine",
+      "interactions": [
+        { "kind": "flag", "set_faction_flags": ["vault_visited"], "consumes": false },
+        { "kind": "reward", "heal_full": true, "xp": 10, "once_per_faction": true, "message": "Cold water restores you." }
+      ]
+    },
+    {
+      "id": "crypt_stairs_down",
+      "map": "sunken_crypt_1",
+      "display_name": "Stairs to the Ossuary",
+      "category": "generic",
+      "coord": [9, 7],
+      "visual": "site.stairs",
+      "interactions": [
+        { "kind": "portal", "target_map": "sunken_crypt_2", "target_coord": [1, 1], "direction": "descend", "message": "Bone dust drifts up the stair." }
+      ]
+    },
+    {
+      "id": "ossuary_stairs_up",
+      "map": "sunken_crypt_2",
+      "display_name": "Stairs up",
+      "category": "generic",
+      "coord": [1, 1],
+      "visual": "site.stairs",
+      "interactions": [
+        { "kind": "portal", "direction": "ascend", "target_map": "sunken_crypt_1", "target_coord": [9, 7] }
+      ]
+    },
+    {
+      "id": "ossuary",
+      "map": "sunken_crypt_2",
+      "display_name": "The Ossuary",
+      "category": "dungeon",
+      "coord": [7, 5],
+      "visual": "site.shrine",
+      "spawns": [{ "unit": "bone_warden", "faction": "wilds", "count": 1, "radius": 1 }],
+      "interactions": [
+        { "kind": "combat", "target": "nearest_enemy", "once": true,
+          "on_victory": [ { "kind": "flag", "quest": { "id": "sunken_crypt", "stage": "cleared" }, "set_flags": ["crypt_cleared"] } ] },
+        { "kind": "reward", "resources": { "gold": 120 }, "once": true, "requires": { "flag": "crypt_cleared" }, "message": "The warden's hoard is yours." }
+      ]
+    }
+  ]
+}

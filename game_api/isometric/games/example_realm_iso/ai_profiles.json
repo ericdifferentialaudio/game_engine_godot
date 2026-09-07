@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "idle":     { "behavior": "idle" },
+    "wander":   { "behavior": "wander", "radius": 3 },
+    "guard":    { "behavior": "guard", "radius": 1, "attack_range": 1 },
+    "explorer": { "behavior": "explore" },
+    "hunter":   { "behavior": "hunt", "sight_bonus": 1, "flee_below_health": 0.25 },
+    "schedule": { "behavior": "schedule" }
+  },
+  "abilities": {}
+}

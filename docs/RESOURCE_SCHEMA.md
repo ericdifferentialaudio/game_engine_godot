@@ -1,83 +1,42 @@
 # Resource Schema
 
-This is the data contract both engine API layers (`game_api/isometric/`,
-`game_api/fps/`) — and, through them, any game built in `games/` — are
-written against. Any field added to a schema class here is available to
-both layers simultaneously — that is the entire point of sharing a
-resource tree instead of maintaining two.
+> **Superseded — see [`API.md`](API.md).**
+>
+> The scaffold classes this file used to document (`UnitDefinition`,
+> `ItemDefinition`, `TokenDefinition`, `VirtueDefinition`, `WorldFact`) were
+> placeholders written before the two real engines were imported. They have
+> been removed: `ItemDefinition` in particular collided with the engines' own
+> class of the same name and prevented both projects from booting.
 
-Schema *classes* (the shape) live in `core/addons/game_core/schema/`.
-Schema *instances* (actual content, `.tres`/`.json`) live in `core/data/`.
+The live data contract is the `Core*` schema classes in
+`core/addons/game_core/schema/`:
 
-## UnitDefinition (`core/addons/game_core/schema/unit_definition.gd`)
+| Class | Data file | Covers |
+|---|---|---|
+| `CoreDefinition` | — | shared base: id, display_name, tags, metadata, raw |
+| `CoreItemDefinition` | `items.json` | weapons, armour, consumables, artifacts |
+| `CoreUnitDefinition` | `units.json` / `actors.json` | players, heroes, NPCs, monsters, structures |
+| `CoreIntelToken` | `intel.json` | information tokens |
+| `CoreFactionDefinition` | `factions.json` | factions, diplomacy, reputation |
+| `CoreProvenance` | — | intel chain of custody |
 
-| Field           | Type              | Notes                                   |
-|-----------------|-------------------|------------------------------------------|
-| `unit_id`       | `StringName`      | Unique identifier                        |
-| `display_name`  | `String`          | Human-readable name                      |
-| `max_health`    | `float`           |                                           |
-| `move_speed`    | `float`           | Generic; each game maps this to its own movement model |
-| `base_virtues`  | `Dictionary`      | `virtue_id (StringName) -> float`        |
-| `tags`          | `PackedStringArray` | Free-form classification tags          |
-
-Data lives in `core/data/units/`.
-
-## ItemDefinition (`core/addons/game_core/schema/item_definition.gd`)
-
-| Field           | Type              | Notes                    |
-|-----------------|-------------------|--------------------------|
-| `item_id`       | `StringName`      | Unique identifier        |
-| `display_name`  | `String`          |                          |
-| `description`   | `String`          |                          |
-| `stack_size`    | `int`             | Max stack in inventory   |
-| `tags`          | `PackedStringArray` |                        |
-
-Data lives in `core/data/items/`.
-
-## TokenDefinition (`core/addons/game_core/schema/token_definition.gd`)
-
-| Field              | Type                | Notes                                    |
-|---------------------|---------------------|--------------------------------------------|
-| `token_id`          | `StringName`        | Unique identifier                          |
-| `display_name`      | `String`            |                                            |
-| `summary`           | `String`            | Short description of the information token |
-| `related_fact_ids`  | `PackedStringArray` | Links to `WorldFact.fact_id` entries       |
-
-Data lives in `core/data/tokens/`.
-
-## VirtueDefinition (`core/addons/game_core/schema/virtue_definition.gd`)
-
-| Field           | Type         | Notes                          |
-|-----------------|--------------|----------------------------------|
-| `virtue_id`     | `StringName` | Unique identifier                |
-| `display_name`  | `String`     |                                  |
-| `min_value`     | `float`      | Clamp bound                      |
-| `max_value`     | `float`      | Clamp bound                      |
-| `default_value` | `float`      | Initial value on reset           |
-
-Data lives in `core/data/virtues/`. Runtime values are tracked by the
-`VirtueSystem` autoload, not stored on the resource itself.
-
-## WorldFact (`core/addons/game_core/schema/world_fact.gd`)
-
-| Field           | Type      | Notes                                  |
-|-----------------|-----------|-------------------------------------------|
-| `fact_id`       | `StringName` | Unique identifier                       |
-| `description`   | `String`  | Human-readable description of the fact    |
-| `default_value` | `Variant` | Initial value if never committed          |
-
-Data lives in `core/data/lore/`. Runtime values are tracked by the
-`WorldStateManager` autoload.
+Every field, helper and signal is documented in [`API.md`](API.md);
+`ARCHITECTURE.md` explains how the two graphics engines consume them.
 
 ## Changing the schema
 
-1. Edit the relevant `.gd` class in `core/addons/game_core/schema/`.
-2. Update this document.
-3. Add/adjust a GUT test in `core/tests/unit/` if the change affects
-   manager behavior (not just a passive data field).
-4. Run `tools/run_tests.ps1` — a schema change must not break either
-   game's test suite before it lands on `main`.
-5. If the change is breaking (renamed/removed field or manager method),
-   log it so both engine API layers (and any games consuming them) can be
-   updated deliberately rather than silently picking up a break next time
-   they're opened.
+1. Edit the relevant `core_*.gd` class in `core/addons/game_core/schema/`.
+2. Update the corresponding section of `docs/API.md`.
+3. Add or adjust a GUT test in `core/tests/unit/`.
+4. Run `./tools/sync_core.ps1` then `./tools/run_tests.ps1` — a schema change
+   must leave all three unit suites *and* both runtime integration checks green.
+5. If the change is breaking (renamed/removed field or method), call it out
+   explicitly so both engine API layers can be updated deliberately.
+
+## A note on lenient parsing
+
+Real authored data is inconsistent: a single-element list is often written as a
+bare string, and `equipment` may be a `slot -> item_id` map rather than a list.
+`CoreDataLoader.str_array()` / `packed_str_array()` accept all of these, and
+every schema class uses them. Prefer them over a raw `PackedStringArray(...)`
+cast, which throws on a non-array value and will crash package loading.

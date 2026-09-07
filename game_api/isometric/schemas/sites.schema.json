@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sites.schema.json",
+  "title": "Sites (points of interest on tiles)",
+  "type": "object",
+  "required": ["sites"],
+  "properties": {
+    "sites": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "map"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "map": { "type": "string" },
+          "display_name": { "type": "string" },
+          "description": { "type": "string" },
+          "category": { "type": "string" },
+          "coord": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 },
+          "placement": { "enum": ["fixed", "random_land"] },
+          "visual": { "type": "string" },
+          "owner": { "type": "string" },
+          "hidden_until": { "$ref": "query.schema.json" },
+          "discover_intel": { "type": "array", "items": { "type": "string" } },
+          "enter_requires": { "$ref": "query.schema.json" },
+          "interactions": { "type": "array", "items": { "$ref": "interaction.schema.json" } },
+          "spawns": { "type": "array", "items": { "type": "object", "required": ["unit"], "properties": {
+            "unit": { "type": "string" }, "faction": { "type": "string" }, "count": { "type": "integer", "minimum": 1 },
+            "radius": { "type": "integer", "minimum": 0 }, "respawn_turns": { "type": "integer", "minimum": 0 } } } },
+          "yields": { "type": "object", "additionalProperties": { "type": "number" } },
+          "defense_bonus": { "type": "number" },
+          "sight": { "type": "integer", "minimum": 0 },
+          "capturable": { "type": "boolean" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "metadata": { "type": "object" }
+        }
+      }
+    }
+  }
+}

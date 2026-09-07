@@ -1,0 +1,24 @@
+{
+  "effects": [
+    { "id": "burning", "display_name": "Burning", "debuff": true, "duration": 8, "stacking": "refresh",
+      "tick_interval": 1, "tick_damage": { "fire": 2 }, "resistances": { "frost": 0.2 }, "vfx": "fx.burning" },
+
+    { "id": "poisoned", "display_name": "Poisoned", "debuff": true, "duration": 20, "stacking": "stack", "max_stacks": 3,
+      "tick_interval": 2, "tick_damage": { "poison": 1 }, "stat_mods_percent": { "move_speed": -0.1 } },
+
+    { "id": "frozen", "display_name": "Frozen", "debuff": true, "duration": 4, "stacking": "ignore",
+      "flags": ["stunned"], "resistances": { "fire": -0.5, "blunt": -0.25 } },
+
+    { "id": "blessed_weapon", "display_name": "Blessed Strike", "duration": 6, "stacking": "refresh",
+      "stat_mods": { "attack": 3 }, "vfx": "fx.holy_glow" },
+
+    { "id": "bone_ward", "display_name": "Bone Ward", "duration": 30, "stacking": "refresh",
+      "stat_mods": { "armor": 15 }, "resistances": { "shadow": 0.5 }, "immunities": ["poisoned"] },
+
+    { "id": "silent_steps", "display_name": "Silent Steps", "duration": 0, "flags": ["silent_steps"],
+      "dispellable": false },
+
+    { "id": "undead", "display_name": "Undead", "duration": 0, "dispellable": false,
+      "resistances": { "pierce": 0.5, "poison": 1.0, "holy": -0.5 }, "immunities": ["poisoned", "poison"] }
+  ]
+}

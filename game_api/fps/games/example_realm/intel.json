@@ -1,0 +1,79 @@
+{
+  "intel": [
+    {
+      "id": "met_innkeeper",
+      "title": "The innkeeper of Hollowmere",
+      "summary": "Bertha runs the Drowned Lantern and knows everyone who passes through.",
+      "subject": "bertha_innkeeper",
+      "category": "fact",
+      "tags": ["npc", "hollowmere"],
+      "reliability": 1.0
+    },
+    {
+      "id": "rumor_crypt_location",
+      "title": "Whereabouts of the Sunken Crypt",
+      "summary": "The crypt entrance lies west of the old mill, hidden by reeds.",
+      "subject": "sunken_crypt",
+      "category": "location",
+      "tags": ["location", "dungeon"],
+      "facts": { "map": "overworld", "landmark": "old_mill" },
+      "reliability": 0.4,
+      "corroboration_step": 0.3,
+      "value": 40
+    },
+    {
+      "id": "rumor_marrow_smuggles",
+      "title": "Marrow deals in more than curios",
+      "summary": "Ask Marrow about 'the tide charts' and he may show you his real stock.",
+      "subject": "marrow_merchant",
+      "category": "password",
+      "tags": ["npc", "trade", "hollowmere"],
+      "reliability": 0.6,
+      "value": 25
+    },
+    {
+      "id": "schedule_ossuary_guard",
+      "title": "Ossuary patrol timing",
+      "summary": "The bone-warden sleeps at the third bell. The lower vaults are unguarded then.",
+      "subject": "sunken_crypt",
+      "category": "schedule",
+      "tags": ["dungeon", "timing"],
+      "facts": { "safe_window": "third_bell" },
+      "reliability": 0.5,
+      "expires_after": 1800,
+      "conflicts": ["schedule_ossuary_guard_false"]
+    },
+    {
+      "id": "lore_ossuary_relic",
+      "title": "The Ossuary Relic",
+      "summary": "A blade interred with the first warden. Holy-forged; only those who understand its rites can wield it — and the Bone-Warden fears it.",
+      "subject": "ossuary_relic",
+      "category": "lore",
+      "tags": ["item", "weapon", "dungeon", "weakness"],
+      "facts": { "weakness_of": "bone_warden", "damage_type": "holy" },
+      "reliability": 0.5,
+      "corroboration_step": 0.3,
+      "value": 80
+    },
+    {
+      "id": "lore_ring_of_stillness",
+      "title": "Ring of Stillness",
+      "summary": "A smuggler's ring said to quiet the wearer's footsteps.",
+      "subject": "ring_of_stillness",
+      "category": "lore",
+      "tags": ["item"],
+      "reliability": 0.7,
+      "value": 20
+    },
+    {
+      "id": "schedule_ossuary_guard_false",
+      "title": "Ossuary patrol timing (dubious)",
+      "summary": "A drunk claims the warden never sleeps.",
+      "subject": "sunken_crypt",
+      "category": "rumor",
+      "tags": ["dungeon", "timing"],
+      "reliability": 0.2,
+      "conflicts": ["schedule_ossuary_guard"]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "intel.schema.json",
+  "title": "Intel Tokens",
+  "type": "object",
+  "required": ["intel"],
+  "properties": {
+    "intel": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "subject"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "title": { "type": "string" },
+          "summary": { "type": "string" },
+          "subject": { "type": "string" },
+          "scope": { "enum": ["global", "region", "tile", "site", "unit", "faction", "item"] },
+          "category": { "enum": ["rumor", "fact", "secret", "location", "password", "schedule", "military", "economic", "diplomatic", "geographic", "lore", "map", "tech"] },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "facts": { "type": "object" },
+          "reliability": { "type": "number", "minimum": 0, "maximum": 1 },
+          "corroboration_step": { "type": "number", "minimum": 0, "maximum": 1 },
+          "decay_turns": { "type": "integer", "minimum": 0 },
+          "conflicts": { "type": "array", "items": { "type": "string" } },
+          "secrecy": { "type": "number", "minimum": 0, "maximum": 1 },
+          "spreadable": { "type": "boolean" },
+          "tradeable": { "type": "boolean" },
+          "value": { "type": "integer", "minimum": 0 },
+          "reveals": {
+            "type": "object",
+            "properties": {
+              "tiles": { "type": "array", "items": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 } },
+              "radius": { "type": "integer", "minimum": 0 },
+              "around": {},
+              "sites": { "type": "array", "items": { "type": "string" } },
+              "units": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "effects": { "type": "array", "items": { "$ref": "interaction.schema.json" } },
+          "metadata": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

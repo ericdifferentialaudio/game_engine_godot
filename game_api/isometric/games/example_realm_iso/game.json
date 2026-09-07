@@ -1,0 +1,31 @@
+{
+  "id": "example_realm_iso",
+  "title": "Example Realm (Isometric)",
+  "version": "0.1.0",
+  "description": "Reference package: hex overworld, two civs plus a neutral village and roaming monsters. A hero gathers intel from an elder, a ruin and a sold map to locate a hidden crypt (site descent), with intel-gated trade and derived knowledge.",
+  "grid": { "topology": "hex", "orientation": "pointy", "tile_size": [64, 56], "wrap_x": false },
+  "turns": { "mode": "sequential", "timer_seconds": 0, "ticks_per_turn": 10, "seconds_per_tick": 1.0 },
+  "calendar": {
+    "start_year": -1200, "years_per_turn": 10, "year_suffix_neg": "BC", "year_suffix_pos": "AD",
+    "eras": [
+      { "id": "ancient", "label": "Age of Rumours", "from_turn": 1 },
+      { "id": "classical", "label": "Age of Charts", "from_turn": 40 }
+    ]
+  },
+  "start_map": "overworld",
+  "player_faction": "reachfolk",
+  "max_map_depth": 3,
+  "seed": 1337,
+  "currencies": ["gold", "food"],
+  "stats": { "health": 10, "strength": 2, "defense": 2, "moves": 2, "sight": 2, "perception": 0 },
+  "rules": {
+    "movement": { "road_cost": 0.5 },
+    "combat": { "randomness": 0.2, "base_damage": 3, "retaliation_scale": 0.6, "defender_terrain_bonus": true, "attack_ends_turn": true },
+    "fog": { "shared_vision_allies": true, "owned_tile_sight": 1, "site_sight": 2 },
+    "intel": { "observe_units": true, "observe_sites": true, "perception_reliability_per_point": 0.02 },
+    "units": { "heal_per_turn": 1 },
+    "sites": { "capture_on_enter": true },
+    "economy": { "sell_ratio": 0.5, "track_all_yields": false },
+    "victory": { "last_faction_standing": true, "eliminate_on_no_units": true }
+  }
+}

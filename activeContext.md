@@ -4,41 +4,86 @@ _Keep this file short. Update in place — do not let it grow into a changelog.
 Full history lives in git log; full design lives in docs/ARCHITECTURE.md._
 
 ## Last changes
-- Renamed `games/` -> `game_api/` (contains `isometric/` and `fps/`, each a
-  reusable engine API layer, unchanged internally). Added a new, currently
-  empty top-level `games/` folder for actual playable game projects that
-  will consume `game_api/isometric/` or `game_api/fps/`.
-- Updated all references to the old `games/isometric`, `games/fps` paths:
-  `tools/run_tests.ps1`, `docs/ARCHITECTURE.md`, `docs/RESOURCE_SCHEMA.md`,
-  `README.md`.
-- Scaffolded monorepo: `core/` (shared `game_core` addon + headless test
-  harness), `game_api/isometric/`, `game_api/fps/` — each an independent
-  Godot 4 project.
-- Installed GUT (unit test framework) in all 3 project roots; added smoke
-  test suite for the `VirtueSystem` autoload.
-- Verified end-to-end on this machine (pre-rename): Godot 4.7.2 found
-  locally, all 3 GUT suites passed (12/12) via `tools/run_tests.ps1`;
-  re-verification after the rename is the immediate next step.
+- **Imported both reference engines.** `C:\game_engine` (FPS/3D "IntelForge")
+  -> `game_api/fps/`; `C:\game_engine_iso` (isometric "IntelForge Iso") ->
+  `game_api/isometric/`. Each layer now holds the original engine's
+  `framework/`, `scenes/`, `assets/`, `schemas/`, `tools/`, `docs/`, `games/`,
+  with the engine's own autoloads under `autoloads/` and its original
+  `project.godot` kept as `project.reference.godot` for diffing.
+- **Key correction:** both references were already Godot 4 GDScript, NOT Python
+  prototypes as previously assumed. They share a common ancestor
+  (`data_loader.gd` was byte-identical), so this was a merge/refactor, not a
+  port. The obsolete `core/tools/migrate_*_python/` placeholders were removed.
+- **Built the shared platform** in `core/addons/game_core/`, all API-driven:
+  - `CoreContext` + `CoreEngineAdapter` — the single seam between the platform
+    and a graphics engine. Core code never references iso/fps autoloads.
+  - `CoreRegistry` (data types), `CoreIntel` (journals, corroboration, decay,
+    provenance, contradiction, debunk, spread, trade).
+  - Schema: `CoreDefinition`, `CoreItemDefinition`, `CoreUnitDefinition`,
+    `CoreIntelToken`, `CoreFactionDefinition`, `CoreProvenance`.
+  - Gameplay: `CoreStats`, `CoreInventory`, `CoreIntelJournal`,
+    `CoreIntelQuery`, `CoreDataLoader`.
+  - Where the two engines disagreed, the isometric version was the superset
+    (turn-decay, provenance, secrecy) and the FPS fields were folded in as
+    aliases, so one `items.json`/`intel.json` works in either engine.
+- **Adapters written:** `IsoEngineAdapter` (time = turns, hex/iso distance,
+  fog reveal) and `FpsEngineAdapter` (time = game seconds, 3D distance,
+  reputation-based stance).
+- **Docs:** new `docs/API.md` documents every public call. `tools/sync_core.ps1`
+  propagates `core/addons/game_core` into both layers (`-Check` to verify).
+- **Verified on Godot 4.7.2:** all three projects import clean; test suites
+  green — core 37/37, isometric 4/4, fps 4/4.
+
+## Last changes (cont.) — the core is now LIVE in both engines
+- `CoreContext.install(...)` is called from both `scenes/main.gd`; each
+  `GameManager.load_game()` now also runs `CoreContext.configure(cfg)` +
+  `CoreRegistry.load_package(...)`, and `start_new_game()` resets core state.
+  The FPS layer re-points the shared `units` type at its `actors.json`.
+- **Deleted the 5 obsolete scaffold schema classes.** `ItemDefinition` and
+  `UnitDefinition` there collided with the engines' own classes and were
+  breaking *both* projects at boot. They were unreferenced and superseded by
+  the `Core*` equivalents. `docs/RESOURCE_SCHEMA.md` now redirects to `API.md`.
+- Restored real `[application]`/`[input]`/`[layer_names]`/`[rendering]` settings
+  into both `project.godot` files from `project.reference.godot` — the scaffold
+  configs had `run/main_scene=""`, so neither engine could actually run.
+- **Fixed a real data bug the unit tests missed:** the FPS package authors
+  single-element lists as bare strings and `equipment` as a `slot -> item` map.
+  Added `CoreDataLoader.str_array/packed_str_array` leniency, used by every
+  schema class, plus a regression test.
+- Added runtime integration checks (iso `--smoke`, fps `--boot-check`) that
+  assert the adapter is installed, the core clock tracks the engine clock, and
+  the real package actually populated `CoreRegistry`. Both wired into
+  `tools/run_tests.ps1`.
+
+## Verified
+- core 38/38 · isometric 4/4 · fps 4/4 unit tests
+- isometric smoke 32/32 · fps boot check 8/8 (real data: iso 6 items/6 units/
+  18 intel/4 factions; fps 13 items/5 units/7 intel/5 factions)
+- `tools/run_tests.ps1` runs all five and exits 0.
 
 ## In progress
-- Re-running Godot `--import` + `tools/run_tests.ps1` for the two moved
-  project roots (`game_api/isometric`, `game_api/fps`) to confirm nothing
-  broke from the path change.
-- Awaiting two existing Python engine paths (isometric + FPS/3D) from the
-  user so migration/audit can begin.
+- Nothing mid-flight. `main` is green.
 
 ## Next planned
-- Read + audit both Python codebases; sort logic into: (1) shared -> `core/`,
-  (2) genre-specific -> the relevant `game_api/<engine>/`, (3) prototype
-  cruft not worth porting.
-- Propose a concrete file-by-file migration mapping for review before
-  writing any ported code.
-- Port shared logic (virtue system, world-state graph, dialogue, AI
-  heuristics) into `core/addons/game_core/managers/` (GDScript).
-- Port genre-specific logic into `game_api/isometric/scripts/` and
-  `game_api/fps/scripts/`.
-- Decide + implement the real linking mechanism for
-  `game_api/*/addons/game_core` and `game_api/*/data` (currently plain
-  file copies as a placeholder; user intends to handle this personally).
-- Start the first real game project under `games/` once an engine API
-  layer is far enough along to build on.
+- Retire the duplicate classes now that the core is live and provably loading
+  the same data. Suggested order, tests green at each step:
+  `DataLoader` -> `Definition` -> `ItemDefinition` -> `Stats`/`CharacterStats`
+  -> `Inventory` -> `IntelToken`/`IntelQuery`/`IntelJournal` -> unit/faction
+  definitions. Each engine keeps its own subclass only where behaviour differs.
+- Port the interaction system up into `core/` as `CoreInteraction` — 7
+  near-identical kinds duplicated across both engines (dialogue, intel, portal,
+  reward, shop, flag, spawn) plus `InteractionFactory`. Biggest remaining
+  duplication.
+- Then `Shop`/economy and `StatusEffects` (also duplicated in both).
+- Combat genuinely differs (iso `CombatResolver` strength-ratio vs fps
+  `DamageCalculator` damage types/resistances) — make it a pluggable
+  `CoreCombatResolver` interface rather than one shared implementation.
+- Merge the 21 `schemas/*.json` into one shared set; point both engines'
+  `tools/validate_data.py` at it.
+- Convert one example package to the unified field names as proof, then start
+  the first real game project under `games/` (still empty).
+- Consider CI: upstream `game_engine` had `.github/workflows/ci.yml` that was
+  not carried over.
+- Decide keep-vs-drop on the 4 remaining scaffold managers (`VirtueSystem`,
+  `WorldStateManager`, `DialogueManager`, `AIHeuristicManager`) — unrelated to
+  the imported engines and still unintegrated.

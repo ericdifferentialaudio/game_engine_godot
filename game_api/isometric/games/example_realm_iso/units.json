@@ -1,0 +1,102 @@
+{
+  "units": [
+    {
+      "id": "hero_ambassador",
+      "display_name": "Ambassador Ysolde",
+      "description": "Main character: a diplomat who trades in secrets. Levels up, carries items, reads charts.",
+      "kind": "hero",
+      "visual": "unit.hero_ambassador",
+      "portrait": "portrait.ysolde",
+      "stats": { "health": 14, "strength": 3, "defense": 3, "moves": 3, "sight": 3, "perception": 4 },
+      "movement": { "domain": "land", "uses_roads": true },
+      "abilities": ["gather_rumours"],
+      "equipment_slots": ["weapon", "trinket"],
+      "starting_items": [{ "item": "travellers_dagger", "count": 1, "equip": true }],
+      "level_curve": { "base_xp": 15, "growth": 1.5, "per_level": { "health": 2, "perception": 1 } },
+      "intel_profile": { "on_sight": ["seen_reach_envoy"], "leak_chance": 0.05 },
+      "tags": ["hero", "diplomat"]
+    },
+    {
+      "id": "scout",
+      "display_name": "Scout",
+      "kind": "unit",
+      "visual": "unit.scout",
+      "stats": { "health": 8, "strength": 2, "defense": 1, "moves": 4, "sight": 3 },
+      "movement": { "domain": "land", "terrain_costs": { "hills": 1 } },
+      "abilities": ["scout_report"],
+      "cost": { "gold": 20 },
+      "upkeep": { "gold": 1 },
+      "ai_profile": "explorer",
+      "xp_value": 4,
+      "intel_profile": { "on_sight": ["seen_scouts_abroad"] },
+      "tags": ["recon"]
+    },
+    {
+      "id": "warrior",
+      "display_name": "Warrior",
+      "kind": "unit",
+      "visual": "unit.warrior",
+      "stats": { "health": 12, "strength": 4, "defense": 3, "moves": 2, "sight": 2 },
+      "movement": { "domain": "land" },
+      "cost": { "gold": 30 },
+      "upkeep": { "gold": 1 },
+      "ai_profile": "guard",
+      "xp_value": 6,
+      "intel_profile": { "on_sight": ["seen_warband"], "on_combat": ["warrior_strength_known"] },
+      "tags": ["military", "melee"]
+    },
+    {
+      "id": "elder_maren",
+      "display_name": "Elder Maren",
+      "kind": "npc",
+      "visual": "unit.npc_elder",
+      "portrait": "portrait.maren",
+      "stats": { "health": 6, "strength": 0, "defense": 1, "moves": 0, "sight": 1 },
+      "movement": { "domain": "land" },
+      "blocks_tile": false,
+      "ai_profile": "idle",
+      "intel_profile": { "on_sight": ["met_elder_maren"], "carries": ["rumor_crypt_reeds"] },
+      "tags": ["npc", "informant"]
+    },
+    {
+      "id": "wolf",
+      "display_name": "Grey Wolf",
+      "kind": "monster",
+      "visual": "unit.wolf",
+      "stats": { "health": 7, "strength": 3, "defense": 1, "moves": 3, "sight": 2 },
+      "movement": { "domain": "land" },
+      "ai_profile": "hunter",
+      "aggression": 0.8,
+      "xp_value": 5,
+      "loot": [{ "item": "wolf_pelt", "chance": 0.6 }],
+      "intel_profile": { "on_sight": ["wolves_in_the_reach"] },
+      "tags": ["beast"]
+    },
+    {
+      "id": "bone_warden",
+      "display_name": "Bone Warden",
+      "kind": "monster",
+      "visual": "unit.bone_warden",
+      "stats": { "health": 18, "strength": 6, "defense": 4, "moves": 1, "sight": 2 },
+      "movement": { "domain": "land" },
+      "ai_profile": "guard",
+      "xp_value": 20,
+      "loot": [{ "item": "ancient_relic", "chance": 1.0 }],
+      "intel_profile": { "on_sight": ["warden_seen"], "on_defeat": ["schedule_ossuary_guard"], "carries": ["warden_true_schedule"] },
+      "tags": ["undead", "boss"]
+    }
+  ],
+  "abilities": {
+    "gather_rumours": {
+      "display_name": "Gather Rumours",
+      "cost_ap": 1, "cooldown": 5, "target": "self",
+      "effects": [{ "kind": "intel", "tokens": ["rumor_crypt_west"], "channel": "told", "reliability": 0.3, "message": "You pick up chatter about a crypt to the west." }]
+    },
+    "scout_report": {
+      "display_name": "Send Report",
+      "cost_ap": 1, "cooldown": 3, "target": "self",
+      "requires": { "unit_count": ["scout", ">=", 1] },
+      "effects": [{ "kind": "reward", "resources": { "gold": 2 }, "message": "The scout's report earns a small bounty." }]
+    }
+  }
+}

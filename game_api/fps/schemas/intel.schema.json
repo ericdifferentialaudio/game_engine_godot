@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "intel.schema.json",
+  "title": "Intel Tokens",
+  "type": "object",
+  "required": ["intel"],
+  "properties": {
+    "intel": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "subject"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "title": { "type": "string" },
+          "summary": { "type": "string" },
+          "subject": { "type": "string" },
+          "category": { "enum": ["rumor", "fact", "secret", "location", "password", "schedule", "map", "lore"] },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "facts": { "type": "object" },
+          "reliability": { "type": "number", "minimum": 0, "maximum": 1 },
+          "corroboration_step": { "type": "number", "minimum": 0, "maximum": 1 },
+          "expires_after": { "type": "number", "minimum": 0 },
+          "conflicts": { "type": "array", "items": { "type": "string" } },
+          "value": { "type": "integer", "minimum": 0 },
+          "metadata": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

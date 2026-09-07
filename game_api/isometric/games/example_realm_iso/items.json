@@ -1,0 +1,10 @@
+{
+  "items": [
+    { "id": "travellers_dagger", "display_name": "Traveller's Dagger", "kind": "equipment", "slot": "weapon", "rarity": "common", "value": 15, "modifiers": { "strength": 1 }, "tags": ["weapon", "melee"] },
+    { "id": "spyglass", "display_name": "Brass Spyglass", "kind": "equipment", "slot": "trinket", "rarity": "uncommon", "value": 45, "modifiers": { "sight": 1, "perception": 1 }, "tags": ["trinket", "recon"] },
+    { "id": "healing_herb", "display_name": "Healing Herb", "kind": "consumable", "stackable": true, "max_stack": 10, "value": 8, "use_effects": [{ "kind": "reward", "stat_delta": { "health": 5 }, "message": "The herb knits your wounds." }], "tags": ["consumable", "healing"] },
+    { "id": "wolf_pelt", "display_name": "Wolf Pelt", "kind": "resource", "stackable": true, "value": 6, "tags": ["trade_good"] },
+    { "id": "smugglers_map", "display_name": "Smuggler's Tide Chart", "kind": "intel", "rarity": "rare", "value": 60, "grants_intel": ["crypt_location"], "consume_on_use": true, "use_requires": { "has": "rumor_marrow_smuggles" }, "description": "A tide chart with an X scratched in the reeds west of the old mill.", "tags": ["intel", "map"] },
+    { "id": "ancient_relic", "display_name": "Warden's Relic", "kind": "artifact", "rarity": "legendary", "unique": true, "value": 500, "modifiers": { "defense": 2, "perception": 2 }, "tags": ["quest", "artifact"] }
+  ]
+}

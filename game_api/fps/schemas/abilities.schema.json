@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "abilities.schema.json",
+  "title": "Abilities",
+  "type": "object",
+  "required": ["abilities"],
+  "properties": {
+    "abilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "display_name"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "display_name": { "type": "string" },
+          "description": { "type": "string" },
+          "school": { "type": "string" },
+          "targeting": { "enum": ["self", "melee_arc", "projectile", "beam", "aoe_self", "aoe_target", "ground", "summon", "touch"] },
+          "range": { "type": "number", "minimum": 0 },
+          "radius": { "type": "number", "minimum": 0 },
+          "arc_degrees": { "type": "number", "minimum": 0, "maximum": 360 },
+          "costs": { "type": "object", "additionalProperties": { "type": "number", "minimum": 0 } },
+          "cast_time": { "type": "number", "minimum": 0 },
+          "cooldown": { "type": "number", "minimum": 0 },
+          "channel": { "type": "boolean" },
+          "interruptible": { "type": "boolean" },
+          "damage": { "$ref": "items.schema.json#/$defs/damage_table" },
+          "scale_with_weapon": { "type": "boolean" },
+          "scaling": { "type": "object", "additionalProperties": { "type": "number" } },
+          "heal": { "type": "number", "minimum": 0 },
+          "apply_effects": {
+            "type": "array",
+            "items": {
+              "type": "object", "required": ["effect"],
+              "properties": {
+                "effect": { "type": "string" },
+                "chance": { "type": "number", "minimum": 0, "maximum": 1 },
+                "target": { "enum": ["enemy", "self", "ally"] }
+              }
+            }
+          },
+          "effects": { "type": "array", "items": { "type": "object", "required": ["type"] } },
+          "projectile": { "type": "object" },
+          "summon_actor": { "type": "string" },
+          "noise": { "type": "number", "minimum": 0 },
+          "requires": { "$ref": "intel_query.schema.json" },
+          "requires_stats": { "type": "object", "additionalProperties": { "type": "number" } },
+          "animation": { "type": "string" },
+          "vfx": { "type": "string" },
+          "sfx": { "type": "string" },
+          "icon": { "type": "string" },
+          "ai_weight": { "type": "number", "minimum": 0 },
+          "ai_tags": { "type": "array", "items": { "type": "string" } },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "metadata": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

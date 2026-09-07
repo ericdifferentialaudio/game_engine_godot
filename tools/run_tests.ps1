@@ -14,10 +14,15 @@
 #>
 
 param(
-    [string]$GodotPath = ""
+    [string]$GodotPath = "",
+    [switch]$Import
 )
 
-$ErrorActionPreference = "Stop"
+# Godot writes push_warning()/push_error() to stderr, and PowerShell surfaces
+# native stderr as error records. With ErrorActionPreference "Stop" that would
+# abort this script on a perfectly healthy run, so we stay on "Continue" and
+# judge success solely by each project's exit code below.
+$ErrorActionPreference = "Continue"
 $repoRoot = Split-Path -Parent $PSScriptRoot
 
 # Resolve which Godot executable to use, in priority order:
@@ -60,7 +65,17 @@ foreach ($project in $projects) {
     Write-Host " Running GUT tests: $($project.Name)" -ForegroundColor Cyan
     Write-Host "==================================================" -ForegroundColor Cyan
 
-    & $GodotPath --headless -d -s --path "$($project.Path)" addons/gut/gut_cmdln.gd -gexit
+    # A project whose .godot/ cache is missing or stale cannot resolve
+    # class_name types, which shows up as confusing "Could not find type"
+    # parse errors. Import first when asked, or when the cache is absent.
+    if ($Import -or -not (Test-Path (Join-Path $project.Path ".godot"))) {
+        Write-Host "Importing project first..." -ForegroundColor DarkGray
+        cmd /c "`"$GodotPath`" --headless --import --path `"$($project.Path)`" >nul 2>&1"
+    }
+
+    # Run through cmd with stderr merged into stdout: Godot's push_warning()
+    # output on stderr would otherwise be raised as PowerShell error records.
+    cmd /c "`"$GodotPath`" --headless -s --path `"$($project.Path)`" addons/gut/gut_cmdln.gd -gexit 2>&1"
 
     $exitCode = $LASTEXITCODE
     if ($exitCode -ne 0) {
@@ -68,6 +83,30 @@ foreach ($project in $projects) {
         $overallExitCode = 1
     } else {
         Write-Host "PASSED: $($project.Name)" -ForegroundColor Green
+    }
+}
+
+# Unit tests exercise the platform in isolation; these headless runs prove it is
+# actually wired into each graphics engine at runtime (adapter installed, clock
+# tracking, real game package loaded into CoreRegistry).
+$runtimeChecks = @(
+    @{ Name = "isometric (smoke)";   Path = Join-Path $repoRoot "game_api\isometric"; Arg = "--smoke" },
+    @{ Name = "fps (boot check)";    Path = Join-Path $repoRoot "game_api\fps";       Arg = "--boot-check" }
+)
+
+foreach ($check in $runtimeChecks) {
+    Write-Host ""
+    Write-Host "==================================================" -ForegroundColor Cyan
+    Write-Host " Runtime integration: $($check.Name)" -ForegroundColor Cyan
+    Write-Host "==================================================" -ForegroundColor Cyan
+
+    cmd /c "`"$GodotPath`" --headless --path `"$($check.Path)`" -- $($check.Arg) 2>&1"
+
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "FAILED: $($check.Name) (exit code $LASTEXITCODE)" -ForegroundColor Red
+        $overallExitCode = 1
+    } else {
+        Write-Host "PASSED: $($check.Name)" -ForegroundColor Green
     }
 }
 

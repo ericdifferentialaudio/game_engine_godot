@@ -1,0 +1,41 @@
+{
+  "abilities": [
+    { "id": "punch", "display_name": "Punch", "school": "physical", "targeting": "melee_arc", "range": 1.5,
+      "arc_degrees": 60, "damage": { "blunt": [1, 2] }, "scaling": { "strength": 0.1 }, "cooldown": 0.6,
+      "costs": { "stamina": 3 }, "noise": 0.3, "ai_tags": ["melee"] },
+
+    { "id": "sword_slash", "display_name": "Slash", "school": "physical", "targeting": "melee_arc", "range": 2.2,
+      "arc_degrees": 90, "scale_with_weapon": true, "scaling": { "strength": 0.25 }, "cooldown": 0.8,
+      "costs": { "stamina": 6 }, "noise": 0.5, "animation": "slash", "ai_tags": ["melee"] },
+
+    { "id": "bow_shot", "display_name": "Loose Arrow", "school": "physical", "targeting": "projectile", "range": 40,
+      "scale_with_weapon": true, "scaling": { "agility": 0.3 }, "cooldown": 1.2, "costs": { "stamina": 4 },
+      "projectile": { "speed": 45, "gravity": 4, "ammo": "arrows", "visual": "fx.arrow" }, "noise": 0.4,
+      "ai_tags": ["ranged"] },
+
+    { "id": "firebolt", "display_name": "Firebolt", "school": "evocation", "targeting": "projectile", "range": 30,
+      "damage": { "fire": [8, 12] }, "scaling": { "intellect": 0.5 }, "cast_time": 0.4, "cooldown": 1.5,
+      "costs": { "mana": 12 }, "apply_effects": [ { "effect": "burning", "chance": 0.5, "target": "enemy" } ],
+      "projectile": { "speed": 30, "gravity": 0, "visual": "fx.firebolt" }, "noise": 1.0,
+      "vfx": "fx.firebolt_cast", "ai_tags": ["ranged", "opener"] },
+
+    { "id": "bone_ward", "display_name": "Bone Ward", "school": "divine", "targeting": "self",
+      "cast_time": 0.2, "cooldown": 20, "costs": { "mana": 20 },
+      "apply_effects": [ { "effect": "bone_ward", "chance": 1.0, "target": "self" } ],
+      "requires": { "has": "lore_ossuary_relic", "min_reliability": 0.6 }, "ai_tags": ["buff"] },
+
+    { "id": "drink_minor_healing", "display_name": "Drink Potion", "school": "physical", "targeting": "self",
+      "heal": 30, "cooldown": 5, "ai_tags": ["heal"] },
+
+    { "id": "warden_cleave", "display_name": "Warden's Cleave", "school": "physical", "targeting": "melee_arc",
+      "range": 2.5, "arc_degrees": 120, "damage": { "slash": [6, 10], "shadow": [2, 4] },
+      "cooldown": 2.0, "noise": 0.8, "ai_tags": ["melee"] },
+
+    { "id": "skeleton_claw", "display_name": "Claw", "school": "physical", "targeting": "melee_arc", "range": 1.6,
+      "damage": { "slash": [2, 4] }, "cooldown": 1.0, "noise": 0.3, "ai_tags": ["melee"] },
+
+    { "id": "bandit_stab", "display_name": "Stab", "school": "physical", "targeting": "melee_arc", "range": 1.8,
+      "damage": { "pierce": [3, 5] }, "cooldown": 0.9, "noise": 0.4,
+      "apply_effects": [ { "effect": "poisoned", "chance": 0.2, "target": "enemy" } ], "ai_tags": ["melee"] }
+  ]
+}

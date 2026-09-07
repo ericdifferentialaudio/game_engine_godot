@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "terrains.schema.json",
+  "title": "Terrains and features",
+  "type": "object",
+  "required": ["terrains"],
+  "$defs": {
+    "tile": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "display_name": { "type": "string" },
+        "domain": { "enum": ["land", "sea", "any"] },
+        "move_cost": { "type": "number", "minimum": 0 },
+        "passable": { "type": "boolean" },
+        "yields": { "type": "object", "additionalProperties": { "type": "number" } },
+        "defense_bonus": { "type": "number" },
+        "sight_cost": { "type": "integer", "minimum": 1 },
+        "blocks_sight": { "type": "boolean" },
+        "elevation": { "type": "integer" },
+        "visual": { "type": "string" },
+        "color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "spawn_weight": { "type": "number", "minimum": 0 },
+        "spawn_chance": { "type": "number", "minimum": 0, "maximum": 1 },
+        "allowed_on": { "type": "array", "items": { "type": "string" } },
+        "metadata": { "type": "object" }
+      }
+    }
+  },
+  "properties": {
+    "terrains": { "type": "array", "items": { "$ref": "#/$defs/tile" } },
+    "features": { "type": "array", "items": { "$ref": "#/$defs/tile" } }
+  }
+}

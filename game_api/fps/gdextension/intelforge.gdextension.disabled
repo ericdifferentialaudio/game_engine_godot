@@ -1,0 +1,15 @@
+; Copy this file to the project root (next to project.godot) once bin/ is built
+; to activate the native module. Not active by default.
+[configuration]
+
+entry_symbol = "intelforge_library_init"
+compatibility_minimum = "4.3"
+
+[libraries]
+
+windows.debug.x86_64 = "res://gdextension/bin/libintelforge.windows.template_debug.x86_64.dll"
+windows.release.x86_64 = "res://gdextension/bin/libintelforge.windows.template_release.x86_64.dll"
+linux.debug.x86_64 = "res://gdextension/bin/libintelforge.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "res://gdextension/bin/libintelforge.linux.template_release.x86_64.so"
+macos.debug = "res://gdextension/bin/libintelforge.macos.template_debug.framework"
+macos.release = "res://gdextension/bin/libintelforge.macos.template_release.framework"

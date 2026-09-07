@@ -18,20 +18,41 @@ A Godot Engine project repository.
 
 ## Repository Structure
 
-This is a monorepo containing a shared, engine-agnostic gameplay
-foundation (`core/`), two independent Godot engine API layers built on top
-of it (`game_api/`), and a home for the actual playable games built with
-those layers (`games/`). See `docs/ARCHITECTURE.md` for the full breakdown
-and `docs/RESOURCE_SCHEMA.md` for the shared token/unit/item/virtue/
-world-fact data contract.
+A game engine platform: **one set of game mechanics, two graphics engines.**
 
 ```
-core/               shared addon (game_core), shared resource data, test harness
-game_api/isometric/ isometric engine API layer (own Godot project)
-game_api/fps/       first-person 3D engine API layer (own Godot project)
+core/               the shared platform (game_core addon) + headless harness
+game_api/isometric/ 2D hex/isometric engine API layer (own Godot project)
+game_api/fps/       3D first-person engine API layer (own Godot project)
 games/              actual playable game projects (empty for now)
-docs/               architecture + schema documentation
-tools/              repo-wide tooling (e.g. run_tests.ps1)
+docs/               API.md · ARCHITECTURE.md · RESOURCE_SCHEMA.md
+tools/              run_tests.ps1, sync_core.ps1
+```
+
+`core/addons/game_core/` owns everything a game needs that is not graphics:
+units, items, NPCs, monsters, factions, stats, inventory, and a deep
+information/"intel" system (reliability, corroboration, provenance, decay,
+contradiction, spread and trade). It is reached entirely through documented
+API calls and never references either graphics engine.
+
+Each engine plugs in by installing one adapter:
+
+```gdscript
+CoreContext.install(IsoEngineAdapter.new())   # or FpsEngineAdapter.new()
+```
+
+**Start with [`docs/API.md`](docs/API.md)** — it documents every public call.
+`docs/ARCHITECTURE.md` explains the layering and the engine seam.
+
+## Keeping the core in sync
+
+Godot cannot resolve `res://` outside a project root, so the shared addon is
+physically copied into each engine layer. After any edit under
+`core/addons/game_core/`:
+
+```powershell
+./tools/sync_core.ps1            # propagate
+./tools/sync_core.ps1 -Check     # verify only (non-zero exit if stale)
 ```
 
 ## Testing

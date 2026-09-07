@@ -1,0 +1,28 @@
+{
+  "intel": [
+    { "id": "know_the_reach", "title": "The lay of the Reach", "summary": "You know your homeland's river valley.", "subject": "world", "scope": "global", "category": "geographic", "tags": ["starting"], "reliability": 1.0, "secrecy": 0.0, "tradeable": false },
+
+    { "id": "met_elder_maren", "title": "Elder Maren of Hollowmere", "summary": "Maren keeps the village memory and knows every traveller who passes.", "subject": "elder_maren", "scope": "unit", "category": "fact", "tags": ["npc", "hollowmere"], "reliability": 1.0, "secrecy": 0.0, "value": 0 },
+    { "id": "seen_hollowmere", "title": "Hollowmere village", "summary": "A fishing village on the marsh edge.", "subject": "hollowmere", "scope": "site", "category": "location", "tags": ["location", "settlement"], "reliability": 1.0, "secrecy": 0.0, "value": 5 },
+
+    { "id": "rumor_crypt_west", "title": "A crypt lies to the west", "summary": "Traders say an old crypt sits somewhere west of the mill.", "subject": "sunken_crypt", "scope": "site", "category": "rumor", "tags": ["location", "dungeon"], "reliability": 0.35, "corroboration_step": 0.25, "decay_turns": 0, "secrecy": 0.1, "value": 15 },
+    { "id": "rumor_crypt_reeds", "title": "Hidden by reeds", "summary": "Maren: 'Look where the reeds grow thickest; the stones are under them.'", "subject": "sunken_crypt", "scope": "site", "category": "rumor", "tags": ["location", "dungeon"], "reliability": 0.5, "corroboration_step": 0.25, "secrecy": 0.3, "value": 20 },
+    { "id": "crypt_location", "title": "Whereabouts of the Sunken Crypt", "summary": "The crypt entrance is marked west of the old mill, under the reeds.", "subject": "sunken_crypt", "scope": "site", "category": "location", "tags": ["location", "dungeon", "key"], "facts": { "map": "overworld", "landmark": "old_mill" }, "reliability": 0.8, "secrecy": 0.6, "value": 60, "reveals": { "sites": ["sunken_crypt_entrance"], "radius": 2 } },
+    { "id": "greywood_knows_crypt_west", "title": "Greywood scouts report a crypt", "summary": "The Compact's rangers have also heard of the crypt.", "subject": "sunken_crypt", "scope": "site", "category": "military", "tags": ["dungeon", "rival"], "reliability": 0.5, "secrecy": 0.5, "value": 10 },
+
+    { "id": "rumor_marrow_smuggles", "title": "Marrow deals in more than curios", "summary": "Ask Marrow about 'the tide charts' and he may show his real stock.", "subject": "marrow_merchant", "scope": "unit", "category": "password", "tags": ["npc", "trade", "hollowmere"], "reliability": 0.6, "secrecy": 0.5, "value": 25 },
+
+    { "id": "schedule_ossuary_guard", "title": "Ossuary patrol timing", "summary": "The bone-warden sleeps at the third bell. The lower vaults are unguarded then.", "subject": "bone_warden", "scope": "unit", "category": "schedule", "tags": ["dungeon", "timing"], "facts": { "safe_window": "third_bell" }, "reliability": 0.5, "decay_turns": 12, "secrecy": 0.7, "conflicts": ["schedule_ossuary_guard_false"], "value": 30 },
+    { "id": "schedule_ossuary_guard_false", "title": "Ossuary patrol timing (dubious)", "summary": "A drunk claims the warden never sleeps.", "subject": "bone_warden", "scope": "unit", "category": "rumor", "tags": ["dungeon", "timing"], "reliability": 0.2, "secrecy": 0.1, "conflicts": ["schedule_ossuary_guard"], "value": 5 },
+    { "id": "warden_true_schedule", "title": "The Warden's ledger", "summary": "A ledger from the warden's remains confirms the third-bell rest.", "subject": "bone_warden", "scope": "unit", "category": "fact", "tags": ["dungeon", "timing", "proof"], "reliability": 1.0, "secrecy": 0.8, "value": 40, "effects": [{ "kind": "intel", "debunk": ["schedule_ossuary_guard_false"] }] },
+    { "id": "warden_seen", "title": "The Bone Warden stirs", "summary": "Something large and skeletal guards the ossuary.", "subject": "bone_warden", "scope": "unit", "category": "military", "tags": ["dungeon", "monster"], "reliability": 0.9, "secrecy": 0.2, "value": 10 },
+
+    { "id": "seen_reach_envoy", "title": "A Reachfolk envoy abroad", "summary": "The Reachfolk have sent a diplomat into the field.", "subject": "reachfolk", "scope": "faction", "category": "diplomatic", "tags": ["rival"], "reliability": 0.9, "secrecy": 0.2, "value": 8 },
+    { "id": "seen_scouts_abroad", "title": "Foreign scouts sighted", "summary": "Light troops have been seen ranging beyond their borders.", "subject": "world", "scope": "global", "category": "military", "tags": ["recon"], "reliability": 0.8, "decay_turns": 6, "secrecy": 0.1, "value": 5 },
+    { "id": "seen_warband", "title": "Warband sighted", "summary": "Armed men march under a foreign banner.", "subject": "world", "scope": "global", "category": "military", "tags": ["military"], "reliability": 0.8, "decay_turns": 5, "secrecy": 0.1, "value": 8 },
+    { "id": "warrior_strength_known", "title": "Measured their steel", "summary": "Having fought them, you know how hard their warriors hit.", "subject": "warrior", "scope": "unit", "category": "military", "tags": ["military"], "facts": { "strength": 4 }, "reliability": 1.0, "secrecy": 0.4, "value": 12 },
+    { "id": "wolves_in_the_reach", "title": "Wolves in the Reach", "summary": "Grey wolves hunt the hills.", "subject": "wilds", "scope": "faction", "category": "fact", "tags": ["monster"], "reliability": 1.0, "secrecy": 0.0, "value": 3 },
+
+    { "id": "ruin_inscription", "title": "Inscription at the standing stones", "summary": "'Below the mill where reeds drink, the dead keep the tide.'", "subject": "sunken_crypt", "scope": "site", "category": "lore", "tags": ["lore", "dungeon"], "reliability": 0.7, "secrecy": 0.2, "value": 12 }
+  ]
+}

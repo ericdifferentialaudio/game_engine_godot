@@ -1,0 +1,121 @@
+{
+  "pois": [
+    {
+      "id": "old_mill",
+      "map": "overworld",
+      "display_name": "The Old Mill",
+      "description": "A ruined watermill. Its wheel has not turned in a generation.",
+      "category": "landmark",
+      "visual": "poi.landmark.mill",
+      "position": [-50, 0, 20],
+      "discover_radius": 25,
+      "interactions": [
+        { "kind": "intel", "tokens": ["rumor_crypt_location"], "reliability": 0.7, "once": true,
+          "message": "Scratched into the millstone: an arrow pointing west, and the word 'reeds'." }
+      ]
+    },
+    {
+      "id": "roadside_cache",
+      "map": "overworld",
+      "display_name": "Hollow Stump",
+      "category": "cache",
+      "position": [15, 0, -10],
+      "interactions": [
+        { "kind": "reward", "id": "cache_stump", "items": { "potion_minor": 1 }, "currency": { "gold": 12 },
+          "once": true, "message": "Someone stashed coins and a vial here." }
+      ]
+    },
+    {
+      "id": "drowned_lantern",
+      "map": "hollowmere",
+      "display_name": "The Drowned Lantern (Inn)",
+      "category": "informant",
+      "position": [-6, 0, 0],
+      "interactions": [
+        {
+          "kind": "dialogue",
+          "start": "greet",
+          "nodes": {
+            "greet": {
+              "text": "Bertha wipes a mug. 'New face. What'll it be?'",
+              "grant_intel": ["met_innkeeper"],
+              "choices": [
+                { "text": "Heard anything about the Sunken Crypt?", "next": "crypt" },
+                { "text": "Anything odd about Marrow?", "next": "marrow", "requires": { "flag": "visited_marrow" } },
+                { "text": "Nothing, thanks.", "next": null }
+              ]
+            },
+            "crypt": {
+              "text": "'West of the old mill, past the reeds. Don't go at night—the warden walks till the third bell.'",
+              "grant_intel": ["rumor_crypt_location", "schedule_ossuary_guard"],
+              "next": null
+            },
+            "marrow": {
+              "text": "'Marrow? Ask him about the tide charts. Say I sent you. And if he shows you a plain iron ring — buy it. Quiet feet, that one.'",
+              "grant_intel": ["rumor_marrow_smuggles", "lore_ring_of_stillness"],
+              "next": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "tavern_drunk",
+      "map": "hollowmere",
+      "display_name": "Slumped Patron",
+      "category": "informant",
+      "position": [-9, 0, 3],
+      "interactions": [
+        { "kind": "intel", "tokens": ["schedule_ossuary_guard_false"], "once": true,
+          "message": "'The warden? Never sleeps. Never!' He hiccups." }
+      ]
+    },
+    {
+      "id": "marrow_counter",
+      "map": "marrow_shop",
+      "display_name": "Marrow",
+      "category": "shop",
+      "position": [0, 0, -2],
+      "interactions": [
+        { "kind": "reward", "set_flags": ["visited_marrow"], "once": true, "consumes": false },
+        {
+          "kind": "shop",
+          "shop_id": "marrow_curios",
+          "currency": "gold",
+          "stock": [
+            { "item": "potion_minor", "price": 25, "stock": 5 },
+            { "item": "lantern_oil", "price": 8 },
+            { "item": "crypt_key_fragment", "price": 120, "stock": 1, "requires": { "has": "rumor_marrow_smuggles" } },
+            { "item": "tide_charts", "price": 60, "stock": 1, "requires": { "all": [ { "has": "rumor_marrow_smuggles" }, { "has": "met_innkeeper" } ] } },
+            { "item": "ring_of_stillness", "price": 180, "stock": 1, "requires": { "has": "rumor_marrow_smuggles" } },
+            { "item": "leather_jerkin", "price": 25 },
+            { "item": "arrows", "price": 1 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "warden_ledger",
+      "map": "crypt_l1",
+      "display_name": "Warden's Ledger",
+      "category": "cache",
+      "position": [10, 0, -10],
+      "interactions": [
+        { "kind": "intel", "tokens": ["schedule_ossuary_guard", "lore_ossuary_relic"], "reliability": 0.9, "once": true,
+          "message": "The ledger confirms the patrol pattern, and describes the rites of the warden's blade." }
+      ]
+    },
+    {
+      "id": "hidden_vault",
+      "map": "crypt_l2",
+      "display_name": "Sealed Vault",
+      "category": "shrine",
+      "position": [-8, 0, -8],
+      "hidden_until": { "has": "schedule_ossuary_guard", "min_reliability": 0.8 },
+      "interactions": [
+        { "kind": "reward", "id": "vault_treasure", "currency": { "gold": 300 }, "items": { "relic_ossuary": 1 },
+          "set_flags": ["crypt_completed"], "once": true, "message": "The vault yields its secret." }
+      ]
+    }
+  ]
+}

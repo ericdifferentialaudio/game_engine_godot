@@ -1,0 +1,53 @@
+{
+  "items": [
+    { "id": "gold", "display_name": "Gold", "category": "currency", "value": 1 },
+
+    { "id": "rusty_sword", "display_name": "Rusty Sword", "category": "weapon", "rarity": "common",
+      "weight": 3.0, "equip_slot": "main_hand", "value": 8,
+      "damage": { "slash": [3, 6] }, "stats": { "attack": 2 },
+      "abilities": ["sword_slash"], "view_model": "vm.sword_rusty" },
+
+    { "id": "hunting_bow", "display_name": "Hunting Bow", "category": "weapon", "rarity": "common",
+      "weight": 2.0, "equip_slot": "main_hand", "two_handed": true, "value": 30,
+      "damage": { "pierce": [4, 8] }, "abilities": ["bow_shot"], "requires_stats": { "agility": 8 } },
+
+    { "id": "arrows", "display_name": "Arrows", "category": "ammo", "stackable": true, "max_stack": 60,
+      "weight": 0.05, "equip_slot": "ammo", "value": 1 },
+
+    { "id": "leather_jerkin", "display_name": "Leather Jerkin", "category": "armor", "rarity": "common",
+      "weight": 4.0, "equip_slot": "body", "value": 25, "stats": { "armor": 6 } },
+
+    { "id": "iron_cap", "display_name": "Iron Cap", "category": "armor", "weight": 1.5, "equip_slot": "head",
+      "value": 15, "stats": { "armor": 3 } },
+
+    { "id": "ring_of_stillness", "display_name": "Ring of Stillness", "category": "accessory", "rarity": "rare",
+      "weight": 0.1, "equip_slot": "ring", "value": 180, "identified": false,
+      "identify_intel": "lore_ring_of_stillness",
+      "stats": { "perception": 2 }, "effects": ["silent_steps"] },
+
+    { "id": "potion_minor", "display_name": "Minor Healing Potion", "category": "consumable", "stackable": true,
+      "max_stack": 10, "weight": 0.3, "value": 25, "use_ability": "drink_minor_healing" },
+
+    { "id": "lantern_oil", "display_name": "Lantern Oil", "category": "material", "stackable": true,
+      "weight": 0.5, "value": 8 },
+
+    { "id": "crypt_key_fragment", "display_name": "Crypt Key Fragment", "category": "key", "weight": 0.2,
+      "value": 120, "lore_intel": "rumor_crypt_location" },
+
+    { "id": "tide_charts", "display_name": "Tide Charts", "category": "quest", "weight": 0.3, "value": 60,
+      "lore_intel": "schedule_ossuary_guard" },
+
+    { "id": "tome_firebolt", "display_name": "Singed Grimoire", "category": "tome", "weight": 1.0, "value": 200,
+      "teaches_ability": "firebolt", "requires_stats": { "intellect": 10 } },
+
+    { "id": "relic_ossuary", "display_name": "Ossuary Relic", "category": "weapon", "rarity": "unique",
+      "weight": 2.5, "equip_slot": "main_hand", "value": 900, "identified": false,
+      "identify_intel": "lore_ossuary_relic",
+      "requires": { "has": "lore_ossuary_relic", "min_reliability": 0.6 },
+      "damage": { "slash": [5, 9], "holy": [4, 6] }, "stats": { "attack": 4, "intellect": 2 },
+      "abilities": ["sword_slash", "bone_ward"],
+      "procs": [ { "trigger": "on_hit", "chance": 0.25, "effect": "blessed_weapon" } ],
+      "lore_intel": "lore_ossuary_relic",
+      "view_model": "vm.relic_ossuary" }
+  ]
+}

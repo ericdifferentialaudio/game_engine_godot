@@ -1,0 +1,30 @@
+{
+  "derivations": [
+    {
+      "id": "triangulate_crypt",
+      "description": "Two independent rumours plus the inscription pin the crypt without buying the chart.",
+      "when": { "all": [
+        { "has": "rumor_crypt_west", "min_reliability": 0.5 },
+        { "has": "rumor_crypt_reeds", "min_reliability": 0.5 },
+        { "has": "ruin_inscription" }
+      ] },
+      "grant": "crypt_location",
+      "reliability": 0.65,
+      "once": true
+    },
+    {
+      "id": "rival_interest",
+      "description": "Seeing Greywood scouts near the mill while knowing the rumour implies they hunt the crypt too.",
+      "when": { "all": [ { "has": "seen_scouts_abroad" }, { "has": "rumor_crypt_west" } ] },
+      "grant": "greywood_knows_crypt_west",
+      "reliability": 0.5,
+      "once": true
+    }
+  ],
+  "spread": [
+    { "id": "trade_gossip", "description": "Low-secrecy rumours leak between trade partners.", "channel": "spread", "between": "trade_partners", "chance": 0.15, "max_secrecy": 0.35, "reliability_loss": 0.2, "categories": ["rumor", "economic", "location"] },
+    { "id": "border_chatter", "description": "Neighbours observe each other's military.", "channel": "spread", "between": "neighbors", "chance": 0.25, "max_secrecy": 0.3, "reliability_loss": 0.1, "categories": ["military"] }
+  ],
+  "contradiction": { "dispute_amount": 0.15, "flag_source_trust_loss": 0.25 },
+  "observation": { "unit_sight_reveals_tokens": true }
+}

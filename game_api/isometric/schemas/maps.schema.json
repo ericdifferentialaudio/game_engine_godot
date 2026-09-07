@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "maps.schema.json",
+  "title": "Maps",
+  "type": "object",
+  "required": ["maps"],
+  "properties": {
+    "maps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "display_name": { "type": "string" },
+          "kind": { "enum": ["overworld", "region", "city", "dungeon", "interior", "special"] },
+          "parent": { "type": "string" },
+          "size": { "type": "array", "items": { "type": "integer", "minimum": 1 }, "minItems": 2, "maxItems": 2 },
+          "generator": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string" },
+              "seed_offset": { "type": "integer" },
+              "frequency": { "type": "number" },
+              "moisture_frequency": { "type": "number" },
+              "edge_falloff": { "type": "number", "minimum": 0, "maximum": 1 },
+              "features": { "type": "boolean" },
+              "terrain_bands": { "type": "array", "items": { "type": "object", "properties": {
+                "max_height": { "type": "number", "minimum": 0, "maximum": 1 },
+                "terrain": { "type": "string" },
+                "by_moisture": { "type": "array", "items": { "type": "object", "properties": {
+                  "max": { "type": "number" }, "terrain": { "type": "string" } } } } } } }
+            }
+          },
+          "layout": { "type": "array", "items": { "type": "string" } },
+          "glyphs": { "type": "object", "additionalProperties": { "type": "string" } },
+          "environment": { "type": "string" },
+          "music": { "type": "string" },
+          "fog": { "enum": ["full", "explored_only", "none"] },
+          "starts": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 } },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "metadata": { "type": "object" }
+        }
+      }
+    }
+  }
+}

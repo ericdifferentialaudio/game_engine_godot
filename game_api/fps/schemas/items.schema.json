@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "items.schema.json",
+  "title": "Items",
+  "type": "object",
+  "required": ["items"],
+  "$defs": {
+    "damage_table": {
+      "type": "object",
+      "additionalProperties": {
+        "oneOf": [
+          { "type": "number", "minimum": 0 },
+          { "type": "array", "items": { "type": "number", "minimum": 0 }, "minItems": 2, "maxItems": 2 }
+        ]
+      }
+    },
+    "proc": {
+      "type": "object",
+      "required": ["trigger"],
+      "properties": {
+        "trigger": { "enum": ["on_hit", "on_crit", "on_kill", "on_cast", "on_damaged", "on_block", "on_dodge"] },
+        "chance": { "type": "number", "minimum": 0, "maximum": 1 },
+        "ability": { "type": "string" },
+        "effect": { "type": "string" },
+        "target": { "enum": ["enemy", "self"] }
+      }
+    }
+  },
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "display_name", "category"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "display_name": { "type": "string" },
+          "description": { "type": "string" },
+          "category": { "enum": ["weapon", "armor", "accessory", "consumable", "ammo", "key", "tome", "material", "quest", "currency", "misc"] },
+          "rarity": { "enum": ["common", "uncommon", "rare", "epic", "legendary", "unique"] },
+          "weight": { "type": "number", "minimum": 0 },
+          "stackable": { "type": "boolean" },
+          "max_stack": { "type": "integer", "minimum": 1 },
+          "equip_slot": { "type": "string" },
+          "two_handed": { "type": "boolean" },
+          "value": { "type": "integer", "minimum": 0 },
+          "stats": { "type": "object", "additionalProperties": { "type": "number" } },
+          "stats_percent": { "type": "object", "additionalProperties": { "type": "number" } },
+          "damage": { "$ref": "#/$defs/damage_table" },
+          "resistances": { "type": "object", "additionalProperties": { "type": "number" } },
+          "effects": { "type": "array", "items": { "type": "string" } },
+          "abilities": { "type": "array", "items": { "type": "string" } },
+          "procs": { "type": "array", "items": { "$ref": "#/$defs/proc" } },
+          "use_ability": { "type": "string" },
+          "teaches_ability": { "type": "string" },
+          "consumed_on_use": { "type": "boolean" },
+          "requires": { "$ref": "intel_query.schema.json" },
+          "requires_stats": { "type": "object", "additionalProperties": { "type": "number" } },
+          "identified": { "type": "boolean" },
+          "identify_intel": { "type": "string" },
+          "lore_intel": { "type": "string" },
+          "durability": { "type": "number", "minimum": 0 },
+          "visual": { "type": "string" },
+          "view_model": { "type": "string" },
+          "icon": { "type": "string" },
+          "affix_pool": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "metadata": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

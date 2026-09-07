@@ -1,0 +1,73 @@
+{
+  "maps": [
+    {
+      "id": "overworld",
+      "display_name": "The Reach",
+      "kind": "overworld",
+      "size": [32, 22],
+      "generator": {
+        "type": "noise",
+        "frequency": 0.09,
+        "moisture_frequency": 0.06,
+        "edge_falloff": 0.3,
+        "features": true,
+        "terrain_bands": [
+          { "max_height": 0.36, "terrain": "ocean" },
+          { "max_height": 0.42, "terrain": "coast" },
+          { "max_height": 0.68, "by_moisture": [
+            { "max": 0.28, "terrain": "desert" },
+            { "max": 0.55, "terrain": "plains" },
+            { "max": 1.0, "terrain": "grassland" }
+          ] },
+          { "max_height": 0.8, "terrain": "hills" },
+          { "max_height": 1.0, "terrain": "mountain" }
+        ]
+      },
+      "environment": "env.temperate",
+      "music": "music.overworld",
+      "fog": "full",
+      "starts": { "reachfolk": [6, 10], "greywood": [24, 12] },
+      "tags": ["root"]
+    },
+    {
+      "id": "sunken_crypt_1",
+      "display_name": "Sunken Crypt — Upper Vaults",
+      "kind": "dungeon",
+      "parent": "overworld",
+      "fog": "explored_only",
+      "glyphs": { "#": "mountain", ".": "plains", "~": "coast" },
+      "layout": [
+        "###########",
+        "#....#....#",
+        "#.##.#.##.#",
+        "#.#.....#.#",
+        "#...###...#",
+        "#.#..~..#.#",
+        "#.##...##.#",
+        "#.........#",
+        "###########"
+      ],
+      "environment": "env.crypt",
+      "music": "music.dungeon"
+    },
+    {
+      "id": "sunken_crypt_2",
+      "display_name": "Sunken Crypt — Ossuary",
+      "kind": "dungeon",
+      "parent": "sunken_crypt_1",
+      "fog": "explored_only",
+      "glyphs": { "#": "mountain", ".": "plains" },
+      "layout": [
+        "#########",
+        "#.......#",
+        "#.#####.#",
+        "#.#...#.#",
+        "#.#.#.#.#",
+        "#...#...#",
+        "#########"
+      ],
+      "environment": "env.crypt",
+      "music": "music.dungeon"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pois.schema.json",
+  "title": "Points of Interest",
+  "type": "object",
+  "required": ["pois"],
+  "$defs": {
+    "interaction": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": { "enum": ["intel", "reward", "shop", "dialogue", "portal"] },
+        "once": { "type": "boolean" },
+        "consumes": { "type": "boolean" },
+        "requires": { "$ref": "intel_query.schema.json" },
+        "flags": { "type": "array", "items": { "type": "string" } },
+        "message": { "type": "string" },
+
+        "tokens": { "type": "array", "items": { "type": "string" } },
+        "reliability": { "type": "number", "minimum": 0, "maximum": 1 },
+
+        "id": { "type": "string" },
+        "items": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
+        "currency": { "type": "object", "additionalProperties": { "type": "integer" } },
+        "set_flags": { "type": "array", "items": { "type": "string" } },
+
+        "shop_id": { "type": "string" },
+        "stock": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["item", "price"],
+            "properties": {
+              "item": { "type": "string" },
+              "price": { "type": "integer", "minimum": 0 },
+              "stock": { "type": "integer", "minimum": -1 },
+              "requires": { "$ref": "intel_query.schema.json" }
+            }
+          }
+        },
+
+        "start": { "type": "string" },
+        "nodes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["text"],
+            "properties": {
+              "text": { "type": "string" },
+              "grant_intel": { "type": "array", "items": { "type": "string" } },
+              "set_flags": { "type": "array", "items": { "type": "string" } },
+              "next": { "type": ["string", "null"] },
+              "choices": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["text"],
+                  "properties": {
+                    "text": { "type": "string" },
+                    "next": { "type": ["string", "null"] },
+                    "requires": { "$ref": "intel_query.schema.json" }
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "portal_id": { "type": "string" }
+      }
+    }
+  },
+  "properties": {
+    "pois": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "map", "display_name"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "map": { "type": "string" },
+          "display_name": { "type": "string" },
+          "description": { "type": "string" },
+          "category": { "type": "string" },
+          "visual": { "type": "string" },
+          "position": { "type": "array", "items": { "type": "number" }, "minItems": 3, "maxItems": 3 },
+          "yaw": { "type": "number" },
+          "discover_radius": { "type": "number", "minimum": 0 },
+          "interact_radius": { "type": "number", "minimum": 0 },
+          "hidden_until": { "$ref": "intel_query.schema.json" },
+          "interactions": { "type": "array", "items": { "$ref": "#/$defs/interaction" } },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "metadata": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

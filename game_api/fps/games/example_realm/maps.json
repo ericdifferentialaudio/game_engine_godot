@@ -1,0 +1,79 @@
+{
+  "maps": [
+    {
+      "id": "overworld",
+      "display_name": "The Greywold",
+      "kind": "overworld",
+      "scene": "res://games/example_realm/maps/overworld.tscn",
+      "environment": "env.forest.day",
+      "streaming": { "chunk_size": 256, "view_distance": 2 },
+      "spawns": {
+        "default": { "position": [0, 1, 0], "yaw": 0 },
+        "from_hollowmere": { "position": [40, 1, -30], "yaw": 180 },
+        "from_crypt": { "position": [-60, 1, 25], "yaw": 90 }
+      },
+      "portals": [
+        { "id": "gate_hollowmere", "label": "Hollowmere", "target_map": "hollowmere", "target_spawn": "default", "position": [40, 0, -35], "yaw": 0 },
+        { "id": "crypt_entrance", "label": "the Sunken Crypt", "target_map": "crypt_l1", "target_spawn": "default", "position": [-65, 0, 25], "yaw": 90,
+          "requires": { "has": "rumor_crypt_location" } }
+      ]
+    },
+    {
+      "id": "hollowmere",
+      "display_name": "Hollowmere",
+      "kind": "town",
+      "parent": "overworld",
+      "scene": "res://games/example_realm/maps/hollowmere.tscn",
+      "environment": "env.town.dusk",
+      "spawns": {
+        "default": { "position": [0, 1, 10], "yaw": 180 },
+        "from_shop": { "position": [8, 1, -4], "yaw": 90 }
+      },
+      "portals": [
+        { "id": "town_gate", "label": "the Greywold", "target_map": "overworld", "target_spawn": "from_hollowmere", "position": [0, 0, 14], "yaw": 0 },
+        { "id": "shop_door", "label": "Marrow's Curios", "target_map": "marrow_shop", "target_spawn": "default", "position": [10, 0, -4], "yaw": 90 }
+      ]
+    },
+    {
+      "id": "marrow_shop",
+      "display_name": "Marrow's Curios",
+      "kind": "interior",
+      "parent": "hollowmere",
+      "exterior": false,
+      "scene": "res://games/example_realm/maps/marrow_shop.tscn",
+      "environment": "env.interior.candle",
+      "spawns": { "default": { "position": [0, 1, 3], "yaw": 180 } },
+      "portals": [
+        { "id": "exit", "label": "Hollowmere", "target_map": "hollowmere", "target_spawn": "from_shop", "position": [0, 0, 4.5], "yaw": 0 }
+      ]
+    },
+    {
+      "id": "crypt_l1",
+      "display_name": "Sunken Crypt — Upper Halls",
+      "kind": "dungeon",
+      "parent": "overworld",
+      "scene": "res://games/example_realm/maps/crypt_l1.tscn",
+      "environment": "env.dungeon.damp",
+      "spawns": {
+        "default": { "position": [0, 1, 0], "yaw": 0 },
+        "from_below": { "position": [20, 1, -20], "yaw": 180 }
+      },
+      "portals": [
+        { "id": "crypt_exit", "label": "the surface", "target_map": "overworld", "target_spawn": "from_crypt", "position": [0, 0, 4], "yaw": 0 },
+        { "id": "stairs_down", "label": "the Ossuary", "target_map": "crypt_l2", "target_spawn": "default", "position": [20, 0, -24], "yaw": 0 }
+      ]
+    },
+    {
+      "id": "crypt_l2",
+      "display_name": "Sunken Crypt — Ossuary",
+      "kind": "dungeon",
+      "parent": "crypt_l1",
+      "scene": "res://games/example_realm/maps/crypt_l2.tscn",
+      "environment": "env.dungeon.damp",
+      "spawns": { "default": { "position": [0, 1, 0], "yaw": 0 } },
+      "portals": [
+        { "id": "stairs_up", "label": "the Upper Halls", "target_map": "crypt_l1", "target_spawn": "from_below", "position": [0, 0, 4], "yaw": 0 }
+      ]
+    }
+  ]
+}

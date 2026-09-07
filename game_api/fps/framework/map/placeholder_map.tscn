@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://framework/map/map_root.gd" id="1_root"]
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_top_color = Color(0.27, 0.45, 0.72, 1)
+sky_horizon_color = Color(0.65, 0.72, 0.8, 1)
+ground_bottom_color = Color(0.15, 0.13, 0.11, 1)
+ground_horizon_color = Color(0.65, 0.72, 0.8, 1)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+tonemap_mode = 3
+ssao_enabled = true
+sdfgi_enabled = true
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.7, 0.76, 0.85, 1)
+fog_density = 0.002
+
+[sub_resource type="PlaneMesh" id="ground_mesh"]
+size = Vector2(200, 200)
+
+[sub_resource type="BoxShape3D" id="ground_shape"]
+size = Vector3(200, 1, 200)
+
+[node name="PlaceholderMap" type="Node3D"]
+script = ExtResource("1_root")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.354, 0.354, 0, 0.707, 0.707, -0.5, -0.612, 0.612, 0, 20, 0)
+light_energy = 1.2
+shadow_enabled = true
+directional_shadow_mode = 2
+
+[node name="Ground" type="StaticBody3D" parent="."]
+collision_layer = 1
+
+[node name="Mesh" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("ground_mesh")
+
+[node name="Shape" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("ground_shape")
+
+[node name="POIs" type="Node3D" parent="."]
+
+[node name="Portals" type="Node3D" parent="."]

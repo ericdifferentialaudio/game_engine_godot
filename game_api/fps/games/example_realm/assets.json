@@ -1,0 +1,17 @@
+{
+  "assets": {
+    "env.forest.day":       { "type": "environment", "path": "res://assets/environments/forest_day.tres" },
+    "env.town.dusk":        { "type": "environment", "path": "res://assets/environments/town_dusk.tres" },
+    "env.interior.candle":  { "type": "environment", "path": "res://assets/environments/interior_candle.tres" },
+    "env.dungeon.damp":     { "type": "environment", "path": "res://assets/environments/dungeon_damp.tres" },
+
+    "portal.default":       { "type": "scene", "path": "res://assets/props/portal_marker/portal_marker.tscn" },
+    "poi.landmark":         { "type": "scene", "path": "res://assets/props/poi_marker/poi_marker.tscn" },
+    "poi.landmark.mill":    { "type": "scene", "path": "res://assets/architecture/mill_ruined/mill_ruined.tscn", "lods": 3, "budget_tris": 60000 },
+    "poi.cache":            { "type": "scene", "path": "res://assets/props/chest_wooden/chest_wooden.tscn", "lods": 2, "budget_tris": 4000 },
+    "poi.informant":        { "type": "scene", "path": "res://assets/characters/npc_generic/npc_generic.tscn", "lods": 3, "budget_tris": 30000 },
+    "poi.shop":             { "type": "scene", "path": "res://assets/props/shop_counter/shop_counter.tscn", "lods": 2, "budget_tris": 8000 },
+    "poi.shrine":           { "type": "scene", "path": "res://assets/props/shrine_stone/shrine_stone.tscn", "lods": 2, "budget_tris": 10000 },
+    "poi.generic":          { "type": "scene", "path": "res://assets/props/poi_marker/poi_marker.tscn" }
+  }
+}

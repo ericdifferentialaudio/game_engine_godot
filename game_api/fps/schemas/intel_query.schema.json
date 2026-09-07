@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "intel_query.schema.json",
+  "title": "IntelQuery",
+  "description": "Declarative knowledge gate evaluated by framework/intel/intel_query.gd",
+  "type": "object",
+  "oneOf": [
+    { "required": ["has"], "properties": { "has": { "type": "string" }, "min_reliability": { "type": "number", "minimum": 0, "maximum": 1 } }, "additionalProperties": false },
+    { "required": ["subject"], "properties": { "subject": { "type": "string" }, "count": { "type": "integer", "minimum": 1 } }, "additionalProperties": false },
+    { "required": ["tag"], "properties": { "tag": { "type": "string" }, "count": { "type": "integer", "minimum": 1 } }, "additionalProperties": false },
+    { "required": ["fact"], "properties": { "fact": { "type": "array", "minItems": 3, "maxItems": 3 } }, "additionalProperties": false },
+    { "required": ["flag"], "properties": { "flag": { "type": "string" } }, "additionalProperties": false },
+    { "required": ["all"], "properties": { "all": { "type": "array", "items": { "$ref": "#" } } }, "additionalProperties": false },
+    { "required": ["any"], "properties": { "any": { "type": "array", "items": { "$ref": "#" } } }, "additionalProperties": false },
+    { "required": ["not"], "properties": { "not": { "$ref": "#" } }, "additionalProperties": false },
+    { "maxProperties": 0 }
+  ]
+}

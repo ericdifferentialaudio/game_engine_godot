@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "interaction.schema.json",
+  "title": "Interaction / Effect spec",
+  "type": "object",
+  "required": ["kind"],
+  "properties": {
+    "kind": { "enum": ["intel", "reward", "shop", "dialogue", "portal", "spawn", "combat", "flag"] },
+    "requires": { "$ref": "query.schema.json" },
+    "flags": { "type": "array", "items": { "type": "string" } },
+    "faction_flags": { "type": "array", "items": { "type": "string" } },
+    "once": { "type": "boolean" },
+    "once_per_faction": { "type": "boolean" },
+    "consumes": { "type": "boolean" },
+    "message": { "type": "string" },
+
+    "tokens": { "type": "array", "items": { "type": "string" } },
+    "channel": { "enum": ["observed", "told", "read", "traded", "stolen", "spread", "derived", "scripted"] },
+    "reliability": { "type": "number", "minimum": 0, "maximum": 1 },
+    "debunk": { "type": "array", "items": { "type": "string" } },
+    "forget": { "type": "array", "items": { "type": "string" } },
+
+    "resources": { "type": "object", "additionalProperties": { "type": "number" } },
+    "items": { "type": "object", "additionalProperties": { "type": "integer" } },
+    "to": { "enum": ["actor", "stockpile"] },
+    "stat_delta": { "type": "object", "additionalProperties": { "type": "number" } },
+    "status": { "type": "object" },
+    "xp": { "type": "integer" },
+    "heal_full": { "type": "boolean" },
+    "set_flags": { "type": "array", "items": { "type": "string" } },
+    "clear_flags": { "type": "array", "items": { "type": "string" } },
+    "set_faction_flags": { "type": "array", "items": { "type": "string" } },
+
+    "shop_id": { "type": "string" },
+    "currency": { "type": "string" },
+    "buys_intel": { "type": "boolean" },
+    "intel_price_multiplier": { "type": "number" },
+    "stock": { "type": "array", "items": { "type": "object", "required": ["item", "price"], "properties": {
+      "item": { "type": "string" }, "price": { "type": "integer" }, "stock": { "type": "integer" }, "requires": { "$ref": "query.schema.json" } } } },
+
+    "speaker": { "type": "string" },
+    "portrait": { "type": "string" },
+    "start": { "type": "string" },
+    "nodes": { "type": "object", "additionalProperties": { "type": "object", "properties": {
+      "text": { "type": "string" },
+      "choices": { "type": "array", "items": { "type": "object", "properties": {
+        "text": { "type": "string" }, "next": { "type": ["string", "null"] }, "requires": { "$ref": "query.schema.json" } } } },
+      "next": { "type": ["string", "null"] },
+      "grant_intel": { "type": "array", "items": { "type": "string" } },
+      "set_flags": { "type": "array", "items": { "type": "string" } },
+      "set_faction_flags": { "type": "array", "items": { "type": "string" } },
+      "effects": { "type": "array", "items": { "$ref": "interaction.schema.json" } } } } },
+
+    "target_map": { "type": "string" },
+    "target_coord": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 },
+    "direction": { "enum": ["descend", "ascend"] },
+
+    "unit": { "type": "string" },
+    "faction": { "type": "string" },
+    "count": { "type": "integer", "minimum": 1 },
+    "radius": { "type": "integer", "minimum": 0 },
+
+    "target": { "type": "string" },
+    "guardian": { "type": "object", "properties": { "unit": { "type": "string" }, "faction": { "type": "string" } } },
+    "on_victory": { "type": "array", "items": { "$ref": "interaction.schema.json" } },
+
+    "quest": { "type": "object", "properties": { "id": { "type": "string" }, "stage": { "type": "string" } } },
+    "stance": { "type": "object", "properties": { "with": { "type": "string" }, "stance": { "enum": ["war", "hostile", "peace", "friendly", "allied"] } } },
+    "share_intel": { "type": "object", "properties": { "to": { "type": "string" }, "tokens": { "type": "array", "items": { "type": "string" } } } }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "actors": [
+    { "id": "player", "display_name": "You", "role": "player", "faction": "player", "brain": "player", "level": 1,
+      "stats": { "strength": 10, "agility": 10, "intellect": 10, "perception": 5, "armor": 0,
+                 "crit_chance": 0.05, "dodge": 0.02, "move_speed": 4.5 },
+      "resources": { "health": 100, "health_regen": 6, "mana": 50, "stamina": 100 },
+      "abilities": ["punch"], "senses": { "sight_range": 60, "fov": 90 } },
+
+    { "id": "npc_generic", "display_name": "Villager", "role": "npc", "faction": "townsfolk", "level": 1,
+      "stats": { "strength": 8, "agility": 8, "intellect": 8, "armor": 0, "move_speed": 3.0 },
+      "resources": { "health": 30 }, "abilities": ["punch"],
+      "behaviour": { "style": "civilian", "flee_below": 1.0 }, "senses": { "sight_range": 15, "fov": 120, "hearing": 10 },
+      "schedule": [ { "from": 6, "to": 22, "map": "hollowmere", "spot": "market" } ],
+      "visual": "poi.informant" },
+
+    { "id": "bandit_cutpurse", "display_name": "Cutpurse", "role": "monster", "faction": "bandits", "level": 2,
+      "stats": { "strength": 9, "agility": 12, "intellect": 6, "armor": 4, "dodge": 0.1, "crit_chance": 0.1, "move_speed": 4.2 },
+      "resources": { "health": 35, "stamina": 60 }, "abilities": ["bandit_stab"],
+      "equipment": { "body": "leather_jerkin" }, "inventory": { "gold": 12 }, "loot_table": "bandit_common", "xp": 20,
+      "behaviour": { "style": "skirmisher", "flee_below": 0.25, "preferred_range": 1.6 },
+      "senses": { "sight_range": 22, "fov": 110, "hearing": 14, "memory": 12 } },
+
+    { "id": "skeleton_soldier", "display_name": "Skeleton Soldier", "role": "monster", "faction": "crypt_undead", "level": 3,
+      "stats": { "strength": 11, "agility": 7, "intellect": 2, "armor": 8, "move_speed": 3.2 },
+      "resources": { "health": 45 }, "resistances": { "pierce": 0.5, "holy": -0.5 }, "immunities": ["poison", "poisoned"],
+      "abilities": ["skeleton_claw"], "loot_table": "crypt_common", "xp": 30,
+      "behaviour": { "style": "melee", "flee_below": 0.0, "preferred_range": 1.5 },
+      "senses": { "sight_range": 18, "fov": 100, "hearing": 8, "memory": 20 } },
+
+    { "id": "bone_warden", "display_name": "The Bone-Warden", "role": "boss", "faction": "crypt_undead", "level": 6,
+      "stats": { "strength": 16, "agility": 8, "intellect": 10, "armor": 20, "move_speed": 3.6 },
+      "resources": { "health": 260, "mana": 60 }, "resistances": { "pierce": 0.5, "slash": 0.25, "shadow": 0.75, "holy": -0.75 },
+      "immunities": ["poison", "poisoned", "frozen"], "abilities": ["warden_cleave", "bone_ward"],
+      "loot_table": "bone_warden", "xp": 250, "weakness_intel": "lore_ossuary_relic",
+      "behaviour": { "style": "melee", "flee_below": 0.0, "preferred_range": 2.2 },
+      "senses": { "sight_range": 25, "fov": 140, "hearing": 20, "memory": 60 },
+      "phases": [ { "below_health": 0.5, "abilities": ["warden_cleave", "bone_ward"], "effects": ["bone_ward"] } ],
+      "schedule": [ { "from": 3, "to": 5, "map": "crypt_l2", "spot": "sarcophagus", "state": "sleeping" } ] }
+  ]
+}

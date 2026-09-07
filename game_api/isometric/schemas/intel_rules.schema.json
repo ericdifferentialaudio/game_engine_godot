@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "intel_rules.schema.json",
+  "title": "Intel Rules",
+  "type": "object",
+  "properties": {
+    "derivations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "when", "grant"],
+        "properties": {
+          "id": { "type": "string" },
+          "description": { "type": "string" },
+          "when": { "$ref": "query.schema.json" },
+          "grant": { "type": "string" },
+          "reliability": { "type": "number", "minimum": 0, "maximum": 1 },
+          "once": { "type": "boolean" }
+        }
+      }
+    },
+    "spread": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string" },
+          "description": { "type": "string" },
+          "channel": { "enum": ["observed", "told", "read", "traded", "stolen", "spread", "derived", "scripted"] },
+          "between": { "enum": ["all", "allies", "friendly", "peaceful", "enemies", "trade_partners", "neighbors"] },
+          "chance": { "type": "number", "minimum": 0, "maximum": 1 },
+          "max_secrecy": { "type": "number", "minimum": 0, "maximum": 1 },
+          "reliability_loss": { "type": "number", "minimum": 0, "maximum": 1 },
+          "categories": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "contradiction": {
+      "type": "object",
+      "properties": {
+        "dispute_amount": { "type": "number", "minimum": 0, "maximum": 1 },
+        "flag_source_trust_loss": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "observation": { "type": "object" }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "maps.schema.json",
+  "title": "Maps",
+  "type": "object",
+  "required": ["maps"],
+  "properties": {
+    "maps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "scene"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "display_name": { "type": "string" },
+          "kind": { "enum": ["overworld", "region", "town", "castle", "dungeon", "interior", "special"] },
+          "parent": { "type": "string" },
+          "scene": { "type": "string", "pattern": "^res://.*\\.tscn$" },
+          "environment": { "type": "string" },
+          "exterior": { "type": "boolean" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "music": { "type": "string" },
+          "streaming": {
+            "type": "object",
+            "properties": { "chunk_size": { "type": "number" }, "view_distance": { "type": "integer" } }
+          },
+          "spawns": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["position"],
+              "properties": {
+                "position": { "type": "array", "items": { "type": "number" }, "minItems": 3, "maxItems": 3 },
+                "yaw": { "type": "number" }
+              }
+            }
+          },
+          "portals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "target_map"],
+              "properties": {
+                "id": { "type": "string" },
+                "label": { "type": "string" },
+                "target_map": { "type": "string" },
+                "target_spawn": { "type": "string" },
+                "position": { "type": "array", "items": { "type": "number" }, "minItems": 3, "maxItems": 3 },
+                "yaw": { "type": "number" },
+                "requires": { "$ref": "intel_query.schema.json" }
+              }
+            }
+          },
+          "metadata": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "terrains": [
+    { "id": "ocean", "display_name": "Ocean", "domain": "sea", "move_cost": 1, "passable": true, "color": "#1d4e89", "elevation": -2, "yields": { "food": 1 }, "tags": ["water", "deep"] },
+    { "id": "coast", "display_name": "Coast", "domain": "sea", "move_cost": 1, "passable": true, "color": "#3b82c4", "elevation": -1, "yields": { "food": 2, "gold": 1 }, "tags": ["water"] },
+    { "id": "desert", "display_name": "Desert", "domain": "land", "move_cost": 1, "color": "#d9c27a", "elevation": 0, "yields": {}, "tags": ["flat", "dry"] },
+    { "id": "plains", "display_name": "Plains", "domain": "land", "move_cost": 1, "color": "#b7b35a", "elevation": 0, "yields": { "food": 1, "gold": 1 }, "tags": ["flat"] },
+    { "id": "grassland", "display_name": "Grassland", "domain": "land", "move_cost": 1, "color": "#6aa84f", "elevation": 0, "yields": { "food": 2 }, "tags": ["flat"] },
+    { "id": "hills", "display_name": "Hills", "domain": "land", "move_cost": 2, "color": "#8b7d5a", "elevation": 1, "defense_bonus": 25, "sight_cost": 1, "yields": { "gold": 2 }, "tags": ["rough"] },
+    { "id": "mountain", "display_name": "Mountain", "domain": "land", "move_cost": 3, "passable": false, "color": "#6e6e73", "elevation": 2, "blocks_sight": true, "tags": ["rough", "impassable"] }
+  ],
+  "features": [
+    { "id": "forest", "display_name": "Forest", "move_cost": 1, "defense_bonus": 25, "blocks_sight": true, "color": "#2f6b2f", "yields": { "gold": 1 }, "allowed_on": ["grassland", "plains", "hills"], "spawn_chance": 0.22 },
+    { "id": "marsh", "display_name": "Marsh", "move_cost": 1, "defense_bonus": -10, "color": "#5f7a5a", "yields": {}, "allowed_on": ["grassland"], "spawn_chance": 0.06 },
+    { "id": "reeds", "display_name": "Reeds", "move_cost": 0, "blocks_sight": true, "color": "#9aa85a", "yields": {}, "allowed_on": ["grassland", "plains"], "spawn_chance": 0.03 }
+  ]
+}

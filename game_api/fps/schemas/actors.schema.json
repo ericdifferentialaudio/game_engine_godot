@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "actors.schema.json",
+  "title": "Actors",
+  "type": "object",
+  "required": ["actors"],
+  "properties": {
+    "actors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "display_name", "role"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "display_name": { "type": "string" },
+          "description": { "type": "string" },
+          "role": { "enum": ["player", "npc", "monster", "boss", "summon", "creature"] },
+          "level": { "type": "integer", "minimum": 1 },
+          "faction": { "type": "string" },
+          "stats": { "type": "object", "additionalProperties": { "type": "number" } },
+          "resources": { "type": "object", "additionalProperties": { "type": "number" } },
+          "resistances": { "type": "object", "additionalProperties": { "type": "number" } },
+          "immunities": { "type": "array", "items": { "type": "string" } },
+          "abilities": { "type": "array", "items": { "type": "string" } },
+          "equipment": { "type": "object", "additionalProperties": { "type": "string" } },
+          "inventory": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
+          "loot_table": { "type": "string" },
+          "xp": { "type": "integer", "minimum": 0 },
+          "brain": { "enum": ["player", "ai", "none"] },
+          "behaviour": { "type": "object" },
+          "senses": {
+            "type": "object",
+            "properties": {
+              "sight_range": { "type": "number", "minimum": 0 },
+              "fov": { "type": "number", "minimum": 0, "maximum": 360 },
+              "hearing": { "type": "number", "minimum": 0 },
+              "memory": { "type": "number", "minimum": 0 }
+            }
+          },
+          "move_speed": { "type": "number", "minimum": 0 },
+          "size": { "type": "object" },
+          "schedule": {
+            "type": "array",
+            "items": {
+              "type": "object", "required": ["from", "to"],
+              "properties": {
+                "from": { "type": "number", "minimum": 0, "maximum": 24 },
+                "to": { "type": "number", "minimum": 0, "maximum": 24 },
+                "map": { "type": "string" },
+                "spot": { "type": "string" },
+                "state": { "type": "string" }
+              }
+            }
+          },
+          "dialogue": { "type": "string" },
+          "visual": { "type": "string" },
+          "phases": { "type": "array", "items": { "type": "object", "required": ["below_health"] } },
+          "weakness_intel": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "metadata": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

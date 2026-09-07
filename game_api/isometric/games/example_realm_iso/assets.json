@@ -1,0 +1,53 @@
+{
+  "assets": {
+    "tile.ocean":       { "type": "texture", "path": "res://assets/tiles/placeholder/ocean.png" },
+    "tile.coast":       { "type": "texture", "path": "res://assets/tiles/placeholder/coast.png" },
+    "tile.desert":      { "type": "texture", "path": "res://assets/tiles/placeholder/desert.png" },
+    "tile.plains":      { "type": "texture", "path": "res://assets/tiles/placeholder/plains.png" },
+    "tile.grassland":   { "type": "texture", "path": "res://assets/tiles/placeholder/grassland.png" },
+    "tile.hills":       { "type": "texture", "path": "res://assets/tiles/placeholder/hills.png" },
+    "tile.mountain":    { "type": "texture", "path": "res://assets/tiles/placeholder/mountain.png" },
+
+    "feature.forest":   { "type": "texture", "path": "res://assets/features/forest.png" },
+    "feature.marsh":    { "type": "texture", "path": "res://assets/features/marsh.png" },
+    "feature.reeds":    { "type": "texture", "path": "res://assets/features/reeds.png" },
+
+    "unit.hero_ambassador": { "type": "sprite_frames", "path": "res://assets/units/hero_ambassador/frames.tres", "facings": 6 },
+    "unit.scout":           { "type": "sprite_frames", "path": "res://assets/units/scout/frames.tres", "facings": 6 },
+    "unit.warrior":         { "type": "sprite_frames", "path": "res://assets/units/warrior/frames.tres", "facings": 6 },
+    "unit.npc_elder":       { "type": "sprite_frames", "path": "res://assets/units/npc_elder/frames.tres", "facings": 1 },
+    "unit.wolf":            { "type": "sprite_frames", "path": "res://assets/units/wolf/frames.tres", "facings": 6 },
+    "unit.bone_warden":     { "type": "sprite_frames", "path": "res://assets/units/bone_warden/frames.tres", "facings": 6 },
+
+    "portrait.ysolde":  { "type": "texture", "path": "res://assets/characters/portraits/ysolde.png" },
+    "portrait.maren":   { "type": "texture", "path": "res://assets/characters/portraits/maren.png" },
+    "portrait.scout":   { "type": "texture", "path": "res://assets/characters/portraits/scout.png" },
+    "portrait.warrior": { "type": "texture", "path": "res://assets/characters/portraits/warrior.png" },
+    "portrait.wolf":    { "type": "texture", "path": "res://assets/characters/portraits/wolf.png" },
+    "portrait.bone_warden": { "type": "texture", "path": "res://assets/characters/portraits/bone_warden.png" },
+
+    "icon.item.travellers_dagger": { "type": "texture", "path": "res://assets/items/icons/travellers_dagger.png" },
+    "icon.item.spyglass":          { "type": "texture", "path": "res://assets/items/icons/spyglass.png" },
+    "icon.item.healing_herb":      { "type": "texture", "path": "res://assets/items/icons/healing_herb.png" },
+    "icon.item.wolf_pelt":         { "type": "texture", "path": "res://assets/items/icons/wolf_pelt.png" },
+    "icon.item.smugglers_map":     { "type": "texture", "path": "res://assets/items/icons/smugglers_map.png" },
+    "icon.item.ancient_relic":     { "type": "texture", "path": "res://assets/items/icons/ancient_relic.png" },
+
+    "site.village":  { "type": "scene", "path": "res://assets/structures/village/village.tscn" },
+    "site.ruins":    { "type": "scene", "path": "res://assets/structures/ruins/ruins.tscn" },
+    "site.camp":     { "type": "scene", "path": "res://assets/structures/camp/camp.tscn" },
+    "site.dungeon":  { "type": "scene", "path": "res://assets/structures/dungeon_entrance/dungeon_entrance.tscn" },
+    "site.shrine":   { "type": "scene", "path": "res://assets/structures/shrine/shrine.tscn" },
+    "site.stairs":   { "type": "scene", "path": "res://assets/structures/stairs/stairs.tscn" },
+    "site.generic":  { "type": "scene", "path": "res://framework/world/placeholder_prop.tscn" },
+
+    "shader.fog":       { "type": "shader", "path": "res://assets/shaders/fog_of_war.gdshader" },
+    "shader.highlight": { "type": "shader", "path": "res://assets/shaders/tile_highlight.gdshader" },
+    "shader.outline":   { "type": "shader", "path": "res://assets/shaders/unit_outline.gdshader" },
+
+    "env.temperate":   { "type": "environment", "path": "res://assets/environments/temperate.tres" },
+    "env.crypt":       { "type": "environment", "path": "res://assets/environments/crypt.tres" },
+    "music.overworld": { "type": "audio", "path": "res://assets/audio/music/overworld.ogg" },
+    "music.dungeon":   { "type": "audio", "path": "res://assets/audio/music/dungeon.ogg" }
+  }
+}

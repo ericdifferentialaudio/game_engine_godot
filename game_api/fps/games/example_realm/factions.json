@@ -1,0 +1,18 @@
+{
+  "factions": [
+    { "id": "player", "display_name": "Adventurer", "default_relation": "neutral" },
+
+    { "id": "townsfolk", "display_name": "Folk of Hollowmere", "default_relation": "neutral",
+      "relations": { "crypt_undead": "hostile", "bandits": "hostile", "player": "friendly" },
+      "player_reputation": 10, "price_modifiers": { "friendly": 0.9, "allied": 0.8, "unfriendly": 1.25 } },
+
+    { "id": "bandits", "display_name": "Reedcut Bandits", "default_relation": "hostile",
+      "relations": { "bandits": "allied" }, "player_reputation": -60 },
+
+    { "id": "crypt_undead", "display_name": "The Sunken Dead", "default_relation": "hostile",
+      "relations": { "crypt_undead": "allied" }, "player_reputation": -100,
+      "reputation_thresholds": { "hostile": -50, "unfriendly": -49, "friendly": 999, "allied": 1000 } },
+
+    { "id": "wildlife", "display_name": "Wildlife", "default_relation": "unfriendly", "attack_on_sight_below": "hostile" }
+  ]
+}

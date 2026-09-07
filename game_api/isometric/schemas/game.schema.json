@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "game.schema.json",
+  "title": "Game package",
+  "type": "object",
+  "required": ["id", "title", "start_map", "player_faction"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "title": { "type": "string" },
+    "version": { "type": "string" },
+    "description": { "type": "string" },
+    "grid": {
+      "type": "object",
+      "properties": {
+        "topology": { "enum": ["hex", "square_iso"] },
+        "orientation": { "enum": ["pointy", "flat"] },
+        "diagonals": { "type": "boolean" },
+        "tile_size": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+        "wrap_x": { "type": "boolean" }
+      }
+    },
+    "turns": {
+      "type": "object",
+      "properties": {
+        "mode": { "enum": ["sequential", "simultaneous", "wego", "realtime_pause"] },
+        "timer_seconds": { "type": "number", "minimum": 0 },
+        "ticks_per_turn": { "type": "integer", "minimum": 1 },
+        "seconds_per_tick": { "type": "number", "minimum": 0.05 }
+      }
+    },
+    "calendar": {
+      "type": "object",
+      "properties": {
+        "start_year": { "type": "integer" },
+        "years_per_turn": { "type": "integer" },
+        "year_suffix_neg": { "type": "string" },
+        "year_suffix_pos": { "type": "string" },
+        "eras": { "type": "array", "items": { "type": "object", "required": ["id", "from_turn"], "properties": {
+          "id": { "type": "string" }, "label": { "type": "string" }, "from_turn": { "type": "integer", "minimum": 1 } } } }
+      }
+    },
+    "start_map": { "type": "string" },
+    "player_faction": { "type": "string" },
+    "max_map_depth": { "type": "integer", "minimum": 0 },
+    "seed": { "type": "integer" },
+    "currencies": { "type": "array", "items": { "type": "string" } },
+    "stats": { "type": "object", "additionalProperties": { "type": "number" } },
+    "rules": { "type": "object" }
+  }
+}

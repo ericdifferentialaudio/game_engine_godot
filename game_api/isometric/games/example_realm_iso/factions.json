@@ -1,0 +1,56 @@
+{
+  "factions": [
+    {
+      "id": "reachfolk",
+      "display_name": "The Reachfolk",
+      "color": "#3b82f6",
+      "control": "human",
+      "turn_order": 0,
+      "starting_units": ["hero_ambassador", "scout", "warrior"],
+      "resources": { "gold": 60, "food": 10 },
+      "claims_start_territory": true,
+      "stances": { "greywood": "peace", "hollowmere_folk": "friendly", "wilds": "war" },
+      "trade_partners": ["greywood", "hollowmere_folk"],
+      "starting_items": { "healing_herb": 2 },
+      "starting_intel": ["know_the_reach"],
+      "tags": ["major"],
+      "metadata": { "start_territory_radius": 1 }
+    },
+    {
+      "id": "greywood",
+      "display_name": "Greywood Compact",
+      "color": "#c0392b",
+      "control": "ai",
+      "turn_order": 1,
+      "starting_units": ["warrior", "scout"],
+      "resources": { "gold": 60, "food": 10 },
+      "stances": { "reachfolk": "peace", "hollowmere_folk": "peace", "wilds": "war" },
+      "trade_partners": ["reachfolk"],
+      "ai": { "profile": "" },
+      "starting_intel": ["greywood_knows_crypt_west"],
+      "tags": ["major"],
+      "metadata": { "start_territory_radius": 1 }
+    },
+    {
+      "id": "hollowmere_folk",
+      "display_name": "Hollowmere Villagers",
+      "color": "#f1c40f",
+      "control": "neutral",
+      "starting_units": [],
+      "claims_start_territory": false,
+      "default_stance": "peace",
+      "stances": { "wilds": "war" },
+      "tags": ["minor", "village"]
+    },
+    {
+      "id": "wilds",
+      "display_name": "The Wilds",
+      "color": "#7f8c8d",
+      "control": "hostile",
+      "starting_units": [],
+      "claims_start_territory": false,
+      "default_stance": "war",
+      "tags": ["monsters"]
+    }
+  ]
+}

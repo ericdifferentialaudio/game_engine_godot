@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://framework/actor/actor.gd" id="1_actor"]
+[ext_resource type="Script" path="res://framework/actor/brains/player_brain.gd" id="2_brain"]
+[ext_resource type="Script" path="res://framework/actor/interaction_ray.gd" id="3_ray"]
+
+[sub_resource type="CapsuleShape3D" id="capsule"]
+radius = 0.35
+height = 1.8
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_actor")
+actor_def_id = "player"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("capsule")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+fov = 80.0
+near = 0.05
+far = 4000.0
+
+[node name="InteractionRay" type="RayCast3D" parent="Head/Camera3D"]
+target_position = Vector3(0, 0, -3)
+collision_mask = 12
+collide_with_areas = true
+script = ExtResource("3_ray")
+
+[node name="ViewModel" type="Node3D" parent="Head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.3, -0.6)
+
+[node name="PlayerBrain" type="Node" parent="."]
+script = ExtResource("2_brain")

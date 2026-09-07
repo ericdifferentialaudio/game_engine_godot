@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "items.schema.json",
+  "title": "Items",
+  "type": "object",
+  "required": ["items"],
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "display_name": { "type": "string" },
+          "description": { "type": "string" },
+          "kind": { "enum": ["equipment", "consumable", "intel", "artifact", "resource", "key", "misc"] },
+          "slot": { "type": "string" },
+          "icon": { "type": "string" },
+          "rarity": { "enum": ["common", "uncommon", "rare", "epic", "legendary", "unique"] },
+          "value": { "type": "integer", "minimum": 0 },
+          "stackable": { "type": "boolean" },
+          "max_stack": { "type": "integer", "minimum": 1 },
+          "unique": { "type": "boolean" },
+          "modifiers": { "type": "object", "additionalProperties": { "type": "number" } },
+          "use_effects": { "type": "array", "items": { "$ref": "interaction.schema.json" } },
+          "use_requires": { "$ref": "query.schema.json" },
+          "grants_intel": { "type": "array", "items": { "type": "string" } },
+          "consume_on_use": { "type": "boolean" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "metadata": { "type": "object" }
+        }
+      }
+    }
+  }
+}

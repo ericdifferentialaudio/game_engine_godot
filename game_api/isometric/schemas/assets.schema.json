@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "assets.schema.json",
+  "title": "Asset manifest",
+  "type": "object",
+  "required": ["assets"],
+  "properties": {
+    "assets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": { "enum": ["tileset", "tile", "texture", "sprite_frames", "scene", "shader", "audio", "font", "environment"] },
+          "path": { "type": "string", "pattern": "^res://" },
+          "tileset": { "type": "string", "description": "For type=tile: key of a tileset asset" },
+          "source": { "type": "integer", "description": "For type=tile: TileSet source id" },
+          "atlas": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 },
+          "facings": { "type": "integer", "minimum": 1, "description": "For sprite_frames: number of facing directions" },
+          "budget_px": { "type": "integer" }
+        }
+      }
+    }
+  }
+}

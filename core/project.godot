@@ -15,6 +15,9 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg", "res://addons/game_core
 
 [autoload]
 
+CoreContext="*res://addons/game_core/core_context.gd"
+CoreRegistry="*res://addons/game_core/managers/core_registry.gd"
+CoreIntel="*res://addons/game_core/managers/core_intel.gd"
 VirtueSystem="*res://addons/game_core/managers/virtue_system.gd"
 WorldStateManager="*res://addons/game_core/managers/world_state_manager.gd"
 DialogueManager="*res://addons/game_core/managers/dialogue_manager.gd"
