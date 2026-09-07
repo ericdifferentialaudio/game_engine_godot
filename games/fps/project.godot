@@ -1,0 +1,25 @@
+; Engine configuration file.
+
+config_version=5
+
+[application]
+
+config/name="fps"
+run/main_scene=""
+config/features=PackedStringArray("4.3", "Forward Plus")
+config/icon=""
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg", "res://addons/game_core/plugin.cfg")
+
+[autoload]
+
+VirtueSystem="*res://addons/game_core/managers/virtue_system.gd"
+WorldStateManager="*res://addons/game_core/managers/world_state_manager.gd"
+DialogueManager="*res://addons/game_core/managers/dialogue_manager.gd"
+AIHeuristicManager="*res://addons/game_core/managers/ai_heuristic_manager.gd"
+
+[rendering]
+
+renderer/rendering_method="forward_plus"
