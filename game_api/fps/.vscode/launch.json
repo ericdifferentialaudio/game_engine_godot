@@ -1,0 +1,36 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "GDScript: Launch project (default game)",
+      "type": "godot",
+      "request": "launch",
+      "project": "${workspaceFolder}",
+      "debug_collisions": false,
+      "debug_paths": false,
+      "additional_options": ""
+    },
+    {
+      "name": "GDScript: Launch example_realm",
+      "type": "godot",
+      "request": "launch",
+      "project": "${workspaceFolder}",
+      "additional_options": "-- --game=example_realm"
+    },
+    {
+      "name": "GDScript: Attach to running editor game",
+      "type": "godot",
+      "request": "attach",
+      "address": "127.0.0.1",
+      "port": 6007
+    },
+    {
+      "name": "Python: Data validator",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/tools/validate_data.py",
+      "args": ["--all"],
+      "console": "integratedTerminal"
+    }
+  ]
+}

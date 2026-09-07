@@ -1,4 +1,4 @@
-# Godot 4+ specific ignores (each project root: core/, games/isometric/, games/fps/)
+# Godot 4+ specific ignores (each project root: core/, game_api/isometric/, game_api/fps/)
 .godot/
 **/.godot/
 .import/
@@ -18,8 +18,18 @@ data_*/
 Thumbs.db
 
 # IDE
-.vscode/
+# .vscode/ is intentionally tracked: each engine layer ships editor settings
+# (JSON-schema bindings for the data files, launch/task configs) that came from
+# the upstream engines and are useful to everyone working on the repo.
+# Machine-local overrides belong in .vscode/*.local.json instead.
+.vscode/*.local.json
 .idea/
+
+# Local Godot executable paths (per machine; copy godot.local.example.json)
+godot.local.json
+
+# Scratch/debug output
+_*.log
 
 # Build/export output
 build/

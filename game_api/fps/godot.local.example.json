@@ -1,0 +1,4 @@
+{
+  "_comment": "Copy to godot.local.json (git-ignored) and point at your Godot 4.7+ console binary. tools/godot.ps1 and .vscode use it.",
+  "godot_bin": "C:\\Tools\\Godot\\4.7.2\\godot_console.exe"
+}

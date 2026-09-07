@@ -1,0 +1,46 @@
+{
+  // godot-tools (geequlim.godot-tools): point at the Godot 4 editor binary.
+  // Per-machine override: keep this in sync with godot.local.json.
+  "godotTools.editorPath.godot4": "C:\\Tools\\Godot\\4.7.2\\godot.exe",
+  "godotTools.lsp.serverPort": 6005,
+  "godotTools.lsp.headless": false,
+
+  "[gdscript]": {
+    "editor.insertSpaces": false,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "editor.rulers": [100]
+  },
+  "[python]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  "files.associations": {
+    "*.gd": "gdscript",
+    "*.tscn": "gdresource",
+    "*.tres": "gdresource",
+    "*.gdshader": "gdshader",
+    "project.godot": "godot-project"
+  },
+  "files.exclude": {
+    "**/.godot": true,
+    "**/__pycache__": true
+  },
+  "search.exclude": {
+    "**/.godot": true
+  },
+  "python.testing.unittestEnabled": true,
+  "python.testing.unittestArgs": ["-v", "-s", "tests", "-p", "test_*.py"],
+  "json.schemas": [
+    { "fileMatch": ["games/*/game.json"], "url": "./schemas/game.schema.json" },
+    { "fileMatch": ["games/*/terrains.json"], "url": "./schemas/terrains.schema.json" },
+    { "fileMatch": ["games/*/maps.json"], "url": "./schemas/maps.schema.json" },
+    { "fileMatch": ["games/*/units.json"], "url": "./schemas/units.schema.json" },
+    { "fileMatch": ["games/*/items.json"], "url": "./schemas/items.schema.json" },
+    { "fileMatch": ["games/*/factions.json"], "url": "./schemas/factions.schema.json" },
+    { "fileMatch": ["games/*/intel.json"], "url": "./schemas/intel.schema.json" },
+    { "fileMatch": ["games/*/intel_rules.json"], "url": "./schemas/intel_rules.schema.json" },
+    { "fileMatch": ["games/*/sites.json"], "url": "./schemas/sites.schema.json" },
+    { "fileMatch": ["games/*/assets.json"], "url": "./schemas/assets.schema.json" }
+  ]
+}

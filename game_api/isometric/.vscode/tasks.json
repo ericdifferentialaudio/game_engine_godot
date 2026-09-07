@@ -1,0 +1,108 @@
+{
+  "version": "2.0.0",
+  "options": { "cwd": "${workspaceFolder}" },
+  "tasks": [
+    {
+      "label": "Godot: Check (compile all scripts & scenes)",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "tools/godot.ps1", "check"],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": {
+        "owner": "gdscript",
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "pattern": {
+          "regexp": "^.*(?:SCRIPT ERROR|ERROR): (.*)\\s+at: .*\\(res://(.+\\.gd):(\\d+)\\)",
+          "message": 1, "file": 2, "line": 3
+        }
+      },
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Godot: Import (headless)",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "tools/godot.ps1", "import"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Godot: Open Editor",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "tools/godot.ps1", "edit"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Godot: Run default game",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "tools/godot.ps1", "run"],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Godot: Run game package…",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "tools/godot.ps1", "run", "${input:gameId}"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Godot: Headless smoke test",
+      "type": "shell",
+      "command": "powershell",
+      "args": ["-ExecutionPolicy", "Bypass", "-File", "tools/godot.ps1", "smoke", "${input:gameId}"],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Data: Validate all game packages",
+      "type": "shell",
+      "command": "python",
+      "args": ["tools/validate_data.py", "--all", "--strict"],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Data: Python unit tests",
+      "type": "shell",
+      "command": "python",
+      "args": ["-m", "unittest", "discover", "-s", "tests", "-v"],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Assets: Audit manifest",
+      "type": "shell",
+      "command": "python",
+      "args": ["tools/asset_manifest.py", "--game", "${input:gameId}"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Assets: Generate placeholders",
+      "type": "shell",
+      "command": "python",
+      "args": ["tools/gen_placeholders.py"],
+      "problemMatcher": []
+    },
+    {
+      "label": "CI: Everything",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Data: Validate all game packages",
+        "Data: Python unit tests",
+        "Godot: Check (compile all scripts & scenes)",
+        "Godot: Headless smoke test"
+      ],
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "gameId",
+      "type": "promptString",
+      "description": "Game package id (folder under games/)",
+      "default": "example_realm_iso"
+    }
+  ]
+}
