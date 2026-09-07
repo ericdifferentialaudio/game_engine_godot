@@ -14,11 +14,37 @@
 #>
 
 param(
-    [string]$GodotPath = "godot"
+    [string]$GodotPath = ""
 )
 
 $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $PSScriptRoot
+
+# Resolve which Godot executable to use, in priority order:
+#   1. -GodotPath argument, if passed explicitly
+#   2. $env:GODOT_BIN, if set
+#   3. `godot` on PATH
+#   4. A known fallback location used on this dev machine (best-effort only;
+#      the exact folder/filename changes with each Godot version, so this is
+#      a convenience, not a guarantee -- prefer options 1-3 when possible).
+if (-not $GodotPath) {
+    if ($env:GODOT_BIN) {
+        $GodotPath = $env:GODOT_BIN
+    } elseif (Get-Command "godot" -ErrorAction SilentlyContinue) {
+        $GodotPath = "godot"
+    } else {
+        $fallback = Get-ChildItem -Path "$env:USERPROFILE\Downloads" -Recurse -Filter "Godot*_console.exe" -ErrorAction SilentlyContinue |
+            Sort-Object LastWriteTime -Descending | Select-Object -First 1
+        if ($fallback) {
+            $GodotPath = $fallback.FullName
+        } else {
+            Write-Host "Could not find a Godot executable. Pass -GodotPath, set `$env:GODOT_BIN`, or add 'godot' to PATH." -ForegroundColor Red
+            exit 1
+        }
+    }
+}
+
+Write-Host "Using Godot executable: $GodotPath" -ForegroundColor DarkGray
 
 $projects = @(
     @{ Name = "core";      Path = Join-Path $repoRoot "core" },
