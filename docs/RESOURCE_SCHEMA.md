@@ -1,8 +1,10 @@
 # Resource Schema
 
-This is the data contract both games are written against. Any field added
-to a schema class here is available to both games simultaneously — that
-is the entire point of sharing a resource tree instead of maintaining two.
+This is the data contract both engine API layers (`game_api/isometric/`,
+`game_api/fps/`) — and, through them, any game built in `games/` — are
+written against. Any field added to a schema class here is available to
+both layers simultaneously — that is the entire point of sharing a
+resource tree instead of maintaining two.
 
 Schema *classes* (the shape) live in `core/addons/game_core/schema/`.
 Schema *instances* (actual content, `.tres`/`.json`) live in `core/data/`.
@@ -76,5 +78,6 @@ Data lives in `core/data/lore/`. Runtime values are tracked by the
 4. Run `tools/run_tests.ps1` — a schema change must not break either
    game's test suite before it lands on `main`.
 5. If the change is breaking (renamed/removed field or manager method),
-   log it so both games can be updated deliberately rather than silently
-   picking up a break next time they're opened.
+   log it so both engine API layers (and any games consuming them) can be
+   updated deliberately rather than silently picking up a break next time
+   they're opened.

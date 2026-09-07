@@ -3,17 +3,21 @@
 ## Overview
 
 This repository is a single monorepo containing a shared, engine-agnostic
-gameplay foundation ("core") and two independent Godot game projects that
-each provide their own rendering/gameplay front end on top of that
-foundation:
+gameplay foundation ("core"), two independent Godot **engine API layers**
+that each provide their own rendering/gameplay front end on top of that
+foundation, and a home for the actual playable games built with them:
 
-- `games/isometric/` — turn-based / grid-based isometric game
-- `games/fps/` — first-person 3D game
+- `game_api/isometric/` — turn-based / grid-based isometric engine API
+- `game_api/fps/` — first-person 3D engine API
+- `games/` — actual playable game projects, each consuming one of the
+  `game_api/<engine>/` layers above (currently empty, awaiting the first
+  real game)
 
-Both games share the exact same resource tree (tokens, units, items,
-virtues, lore) and the exact same gameplay-logic managers (virtue system,
-world-state/consequence graph, dialogue system, AI heuristics). Only the
-rendering, input, and genre-specific mechanics differ between them.
+Both engine API layers share the exact same resource tree (tokens, units,
+items, virtues, lore) and the exact same gameplay-logic managers (virtue
+system, world-state/consequence graph, dialogue system, AI heuristics).
+Only the rendering, input, and genre-specific mechanics differ between
+them.
 
 ## Directory layout
 
@@ -27,7 +31,7 @@ game_engine_godot/
 │   ├── tools/                   # Python migration/authoring tooling (not runtime)
 │   └── tests/unit/              # GUT tests for the shared addon in isolation
 │
-├── games/
+├── game_api/
 │   ├── isometric/                # Godot project #1 (has its own project.godot)
 │   │   ├── addons/game_core       # copy/link of core/addons/game_core
 │   │   ├── addons/gut             # test framework, own copy per project
@@ -37,45 +41,52 @@ game_engine_godot/
 │   │
 │   └── fps/                       # Godot project #2, same shape as isometric/
 │
+├── games/                        # actual playable game projects (empty for now)
+│
 ├── docs/                         # this file + RESOURCE_SCHEMA.md
 ├── tools/run_tests.ps1           # runs GUT across all three project roots
 └── README.md
 ```
 
-## The `games/` directory is extensible
+## `game_api/` vs `games/`
 
-`games/` is the container for the base/root of every individual game
-project built on top of `core/`. It currently holds `isometric/` and
-`fps/`, but it is not hard-capped at two — new games are added the same
-way, as `games/<new-game-name>/` with its own `project.godot`, own
-`addons/game_core` + `data` (linked/copied from `core/`), own
-`scenes/`/`scripts/`, and own `tests/unit/`. Each game folder is an
-independent Godot project and can be worked on (or run as its own task)
-without affecting the others, as long as it stays on the shared `core/`
-contract documented in `docs/RESOURCE_SCHEMA.md`.
+- **`game_api/`** holds the engine-specific API layers — `isometric/` and
+  `fps/` — each a Godot project that wraps the shared `core/` foundation
+  with a genre-specific rendering/gameplay front end (grid movement and
+  turn logic for isometric; first-person controller, hitscan, navmesh AI
+  for fps). Think of each as a reusable engine/API, not a shippable game
+  by itself.
+- **`games/`** holds the actual playable game projects you build. Each
+  game here is its own Godot project that consumes one of the
+  `game_api/<engine>/` layers (and, through it, the shared `core/`
+  managers and resource schema). This directory starts empty and grows
+  as real games are started; it is not hard-capped to any number of
+  games.
 
-## Why three separate Godot project roots?
+## Why three separate Godot project roots (so far)?
 
 Godot projects are self-contained (`project.godot` marks the project root).
 There is no supported way to have one Godot project transparently include
 scenes/scripts from a sibling folder outside its own root. So "one shared
-core, two games" is implemented as three project roots (`core`, `isometric`,
-`fps`), where `core` is a minimal *headless test harness* — not a playable
-game — used purely to run the shared addon's own test suite in isolation.
+core, two engine API layers" is implemented as three project roots
+(`core`, `game_api/isometric`, `game_api/fps`), where `core` is a minimal
+*headless test harness* — not a playable game — used purely to run the
+shared addon's own test suite in isolation. Actual games added under
+`games/` will become additional project roots of their own.
 
-## How `core/` reaches each game
+## How `core/` reaches each engine API layer (and, later, each game)
 
-Each game project needs `core/addons/game_core` and `core/data` present
-inside its own project root (Godot cannot resolve `res://` paths outside
-the project root). Two mechanisms are possible:
+Each consuming project needs `core/addons/game_core` and `core/data`
+present inside its own project root (Godot cannot resolve `res://` paths
+outside the project root). Two mechanisms are possible:
 
 1. **Symlink/junction** (preferred long-term): a directory junction/symlink
-   at `games/<game>/addons/game_core` -> `core/addons/game_core` (and same
-   for `data`), created locally by a bootstrap step, **never committed to
-   git as a real symlink** (Windows git symlink support is inconsistent
+   at `game_api/<engine>/addons/game_core` -> `core/addons/game_core` (and
+   same for `data`), created locally by a bootstrap step, **never committed
+   to git as a real symlink** (Windows git symlink support is inconsistent
    without Developer Mode / `core.symlinks=true`).
 2. **Plain copy** (current placeholder state of this repo): the folders are
-   physically duplicated into each game project. This is simple and always
+   physically duplicated into each project. This is simple and always
    works, but requires manually re-copying after every `core/` change until
    a sync step or the linking mechanism above is put in place.
 
@@ -96,10 +107,11 @@ other Godot singleton:
 | `DialogueManager`     | Branching dialogue/conversation state              |
 | `AIHeuristicManager`  | Shared AI influence-map / heuristic decision logic |
 
-Each front end (isometric, fps) only reacts to these managers' **signals**
-and calls their **public API** — the core never references game-specific
-scene nodes, cameras, or renderers directly. This keeps the core reusable
-without either game leaking into it.
+Each engine API layer (isometric, fps) only reacts to these managers'
+**signals** and calls their **public API** — the core never references
+game-specific scene nodes, cameras, or renderers directly. This keeps the
+core reusable without either layer (or any game built on them) leaking
+into it.
 
 ## Resource schema (data contract)
 
@@ -120,11 +132,11 @@ should only ever contain a state where all three suites are green.
 - `main` — always green (all three GUT suites pass).
 - Short-lived task branches: `core/<topic>`, `iso/<topic>`, `fps/<topic>`.
 - Squash-merge into `main` once a task's branch passes `tools/run_tests.ps1`.
-- Use `git worktree` if working on core and a game simultaneously without
-  repeatedly switching branches in the same folder.
+- Use `git worktree` if working on core and an engine API layer (or a game)
+  simultaneously without repeatedly switching branches in the same folder.
 - Tag core milestones (`core-v0.1.0`, etc.) and log breaking changes to the
-  shared managers/schema in a changelog before bumping either game onto a
-  newer core state.
+  shared managers/schema in a changelog before bumping either engine API
+  layer (or any game consuming them) onto a newer core state.
 
 ## Python migration tooling
 
@@ -132,4 +144,4 @@ should only ever contain a state where all three suites are green.
 are placeholders for importer scripts that will read the existing Python
 prototypes (isometric and FPS/3D) once their paths are provided, and help
 sort logic into: (1) shared -> `core/`, (2) genre-specific -> the relevant
-`games/<game>/`, (3) prototype-only cruft that does not get ported.
+`game_api/<engine>/`, (3) prototype-only cruft that does not get ported.

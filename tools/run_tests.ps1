@@ -48,8 +48,8 @@ Write-Host "Using Godot executable: $GodotPath" -ForegroundColor DarkGray
 
 $projects = @(
     @{ Name = "core";      Path = Join-Path $repoRoot "core" },
-    @{ Name = "isometric"; Path = Join-Path $repoRoot "games\isometric" },
-    @{ Name = "fps";       Path = Join-Path $repoRoot "games\fps" }
+    @{ Name = "isometric"; Path = Join-Path $repoRoot "game_api\isometric" },
+    @{ Name = "fps";       Path = Join-Path $repoRoot "game_api\fps" }
 )
 
 $overallExitCode = 0
