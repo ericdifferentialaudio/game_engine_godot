@@ -42,6 +42,18 @@ game_engine_godot/
 └── README.md
 ```
 
+## The `games/` directory is extensible
+
+`games/` is the container for the base/root of every individual game
+project built on top of `core/`. It currently holds `isometric/` and
+`fps/`, but it is not hard-capped at two — new games are added the same
+way, as `games/<new-game-name>/` with its own `project.godot`, own
+`addons/game_core` + `data` (linked/copied from `core/`), own
+`scenes/`/`scripts/`, and own `tests/unit/`. Each game folder is an
+independent Godot project and can be worked on (or run as its own task)
+without affecting the others, as long as it stays on the shared `core/`
+contract documented in `docs/RESOURCE_SCHEMA.md`.
+
 ## Why three separate Godot project roots?
 
 Godot projects are self-contained (`project.godot` marks the project root).
