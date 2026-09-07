@@ -1,0 +1,16 @@
+{
+  "factions": [
+    { "id": "player", "display_name": "Adventurer", "default_relation": "neutral" },
+
+    { "id": "trolls", "display_name": "Trolls of the Underground", "default_relation": "hostile",
+      "relations": { "trolls": "allied", "thieves": "unfriendly" }, "player_reputation": -60,
+      "reputation_thresholds": { "hostile": -50, "unfriendly": -10, "friendly": 25, "allied": 75 } },
+
+    { "id": "thieves", "display_name": "The Thief", "default_relation": "unfriendly",
+      "relations": { "thieves": "allied", "trolls": "unfriendly" }, "player_reputation": -20,
+      "attack_on_sight_below": "hostile",
+      "reputation_thresholds": { "hostile": -50, "unfriendly": -10, "friendly": 25, "allied": 75 } },
+
+    { "id": "wildlife", "display_name": "Wildlife", "default_relation": "neutral" }
+  ]
+}

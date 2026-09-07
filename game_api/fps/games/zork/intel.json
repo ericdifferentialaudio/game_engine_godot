@@ -1,0 +1,99 @@
+{
+  "intel": [
+    { "id": "lore_leaflet", "title": "The leaflet's welcome", "category": "lore", "subject": "the_great_underground_empire",
+      "summary": "WELCOME TO ZORK! ZORK is a game of adventure, danger, and low cunning. In it you will explore some of the most amazing territory ever seen by mortals. No computer should be without one!",
+      "tags": ["lore"], "reliability": 1.0 },
+
+    { "id": "know_trapdoor", "title": "A trap door beneath the rug", "category": "secret", "subject": "white_house",
+      "summary": "The oriental rug in the living room hides a trap door leading down into darkness.",
+      "tags": ["location", "house"], "reliability": 1.0, "conflicts": ["rumor_rug_worthless"] },
+
+    { "id": "rumor_rug_worthless", "title": "The rug is just a rug", "category": "rumor", "subject": "white_house",
+      "summary": "Someone once scrawled that the living room rug 'hides nothing but dust'.",
+      "tags": ["house"], "reliability": 0.3, "conflicts": ["know_trapdoor"] },
+
+    { "id": "know_grue", "title": "What a grue is", "category": "lore", "subject": "grue",
+      "summary": "The grue is a sinister, lurking presence in the dark places of the earth. Its favourite diet is adventurers, but its insatiable appetite is tempered by its fear of light. No grue has ever been seen by the light of day.",
+      "tags": ["lore", "danger"], "reliability": 1.0 },
+
+    { "id": "know_lantern_lights_cellar", "title": "Carry the lamp below", "category": "fact", "subject": "white_house",
+      "summary": "The brass lantern is the only reliable light. Nothing below the trap door is lit.",
+      "tags": ["house", "danger"], "reliability": 0.9 },
+
+    { "id": "know_sword_glows", "title": "The elvish sword glows near danger", "category": "lore", "subject": "elvish_sword",
+      "summary": "The blade above the mantelpiece is of elvish workmanship. It glows faintly blue when an enemy is near, and bright blue when one is very near.",
+      "tags": ["lore", "item"], "reliability": 1.0 },
+
+    { "id": "know_troll_name", "title": "The troll's name", "category": "secret", "subject": "troll",
+      "summary": "Carved beneath the cellar stairs: 'The troll below answers to GRELDOK. Speak it plainly and he must listen.'",
+      "tags": ["troll", "password"], "reliability": 0.85, "facts": { "name": "greldok" }, "conflicts": ["rumor_troll_name_false"] },
+
+    { "id": "rumor_troll_name_false", "title": "The troll's name (dubious)", "category": "rumor", "subject": "troll",
+      "summary": "A childish scrawl on the attic wall claims the troll is called 'Mr. Chompers'.",
+      "tags": ["troll", "password"], "reliability": 0.2, "facts": { "name": "chompers" }, "conflicts": ["know_troll_name"] },
+
+    { "id": "know_troll_hates_garlic", "title": "Trolls cannot stand garlic", "category": "fact", "subject": "troll",
+      "summary": "The stained bestiary page insists: 'A troll will not fight a man who reeks of garlic; he will bargain instead, and he will keep his word.'",
+      "tags": ["troll", "weakness"], "reliability": 0.75, "conflicts": ["rumor_troll_loves_food"] },
+
+    { "id": "rumor_troll_loves_food", "title": "Feed the troll and he'll let you by", "category": "rumor", "subject": "troll",
+      "summary": "'Trolls are only ever hungry. Toss him a lunch and he'll wave you through.' — a note pinned in the kitchen.",
+      "tags": ["troll"], "reliability": 0.4, "conflicts": ["know_troll_hates_garlic"] },
+
+    { "id": "know_troll_hoard", "title": "The troll's hoard", "category": "secret", "subject": "troll",
+      "summary": "The troll keeps something shining under a loose flagstone in his room.",
+      "tags": ["troll", "treasure"], "reliability": 0.7 },
+
+    { "id": "know_thief_is_thief", "title": "The gentleman is a thief", "category": "fact", "subject": "thief",
+      "summary": "A suspicious-looking individual carrying a large bag prowls the gallery and the round room. He is, in fact, a thief, and a lethal one with his stiletto.",
+      "tags": ["thief", "danger"], "reliability": 0.9, "conflicts": ["rumor_thief_is_curator"] },
+
+    { "id": "rumor_thief_is_curator", "title": "The gallery has a curator", "category": "rumor", "subject": "thief",
+      "summary": "A plaque in the gallery mentions 'the curator, who will gladly appraise any piece brought to him'.",
+      "tags": ["thief"], "reliability": 0.5, "conflicts": ["know_thief_is_thief"] },
+
+    { "id": "know_thief_wants_egg", "title": "The thief covets the jewelled egg", "category": "secret", "subject": "thief",
+      "summary": "Of all the treasures of the Empire the thief prizes the jewel-encrusted egg above all. He alone knows how to open it without breaking it.",
+      "tags": ["thief", "treasure"], "reliability": 0.8 },
+
+    { "id": "know_thief_true_name", "title": "The thief's true name", "category": "secret", "subject": "thief",
+      "summary": "The dead adventurer's notebook names the thief: 'a disgraced heir of the Flatheads. Call him by his name — TARBEL FLATHEAD — and his composure cracks.'",
+      "tags": ["thief", "password"], "reliability": 0.6, "facts": { "name": "tarbel" }, "conflicts": ["rumor_thief_name_false"] },
+
+    { "id": "rumor_thief_name_false", "title": "The thief's name (dubious)", "category": "rumor", "subject": "thief",
+      "summary": "A gallery visitor's book is signed, in a florid hand, 'Sir Reginald Pockets, connoisseur'.",
+      "tags": ["thief", "password"], "reliability": 0.3, "facts": { "name": "reginald" }, "conflicts": ["know_thief_true_name"] },
+
+    { "id": "know_egg_opening", "title": "Opening the egg", "category": "lore", "subject": "jewelled_egg",
+      "summary": "The egg has a golden clockwork canary inside. Forcing it ruins both. Only a thief's touch opens it clean.",
+      "tags": ["treasure", "item"], "reliability": 0.9 },
+
+    { "id": "know_trophy_case", "title": "Treasures belong in the trophy case", "category": "fact", "subject": "white_house",
+      "summary": "The leaflet's small print: 'Deposit each treasure in the trophy case in the living room to have it counted.'",
+      "tags": ["house", "treasure"], "reliability": 1.0 },
+
+    { "id": "know_cyclops_word", "title": "A word the cyclops fears", "category": "secret", "subject": "cyclops",
+      "summary": "The gallery painting's frame is engraved: 'Ulysses blinded him; the very name ODYSSEUS drives the cyclops mad with fear.'",
+      "tags": ["password", "lore"], "reliability": 0.9 },
+
+    { "id": "know_grating", "title": "The grating in the clearing", "category": "location", "subject": "forest",
+      "summary": "A grating in the forest clearing, hidden under leaves, leads down into the Empire. It is locked from below.",
+      "tags": ["location", "forest"], "reliability": 0.8 },
+
+    { "id": "met_troll", "title": "You have met the troll", "category": "fact", "subject": "troll",
+      "summary": "A nasty-looking troll with a bloody axe guards the passages beneath the cellar.",
+      "tags": ["troll"], "reliability": 1.0 },
+
+    { "id": "met_thief", "title": "You have met the thief", "category": "fact", "subject": "thief",
+      "summary": "You have spoken with the gentleman of the gallery.",
+      "tags": ["thief"], "reliability": 1.0 },
+
+    { "id": "troll_dead", "title": "The troll is slain", "category": "fact", "subject": "troll",
+      "summary": "The troll's body has dissolved into a black fog. The passages are open.",
+      "tags": ["troll"], "reliability": 1.0 },
+
+    { "id": "thief_dead", "title": "The thief is slain", "category": "fact", "subject": "thief",
+      "summary": "The thief lies dead. His bag of stolen treasures spilled across the floor.",
+      "tags": ["thief"], "reliability": 1.0 }
+  ]
+}

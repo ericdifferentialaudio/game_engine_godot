@@ -24,7 +24,19 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 GAMES_DIR = ROOT / "games"
-KNOWN_INTERACTIONS = {"intel", "reward", "shop", "dialogue", "portal"}
+KNOWN_INTERACTIONS = {"intel", "reward", "shop", "dialogue", "portal", "examine", "pickup", "container"}
+
+
+def _token_ids(entries) -> set:
+    """grant_intel accepts "id" or {"token": "id", "reliability": x}."""
+    out = set()
+    for e in entries or []:
+        if isinstance(e, dict):
+            if e.get("token"):
+                out.add(e["token"])
+        else:
+            out.add(e)
+    return out
 KNOWN_MAP_KINDS = {"overworld", "region", "town", "castle", "dungeon", "interior", "special"}
 QUERY_KEYS = {"has", "subject", "tag", "fact", "flag", "all", "any", "not"}
 
@@ -161,19 +173,50 @@ def _validate_interaction(inter: dict, ctx: str, poi: dict, maps: dict, rep: Rep
                 refs["items"].add(entry["item"])
             if "requires" in entry:
                 collect_query_refs(entry["requires"], f"{ctx}.stock[{j}].requires", rep, refs["req_tokens"], refs["flags"])
+    elif kind in ("examine", "pickup"):
+        refs["granted"].update(_token_ids(inter.get("grant_intel", [])))
+        refs["set_flags"].update(inter.get("set_flags", []))
+        refs["items"].update(inter.get("items", {}).keys())
+        refs["items"].update(inter.get("requires_item", {}).keys())
+        if kind == "pickup" and not inter.get("items"):
+            rep.error(f"{ctx}: pickup interaction has no items")
+        for alt in inter.get("text_if", []):
+            if "flag" in alt:
+                refs["flags"].add(alt["flag"])
+    elif kind == "container":
+        refs["granted"].update(inter.get("open_intel", []))
+        refs["set_flags"].update(inter.get("open_flags", []))
+        refs["set_flags"].update(inter.get("deposit_flags", []))
+        refs["items"].update(inter.get("contents", {}).keys())
+        refs["items"].update(inter.get("deposit_score", {}).keys())
+        if "closed_until" in inter:
+            collect_query_refs(inter["closed_until"], f"{ctx}.closed_until", rep, refs["req_tokens"], refs["flags"])
     elif kind == "dialogue":
         nodes = inter.get("nodes", {})
         if inter.get("start") not in nodes:
             rep.error(f"{ctx}: start node '{inter.get('start')}' missing")
         for nid, node in nodes.items():
-            refs["granted"].update(node.get("grant_intel", []))
+            refs["granted"].update(_token_ids(node.get("grant_intel", [])))
+            refs["granted"].update(node.get("debunk", []))
             refs["set_flags"].update(node.get("set_flags", []))
+            refs["set_flags"].update(node.get("clear_flags", []))
+            refs["items"].update(node.get("give_items", {}).keys())
+            refs["items"].update(node.get("take_items", {}).keys())
+            nxt = node.get("next")
+            if nxt is not None and nxt not in nodes:
+                rep.error(f"{ctx} node '{nid}': next -> unknown node '{nxt}'")
             for c in node.get("choices", []):
-                nxt = c.get("next")
-                if nxt is not None and nxt not in nodes:
-                    rep.error(f"{ctx} node '{nid}': choice -> unknown node '{nxt}'")
-                if "requires" in c:
-                    collect_query_refs(c["requires"], f"{ctx} node '{nid}' choice", rep, refs["req_tokens"], refs["flags"])
+                for key in ("next", "next_pass", "next_fail"):
+                    nxt = c.get(key)
+                    if nxt is not None and nxt not in nodes:
+                        rep.error(f"{ctx} node '{nid}': choice {key} -> unknown node '{nxt}'")
+                if "check" in c and "next_pass" not in c and "next_fail" not in c:
+                    rep.warn(f"{ctx} node '{nid}': choice has a check but neither next_pass nor next_fail")
+                for key in ("requires", "check"):
+                    if key in c:
+                        collect_query_refs(c[key], f"{ctx} node '{nid}' choice.{key}", rep, refs["req_tokens"], refs["flags"])
+                refs["items"].update(c.get("requires_item", {}).keys())
+                refs["set_flags"].update(c.get("set_flags", []))
     elif kind == "portal":
         portal_ids = {p.get("id") for p in maps.get(poi.get("map"), {}).get("portals", [])}
         if inter.get("portal_id") not in portal_ids:
@@ -340,6 +383,31 @@ def validate_package(pkg: Path) -> Report:
             collect_query_refs(poi["hidden_until"], f"poi '{pid}'.hidden_until", rep, refs["req_tokens"], refs["flags"])
         for i, inter in enumerate(poi.get("interactions", [])):
             _validate_interaction(inter, f"poi '{pid}' interaction[{i}]", poi, maps, rep, refs)
+
+    # Actors may carry POI-style interactions (talkable NPCs) and death hooks.
+    for aid, ac in actors.items():
+        for i, inter in enumerate(ac.get("interactions", [])):
+            _validate_interaction(inter, f"actor '{aid}' interaction[{i}]", {"map": None}, maps, rep, refs)
+        if ac.get("death_intel"):
+            refs["granted"].add(ac["death_intel"])
+        if ac.get("death_flag"):
+            refs["set_flags"].add(ac["death_flag"])
+        refs["items"].update(ac.get("drops", {}).keys())
+    # Map portals / spawn tables reference flags too.
+    for mid, m in maps.items():
+        for p in m.get("portals", []):
+            if p.get("visual"):
+                refs["assets"].add(p["visual"])
+        for i, s in enumerate(m.get("spawn_tables", [])):
+            if s.get("actor") not in actors:
+                rep.error(f"map '{mid}' spawn_tables[{i}]: unknown actor '{s.get('actor')}'")
+            for key in ("unless_flag", "flag"):
+                if s.get(key):
+                    refs["flags"].add(s[key])
+            if "requires" in s:
+                collect_query_refs(s["requires"], f"map '{mid}' spawn_tables[{i}].requires", rep, refs["req_tokens"], refs["flags"])
+    for key in ("light_sources",):
+        refs["items"].update(game.get(key, []))
 
     for tok in refs["req_tokens"] | refs["granted"]:
         if tok not in intel:

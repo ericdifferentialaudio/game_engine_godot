@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="StandardMaterial3D" id="s1"]
+albedo_color = Color(0.500, 0.800, 0.900, 1.0)
+emission_enabled = true
+emission = Color(0.500, 0.800, 0.900, 1.0)
+emission_energy_multiplier = 0.2
+
+[sub_resource type="CylinderMesh" id="s2"]
+top_radius = 0.06
+bottom_radius = 0.06
+height = 0.3
+material = SubResource("s1")
+
+[node name="PropBottle" type="Node3D"]
+
+[node name="Part0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 0.15, 0)
+mesh = SubResource("s2")
+
+[node name="Glow" type="OmniLight3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 1.2, 0)
+light_color = Color(0.500, 0.800, 0.900, 1.0)
+light_energy = 0.6
+omni_range = 3.0

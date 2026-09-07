@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="StandardMaterial3D" id="s1"]
+albedo_color = Color(0.350, 0.350, 0.330, 1.0)
+
+[sub_resource type="BoxMesh" id="s2"]
+size = Vector3(0.8, 0.08, 0.8)
+material = SubResource("s1")
+
+[node name="PropFlagstone" type="Node3D"]
+
+[node name="Part0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 0.04, 0)
+mesh = SubResource("s2")

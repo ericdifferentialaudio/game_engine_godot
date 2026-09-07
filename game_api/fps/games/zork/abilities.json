@@ -1,0 +1,31 @@
+{
+  "abilities": [
+    { "id": "punch", "display_name": "Punch", "school": "physical", "targeting": "melee_arc", "range": 1.6,
+      "arc_degrees": 70, "damage": { "blunt": [1, 3] }, "scaling": { "strength": 0.1 }, "cooldown": 0.7,
+      "costs": { "stamina": 4 }, "noise": 0.3, "ai_tags": ["melee"] },
+
+    { "id": "sword_slash", "display_name": "Slash", "school": "physical", "targeting": "melee_arc", "range": 2.2,
+      "arc_degrees": 90, "scale_with_weapon": true, "scaling": { "strength": 0.2 }, "cooldown": 0.8,
+      "costs": { "stamina": 6 }, "noise": 0.5, "ai_tags": ["melee"] },
+
+    { "id": "knife_stab", "display_name": "Stab", "school": "physical", "targeting": "melee_arc", "range": 1.7,
+      "arc_degrees": 60, "scale_with_weapon": true, "scaling": { "agility": 0.2 }, "cooldown": 0.55,
+      "costs": { "stamina": 4 }, "noise": 0.3, "ai_tags": ["melee"] },
+
+    { "id": "axe_chop", "display_name": "Chop", "school": "physical", "targeting": "melee_arc", "range": 2.4,
+      "arc_degrees": 110, "scale_with_weapon": true, "scaling": { "strength": 0.35 }, "cooldown": 1.3,
+      "costs": { "stamina": 10 }, "noise": 0.8, "ai_tags": ["melee"] },
+
+    { "id": "troll_axe", "display_name": "Troll's Axe Swing", "school": "physical", "targeting": "melee_arc", "range": 2.6,
+      "arc_degrees": 120, "damage": { "slash": [8, 14] }, "cooldown": 1.6, "noise": 0.9, "ai_tags": ["melee"] },
+
+    { "id": "thief_stiletto", "display_name": "Stiletto Thrust", "school": "physical", "targeting": "melee_arc", "range": 1.9,
+      "arc_degrees": 80, "damage": { "pierce": [5, 9] }, "cooldown": 0.7, "noise": 0.2,
+      "apply_effects": [ { "effect": "bleeding", "chance": 0.3, "target": "enemy" } ], "ai_tags": ["melee"] },
+
+    { "id": "eat_lunch", "display_name": "Eat", "school": "physical", "targeting": "self", "heal": 25, "cooldown": 1.0 },
+    { "id": "eat_garlic", "display_name": "Eat Garlic", "school": "physical", "targeting": "self", "heal": 2, "cooldown": 1.0,
+      "apply_effects": [ { "effect": "reeks_of_garlic", "chance": 1.0, "target": "self" } ] },
+    { "id": "drink_water", "display_name": "Drink", "school": "physical", "targeting": "self", "heal": 10, "cooldown": 1.0 }
+  ]
+}

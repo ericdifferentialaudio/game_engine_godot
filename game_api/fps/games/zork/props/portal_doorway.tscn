@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3]
+
+[sub_resource type="StandardMaterial3D" id="s1"]
+albedo_color = Color(0.350, 0.300, 0.280, 1.0)
+
+[sub_resource type="BoxMesh" id="s2"]
+size = Vector3(0.25, 2.6, 0.25)
+material = SubResource("s1")
+
+[sub_resource type="StandardMaterial3D" id="s3"]
+albedo_color = Color(0.350, 0.300, 0.280, 1.0)
+
+[sub_resource type="BoxMesh" id="s4"]
+size = Vector3(1.9, 0.25, 0.25)
+material = SubResource("s3")
+
+[sub_resource type="StandardMaterial3D" id="s5"]
+albedo_color = Color(0.020, 0.020, 0.040, 1.0)
+
+[sub_resource type="BoxMesh" id="s6"]
+size = Vector3(1.4, 2.4, 0.05)
+material = SubResource("s5")
+
+[node name="PortalDoorway" type="Node3D"]
+
+[node name="Part0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 1.3, 0)
+mesh = SubResource("s2")
+
+[node name="Part1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 2.6, 0)
+mesh = SubResource("s4")
+
+[node name="Part2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 1.2, 0)
+mesh = SubResource("s6")

@@ -91,8 +91,16 @@ foreach ($project in $projects) {
 # tracking, real game package loaded into CoreRegistry).
 $runtimeChecks = @(
     @{ Name = "isometric (smoke)";   Path = Join-Path $repoRoot "game_api\isometric"; Arg = "--smoke" },
-    @{ Name = "fps (boot check)";    Path = Join-Path $repoRoot "game_api\fps";       Arg = "--boot-check" }
+    @{ Name = "fps (boot check)";    Path = Join-Path $repoRoot "game_api\fps";       Arg = "--boot-check" },
+    @{ Name = "fps zork (boot check)"; Path = Join-Path $repoRoot "game_api\fps";     Arg = "--game=zork --boot-check" }
 )
+
+# Game packages under games/ are copied into the engine layer to run; make
+# sure the copy is not stale (see tools/sync_game.ps1).
+Write-Host ""
+Write-Host "Checking games/ sync..." -ForegroundColor Cyan
+& (Join-Path $PSScriptRoot "sync_game.ps1") -Game zork -Check
+if ($LASTEXITCODE -ne 0) { $overallExitCode = 1 }
 
 foreach ($check in $runtimeChecks) {
     Write-Host ""

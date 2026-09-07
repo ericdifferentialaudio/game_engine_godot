@@ -1,0 +1,151 @@
+[gd_scene load_steps=20 format=3]
+
+[ext_resource type="Script" path="res://framework/map/map_root.gd" id="1_root"]
+
+[sub_resource type="BoxShape3D" id="s1"]
+size = Vector3(13, 0.5, 15)
+
+[sub_resource type="StandardMaterial3D" id="s2"]
+albedo_color = Color(0.200, 0.200, 0.220, 1.0)
+
+[sub_resource type="BoxMesh" id="s3"]
+size = Vector3(13, 0.5, 15)
+material = SubResource("s2")
+
+[sub_resource type="BoxShape3D" id="s4"]
+size = Vector3(13.8, 3.0, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="s5"]
+albedo_color = Color(0.250, 0.250, 0.280, 1.0)
+
+[sub_resource type="BoxMesh" id="s6"]
+size = Vector3(13.8, 3.0, 0.4)
+material = SubResource("s5")
+
+[sub_resource type="BoxShape3D" id="s7"]
+size = Vector3(13.8, 3.0, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="s8"]
+albedo_color = Color(0.250, 0.250, 0.280, 1.0)
+
+[sub_resource type="BoxMesh" id="s9"]
+size = Vector3(13.8, 3.0, 0.4)
+material = SubResource("s8")
+
+[sub_resource type="BoxShape3D" id="s10"]
+size = Vector3(0.4, 3.0, 15)
+
+[sub_resource type="StandardMaterial3D" id="s11"]
+albedo_color = Color(0.250, 0.250, 0.280, 1.0)
+
+[sub_resource type="BoxMesh" id="s12"]
+size = Vector3(0.4, 3.0, 15)
+material = SubResource("s11")
+
+[sub_resource type="BoxShape3D" id="s13"]
+size = Vector3(0.4, 3.0, 15)
+
+[sub_resource type="StandardMaterial3D" id="s14"]
+albedo_color = Color(0.250, 0.250, 0.280, 1.0)
+
+[sub_resource type="BoxMesh" id="s15"]
+size = Vector3(0.4, 3.0, 15)
+material = SubResource("s14")
+
+[sub_resource type="BoxShape3D" id="s16"]
+size = Vector3(13.8, 0.4, 15.8)
+
+[sub_resource type="StandardMaterial3D" id="s17"]
+albedo_color = Color(0.175, 0.175, 0.196, 1.0)
+
+[sub_resource type="BoxMesh" id="s18"]
+size = Vector3(13.8, 0.4, 15.8)
+material = SubResource("s17")
+
+[node name="Cellar" type="Node3D"]
+script = ExtResource("1_root")
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, -0.25, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("s1")
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("s3")
+
+[node name="WallN" type="StaticBody3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 1.5, -7.7)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="WallN"]
+shape = SubResource("s4")
+
+[node name="Mesh" type="MeshInstance3D" parent="WallN"]
+mesh = SubResource("s6")
+
+[node name="WallS" type="StaticBody3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 1.5, 7.7)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="WallS"]
+shape = SubResource("s7")
+
+[node name="Mesh" type="MeshInstance3D" parent="WallS"]
+mesh = SubResource("s9")
+
+[node name="WallE" type="StaticBody3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 6.7, 1.5, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="WallE"]
+shape = SubResource("s10")
+
+[node name="Mesh" type="MeshInstance3D" parent="WallE"]
+mesh = SubResource("s12")
+
+[node name="WallW" type="StaticBody3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, -6.7, 1.5, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="WallW"]
+shape = SubResource("s13")
+
+[node name="Mesh" type="MeshInstance3D" parent="WallW"]
+mesh = SubResource("s15")
+
+[node name="Ceiling" type="StaticBody3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 3.2, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape3D" parent="Ceiling"]
+shape = SubResource("s16")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ceiling"]
+mesh = SubResource("s18")
+
+[node name="Lamp" type="OmniLight3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 2.6, 0)
+light_color = Color(1, 0.85, 0.6, 1)
+light_energy = 1.6
+omni_range = 13.5
+shadow_enabled = true
+
+[node name="Lamp2" type="OmniLight3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 3.9, 1.5, 4.5)
+light_color = Color(1, 0.8, 0.55, 1)
+light_energy = 0.7
+omni_range = 9.0
+
+[node name="POIs" type="Node3D" parent="."]
+
+[node name="Portals" type="Node3D" parent="."]
+
+[node name="Actors" type="Node3D" parent="."]

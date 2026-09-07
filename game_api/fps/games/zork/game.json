@@ -1,0 +1,36 @@
+{
+  "id": "zork",
+  "title": "ZORK: The Great Underground Empire (3D)",
+  "version": "0.1.0",
+  "description": "A first-person re-imagining of the classic 1980 text adventure. Every room is its own 3D map; the narration log speaks in the original's dry voice; dialogue is gated on what you actually know.",
+  "boot_script": "zork_boot.gd",
+  "start_map": "west_of_house",
+  "start_spawn": "default",
+  "max_map_depth": 6,
+  "time_scale": 30.0,
+  "start_time": 9.0,
+  "day_phases": { "dawn": 5, "day": 7, "dusk": 18, "night": 20 },
+  "currencies": ["zorkmid"],
+  "light_sources": ["brass_lantern_lit"],
+  "death_text": "It appears that the %s has finished you off. You have been killed.\n\n    ****  You have died  ****",
+  "stats": {
+    "strength": 10,
+    "agility": 10,
+    "intellect": 10,
+    "perception": 5,
+    "armor": 0,
+    "crit_chance": 0.05,
+    "dodge": 0.05,
+    "move_speed": 4.2
+  },
+  "resources": {
+    "stamina": { "max": 100, "regen": 14.0 }
+  },
+  "equip_slots": ["main_hand", "off_hand", "head", "body"],
+  "inventory": { "max_slots": 12, "max_weight": 0 },
+  "combat": { "armor_constant": 40, "max_resistance": 0.75, "min_resistance": -1.0 },
+  "unarmed_ability": "punch",
+  "default_hotbar": [],
+  "starting_inventory": {},
+  "starting_equipment": []
+}

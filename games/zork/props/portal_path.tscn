@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3]
+
+[sub_resource type="StandardMaterial3D" id="s1"]
+albedo_color = Color(0.750, 0.650, 0.400, 1.0)
+emission_enabled = true
+emission = Color(0.750, 0.650, 0.400, 1.0)
+emission_energy_multiplier = 0.3
+
+[sub_resource type="BoxMesh" id="s2"]
+size = Vector3(1.4, 0.05, 1.4)
+material = SubResource("s1")
+
+[sub_resource type="StandardMaterial3D" id="s3"]
+albedo_color = Color(0.500, 0.350, 0.200, 1.0)
+
+[sub_resource type="CylinderMesh" id="s4"]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 1.5
+material = SubResource("s3")
+
+[sub_resource type="StandardMaterial3D" id="s5"]
+albedo_color = Color(0.900, 0.850, 0.600, 1.0)
+emission_enabled = true
+emission = Color(0.900, 0.850, 0.600, 1.0)
+emission_energy_multiplier = 0.4
+
+[sub_resource type="BoxMesh" id="s6"]
+size = Vector3(0.7, 0.25, 0.05)
+material = SubResource("s5")
+
+[node name="PortalPath" type="Node3D"]
+
+[node name="Part0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 0.02, 0)
+mesh = SubResource("s2")
+
+[node name="Part1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 0.75, 0)
+mesh = SubResource("s4")
+
+[node name="Part2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 1.4, 0)
+mesh = SubResource("s6")
+
+[node name="Glow" type="OmniLight3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 1.2, 0)
+light_color = Color(0.750, 0.650, 0.400, 1.0)
+light_energy = 0.6
+omni_range = 3.0

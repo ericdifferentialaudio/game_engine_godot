@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3]
+
+[sub_resource type="StandardMaterial3D" id="s1"]
+albedo_color = Color(0.350, 0.220, 0.100, 1.0)
+
+[sub_resource type="CylinderMesh" id="s2"]
+top_radius = 0.6
+bottom_radius = 0.6
+height = 4.0
+material = SubResource("s1")
+
+[sub_resource type="StandardMaterial3D" id="s3"]
+albedo_color = Color(0.150, 0.400, 0.150, 1.0)
+
+[sub_resource type="SphereMesh" id="s4"]
+radius = 2.2
+height = 4.4
+material = SubResource("s3")
+
+[sub_resource type="StandardMaterial3D" id="s5"]
+albedo_color = Color(0.350, 0.220, 0.100, 1.0)
+
+[sub_resource type="BoxMesh" id="s6"]
+size = Vector3(1.6, 0.15, 0.3)
+material = SubResource("s5")
+
+[node name="PortalTree" type="Node3D"]
+
+[node name="Part0" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 2.0, 0)
+mesh = SubResource("s2")
+
+[node name="Part1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 4.5, 0)
+mesh = SubResource("s4")
+
+[node name="Part2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.0000, 0, 0.0000, 0, 1, 0, -0.0000, 0, 1.0000, 0, 1.4, 0)
+mesh = SubResource("s6")
