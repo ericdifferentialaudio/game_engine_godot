@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+env:
+  GODOT_VERSION: 4.7.2
+
+jobs:
+  data:
+    name: Data validation & tooling tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate game packages
+        run: python tools/validate_data.py --all --strict
+      - name: Python unit tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+
+  godot:
+    name: Godot compile check & in-engine tests
+    runs-on: ubuntu-latest
+    needs: data
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Godot ${{ env.GODOT_VERSION }}
+        run: |
+          set -e
+          URL="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          curl -sSL "$URL" -o godot.zip
+          unzip -q godot.zip
+          mv Godot_v${GODOT_VERSION}-stable_linux.x86_64 godot
+          chmod +x godot
+          ./godot --version
+      - name: Import project
+        run: ./godot --headless --path . --import || true
+      - name: Compile all scripts & scenes
+        run: ./godot --headless --path . -s res://tools/check_scripts.gd
+      - name: In-engine unit tests
+        run: ./godot --headless --path . -s res://tests/godot/test_runner.gd
+      - name: Headless boot smoke test
+        run: |
+          ./godot --headless --path . --quit-after 60 -- --game=example_realm 2>&1 | tee boot.log
+          ! grep -E "SCRIPT ERROR|Failed to load" boot.log
