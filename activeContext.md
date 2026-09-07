@@ -1,89 +1,80 @@
 # Active Context
 
 _Keep this file short. Update in place — do not let it grow into a changelog.
-Full history lives in git log; full design lives in docs/ARCHITECTURE.md._
+Full history lives in git log; full design lives in docs/ARCHITECTURE.md and
+docs/API.md._
 
-## Last changes
-- **Imported both reference engines.** `C:\game_engine` (FPS/3D "IntelForge")
-  -> `game_api/fps/`; `C:\game_engine_iso` (isometric "IntelForge Iso") ->
-  `game_api/isometric/`. Each layer now holds the original engine's
-  `framework/`, `scenes/`, `assets/`, `schemas/`, `tools/`, `docs/`, `games/`,
-  with the engine's own autoloads under `autoloads/` and its original
-  `project.godot` kept as `project.reference.godot` for diffing.
-- **Key correction:** both references were already Godot 4 GDScript, NOT Python
-  prototypes as previously assumed. They share a common ancestor
-  (`data_loader.gd` was byte-identical), so this was a merge/refactor, not a
-  port. The obsolete `core/tools/migrate_*_python/` placeholders were removed.
-- **Built the shared platform** in `core/addons/game_core/`, all API-driven:
-  - `CoreContext` + `CoreEngineAdapter` — the single seam between the platform
-    and a graphics engine. Core code never references iso/fps autoloads.
-  - `CoreRegistry` (data types), `CoreIntel` (journals, corroboration, decay,
-    provenance, contradiction, debunk, spread, trade).
-  - Schema: `CoreDefinition`, `CoreItemDefinition`, `CoreUnitDefinition`,
-    `CoreIntelToken`, `CoreFactionDefinition`, `CoreProvenance`.
-  - Gameplay: `CoreStats`, `CoreInventory`, `CoreIntelJournal`,
-    `CoreIntelQuery`, `CoreDataLoader`.
-  - Where the two engines disagreed, the isometric version was the superset
-    (turn-decay, provenance, secrecy) and the FPS fields were folded in as
-    aliases, so one `items.json`/`intel.json` works in either engine.
-- **Adapters written:** `IsoEngineAdapter` (time = turns, hex/iso distance,
-  fog reveal) and `FpsEngineAdapter` (time = game seconds, 3D distance,
-  reputation-based stance).
-- **Docs:** new `docs/API.md` documents every public call. `tools/sync_core.ps1`
-  propagates `core/addons/game_core` into both layers (`-Check` to verify).
-- **Verified on Godot 4.7.2:** all three projects import clean; test suites
-  green — core 37/37, isometric 4/4, fps 4/4.
+## What this is
 
-## Last changes (cont.) — the core is now LIVE in both engines
-- `CoreContext.install(...)` is called from both `scenes/main.gd`; each
-  `GameManager.load_game()` now also runs `CoreContext.configure(cfg)` +
-  `CoreRegistry.load_package(...)`, and `start_new_game()` resets core state.
-  The FPS layer re-points the shared `units` type at its `actors.json`.
-- **Deleted the 5 obsolete scaffold schema classes.** `ItemDefinition` and
-  `UnitDefinition` there collided with the engines' own classes and were
-  breaking *both* projects at boot. They were unreferenced and superseded by
-  the `Core*` equivalents. `docs/RESOURCE_SCHEMA.md` now redirects to `API.md`.
-- Restored real `[application]`/`[input]`/`[layer_names]`/`[rendering]` settings
-  into both `project.godot` files from `project.reference.godot` — the scaffold
-  configs had `run/main_scene=""`, so neither engine could actually run.
-- **Fixed a real data bug the unit tests missed:** the FPS package authors
-  single-element lists as bare strings and `equipment` as a `slot -> item` map.
-  Added `CoreDataLoader.str_array/packed_str_array` leniency, used by every
-  schema class, plus a regression test.
-- Added runtime integration checks (iso `--smoke`, fps `--boot-check`) that
-  assert the adapter is installed, the core clock tracks the engine clock, and
-  the real package actually populated `CoreRegistry`. Both wired into
-  `tools/run_tests.ps1`.
+A game engine platform with **three APIs**:
 
-## Verified
-- core 38/38 · isometric 4/4 · fps 4/4 unit tests
-- isometric smoke 32/32 · fps boot check 8/8 (real data: iso 6 items/6 units/
-  18 intel/4 factions; fps 13 items/5 units/7 intel/5 factions)
-- `tools/run_tests.ps1` runs all five and exits 0.
+- **common** (`core/addons/game_core/`) — all context, data, data structures
+  and simulation. Knows nothing about either renderer.
+- **isometric** (`game_api/isometric/`) — 2D hex/iso renderer, grid, fog, camera.
+- **3D/FPS** (`game_api/fps/`) — first-person renderer, navmesh, raycasts.
 
-## In progress
-- Nothing mid-flight. `main` is green.
+The rule: if two different renderers would both need it, it belongs in common.
+Engines plug in with `CoreContext.install(<Adapter>.new())`; every
+engine-dependent question goes through `CoreEngineAdapter`.
+
+## Current state
+
+Common owns: definitions + archetype inheritance (`CoreRegistry`), items,
+units, factions, places, stats, inventory, intel (journals, corroboration,
+provenance, decay, contradiction, debunk) and intel exchange (derivation,
+spread, trade, give), interactions (8 kinds) and live places.
+
+Both engines boot with the core installed and feed it their real game package.
+
+**Verified** (Godot 4.7.2, `tools/run_tests.ps1`):
+core 94/94 · isometric 4/4 · fps 4/4 · iso smoke 37/37 · fps boot check 8/8.
+
+## Known gaps
+
+- Neither example package has a `places.json` yet — still on the old
+  `sites.json` / `pois.json`. Places are proven in tests, not yet consumed
+  end-to-end by real content.
+- Both engines still contain their own `ItemDefinition`, `IntelToken`,
+  `IntelQuery`, `Inventory`, `Stats`/`CharacterStats`, `Interaction`, `Shop`,
+  `StatusEffects`, `SiteDefinition`/`PoiDefinition`. Inert but redundant.
+- `C:\game_engine` and `C:\game_engine_iso` are fully absorbed (content-level
+  audit passed; they are plain folders, not git repos) and can be deleted.
 
 ## Next planned
-- Retire the duplicate classes now that the core is live and provably loading
-  the same data. Suggested order, tests green at each step:
-  `DataLoader` -> `Definition` -> `ItemDefinition` -> `Stats`/`CharacterStats`
-  -> `Inventory` -> `IntelToken`/`IntelQuery`/`IntelJournal` -> unit/faction
-  definitions. Each engine keeps its own subclass only where behaviour differs.
-- Port the interaction system up into `core/` as `CoreInteraction` — 7
-  near-identical kinds duplicated across both engines (dialogue, intel, portal,
-  reward, shop, flag, spawn) plus `InteractionFactory`. Biggest remaining
-  duplication.
-- Then `Shop`/economy and `StatusEffects` (also duplicated in both).
-- Combat genuinely differs (iso `CombatResolver` strength-ratio vs fps
-  `DamageCalculator` damage types/resistances) — make it a pluggable
-  `CoreCombatResolver` interface rather than one shared implementation.
-- Merge the 21 `schemas/*.json` into one shared set; point both engines'
-  `tools/validate_data.py` at it.
-- Convert one example package to the unified field names as proof, then start
-  the first real game project under `games/` (still empty).
-- Consider CI: upstream `game_engine` had `.github/workflows/ci.yml` that was
-  not carried over.
-- Decide keep-vs-drop on the 4 remaining scaffold managers (`VirtueSystem`,
-  `WorldStateManager`, `DialogueManager`, `AIHeuristicManager`) — unrelated to
-  the imported engines and still unintegrated.
+
+1. **`CoreMapDefinition` + portals** — the recursive containment tree that
+   makes `contains` / `leads_to` real (overworld -> town -> tavern -> cellar;
+   castle -> courtyard -> keep; dungeon -> levels).
+2. **Convert one example package** to `places.json` + the unified field names,
+   as end-to-end proof of the place vocabulary.
+3. **Retire the duplicate classes**, tests green at each step:
+   `DataLoader` -> `Definition` -> `ItemDefinition` -> `Stats` -> `Inventory`
+   -> `IntelToken`/`IntelQuery`/`IntelJournal` -> `Interaction` -> unit/faction
+   defs -> `SiteDefinition`/`PoiDefinition`. Keep an engine subclass only where
+   behaviour genuinely differs.
+   Wire `game_api/fps/tests/engine/` into the runner **first** — it covers
+   exactly the classes this touches.
+4. **World model into common**: tiles, terrain, ownership, fog *state*,
+   garrison respawn. Engines keep only rendering.
+5. `Shop`/economy and `StatusEffects` into common.
+6. Combat as a pluggable `CoreCombatResolver` — the two engines genuinely
+   differ (Civ-style strength ratio vs. 3D damage types/resistances), so this
+   is an interface, not one shared implementation.
+7. Merge the 21 `schemas/*.json` into one shared set; point both
+   `tools/validate_data.py` at it.
+8. Adapt `.github/workflows/ci.yml.reference` to the monorepo and enable it.
+9. Decide keep-vs-drop on the 4 unintegrated scaffold managers
+   (`VirtueSystem`, `WorldStateManager`, `DialogueManager`,
+   `AIHeuristicManager`).
+10. Start the first real game under `games/` (still empty).
+
+## Working notes
+
+- After **any** edit under `core/addons/game_core/`, run
+  `./tools/sync_core.ps1` (Godot cannot resolve `res://` across project roots).
+  `-Check` verifies without copying.
+- `tools/run_tests.ps1` runs all five checks and exits non-zero on failure.
+- Data parsing is deliberately lenient: authored JSON writes single-element
+  lists as bare strings and `equipment` as a slot map. Use
+  `CoreDataLoader.str_array()` / `packed_str_array()`, never a raw
+  `PackedStringArray(...)` cast on JSON.
