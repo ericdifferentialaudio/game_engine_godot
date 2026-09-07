@@ -84,6 +84,23 @@ func holder_flag(_holder: String, flag: String) -> bool:
 	return GameManager.has_flag(flag)
 
 
+func set_holder_flag(_holder: String, flag: String, value: bool) -> bool:
+	GameManager.set_flag(flag, value)
+	return true
+
+
+## Single-protagonist game: the player is the only intel holder. Factions still
+## exist for reputation, but they do not keep their own journals.
+func all_holders() -> Array[String]:
+	return [PLAYER_HOLDER]
+
+
+## With one holder there is nobody to spread to; intel moves through NPCs
+## (dialogue/intel interactions) rather than faction-to-faction diffusion.
+func related_holders(_holder: String, _relation: String) -> Array[String]:
+	return []
+
+
 ## Currency carried by the player's inventory.
 func holder_resource(_holder: String, resource_id: String) -> float:
 	var player := GameManager.player

@@ -40,6 +40,27 @@ func _run_deferred() -> void:
 	_check(CoreRegistry.ids("factions").size() > 0,
 		"core factions loaded (%d)" % CoreRegistry.ids("factions").size())
 
+	# Intel exchange: the real intel_rules.json must reach the shared engine.
+	_check(CoreIntel.rules.derivations.size() > 0,
+		"core intel derivations loaded (%d)" % CoreIntel.rules.derivations.size())
+	_check(CoreIntel.rules.spread.size() > 0,
+		"core intel spread rules loaded (%d)" % CoreIntel.rules.spread.size())
+	_check(CoreContext.adapter.all_holders().size() > 1,
+		"core sees every faction as an intel holder (%d)" % CoreContext.adapter.all_holders().size())
+
+	# Triangulation end to end, on the authored tokens.
+	var pf := GameManager.player_faction_id
+	for src in ["smoke_a", "smoke_b"]:
+		CoreIntel.acquire(pf, "rumor_crypt_west", src, "told")
+	CoreIntel.acquire(pf, "rumor_crypt_reeds", "smoke_c", "told")
+	CoreIntel.acquire(pf, "ruin_inscription", "smoke_d", "read")
+	_check(CoreIntel.knows(pf, "crypt_location"),
+		"core derivation triangulated crypt_location from three clues")
+
+	var tick := CoreIntel.tick()
+	_check(tick.has("derived") and tick.has("spread"),
+		"core intel tick ran (derived=%d spread=%d)" % [tick["derived"], tick["spread"]])
+
 	var player := GameManager.player_faction_id
 	var units := EntityRegistry.units_of(player)
 	_check(not units.is_empty(), "player has units")

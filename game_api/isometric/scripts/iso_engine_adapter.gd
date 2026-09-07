@@ -61,6 +61,61 @@ func holder_flag(holder: String, flag: String) -> bool:
 	return f != null and f.has_flag(flag)
 
 
+func set_holder_flag(holder: String, flag: String, value: bool) -> bool:
+	var f = FactionRegistry.get_faction(holder)
+	if f == null:
+		return false
+	f.set_flag(flag, value)
+	return true
+
+
+## Every faction is an intel holder: each keeps its own journal, so two
+## factions can hold contradictory beliefs about the same subject.
+func all_holders() -> Array[String]:
+	var out: Array[String] = []
+	for id in FactionRegistry.factions:
+		out.append(str(id))
+	return out
+
+
+## Relationship filters used by intel spread rules.
+func related_holders(holder: String, relation: String) -> Array[String]:
+	var out: Array[String] = []
+	var f = FactionRegistry.get_faction(holder)
+	if f == null:
+		return out
+	for other_id in FactionRegistry.factions:
+		var other := str(other_id)
+		if other == holder:
+			continue
+		match relation:
+			"all":
+				out.append(other)
+			"allies":
+				if f.stance_toward(other) == "allied":
+					out.append(other)
+			"trade_partners":
+				if f.stance_toward(other) in ["allied", "friendly", "peace", "neutral"] \
+						and not FactionRegistry.are_hostile(holder, other):
+					out.append(other)
+			"neighbors":
+				if _shares_a_border(holder, other):
+					out.append(other)
+	return out
+
+
+## Two factions are neighbours when any tile of one touches a tile of the other.
+func _shares_a_border(a: String, b: String) -> bool:
+	var world = WorldManager.world
+	if world == null:
+		return false
+	for coord in world.tiles_owned_by(a) if world.has_method("tiles_owned_by") else []:
+		for n in world.topology.neighbors(coord):
+			if world.owner_of(n) == b:
+				return true
+	return false
+
+
 func holder_resource(holder: String, resource_id: String) -> float:
 	var f = FactionRegistry.get_faction(holder)
 	return f.get_resource(resource_id) if f else 0.0

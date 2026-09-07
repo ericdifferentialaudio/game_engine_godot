@@ -59,6 +59,7 @@ func load_game(id: String) -> bool:
 	# (items, units, intel, factions) that game_core systems read.
 	CoreContext.configure(cfg)
 	CoreRegistry.load_package(package_path(id))
+	CoreIntel.load_rules(data_path("intel_rules"))
 
 	AssetRegistry.load_manifest(data_path("assets"))
 	ItemRegistry.load_definitions(data_path("items"))
