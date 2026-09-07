@@ -73,6 +73,64 @@ func holder_flag(_holder: String, _flag: String) -> bool:
 	return false
 
 
+## Set a holder-scoped flag. Return true if the engine handled it; false lets
+## CoreContext fall back to its own namespaced global flag table.
+func set_holder_flag(_holder: String, _flag: String, _value: bool) -> bool:
+	return false
+
+
+## Change diplomatic stance. Engines without diplomacy may ignore this.
+func set_stance(_holder: String, _other: String, _stance: String) -> void:
+	pass
+
+
+## Grant resources/currency to a holder's stockpile.
+func add_resource(_holder: String, _resource_id: String, _amount: float) -> void:
+	pass
+
+
+## Add items to a holder's shared stockpile (when no actor inventory applies).
+func add_to_stockpile(_holder: String, _item_id: String, _count: int) -> void:
+	pass
+
+
+## Spawn units into the world. [param spec] is
+## {"unit", "count", "faction", "radius", "near"}. Returns spawned ids.
+func spawn_units(_spec: Dictionary, _holder: String, _near = null) -> Array[String]:
+	return []
+
+
+## Move a holder's party/player to another map through a portal.
+func traverse(_holder: String, _target_map: String, _target_spawn: String, _actor = null) -> bool:
+	return false
+
+
+## Open a shop UI / trading session.
+func open_shop(_holder: String, _shop_spec: Dictionary, _actor = null) -> bool:
+	return false
+
+
+## Start a dialogue tree.
+func start_dialogue(_holder: String, _dialogue_id: String, _actor = null) -> bool:
+	return false
+
+
+## Resolve combat. Returns a result dictionary; {} if nothing happened.
+func resolve_combat(_holder: String, _spec: Dictionary, _actor = null, _target = null) -> Dictionary:
+	return {}
+
+
+## Holders this one has the given relationship with, for intel spread rules.
+## [param relation] is "trade_partners" | "neighbors" | "allies" | "all".
+func related_holders(_holder: String, _relation: String) -> Array[String]:
+	return []
+
+
+## Every holder that can hold intel (all factions, or just ["player"]).
+func all_holders() -> Array[String]:
+	return []
+
+
 ## A holder's stockpile of a resource/currency.
 func holder_resource(_holder: String, _resource_id: String) -> float:
 	return 0.0
@@ -86,6 +144,12 @@ func stance(_holder: String, _other: String) -> String:
 ## Does [param holder] control the site/POI [param site_id]?
 func owns_site(_holder: String, _site_id: String) -> bool:
 	return false
+
+
+## Does [param holder] have a named capability a place may require, such as
+## "boat" to reach an island or "flight" to reach a mountain lair?
+func has_access(_holder: String, _access: String) -> bool:
+	return true
 
 
 # --- Presentation -------------------------------------------------------------

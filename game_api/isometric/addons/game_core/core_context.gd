@@ -21,6 +21,7 @@ extends Node
 
 signal adapter_installed(adapter: CoreEngineAdapter)
 signal flag_set(flag: String, value: bool)
+signal quest_stage_reached(quest_id: String, stage: String, holder: String)
 
 ## The active graphics-engine adapter. Never null: a headless default is used
 ## until a real engine installs its own, so core logic and tests always work.
@@ -80,6 +81,45 @@ func set_flag(flag: String, value: bool = true) -> void:
 
 func has_flag(flag: String) -> bool:
 	return bool(flags.get(flag, false))
+
+
+## Holder-scoped flag. Delegates to the engine when it models per-faction
+## flags (isometric); otherwise namespaces into the global flag table.
+func set_holder_flag(holder: String, flag: String, value: bool = true) -> void:
+	if adapter and adapter.set_holder_flag(holder, flag, value):
+		return
+	set_flag("holder.%s.%s" % [holder, flag], value)
+
+
+func has_holder_flag(holder: String, flag: String) -> bool:
+	if adapter and adapter.holder_flag(holder, flag):
+		return true
+	return has_flag("holder.%s.%s" % [holder, flag])
+
+
+# --- Quests ------------------------------------------------------------------
+## Quests are stage flags: "quest.<id>.<stage>". No quest subsystem required,
+## but games can listen to [signal quest_stage_reached] to build one.
+
+func set_quest_stage(quest_id: String, stage: String, holder: String = "") -> void:
+	if quest_id == "" or stage == "":
+		return
+	set_flag("quest.%s.%s" % [quest_id, stage], true)
+	quest_stage_reached.emit(quest_id, stage, holder)
+
+
+func has_quest_stage(quest_id: String, stage: String) -> bool:
+	return has_flag("quest.%s.%s" % [quest_id, stage])
+
+
+## Every stage recorded for a quest, in the order they were reached.
+func quest_stages(quest_id: String) -> Array[String]:
+	var prefix := "quest.%s." % quest_id
+	var out: Array[String] = []
+	for f in flags:
+		if str(f).begins_with(prefix) and flags[f]:
+			out.append(str(f).substr(prefix.length()))
+	return out
 
 
 # --- Rules -------------------------------------------------------------------

@@ -27,6 +27,12 @@ const LIAR_PENALTY := 0.25
 
 var journals: Dictionary = {}    ## holder -> CoreIntelJournal
 
+## Derivation / spread / contradiction rules (intel_rules.json). Always present;
+## an unconfigured instance simply has no rules.
+var rules := CoreIntelRules.new()
+
+var _deriving: bool = false      ## Re-entrancy guard for chained derivations.
+
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -34,6 +40,18 @@ func _ready() -> void:
 
 func reset() -> void:
 	journals.clear()
+	rules.reset()
+
+
+## Load intel_rules.json (derivations, spread, contradiction tuning).
+func load_rules(path: String) -> void:
+	rules.load_file(path)
+
+
+## Advance the knowledge simulation one step: derive, spread, expire.
+## Call once per turn (isometric) or on a timer (FPS).
+func tick() -> Dictionary:
+	return rules.tick()
 
 
 ## Get (creating if needed) a holder's journal.
@@ -54,7 +72,14 @@ func evaluate(query: Dictionary, holder: String) -> bool:
 
 ## Grant a token to a holder. If already held, this counts as corroboration from
 ## an independent source. Returns true if anything changed.
-func acquire(holder: String, token_id: String, source: String = "", channel: String = "told", trust: float = 1.0) -> bool:
+##
+## [param trust] is how much the receiver credits this source, 0..1. A new
+## token starts at base_reliability scaled into the 0.5..1.0 band by trust, so
+## a fully trusted source yields the authored reliability and a doubtful one
+## roughly half. Pass [param reliability_override] >= 0 to set belief outright
+## (used by derivations and spread, which compute their own confidence).
+func acquire(holder: String, token_id: String, source: String = "", channel: String = "told",
+		trust: float = 1.0, reliability_override: float = -1.0) -> bool:
 	var def := CoreRegistry.get_def("intel", token_id) as CoreIntelToken
 	if def == null:
 		# Not an engine error: callers legitimately probe for optional tokens.
@@ -70,13 +95,17 @@ func acquire(holder: String, token_id: String, source: String = "", channel: Str
 			return false
 		updated.emit(holder, token_id)
 		_check_contradictions(holder, existing)
+		_run_derivations(holder)
 		return true
 
 	var tok := def.duplicate_instance()
 	tok.acquired_at = now
 	tok.confirmed_at = now
 	tok.provenance.append(entry)
-	tok.reliability = clampf(tok.base_reliability * trust, 0.0, 1.0)
+	if reliability_override >= 0.0:
+		tok.reliability = clampf(reliability_override, 0.0, 1.0)
+	else:
+		tok.reliability = clampf(tok.base_reliability * lerpf(0.5, 1.0, trust), 0.0, 1.0)
 	journal.add(tok)
 
 	if not tok.reveals.is_empty() and not tok.revealed_applied:
@@ -85,6 +114,8 @@ func acquire(holder: String, token_id: String, source: String = "", channel: Str
 
 	acquired.emit(holder, token_id, source)
 	_check_contradictions(holder, tok)
+	# Fresh knowledge may complete a derivation ("two rumours + an inscription").
+	_run_derivations(holder)
 	return true
 
 
@@ -122,6 +153,18 @@ func spread(from_holder: String, to_holder: String, token_id: String) -> bool:
 		return false
 	var trust := tok.reliability * (1.0 - tok.secrecy)
 	if not acquire(to_holder, token_id, from_holder, "spread", trust):
+		return false
+	spread_completed.emit(from_holder, to_holder, token_id)
+	return true
+
+
+## Hand a token over deliberately and for free (scripted leaks, gifts,
+## diplomacy). Unlike spread() this ignores secrecy — the holder chose to tell.
+func give(from_holder: String, to_holder: String, token_id: String, channel: String = "told") -> bool:
+	var tok := journal_for(from_holder).get_token(token_id)
+	if tok == null or tok.known_false or to_holder == "" or to_holder == from_holder:
+		return false
+	if not acquire(to_holder, token_id, from_holder, channel, tok.reliability):
 		return false
 	spread_completed.emit(from_holder, to_holder, token_id)
 	return true
@@ -177,4 +220,15 @@ func _check_contradictions(holder: String, tok: CoreIntelToken) -> void:
 	var journal := journal_for(holder)
 	for c in tok.conflicts:
 		if journal.has(c):
+			rules.apply_contradiction(holder, tok.id, c)
 			contradiction_found.emit(holder, tok.id, c)
+
+
+## New knowledge can complete a derivation chain, which can complete another.
+## Guarded against recursion so a cyclic rule set cannot hang the game.
+func _run_derivations(holder: String) -> void:
+	if _deriving or rules.derivations.is_empty():
+		return
+	_deriving = true
+	rules.run_derivations(holder)
+	_deriving = false

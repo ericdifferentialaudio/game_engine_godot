@@ -1,0 +1,129 @@
+{
+  "_comment": [
+    "Generic place archetypes shipped with the framework. Games reference these",
+    "with \"extends\" and override only what differs:",
+    "  {\"id\": \"hollowmere\", \"extends\": \"village\", \"owner\": \"greywood\"}",
+    "Nothing here is mandatory. A game may extend an archetype, extend another",
+    "archetype of its own, invent a brand-new category, or ignore this file",
+    "entirely. Dictionaries deep-merge on override; arrays replace."
+  ],
+  "places": [
+    {
+      "id": "village",
+      "category": "village",
+      "display_name": "Village",
+      "description": "A small farming settlement.",
+      "population": 200,
+      "yields": {"food": 1},
+      "interactions": [{"kind": "dialogue", "dialogue": "villager_generic"}]
+    },
+    {
+      "id": "town",
+      "extends": "village",
+      "category": "town",
+      "display_name": "Town",
+      "population": 2000,
+      "yields": {"food": 2, "gold": 1},
+      "interactions": [
+        {"kind": "shop", "shop": "general_goods"},
+        {"kind": "dialogue", "dialogue": "townsfolk_generic"}
+      ]
+    },
+    {
+      "id": "city",
+      "extends": "town",
+      "category": "city",
+      "display_name": "City",
+      "population": 12000,
+      "yields": {"food": 3, "gold": 3}
+    },
+    {
+      "id": "castle",
+      "category": "castle",
+      "display_name": "Castle",
+      "description": "A fortified seat of power.",
+      "garrison": [{"unit": "guard", "count": 4, "respawn_after": 10}],
+      "interactions": [{"kind": "dialogue", "dialogue": "castellan_generic"}]
+    },
+    {
+      "id": "tower",
+      "category": "tower",
+      "display_name": "Tower",
+      "garrison": [{"unit": "guard", "count": 1}]
+    },
+    {
+      "id": "shrine",
+      "category": "shrine",
+      "display_name": "Shrine",
+      "description": "A quiet place of veneration.",
+      "interactions": [{"kind": "flag", "flag": "prayed", "once": true}]
+    },
+    {
+      "id": "temple",
+      "extends": "shrine",
+      "category": "temple",
+      "display_name": "Temple",
+      "population": 60
+    },
+    {
+      "id": "lair",
+      "category": "lair",
+      "display_name": "Lair",
+      "description": "Something dangerous makes its home here.",
+      "garrison": [{"unit": "beast", "count": 2, "respawn_after": 15}],
+      "interactions": [{"kind": "combat"}]
+    },
+    {
+      "id": "dungeon",
+      "category": "dungeon",
+      "display_name": "Dungeon",
+      "description": "A dark place that goes deeper.",
+      "interactions": [{"kind": "portal"}]
+    },
+    {
+      "id": "ruins",
+      "category": "ruins",
+      "display_name": "Ruins",
+      "description": "Weathered stones from an older age.",
+      "interactions": [{"kind": "intel", "once": true}]
+    },
+    {
+      "id": "cache",
+      "category": "cache",
+      "display_name": "Cache",
+      "interactions": [{"kind": "reward", "once": true}]
+    },
+    {
+      "id": "portal",
+      "category": "portal",
+      "display_name": "Portal",
+      "interactions": [{"kind": "portal"}]
+    },
+    {
+      "id": "mine",
+      "category": "mine",
+      "display_name": "Mine",
+      "yields": {"ore": 2}
+    },
+    {
+      "id": "resource",
+      "category": "resource",
+      "display_name": "Resource Node",
+      "yields": {"gold": 1}
+    },
+    {
+      "id": "inn",
+      "category": "inn",
+      "display_name": "Inn",
+      "interactions": [
+        {"kind": "dialogue", "dialogue": "innkeeper_generic"},
+        {"kind": "shop", "shop": "inn_goods"}
+      ]
+    },
+    {
+      "id": "landmark",
+      "category": "landmark",
+      "display_name": "Landmark"
+    }
+  ]
+}
