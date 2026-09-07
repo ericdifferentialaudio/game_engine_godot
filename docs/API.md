@@ -190,6 +190,100 @@ query offline (for validators) with no game state.
 
 ---
 
+## Interactions — the universal "do something" primitive
+
+Used by places, item use, abilities, dialogue nodes and intel token effects.
+A spec is plain JSON with a `kind`; the shared gating keys work on **every**
+kind:
+
+| Key | Meaning |
+|---|---|
+| `requires` | `CoreIntelQuery` the acting holder must satisfy |
+| `flags` / `holder_flags` | global / holder-scoped flags that must be true |
+| `once` | runs a single time ever |
+| `once_per_holder` | runs once per faction/player |
+| `chance` | 0..1, rolled on the shared seeded RNG |
+| `consumes` | stop the list here (default `true`) |
+| `message` | notification routed to the engine HUD |
+
+Built-in kinds (both engines' sets, unified):
+
+| Kind | Effect |
+|---|---|
+| `intel` | grant / `debunk` / `forget` / `share` tokens |
+| `reward` | resources, items, `stat_delta`, `xp`, `heal_full`, flags |
+| `flag` | flags, **quest stages**, diplomacy `stance` |
+| `portal` | descend into another map |
+| `spawn` | spawn units (`"faction": "actor"` = the acting holder) |
+| `shop` | open trade; stock is itself intel-gateable |
+| `dialogue` | start a tree, granting "we've met" intel |
+| `combat` | fight, then run `on_victory` / `on_defeat` sub-interactions |
+
+```gdscript
+CoreInteractionFactory.register("ritual", MyRitualInteraction)   # add a kind
+var list := CoreInteractionFactory.create_all(place_def.interactions, place_id, state)
+CoreInteractionFactory.run_all(list, "blue", actor)              # ordered dispatch
+```
+
+Quests need no subsystem — `{"kind": "flag", "quest": {"id": "sunken_crypt",
+"stage": "cleared"}}` records `quest.sunken_crypt.cleared` and emits
+`CoreContext.quest_stage_reached`. Query with `has_quest_stage()` /
+`quest_stages()`.
+
+### `CorePlace` — a live place
+
+`discover(holder)` · `is_revealed_to()` · `can_enter()` · `interact()` ·
+`capture()` · `spawn_garrison()` · `to_save_data()` / `from_save_data()`.
+`interact()` checks the intel gate and any `requires_access` capability,
+records discovery, then dispatches the interaction list in order.
+
+## Intel exchange (`CoreIntelRules`)
+
+Loaded from `intel_rules.json` via `CoreIntel.load_rules(path)`. This is what
+makes knowledge *move*.
+
+**Derivations** — infer what nobody told you. Run automatically on every
+acquisition, so a chain completes the moment its last clue lands:
+
+```json
+{"id": "triangulate_crypt",
+ "when": {"all": [{"has": "rumor_crypt_west", "min_reliability": 0.5},
+                  {"has": "rumor_crypt_reeds", "min_reliability": 0.5},
+                  {"has": "ruin_inscription"}]},
+ "grant": "crypt_location", "reliability": 0.65, "once": true}
+```
+
+**Spread** — knowledge leaks between holders, filtered by relationship,
+category and secrecy, arriving degraded. The effective roll is
+`chance × (1 − secrecy)`, so secretive intel leaks rarely even when eligible.
+
+```json
+{"id": "trade_gossip", "between": "trade_partners", "chance": 0.15,
+ "max_secrecy": 0.35, "reliability_loss": 0.2, "categories": ["rumor"]}
+```
+
+Relations (`trade_partners`, `neighbors`, `allies`, `all`) resolve through
+`CoreEngineAdapter.related_holders()` — factions in the isometric engine, a
+single `"player"` holder in the FPS engine.
+
+**Deliberate exchange**
+
+| Call | Semantics |
+|---|---|
+| `CoreIntel.trade(from, to, id)` | priced at `value × reliability`; `-1` if refused |
+| `CoreIntel.give(from, to, id)` | free hand-over; **ignores secrecy** — the holder chose to tell |
+| `CoreIntel.spread(from, to, id)` | one probabilistic leak, gated by secrecy |
+| `CoreIntel.debunk(holder, id)` | prove a lie; every other token from that source loses trust |
+
+**Contradiction** — holding two conflicting tokens disputes both by
+`dispute_amount`, so believing a lie and the truth at once leaves you sure of
+neither.
+
+`CoreIntel.tick()` runs derive → spread → expire; call it once per turn
+(isometric) or on a timer (FPS).
+
+---
+
 ## Schema classes (the data contract)
 
 All extend `CoreDefinition`, which supplies `id`, `display_name`,
@@ -250,6 +344,91 @@ Scopes: `global` `region` `tile` `site` `unit` `faction` `item`.
 `color` `starting_reputation` `hostile_to` `allied_to` `default_stance`
 `playable` `takes_turns` `resources` `ai_profile` `starting_intel` `banner_key`.
 Helpers: `stance_toward(id)` `is_hostile_to(id)`.
+
+### `CorePlaceDefinition` (`places.json`)
+
+**Any place worth visiting**: town, village, city, castle, keep, tower, shrine,
+temple, lair, dungeon, crypt, cave, ruins, portal, gate, mine, farm, market,
+inn, cache, landmark — and anything a game invents. Replaces the isometric
+`SiteDefinition` and the FPS `PoiDefinition`.
+
+| Group | Fields |
+|---|---|
+| Identity | `category` `map_id` `parent_place_id` |
+| Placement | `coord` (2D) · `position`/`yaw` (3D) · `placement` `placement_rules` |
+| Control | `owner_id` `capturable` `defense_bonus` `sight` `yields` |
+| Population | `garrison` `boss` `population` |
+| Access | `hidden_until` `enter_requires` `requires_access` `discover_intel` `discover_radius` `interact_radius` |
+| Behaviour | `interactions` `contains` `leads_to` |
+| Extension | `traits` (+ anything else, via `extra()`) |
+| Visuals | `visual_key` `icon_key` `music_key` `environment_key` |
+
+Query by **trait**, not by category string — that way a game's `dragon_lair`
+answers correctly without the framework knowing it exists:
+
+```gdscript
+place.is_settlement()  place.is_fortification()  place.is_sacred()
+place.is_dangerous()   place.is_economic()       place.is_transit()
+place.is_enterable()   place.is_capturable()     place.has_garrison()
+place.has_trait("flying_only")      # game-defined boolean
+place.trait_value("storm_risk", 0)  # game-defined value
+place.garrison_units()              # boss first, then garrison
+place.yield_of("pearls")
+```
+
+## Extending everything
+
+Four independent mechanisms, usable together. None require touching the core.
+
+**1. Archetype inheritance** — inherit a base, state only the deltas.
+Dictionaries deep-merge; arrays and scalars replace.
+
+```json
+{"id": "hollowmere", "extends": "village", "display_name": "Hollowmere",
+ "owner": "greywood"}
+```
+
+The framework ships `village` `town` `city` `castle` `tower` `shrine` `temple`
+`lair` `dungeon` `ruins` `cache` `portal` `mine` `resource` `inn` `landmark`
+in `addons/game_core/data/places.json`. Chains are arbitrarily deep
+(`city` → `town` → `village`) and cycles are reported, not fatal.
+
+**2. New categories** — plain strings; registering only supplies defaults.
+
+```gdscript
+CorePlaceDefinition.register_category("dragon_lair", {
+    "dangerous": true, "capturable": true, "defense_bonus": 60.0,
+    "flying_only": true,
+})
+```
+
+**3. Arbitrary traits and fields** — anything unmapped survives in `raw`.
+
+```json
+{"id": "cinderpeak", "extends": "lair", "category": "dragon_lair",
+ "boss": "ancient_red_dragon", "yields": {"treasure": 5},
+ "traits": {"flying_only": true, "heat_damage": 3},
+ "hoard_size": 9000,
+ "hidden_until": {"has": "rumor_the_burning_peak"}}
+```
+
+`place.trait_value("heat_damage")` → `3`; `place.extra("hoard_size")` → `9000`.
+
+**4. Runtime instantiation** — build from an archetype with no authored entry,
+for procedural generation:
+
+```gdscript
+var shoal := CoreRegistry.instantiate("places", "resource", {
+    "id": "pearl_shoal", "category": "island_resource",
+    "yields": {"pearls": 3}, "requires_access": "boat",
+    "placement": "random_coast",
+    "traits": {"island": true, "storm_risk": 0.2},
+}) as CorePlaceDefinition
+```
+
+Registry support for all of this is generic — `load_archetypes()`,
+`add_archetype()`, `archetype_ids()` and `instantiate()` work for **every**
+definition type, not just places.
 
 ### `CoreProvenance`
 
