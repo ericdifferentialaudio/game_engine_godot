@@ -1,0 +1,179 @@
+{
+  "pois": [
+    { "id": "mailbox", "map": "west_of_house", "display_name": "Small Mailbox", "category": "container", "visual": "prop.mailbox",
+      "position": [2, 0, 2], "yaw": 200, "discover_radius": 6,
+      "interactions": [
+        { "kind": "container", "contents": { "leaflet": 1 },
+          "open_text": "Opening the small mailbox reveals a leaflet. You read it: 'WELCOME TO ZORK! ZORK is a game of adventure, danger, and low cunning. In it you will explore some of the most amazing territory ever seen by mortals. No computer should be without one!' In smaller print: 'Deposit each treasure in the trophy case in the living room to have it counted.'",
+          "open_intel": ["lore_leaflet", "know_trophy_case"],
+          "empty_text": "The mailbox is empty. It has done its one job." }
+      ] },
+
+    { "id": "front_door", "map": "west_of_house", "display_name": "Boarded Front Door", "category": "landmark", "visual": "prop.door_boarded",
+      "position": [7.6, 0, 0], "yaw": 270, "discover_radius": 6,
+      "interactions": [
+        { "kind": "examine", "text": "The door is boarded and you can't remove the boards. Someone wanted very much to keep something out. Or in." }
+      ] },
+
+    { "id": "window_outside", "map": "behind_house", "display_name": "Small Window", "category": "landmark", "visual": "prop.none",
+      "position": [-7.4, 1.0, 1.6], "yaw": 90, "discover_radius": 5,
+      "interactions": [
+        { "kind": "examine", "requires": { "not": { "flag": "window_open" } }, "consumes": true,
+          "text": "With great effort, you open the window far enough to allow entry.", "set_flags": ["window_open"], "score": 2 },
+        { "kind": "examine", "requires": { "flag": "window_open" }, "text": "The window is open. The kitchen is beyond." }
+      ] },
+
+    { "id": "kitchen_sack", "map": "kitchen", "display_name": "Brown Sack", "category": "container", "visual": "prop.sack",
+      "position": [0.6, 0.95, 0.4], "yaw": 0, "discover_radius": 6,
+      "interactions": [
+        { "kind": "container", "contents": { "lunch": 1, "garlic": 1 },
+          "open_text": "Opening the brown sack reveals a lunch, and a clove of garlic.",
+          "empty_text": "The sack is empty and still smells of hot peppers." }
+      ] },
+
+    { "id": "kitchen_bottle", "map": "kitchen", "display_name": "Glass Bottle", "category": "cache", "visual": "prop.bottle",
+      "position": [-0.7, 0.95, -0.3], "yaw": 0, "discover_radius": 6,
+      "interactions": [ { "kind": "pickup", "items": { "water_bottle": 1 }, "message": "Taken. The bottle contains a quantity of water." } ] },
+
+    { "id": "kitchen_note", "map": "kitchen", "display_name": "Note pinned to the wall", "category": "landmark", "visual": "prop.note",
+      "position": [-5.2, 1.4, -3], "yaw": 90, "discover_radius": 6,
+      "interactions": [
+        { "kind": "examine", "text": "A greasy note, pinned with a fork: 'TROLLS ARE ONLY EVER HUNGRY. TOSS HIM A LUNCH AND HE'LL WAVE YOU THROUGH. — B.' The handwriting is confident. Confidence is not the same as accuracy.",
+          "grant_intel": ["rumor_troll_loves_food"], "reliability": 0.4 }
+      ] },
+
+    { "id": "kitchen_chimney", "map": "kitchen", "display_name": "Dark Chimney", "category": "landmark", "visual": "prop.none",
+      "position": [0, 0.5, -5.0], "yaw": 0, "discover_radius": 4,
+      "interactions": [ { "kind": "examine", "text": "The chimney leads down into darkness. You could probably squeeze in, but only if you were carrying almost nothing and had no sense of self-preservation." } ] },
+
+    { "id": "attic_rope", "map": "attic", "display_name": "Coil of Rope", "category": "cache", "visual": "prop.rope",
+      "position": [3, 0, -2.5], "yaw": 0, "discover_radius": 5,
+      "interactions": [ { "kind": "pickup", "items": { "rope": 1 } } ] },
+
+    { "id": "attic_knife", "map": "attic", "display_name": "Nasty Knife", "category": "cache", "visual": "prop.knife",
+      "position": [-2.5, 0.9, -2], "yaw": 0, "discover_radius": 5,
+      "interactions": [ { "kind": "pickup", "items": { "nasty_knife": 1 }, "message": "Taken. The knife is nastier up close." } ] },
+
+    { "id": "attic_scrawl", "map": "attic", "display_name": "Crayon scrawl on the wall", "category": "landmark", "visual": "prop.note",
+      "position": [0, 1.4, -4.2], "yaw": 0, "discover_radius": 5,
+      "interactions": [
+        { "kind": "examine", "text": "In enormous, wobbling letters: 'THE TROLL IS CALLED MR. CHOMPERS AND HE IS MY FREND.' Below, smaller and in a different hand: 'the rug hides nothing but dust.' You suspect neither author of scholarship.",
+          "grant_intel": ["rumor_troll_name_false", "rumor_rug_worthless"], "reliability": 0.2 }
+      ] },
+
+    { "id": "living_rug", "map": "living_room", "display_name": "Oriental Rug", "category": "landmark", "visual": "prop.rug",
+      "position": [0, 0, 0], "yaw": 0, "discover_radius": 8, "interact_radius": 3.5,
+      "interactions": [
+        { "kind": "examine", "requires": { "not": { "flag": "rug_moved" } }, "consumes": true,
+          "text": "With a great effort, the rug is moved to one side of the room, revealing the dusty cover of a closed trap door.",
+          "set_flags": ["rug_moved"], "grant_intel": ["know_trapdoor"], "score": 2 },
+        { "kind": "examine", "requires": { "all": [ { "flag": "rug_moved" }, { "not": { "flag": "trapdoor_open" } } ] }, "consumes": true,
+          "text": "The door reluctantly opens to reveal a rickety staircase descending into darkness.",
+          "set_flags": ["trapdoor_open"] },
+        { "kind": "examine", "text": "The trap door is open. A rickety staircase leads down into the dark. Cold air comes up it." }
+      ] },
+
+    { "id": "trophy_case", "map": "living_room", "display_name": "Trophy Case", "category": "container", "visual": "prop.trophy_case",
+      "position": [-5.6, 0, -3], "yaw": 90, "discover_radius": 8,
+      "interactions": [
+        { "kind": "container", "accepts": ["treasure"],
+          "open_text": "The trophy case is empty, and waiting. Anything of value you place in it will be counted toward your score.",
+          "deposit_text": "You place the %s in the trophy case. It looks very well there.",
+          "empty_text": "The trophy case holds what you have brought it. Nothing in your hands belongs there yet." }
+      ] },
+
+    { "id": "living_lantern", "map": "living_room", "display_name": "Brass Lantern", "category": "cache", "visual": "prop.lantern",
+      "position": [-5.2, 1.1, -3], "yaw": 0, "discover_radius": 8,
+      "interactions": [ { "kind": "pickup", "items": { "brass_lantern": 1 }, "message": "Taken. The lantern is heavier than it looks and not yet lit. Press F to switch it on.",
+        "grant_intel": ["know_lantern_lights_cellar"] } ] },
+
+    { "id": "living_sword", "map": "living_room", "display_name": "Elvish Sword", "category": "cache", "visual": "prop.sword",
+      "position": [0, 1.6, -5.4], "yaw": 0, "discover_radius": 8,
+      "interactions": [ { "kind": "pickup", "items": { "elvish_sword": 1 }, "message": "You take the sword from above the mantel. It is lighter than a blade this old has any right to be, and the runes along it glow a faint, watchful blue.",
+        "grant_intel": ["know_sword_glows"], "score": 1 } ] },
+
+    { "id": "living_gothic_door", "map": "living_room", "display_name": "Door with Gothic Lettering", "category": "landmark", "visual": "prop.door_boarded",
+      "position": [-6.2, 0, 3], "yaw": 90, "discover_radius": 8,
+      "interactions": [ { "kind": "examine", "text": "The engravings translate to 'This space intentionally left blank.' The door is nailed shut and does not care for your opinion of the joke." } ] },
+
+    { "id": "living_bestiary", "map": "living_room", "display_name": "Stained Bestiary Page", "category": "landmark", "visual": "prop.note",
+      "position": [3, 0.9, -4.5], "yaw": 0, "discover_radius": 8,
+      "interactions": [
+        { "kind": "examine", "text": "A page torn from a bestiary, brown with age: 'OF TROLLS. A troll will not fight a man who reeks of garlic; he will bargain instead, and he will keep his word. It is also written that a troll bound by his true name must obey — but no troll has given his name freely since the Flathead kings.' There is a woodcut of something with too many teeth.",
+          "grant_intel": ["know_troll_hates_garlic", "know_grue"], "reliability": 0.75 }
+      ] },
+
+    { "id": "tree_nest", "map": "up_a_tree", "display_name": "Bird's Nest", "category": "cache", "visual": "prop.nest",
+      "position": [1.5, 0.3, 0], "yaw": 0, "discover_radius": 5,
+      "interactions": [ { "kind": "pickup", "items": { "jewelled_egg": 1 }, "message": "You lift the egg from the nest. It is astonishingly heavy for its size and covered in fine gold inlay, lapis lazuli and mother-of-pearl. There is a delicate clasp, and you have the strong feeling that forcing it would be a mistake.",
+        "grant_intel": [{ "token": "know_egg_opening", "reliability": 0.5 }], "score": 5 } ] },
+
+    { "id": "clearing_leaves", "map": "clearing", "display_name": "Pile of Leaves", "category": "landmark", "visual": "prop.leaves",
+      "position": [0, 0, -2], "yaw": 0, "discover_radius": 8, "interact_radius": 3.5,
+      "interactions": [
+        { "kind": "examine", "requires": { "not": { "flag": "leaves_moved" } }, "consumes": true,
+          "text": "In disturbing the pile of leaves, a grating is revealed. It is locked, and there is no keyhole on this side.",
+          "set_flags": ["leaves_moved"], "grant_intel": ["know_grating"], "score": 1 },
+        { "kind": "examine", "text": "The grating is exposed. Cold air breathes up through it. Somewhere down there something is dripping." }
+      ] },
+
+    { "id": "cellar_carving", "map": "cellar", "display_name": "Carving under the stairs", "category": "landmark", "visual": "prop.note",
+      "position": [0.8, 0.9, 5.2], "yaw": 0, "discover_radius": 6,
+      "interactions": [
+        { "kind": "examine", "text": "Cut deep into the underside of the stairs, in a careful, desperate hand: 'THE TROLL BELOW ANSWERS TO GRELDOK. SPEAK IT PLAINLY AND HE MUST LISTEN. — I did not, and I am sorry.' Below it, fainter: 'he keeps something shining under a loose flagstone.'",
+          "grant_intel": ["know_troll_name", "know_troll_hoard"], "reliability": 0.85, "score": 2 }
+      ] },
+
+    { "id": "cellar_ramp", "map": "cellar", "display_name": "Steep Metal Ramp", "category": "landmark", "visual": "prop.none",
+      "position": [-6.5, 0.5, 0], "yaw": 90, "discover_radius": 5,
+      "interactions": [ { "kind": "examine", "text": "The ramp is smooth, steep, and slick with something you would prefer not to identify. It is unclimbable. You try anyway. It remains unclimbable." } ] },
+
+    { "id": "troll_flagstone", "map": "troll_room", "display_name": "Loose Flagstone", "category": "cache", "visual": "prop.flagstone",
+      "position": [-4.5, 0, -4.5], "yaw": 0, "discover_radius": 3,
+      "hidden_until": { "all": [ { "has": "know_troll_hoard" }, { "any": [ { "flag": "troll_dead" }, { "flag": "troll_garlic_routed" } ] }, { "not": { "flag": "troll_gave_gem" } } ] },
+      "interactions": [ { "kind": "pickup", "items": { "troll_gem": 1 }, "message": "You pry up the flagstone. Beneath it, wrapped in a rag, is a large emerald, absurdly green. The troll only ever looked at it.", "set_flags": ["troll_gave_gem"], "score": 5 } ] },
+
+    { "id": "troll_scratches", "map": "troll_room", "display_name": "Scratches on the wall", "category": "landmark", "visual": "prop.none",
+      "position": [6.5, 1.2, -4], "yaw": 270, "discover_radius": 5,
+      "interactions": [ { "kind": "examine", "text": "Deep gouges, made by an axe, and a great many of them. Some are very old. Some are not. Someone has been keeping count of something." } ] },
+
+    { "id": "dead_adventurer", "map": "ew_passage", "display_name": "Dead Adventurer", "category": "container", "visual": "prop.skeleton",
+      "position": [0, 0, -3.5], "yaw": 0, "discover_radius": 6,
+      "interactions": [
+        { "kind": "container", "contents": { "adventurer_notebook": 1, "skeleton_key": 1 },
+          "open_text": "The adventurer has been dead a long time, and did not enjoy it. In one bony fist is a water-stained notebook; a rusty skeleton key hangs from the belt. You read what you can of the notebook: 'The GENTLEMAN in the gallery is no curator. He is a thief and a killer. He is also, God help us, the last of the Flatheads — TARBEL FLATHEAD, the disgraced heir. Say the name to his face and watch his composure crack. It is the only thing I have found that frightens him.' The last page reads only: 'the egg. he wants the egg.'",
+          "open_intel": ["know_thief_is_thief", "know_thief_true_name", "know_thief_wants_egg"],
+          "empty_text": "The adventurer has nothing else to give. You leave him his dignity, such as it is." }
+      ] },
+
+    { "id": "round_grating", "map": "round_room", "display_name": "Grating overhead (keyhole)", "category": "landmark", "visual": "prop.none",
+      "position": [2, 0.6, 2], "yaw": 0, "discover_radius": 6,
+      "interactions": [
+        { "kind": "examine", "requires": { "not": { "flag": "grating_unlocked" } }, "consumes": true,
+          "requires_item": { "skeleton_key": 1 },
+          "missing_item_text": "You climb the first few rungs. The grating has a keyhole on this side, and you have no key. Rust flakes into your eyes for your trouble.",
+          "text": "You climb the first few rungs. The grating has a keyhole on this side. You try the skeleton key. The lock turns with a sound like a cough, and the grating lifts an inch.",
+          "set_flags": ["grating_unlocked"], "score": 3 },
+        { "kind": "examine", "text": "The grating is unlocked. Daylight and the smell of leaves come down the shaft." }
+      ] },
+
+    { "id": "gallery_painting", "map": "gallery", "display_name": "Painting of Unparalleled Beauty", "category": "cache", "visual": "prop.painting",
+      "position": [0, 1.5, -6.4], "yaw": 0, "discover_radius": 8,
+      "interactions": [
+        { "kind": "pickup", "items": { "painting": 1 }, "message": "You lift the painting from the wall. It is the masterpiece of an unknown artist, and it is now yours, which makes you a vandal, which the room warned you about. Engraved on the frame's underside: 'Ulysses blinded him; the very name ODYSSEUS drives the cyclops mad with fear.'",
+          "grant_intel": ["know_cyclops_word"], "score": 4 }
+      ] },
+
+    { "id": "gallery_plaque", "map": "gallery", "display_name": "Brass Plaque", "category": "landmark", "visual": "prop.note",
+      "position": [-6.2, 1.3, 0], "yaw": 90, "discover_radius": 8,
+      "interactions": [
+        { "kind": "examine", "text": "A brass plaque, recently polished: 'THE GALLERY OF THE GREAT UNDERGROUND EMPIRE. Visitors are asked to consult the curator, who will gladly appraise any piece brought to him.' Beneath it lies a visitors' book. The last entry, in a florid hand: 'Sir Reginald Pockets, connoisseur. Delightful collection. Took the liberty of tidying.'",
+          "grant_intel": ["rumor_thief_is_curator", "rumor_thief_name_false"], "reliability": 0.4 }
+      ] },
+
+    { "id": "gallery_frames", "map": "gallery", "display_name": "Empty Frames", "category": "landmark", "visual": "prop.none",
+      "position": [6.2, 1.5, 0], "yaw": 270, "discover_radius": 8,
+      "interactions": [ { "kind": "examine", "text": "Empty frames, dozens of them, hung with care. Whoever stole the paintings took the trouble to straighten the frames afterward. That tells you something about him." } ] }
+  ]
+}
+

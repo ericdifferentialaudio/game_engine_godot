@@ -30,7 +30,7 @@ func _on_setup() -> void:
 	pass
 
 
-func can_run(_by: Node) -> bool:
+func can_run(by: Node) -> bool:
 	if spec.get("once", false) and _state().get("done", false):
 		return false
 	var req: Dictionary = spec.get("requires", {})
@@ -39,13 +39,37 @@ func can_run(_by: Node) -> bool:
 	for flag in spec.get("flags", []):
 		if not GameManager.has_flag(flag):
 			return false
+	var need: Dictionary = spec.get("requires_item", {})
+	if not need.is_empty():
+		var inv := Shop.inventory_of(by) if by else null
+		for item_id in need:
+			if inv == null or not inv.has_item(str(item_id), int(need[item_id])):
+				return false
 	return true
+
+
+## Text to narrate when this interaction is the only candidate but is refused
+## for lack of an item ("missing_item_text"). Used by PointOfInterest.
+func missing_item_text(by: Node) -> String:
+	var need: Dictionary = spec.get("requires_item", {})
+	if need.is_empty():
+		return ""
+	var inv := Shop.inventory_of(by) if by else null
+	for item_id in need:
+		if inv == null or not inv.has_item(str(item_id), int(need[item_id])):
+			return str(spec.get("missing_item_text", ""))
+	return ""
 
 
 func run(by: Node) -> void:
 	_execute(by)
 	if spec.get("once", false):
 		_state()["done"] = true
+	if spec.get("consume_item", false):
+		var inv := Shop.inventory_of(by) if by else null
+		if inv:
+			for item_id in spec.get("requires_item", {}):
+				inv.remove_item(str(item_id), int(spec["requires_item"][item_id]))
 
 
 ## Subclasses implement the actual effect.

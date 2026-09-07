@@ -35,6 +35,7 @@ signal purchase_failed(shop_id: String, item_id: String, reason: String)
 # --- Rewards / progression ---------------------------------------------------
 signal reward_granted(reward_id: String, poi_id: String)
 signal flag_set(flag: String, value: bool)
+signal score_changed(total: int, delta: int)
 
 # --- Player / UI -------------------------------------------------------------
 signal player_spawned(player: Node3D)

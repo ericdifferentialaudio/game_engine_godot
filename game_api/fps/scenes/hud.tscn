@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://framework/ui/hud.gd" id="1_hud"]
+
+[sub_resource type="StyleBoxFlat" id="log_style"]
+bg_color = Color(0, 0.02, 0, 0.78)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.5, 0.3, 1)
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_hud")
@@ -48,19 +60,33 @@ offset_bottom = -12.0
 grow_vertical = 0
 text = "HP —"
 
-[node name="Notifications" type="VBoxContainer" parent="."]
-anchors_preset = 3
-anchor_left = 1.0
+[node name="NarrationLog" type="RichTextLabel" parent="."]
+anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -520.0
-offset_top = -320.0
+offset_left = 16.0
+offset_top = -300.0
 offset_right = -16.0
-offset_bottom = -16.0
-grow_horizontal = 0
+offset_bottom = -48.0
+grow_horizontal = 2
 grow_vertical = 0
-alignment = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.85, 1, 0.85, 1)
+theme_override_styles/normal = SubResource("log_style")
+bbcode_enabled = true
+scroll_following = true
+text = ""
+
+[node name="Notifications" type="VBoxContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -520.0
+offset_top = 12.0
+offset_right = -16.0
+offset_bottom = 300.0
+grow_horizontal = 0
 
 [node name="Journal" type="PanelContainer" parent="."]
 anchors_preset = 15

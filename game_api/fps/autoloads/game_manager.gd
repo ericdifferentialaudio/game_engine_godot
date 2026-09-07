@@ -15,6 +15,10 @@ var game_config: Dictionary = {}
 var flags: Dictionary = {}                 ## Arbitrary bool progression flags.
 var reputation: Dictionary = {}            ## faction_id -> int (player standing)
 var player: Node3D = null
+var score: int = 0
+var moves: int = 0                         ## Map transitions (Zork-style status line).
+var _score_sources: Dictionary = {}        ## source -> true; each source scores once.
+var _boot: Node = null                     ## Optional per-game boot script (game.json "boot_script").
 
 var _previous_state: State = State.BOOT
 
@@ -22,6 +26,58 @@ var _previous_state: State = State.BOOT
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	EventBus.player_spawned.connect(_on_player_spawned)
+	EventBus.map_transition.connect(func(_f, _t, _p): moves += 1)
+
+
+# --- Score / game over --------------------------------------------------------
+
+## Award points once per [param source] (a treasure deposited twice does not
+## score twice). Returns true if the score changed.
+func add_score(points: int, source: String) -> bool:
+	if source != "" and _score_sources.has(source):
+		return false
+	if source != "":
+		_score_sources[source] = true
+	score += points
+	EventBus.score_changed.emit(score, points)
+	return true
+
+
+func on_player_died(killer: Node3D) -> void:
+	var name := "something"
+	if killer is Actor and (killer as Actor).actor_def:
+		name = (killer as Actor).actor_def.display_name
+	EventBus.notification.emit(game_config.get("death_text", "You have died.").replace("%s", name), "death")
+	set_state(State.GAME_OVER)
+
+
+## Restart the loaded package from scratch (after death).
+func restart() -> void:
+	var p := player
+	player = null
+	if p and is_instance_valid(p):
+		p.queue_free()
+	MapManager.map_states.clear()
+	start_new_game()
+
+
+func _load_boot_script(base: String) -> void:
+	if _boot:
+		_boot.queue_free()
+		_boot = null
+	var rel := str(game_config.get("boot_script", ""))
+	if rel == "":
+		return
+	var path := rel if rel.begins_with("res://") else base.path_join(rel)
+	if not ResourceLoader.exists(path):
+		push_warning("GameManager: boot_script '%s' not found" % path)
+		return
+	var script: GDScript = load(path)
+	_boot = script.new()
+	_boot.name = "GameBoot"
+	add_child(_boot)
+	if _boot.has_method("boot"):
+		_boot.boot(self)
 
 
 func _on_player_spawned(p: Node3D) -> void:
@@ -80,12 +136,16 @@ func load_game(id: String) -> bool:
 	MapManager.max_depth = int(cfg.get("max_map_depth", MapManager.DEFAULT_MAX_DEPTH))
 	GameClock.configure(cfg)
 	DamageCalculator.configure(cfg.get("combat", {}))
+	_load_boot_script(base)
 	return true
 
 
 ## Start a fresh run of the loaded package.
 func start_new_game() -> void:
 	flags.clear()
+	score = 0
+	moves = 0
+	_score_sources.clear()
 	CoreContext.reset()
 	CoreIntel.reset()
 	reputation.clear()
@@ -116,8 +176,15 @@ func set_state(new_state: State) -> void:
 		return
 	_previous_state = state
 	state = new_state
-	get_tree().paused = state in [State.PAUSED, State.JOURNAL, State.DIALOGUE]
+	get_tree().paused = state in [State.PAUSED, State.JOURNAL, State.DIALOGUE, State.GAME_OVER]
 	EventBus.game_state_changed.emit(_previous_state, state)
+
+
+func set_dialogue_open(open: bool) -> void:
+	if open and state == State.PLAYING:
+		set_state(State.DIALOGUE)
+	elif not open and state == State.DIALOGUE:
+		set_state(State.PLAYING)
 
 
 func toggle_pause() -> void:
@@ -153,6 +220,12 @@ func change_reputation(faction_id: String, delta: int) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if state == State.GAME_OVER:
+		if event.is_action_pressed("interact") or event.is_action_pressed("ui_accept"):
+			restart()
+		return
+	if state == State.DIALOGUE:
+		return   # DialogueUi owns input while talking.
 	if event.is_action_pressed("ui_cancel"):
 		toggle_pause()
 	elif event.is_action_pressed("toggle_journal"):

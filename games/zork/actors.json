@@ -1,0 +1,282 @@
+{
+  "actors": [
+    { "id": "player", "display_name": "You", "role": "player", "faction": "player", "brain": "player", "level": 1,
+      "stats": { "strength": 10, "agility": 10, "intellect": 10, "perception": 5, "armor": 0,
+                 "crit_chance": 0.05, "dodge": 0.05, "move_speed": 4.2 },
+      "resources": { "health": 60, "health_regen": 20, "stamina": 100 },
+      "abilities": ["punch"], "senses": { "sight_range": 40, "fov": 90 } },
+
+    { "id": "troll", "display_name": "Troll", "role": "monster", "faction": "trolls", "level": 4,
+      "description": "A nasty-looking troll, brandishing a bloody axe, blocks all passages out of the room.",
+      "stats": { "strength": 16, "agility": 6, "intellect": 3, "armor": 6, "move_speed": 3.4, "dodge": 0.02 },
+      "resources": { "health": 70 }, "resistances": { "blunt": 0.25 },
+      "abilities": ["troll_axe"], "equipment": { "main_hand": "bloody_axe" }, "xp": 50,
+      "size": { "radius": 0.55, "height": 2.4 }, "visual": "actor.troll",
+      "death_flag": "troll_dead", "death_intel": "troll_dead",
+      "behaviour": { "style": "melee", "flee_below": 0.0, "preferred_range": 2.0 },
+      "senses": { "sight_range": 14, "fov": 150, "hearing": 10, "memory": 30 },
+      "interactions": [
+        { "kind": "dialogue", "start": "greet", "speaker": "Troll", "requires": { "not": { "flag": "troll_pacified" } }, "nodes": {
+          "greet": {
+            "text": "The troll hefts his axe and blocks the passage. A string of drool swings from a tusk. 'Grrr. Little meat walks into MY room. Little meat got a name? Troll got a name too. Little meat don't know it, though. Nobody knows it.'",
+            "grant_intel": ["met_troll"],
+            "choices": [
+              { "text": "'I know your name, troll.'", "next": "name_challenge" },
+              { "text": "'I don't want trouble. Let me pass.'", "next": "refuse_pass" },
+              { "text": "Offer him the lunch.", "requires_item": { "lunch": 1 }, "next": "offer_lunch" },
+              { "text": "Breathe garlic in his face.", "requires": { "flag": "reeks_of_garlic" }, "next": "garlic_check" },
+              { "text": "'Your hoard. Under the flagstone. Give it to me.'", "requires": { "has": "know_troll_hoard" }, "next": "hoard_demand" },
+              { "text": "Say nothing. Raise your weapon.", "next": "fight" }
+            ]
+          },
+          "name_challenge": {
+            "text": "The troll's piggy eyes narrow. 'Then SAY it, little meat. Say it wrong and troll eats you slow.'",
+            "choices": [
+              { "text": "'Greldok.'", "check": { "has": "know_troll_name", "min_reliability": 0.5 }, "correct": true,
+                "next_pass": "name_right", "next_fail": "name_bluff" },
+              { "text": "'Mr. Chompers.'", "check": { "fact": ["rumor_troll_name_false", "name", "greldok"] }, "correct": false,
+                "next_pass": "name_right", "next_fail": "name_wrong" },
+              { "text": "'...Bob?'", "next": "name_wrong" },
+              { "text": "Think better of it. Raise your weapon instead.", "next": "fight" }
+            ]
+          },
+          "name_right": {
+            "text": "The troll freezes. The axe sags. 'Greldok,' he whispers, as if hearing it hurts. 'Nobody... nobody says that. Not since the Flathead kings.' He steps aside from the passage, slow and sullen. 'Troll must listen. Troll listens. Go on, then. GO.' He will not meet your eye.",
+            "set_flags": ["troll_pacified", "troll_bound_by_name"], "score": 10,
+            "grant_intel": [{ "token": "know_troll_name", "reliability": 1.0 }],
+            "debunk": ["rumor_troll_name_false"],
+            "choices": [
+              { "text": "'And your hoard, Greldok. Under the flagstone.'", "requires": { "has": "know_troll_hoard" }, "next": "hoard_bound" },
+              { "text": "'Who were the Flathead kings?'", "next": "flatheads" },
+              { "text": "Walk past him.", "next": null }
+            ]
+          },
+          "name_bluff": {
+            "text": "You say the word — but you don't really KNOW it, do you? You've only guessed. Your voice wavers on the second syllable and the troll hears it. 'Little meat GUESSING,' he snarls. 'Troll hates guessing.'",
+            "next": "fight"
+          },
+          "name_wrong": {
+            "text": "For a moment the troll simply stares. Then he laughs, a wet gargling sound, and the laugh turns into a roar as the axe comes up.",
+            "grant_intel": [{ "token": "know_troll_name", "reliability": 0.3 }],
+            "next": "fight"
+          },
+          "flatheads": {
+            "text": "'Twelve kings. Twelve idiots. Dimwit Flathead the worst — built this whole Empire under the ground and forgot to put doors on it.' The troll spits. 'Troll worked for Dimwit. Troll guards passage. Nine hundred years. Never once did Dimwit say please.' He waves you on, still not looking at you.",
+            "next": null
+          },
+          "refuse_pass": {
+            "text": "'PASS?' The troll seems genuinely amused. 'Little meat wants to PASS. Little meat thinks the passage is for PASSING.' He leans down until you can count the flies. 'The passage is for GUARDING. Troll guards. Meat gets eaten. That's how it goes. Unless...' He sniffs the air, considering.",
+            "choices": [
+              { "text": "'Unless what?'", "next": "unless" },
+              { "text": "'Unless I make you.'", "next": "fight" }
+            ]
+          },
+          "unless": {
+            "text": "'Unless meat knows something troll wants known.' He taps the flat of the axe against his forehead. 'Troll forgets things. Long time down here. Meat knows troll's NAME, troll must listen. Old rule. Flathead rule.' He grins horribly. 'But meat don't know it. Meat never knows it.'",
+            "grant_intel": [{ "token": "know_troll_name", "reliability": 0.2 }],
+            "choices": [
+              { "text": "'As it happens, I do know it.'", "next": "name_challenge" },
+              { "text": "Back away slowly.", "next": null },
+              { "text": "Attack while he's talking.", "next": "fight" }
+            ]
+          },
+          "offer_lunch": {
+            "text": "You hold out the paper-wrapped lunch. The troll takes it delicately between two claws, sniffs it, and eats it in one bite, paper and all. 'Mmm. Peppers.' He wipes his mouth. 'Was that a BRIBE, little meat? Troll doesn't take bribes.' The axe comes back up. 'Troll takes LUNCH. Then troll takes meat.'",
+            "take_items": { "lunch": 1 },
+            "debunk": ["rumor_troll_loves_food"],
+            "grant_intel": [{ "token": "know_troll_hates_garlic", "reliability": 0.4 }],
+            "next": "fight"
+          },
+          "garlic_check": {
+            "text": "You lean in and exhale. The troll recoils as if struck, eyes streaming, and drops to one knee retching. 'GAAAH! Stinking — meat is STINKING —' He crawls to the far wall and stays there, gagging. 'Go. GO. Take the passage. Take ANYTHING. Just... don't breathe near troll again.'",
+            "set_flags": ["troll_pacified", "troll_garlic_routed"], "score": 10,
+            "grant_intel": [{ "token": "know_troll_hates_garlic", "reliability": 1.0 }],
+            "debunk": ["rumor_troll_loves_food"],
+            "choices": [
+              { "text": "'Anything? Then tell me about the flagstone.'", "requires": { "has": "know_troll_hoard" }, "next": "hoard_bound" },
+              { "text": "Leave him retching.", "next": null }
+            ]
+          },
+          "hoard_demand": {
+            "text": "The troll goes very still. 'How does meat know about the flagstone?' His grip tightens on the axe. 'Nobody knows about the flagstone.'",
+            "choices": [
+              { "text": "'Greldok. I know that too. Now step aside.'", "check": { "has": "know_troll_name", "min_reliability": 0.5 }, "correct": true,
+                "next_pass": "hoard_bound", "next_fail": "name_bluff" },
+              { "text": "'I know a lot of things. Hand it over.'", "next": "fight" }
+            ]
+          },
+          "hoard_bound": {
+            "text": "The troll makes a sound like a kicked dog. He shuffles to the corner, pries up a flagstone with one claw, and holds out a fist. It opens. A large emerald, absurdly green, sits in the filthy palm. 'Troll found it. Long time ago. Troll only LOOKED at it.' You take it. He does not try to stop you.",
+            "give_items": { "troll_gem": 1 }, "set_flags": ["troll_gave_gem", "troll_pacified"], "score": 5,
+            "next": null
+          },
+          "fight": {
+            "text": "The troll roars and swings his axe!",
+            "hostile": true, "reputation": { "trolls": -30 },
+            "next": null
+          }
+        } },
+        { "kind": "dialogue", "start": "again", "speaker": "Troll", "requires": { "flag": "troll_pacified" }, "nodes": {
+          "again": { "text": "The troll glowers from the corner and says nothing. The passage is yours.", "next": null }
+        } }
+      ] },
+
+    { "id": "thief", "display_name": "Thief", "role": "monster", "faction": "thieves", "level": 5,
+      "description": "A seedy-looking individual with a large bag, a stiletto, and impeccable manners.",
+      "stats": { "strength": 9, "agility": 16, "intellect": 12, "armor": 3, "move_speed": 4.6, "dodge": 0.25, "crit_chance": 0.15 },
+      "resources": { "health": 55 },
+      "abilities": ["thief_stiletto"], "equipment": { "main_hand": "stiletto" }, "xp": 80,
+      "drops": { "platinum_bar": 1 },
+      "size": { "radius": 0.35, "height": 1.8 }, "visual": "actor.thief",
+      "death_flag": "thief_dead", "death_intel": "thief_dead",
+      "behaviour": { "style": "skirmisher", "flee_below": 0.2, "preferred_range": 1.7 },
+      "senses": { "sight_range": 20, "fov": 120, "hearing": 16, "memory": 20 },
+      "interactions": [
+        { "kind": "dialogue", "start": "greet", "speaker": "Thief", "requires": { "not": { "flag": "thief_resolved" } }, "nodes": {
+          "greet": {
+            "text": "A seedy-looking gentleman in a threadbare frock coat straightens from behind a plinth, a large bag over one shoulder. He bows. 'Ah. A fellow connoisseur. Forgive the surprise — one so rarely gets visitors in the Gallery. Are you here for the collection, or merely lost? Most are merely lost.'",
+            "grant_intel": ["met_thief"],
+            "choices": [
+              { "text": "'You're the curator, then?'", "next": "curator_claim" },
+              { "text": "'You're the thief.'", "next": "thief_accused" },
+              { "text": "'I have an egg that needs opening.'", "requires_item": { "jewelled_egg": 1 }, "next": "egg_offer" },
+              { "text": "Address him by name.", "requires": { "subject": "thief", "count": 2 }, "next": "name_challenge" },
+              { "text": "Draw your weapon.", "next": "fight" }
+            ]
+          },
+          "curator_claim": {
+            "text": "'Curator!' He beams. 'Yes. Yes, let us say curator. I do curate. I find pieces that have been... neglected, and I see that they are properly appreciated.' He pats the bag. 'Should you have anything you'd like appraised, I offer a very fair rate. Very fair.' Something in the bag clinks.",
+            "grant_intel": [{ "token": "rumor_thief_is_curator", "reliability": 0.5 }, { "token": "know_thief_is_thief", "reliability": 0.4 }],
+            "choices": [
+              { "text": "'What's in the bag?'", "next": "bag" },
+              { "text": "'Appraise this egg for me.'", "requires_item": { "jewelled_egg": 1 }, "next": "egg_offer" },
+              { "text": "'I think you're rather more than a curator.'", "next": "thief_accused" },
+              { "text": "'Good day to you.'", "next": null }
+            ]
+          },
+          "bag": {
+            "text": "'Oh — this and that. Pieces awaiting a proper home.' He shifts it behind him. 'A platinum bar, if you must know. Deplorably heavy. And one or two trinkets I'm holding for... a friend.' His smile does not reach his eyes.",
+            "grant_intel": [{ "token": "know_thief_is_thief", "reliability": 0.7 }],
+            "choices": [
+              { "text": "'Holding for a friend. Of course.'", "next": "thief_accused" },
+              { "text": "'Good day.'", "next": null }
+            ]
+          },
+          "thief_accused": {
+            "text": "The smile stays exactly where it is. 'Thief is such a MERCANTILE word. I prefer collector. Still —' the stiletto is simply in his hand now, though you did not see it arrive '— if you've quite made up your mind about me, I suppose we should discuss terms. What is it you want?'",
+            "grant_intel": [{ "token": "know_thief_is_thief", "reliability": 1.0 }],
+            "debunk": ["rumor_thief_is_curator"],
+            "choices": [
+              { "text": "'I know who you really are.'", "next": "name_challenge" },
+              { "text": "'The egg. I want it opened.'", "requires_item": { "jewelled_egg": 1 }, "next": "egg_offer" },
+              { "text": "'I want you gone from this gallery.'", "next": "fight" },
+              { "text": "'Nothing. I'll be going.'", "next": "leave_warned" }
+            ]
+          },
+          "leave_warned": {
+            "text": "'Do. And do mind your pockets on the way out. The Empire is full of thieves.' He returns to his plinth. You feel lighter than you should, but a quick check finds everything still in place. This time.",
+            "next": null
+          },
+          "name_challenge": {
+            "text": "For the first time the gentleman looks at you properly. 'Really. And what name would that be? Choose carefully; I am sensitive about it.'",
+            "choices": [
+              { "text": "'Tarbel Flathead.'", "check": { "has": "know_thief_true_name", "min_reliability": 0.5 }, "correct": true,
+                "next_pass": "name_right", "next_fail": "name_bluff" },
+              { "text": "'Sir Reginald Pockets.'", "check": { "fact": ["rumor_thief_name_false", "name", "tarbel"] }, "correct": false,
+                "next_pass": "name_right", "next_fail": "name_wrong" },
+              { "text": "'Er. Steve.'", "next": "name_wrong" }
+            ]
+          },
+          "name_right": {
+            "text": "Every trace of the smile is gone. 'Nobody,' he says quietly, 'has said that name aloud in four hundred years. Not even I.' He sits heavily on the plinth. 'Yes. The last of the Flatheads. Heir to the whole rotten Empire, and it left me a bag and a knife.' He looks up. 'What do you want, Flathead-namer? Ask it. I find I haven't the stomach to refuse you.'",
+            "set_flags": ["thief_named"], "score": 10,
+            "grant_intel": [{ "token": "know_thief_true_name", "reliability": 1.0 }],
+            "debunk": ["rumor_thief_name_false"],
+            "choices": [
+              { "text": "'Open the egg for me.'", "requires_item": { "jewelled_egg": 1 }, "next": "egg_open_free" },
+              { "text": "'Leave the Empire. Never come back.'", "next": "banished" },
+              { "text": "'The platinum bar. Give it to me.'", "next": "bar_given" },
+              { "text": "'Nothing. Knowing was enough.'", "next": "nothing_asked" }
+            ]
+          },
+          "name_bluff": {
+            "text": "You say the name — and hesitate on the second word, because you read it once in a stained notebook and are no longer quite sure. He hears the hesitation. 'Close,' he says softly, 'but you don't KNOW, do you? You're reciting.' The stiletto turns over in his fingers. 'I dislike being recited at.'",
+            "next": "fight"
+          },
+          "name_wrong": {
+            "text": "He laughs — a real laugh, delighted. 'Oh, that's WONDERFUL. Did you read that in the visitors' book? I wrote that in the visitors' book. I write a new one every decade.' The laugh stops. 'It would be unkind to let you leave believing it.'",
+            "debunk": ["rumor_thief_name_false"],
+            "next": "fight"
+          },
+          "egg_offer": {
+            "text": "His eyes go to the egg and stay there. 'Oh, my. Oh, that IS lovely.' He clears his throat. 'You realise, of course, that the clasp is a puzzle-lock. Force it and you'll crush what's inside. I could open it for you. For a consideration.'",
+            "grant_intel": [{ "token": "know_egg_opening", "reliability": 0.8 }, { "token": "know_thief_wants_egg", "reliability": 0.9 }],
+            "choices": [
+              { "text": "'What consideration?'", "next": "egg_price" },
+              { "text": "'Open it. Now.'", "requires": { "flag": "thief_named" }, "next": "egg_open_free" },
+              { "text": "'I'll manage without you.'", "next": null }
+            ]
+          },
+          "egg_price": {
+            "text": "'The egg,' he says simply. 'I open it, I keep the shell, you keep the bird. The canary is the finer piece anyway — clockwork, sings a little tune, worth more than the egg to anyone with taste.' He spreads his hands. 'Or keep the egg shut and sell it as a paperweight. Your choice.'",
+            "choices": [
+              { "text": "Agree. Hand over the egg.", "requires_item": { "jewelled_egg": 1 }, "consume_item": true, "next": "egg_traded" },
+              { "text": "'No deal.'", "next": null }
+            ]
+          },
+          "egg_traded": {
+            "text": "He takes the egg, turns it once in his long fingers, and the clasp simply opens — you never see how. A golden clockwork canary lies in the velvet. He tips it into your palm, pockets the shell, and bows. 'A pleasure. Truly. Do come again.'",
+            "give_items": { "golden_canary": 1 }, "set_flags": ["egg_opened", "thief_has_egg"], "score": 6,
+            "next": null
+          },
+          "egg_open_free": {
+            "text": "He holds out a hand. You give him the egg. The clasp yields to a touch you cannot follow, and he returns both shell and the golden clockwork canary inside without a word. 'There. Nobody else alive could have done that. Remember that, when you count your treasures.'",
+            "give_items": { "golden_canary": 1 },
+            "set_flags": ["egg_opened"], "score": 8,
+            "next": null
+          },
+          "banished": {
+            "text": "He stands, shoulders the bag, and sets a platinum bar down on the plinth with a heavy clink. 'Take it. Consider it the Flathead inheritance, paid in full.' At the doorway he pauses. 'Mind the grue.' Then he is gone, and somehow you know he will not be back.",
+            "give_items": { "platinum_bar": 1 }, "set_flags": ["thief_resolved", "thief_banished", "thief_gave_bar"], "score": 10,
+            "despawn": true, "next": null
+          },
+          "bar_given": {
+            "text": "He sets the platinum bar on the plinth without argument. 'It was never mine either.' He looks smaller than he did.",
+            "give_items": { "platinum_bar": 1 }, "set_flags": ["thief_gave_bar"], "score": 5,
+            "next": null
+          },
+          "nothing_asked": {
+            "text": "He is silent for a long moment. 'Then you are a stranger sort of adventurer than most.' He almost smiles. 'The cyclops, two rooms on. The name it fears is ODYSSEUS. That's yours for free.'",
+            "grant_intel": [{ "token": "know_cyclops_word", "reliability": 1.0 }], "score": 3,
+            "next": null
+          },
+          "fight": {
+            "text": "The stiletto flashes. 'Nothing personal. It's simply what I DO.'",
+            "hostile": true, "reputation": { "thieves": -40 }, "set_flags": ["thief_resolved"],
+            "next": null
+          }
+        } },
+        { "kind": "dialogue", "start": "again", "speaker": "Thief", "requires": { "flag": "thief_named" }, "nodes": {
+          "again": { "text": "'Flathead-namer.' He inclines his head. 'Was there something else?'",
+            "choices": [
+              { "text": "'Open the egg.'", "requires_item": { "jewelled_egg": 1 }, "requires": { "not": { "flag": "egg_opened" } }, "next": "egg_open_free" },
+              { "text": "'The platinum bar.'", "requires": { "not": { "flag": "thief_gave_bar" } }, "next": "bar_given" },
+              { "text": "'Leave the Empire.'", "next": "banished" },
+              { "text": "'No. Carry on.'", "next": null }
+            ] },
+          "egg_open_free": {
+            "text": "He opens the egg with that untraceable touch and hands you the canary from inside.",
+            "give_items": { "golden_canary": 1 }, "set_flags": ["egg_opened"], "score": 8, "next": null },
+          "bar_given": {
+            "text": "He sets the platinum bar down. 'It was never mine either.'",
+            "give_items": { "platinum_bar": 1 }, "set_flags": ["thief_gave_bar"], "score": 5, "next": null },
+          "banished": {
+            "text": "He shoulders the bag. 'Mind the grue.' And he is gone.",
+            "give_items": { "platinum_bar": 1 }, "set_flags": ["thief_resolved", "thief_banished", "thief_gave_bar"], "score": 10, "despawn": true, "next": null }
+        } }
+      ] }
+  ]
+}
+
+
+

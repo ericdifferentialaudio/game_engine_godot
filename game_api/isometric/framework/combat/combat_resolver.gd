@@ -2,7 +2,19 @@
 ##   CombatResolver.active = MyResolver.new()
 ## The default is a Civ-like strength comparison with terrain defence and a
 ## small seeded random swing (rules.combat in game.json):
-##   {"randomness": 0.2, "base_damage": 3, "defender_terrain_bonus": true, "attack_ends_turn": true}
+##   {"randomness": 0.2, "base_damage": 3, "defender_terrain_bonus": true, "attack_ends_turn": true,
+##    "require_line_of_sight": true, "monster_weakness_bonus": 3.0, "monster_resistance_penalty": 1.0}
+##
+## Line-of-sight gating and the monster-weakness/damage-type bonus are ported
+## from Aevum: Age of Shrines' combat_engine.py (has_line_of_sight(),
+## _classify_attack()/_apply_monster_weakness()), generalised from Aevum's
+## hardcoded clan/monster-lair model to data-driven EntityDefinition metadata:
+##   attacker units.json: {"metadata": {"damage_type": "fire"}}   (default "physical")
+##   monster  units.json: {"metadata": {"weak_to": "fire", "resists": "physical"}}
+## A faction only gets the weakness bonus once it knows the monster's
+## weakness, via the same intel-token mechanism attackers already use
+## elsewhere (metadata key "weakness_intel": token id; granted/known through
+## CoreIntel/IntelRegistry like any other fact).
 class_name CombatResolver
 extends RefCounted
 
@@ -10,6 +22,10 @@ static var active: CombatResolver = CombatResolver.new()
 
 
 func resolve(attacker: Unit, defender: Unit) -> Dictionary:
+	if GameManager.rule("combat.require_line_of_sight", true) and WorldManager.world:
+		if not WorldManager.world.topology.has_line_of_sight(WorldManager.world, attacker.coord, defender.coord):
+			return {}
+
 	EventBus.combat_started.emit(attacker.unit_id, defender.unit_id)
 	var rng := WorldManager.world.rng if WorldManager.world else RandomNumberGenerator.new()
 	var randomness := float(GameManager.rule("combat.randomness", 0.2))
@@ -26,6 +42,8 @@ func resolve(attacker: Unit, defender: Unit) -> Dictionary:
 	dmg_to_defender = maxi(dmg_to_defender, 1)
 	dmg_to_attacker = maxi(dmg_to_attacker, 0)
 
+	dmg_to_defender = _apply_monster_weakness(attacker, defender, dmg_to_defender)
+
 	defender.take_damage(dmg_to_defender, attacker.unit_id)
 	if defender.alive and dmg_to_attacker > 0:
 		attacker.take_damage(dmg_to_attacker, defender.unit_id)
@@ -39,6 +57,28 @@ func resolve(attacker: Unit, defender: Unit) -> Dictionary:
 		IntelRegistry.acquire(defender.faction_id, tok, attacker.unit_id, "observed")
 	EventBus.combat_resolved.emit(attacker.unit_id, defender.unit_id, result)
 	return result
+
+
+## +bonus damage if [param attacker]'s faction knows [param defender]'s
+## elemental weakness; -penalty (never below 1) if it hits a known
+## resistance instead. No effect if the defender declares no weakness/
+## resistance metadata, or the weakness is not yet known to the attacker.
+func _apply_monster_weakness(attacker: Unit, defender: Unit, damage: int) -> int:
+	var weak_to: String = str(defender.definition.metadata.get("weak_to", ""))
+	var resists: String = str(defender.definition.metadata.get("resists", ""))
+	if weak_to == "" and resists == "":
+		return damage
+
+	var weakness_token: String = str(defender.definition.metadata.get("weakness_intel", ""))
+	if weakness_token != "" and not IntelRegistry.has(attacker.faction_id, weakness_token):
+		return damage   # weakness unknown to this faction -> no effect either way
+
+	var damage_type: String = str(attacker.definition.metadata.get("damage_type", "physical"))
+	if weak_to != "" and damage_type == weak_to:
+		return damage + int(GameManager.rule("combat.monster_weakness_bonus", 3.0))
+	if resists != "" and damage_type == resists:
+		return maxi(1, damage - int(GameManager.rule("combat.monster_resistance_penalty", 1.0)))
+	return damage
 
 
 func _stat(u: Unit, stat: String, fallback: float) -> float:

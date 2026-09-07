@@ -35,6 +35,9 @@ const COMPONENT_SCRIPTS := {
 var actor_def: ActorDefinition = null
 var actor_uid: String = ""                  ## Stable per-instance id for persistence.
 var is_dead: bool = false
+var spawned_by_map: String = ""             ## Map id when spawned from a spawn table.
+var spawn_key: String = ""                  ## Spawn-table key; recorded in map state on death.
+var corpse_seconds: float = 6.0
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 # Typed component accessors (filled in _ready)
@@ -137,6 +140,50 @@ func die(killer: Node3D = null) -> void:
 		brain.set_physics_process(false)
 	died.emit(killer)
 	EventBus.actor_died.emit(self, killer)
+	if is_player():
+		GameManager.on_player_died(killer)
+		return
+	_drop_loot()
+	if actor_def and actor_def.raw.get("death_flag", "") != "":
+		GameManager.set_flag(str(actor_def.raw["death_flag"]), true)
+	if actor_def and actor_def.raw.get("death_intel", "") != "":
+		IntelRegistry.acquire(str(actor_def.raw["death_intel"]), actor_uid)
+	if spawned_by_map != "":
+		var st := MapManager.get_map_state(spawned_by_map)
+		if not st.has("killed"):
+			st["killed"] = []
+		if spawn_key != "" and not st["killed"].has(spawn_key):
+			st["killed"].append(spawn_key)
+	# Leave the body briefly, then remove it.
+	collision_layer = 0
+	collision_mask = 0
+	get_tree().create_timer(corpse_seconds).timeout.connect(func(): if is_instance_valid(self): queue_free())
+
+
+## Everything carried (inventory + equipped) becomes a WorldPickup at the feet.
+func _drop_loot() -> void:
+	var drops: Dictionary = {}
+	if inventory:
+		for inst in inventory.items:
+			drops[inst.def.id] = drops.get(inst.def.id, 0) + inst.count
+	if equipment:
+		for slot in equipment.equipped_items:
+			var inst: ItemInstance = equipment.equipped_items[slot]
+			if not inst.def.raw.get("no_drop", false):
+				drops[inst.def.id] = drops.get(inst.def.id, 0) + inst.count
+	if actor_def:
+		for item_id in actor_def.raw.get("drops", {}):
+			drops[item_id] = drops.get(item_id, 0) + int(actor_def.raw["drops"][item_id])
+	if drops.is_empty() or get_parent() == null:
+		return
+	var pickup := WorldPickup.new()
+	pickup.items = drops
+	pickup.label = "the remains of %s" % (actor_def.display_name if actor_def else name)
+	pickup.name = "Loot_%s" % actor_uid
+	get_parent().add_child(pickup)
+	pickup.global_position = global_position
+	if MapManager.current_map:
+		MapManager.current_map.register_loot(pickup, spawn_key, drops)
 
 
 func is_hostile_to(other: Actor) -> bool:

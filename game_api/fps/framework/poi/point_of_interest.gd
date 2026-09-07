@@ -53,14 +53,26 @@ func build() -> void:
 	discovered = st["discovered_pois"].has(definition.id)
 	_refresh_visibility()
 	EventBus.intel_acquired.connect(func(_t, _s): _refresh_visibility())
+	EventBus.intel_updated.connect(func(_t): _refresh_visibility())
+	EventBus.flag_set.connect(func(_f, _v): _refresh_visibility())
 
 
 func is_revealed() -> bool:
 	return definition.hidden_until.is_empty() or IntelRegistry.evaluate(definition.hidden_until)
 
 
+## Was this object picked up (PickupInteraction)? Persisted in map state.
+func is_taken() -> bool:
+	return get_state().get("taken", false)
+
+
+func set_taken() -> void:
+	get_state()["taken"] = true
+	_refresh_visibility()
+
+
 func _refresh_visibility() -> void:
-	var show := is_revealed()
+	var show := is_revealed() and not is_taken()
 	visible = show
 	_interactable.enabled = show
 	collision_layer = (1 << 2) if show else 0
@@ -78,12 +90,22 @@ func _on_interact(by: Node) -> void:
 	if not discovered:
 		discovered = true
 		EventBus.poi_discovered.emit(definition.id, definition.map_id)
+	var ran := false
 	for inter in _interactions:
 		if inter.can_run(by):
+			ran = true
 			inter.run(by)
 			EventBus.poi_interacted.emit(definition.id, inter.kind)
 			if inter.consumes_interaction:
 				break
+	if not ran:
+		for inter in _interactions:
+			var msg: String = inter.missing_item_text(by)
+			if msg != "":
+				EventBus.notification.emit(msg, "locked")
+				return
+		if definition.description != "":
+			EventBus.notification.emit(definition.description, "examine")
 
 
 ## Per-POI persisted state lives inside the map state so it unloads/reloads cleanly.

@@ -52,6 +52,32 @@ func acquire(token_id: String, source_poi: String = "", reliability_override: fl
 	return tok
 
 
+## The player learns a token was false. Its reliability drops to zero so any
+## {"has": id, "min_reliability": > 0} check fails, and every token it lists
+## in `conflicts` is corroborated (the truth stands out once the lie is exposed).
+func debunk(token_id: String, source: String = "") -> void:
+	var tok: IntelToken = journal.get(token_id)
+	if tok == null:
+		# Learning that something is false is itself knowledge: record it discredited.
+		tok = acquire(token_id, source, 0.0)
+		if tok == null:
+			return
+	tok.reliability = 0.0
+	if not tok.has_tag("debunked"):
+		tok.tags.append("debunked")
+	for other_id in tok.conflicts:
+		if journal.has(other_id):
+			journal[other_id].corroborate("debunk:%s" % token_id)
+			EventBus.intel_updated.emit(other_id)
+	EventBus.intel_updated.emit(token_id)
+	_evaluate_watchers()
+
+
+func is_debunked(token_id: String) -> bool:
+	var tok: IntelToken = journal.get(token_id)
+	return tok != null and tok.has_tag("debunked")
+
+
 func has(token_id: String) -> bool:
 	return journal.has(token_id)
 

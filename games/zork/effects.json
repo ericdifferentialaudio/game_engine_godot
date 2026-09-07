@@ -1,0 +1,12 @@
+{
+  "effects": [
+    { "id": "bleeding", "display_name": "Bleeding", "debuff": true, "duration": 12, "stacking": "refresh",
+      "tick_interval": 2, "tick_damage": { "pierce": 1 } },
+
+    { "id": "reeks_of_garlic", "display_name": "Reeks of Garlic", "duration": 900, "stacking": "refresh",
+      "flags": ["reeks_of_garlic"], "stat_mods": { "perception": -1 } },
+
+    { "id": "troll_rage", "display_name": "Troll Rage", "duration": 20, "stacking": "refresh",
+      "stat_mods": { "attack": 4 }, "stat_mods_percent": { "move_speed": 0.15 } }
+  ]
+}

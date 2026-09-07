@@ -146,6 +146,31 @@ static func is_free_land(world: WorldMap, c: Vector2i) -> bool:
 	return t != null and t.terrain != null and t.terrain.passable and t.terrain.domain == "land" and world.unit_at(c) == null
 
 
+## Build a road network connecting [param endpoints] (major sites — always
+## get direct spokes to each other) and [param minor_endpoints] (settlements
+## that only need a short approach stub if nothing else reached them),
+## using [CoreRoadBuilder]'s terrain-cost-aware Dijkstra/A* (ported from
+## Aevum: Age of Shrines' organic-road pipeline). Marks [code]tile.has_road[/code]
+## on every touched tile. Returns the number of tiles touched.
+static func build_roads(world: WorldMap, unit: Unit, endpoints: Array[Vector2i],
+		minor_endpoints: Array[Vector2i] = [], spoke_radius: float = CoreRoadBuilder.DEFAULT_SPOKE_RADIUS,
+		stub_len: int = CoreRoadBuilder.DEFAULT_STUB_LEN) -> int:
+	var neighbors_fn := func(c: Vector2i) -> Array[Vector2i]:
+		return world.topology.neighbors(c)
+	var cost_fn := func(c: Vector2i) -> float:
+		return Pathfinder.move_cost(world, unit, c)
+	var distance_fn := func(a: Vector2i, b: Vector2i) -> float:
+		return float(world.topology.distance(a, b))
+	var on_road_tile := func(c: Vector2i) -> void:
+		var tile := world.get_tile(c)
+		if tile and tile.terrain and tile.terrain.domain != "sea":
+			tile.has_road = true
+	return CoreRoadBuilder.build_road_network(
+		endpoints, minor_endpoints, neighbors_fn, cost_fn, distance_fn, on_road_tile,
+		spoke_radius, stub_len
+	)
+
+
 ## Find a good *start* location: free land with at least [param min_land_neighbors]
 ## passable land tiles within radius 2 so factions never start on a one-tile islet.
 static func find_start_near(world: WorldMap, preferred: Vector2i, min_land_neighbors: int = 6, max_radius: int = 16) -> Vector2i:

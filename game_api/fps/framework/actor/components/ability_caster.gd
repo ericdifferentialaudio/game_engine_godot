@@ -13,8 +13,10 @@ signal cast_started(ability: AbilityDefinition, target)
 signal cast_finished(ability: AbilityDefinition)
 signal cast_failed(ability_id: String, reason: String)
 signal cooldown_started(ability_id: String, seconds: float)
+signal hit_landed(victim: Actor, info: DamageInfo, dealt: float)
 
 var known: Dictionary = {}          ## ability_id -> {"permanent": bool, "sources": [..]}
+var _rng := RandomNumberGenerator.new()
 var cooldowns: Dictionary = {}      ## ability_id -> real time (msec) when ready
 var global_cooldown_until: int = 0
 var is_casting: bool = false
@@ -141,10 +143,113 @@ func _finish_cast(def: AbilityDefinition, target) -> void:
 	cast_finished.emit(def)
 
 
-## M2 hook: resolve targeting and apply def.effects. Stub logs only.
-func _execute(def: AbilityDefinition, _target) -> void:
-	if OS.is_debug_build():
-		print_verbose("%s casts %s (execution pipeline pending M2)" % [actor.name, def.id])
+## Resolve targeting and apply the ability.
+##  * SELF / AOE_SELF      -> heal + self effects
+##  * MELEE_ARC / TOUCH    -> every hostile Actor inside range & arc takes damage
+##  * PROJECTILE / BEAM    -> resolved as an instant hit on the aimed actor (if
+##                            one is within range) — no projectile bodies yet.
+func _execute(def: AbilityDefinition, target) -> void:
+	match def.targeting:
+		AbilityDefinition.Targeting.SELF, AbilityDefinition.Targeting.AOE_SELF:
+			_execute_self(def)
+		_:
+			_execute_melee(def, target)
+
+
+func _execute_self(def: AbilityDefinition) -> void:
+	if def.heal > 0.0:
+		actor.heal(def.heal, actor)
+	if actor.status_effects:
+		for e in def.apply_effects:
+			if e.get("target", "self") == "self" and _rng.randf() <= float(e.get("chance", 1.0)):
+				actor.status_effects.apply(str(e.get("effect", "")), "ability:%s" % def.id)
+
+
+func _execute_melee(def: AbilityDefinition, target) -> void:
+	var victims := targets_in_arc(def, target)
+	if victims.is_empty():
+		if actor.is_player():
+			EventBus.notification.emit("Your swing finds only air.", "combat")
+		return
+	for victim in victims:
+		var info := build_damage(def)
+		info.direction = (victim.global_position - actor.global_position).normalized()
+		info.hit_position = victim.global_position
+		var dealt := victim.take_damage(info)
+		hit_landed.emit(victim, info, dealt)
+		if victim.is_dead:
+			continue
+		if victim.status_effects:
+			for e in def.apply_effects:
+				if e.get("target", "enemy") == "enemy" and _rng.randf() <= float(e.get("chance", 1.0)):
+					victim.status_effects.apply(str(e.get("effect", "")), "ability:%s" % def.id)
+	if actor.status_effects:
+		for e in def.apply_effects:
+			if e.get("target", "enemy") == "self" and _rng.randf() <= float(e.get("chance", 1.0)):
+				actor.status_effects.apply(str(e.get("effect", "")), "ability:%s" % def.id)
+
+
+## Actors this ability can hit right now. The player may strike anyone (Zork
+## lets you attack whatever you like); AI only strikes actors it is hostile to.
+## A single-target ability with an explicit Actor [param target] hits only it.
+func targets_in_arc(def: AbilityDefinition, target = null) -> Array[Actor]:
+	var out: Array[Actor] = []
+	var origin := actor.global_position
+	var forward := -actor.global_transform.basis.z
+	forward.y = 0.0
+	forward = forward.normalized()
+	var reach := def.range + 0.6   # body radius allowance
+	var candidates: Array = []
+	if target is Actor:
+		candidates = [target]
+	else:
+		candidates = get_tree().get_nodes_in_group("actors")
+	for other in candidates:
+		if other == actor or not (other is Actor) or other.is_dead:
+			continue
+		var to: Vector3 = other.global_position - origin
+		to.y = 0.0
+		var dist := to.length()
+		if dist > reach:
+			continue
+		if dist > 0.3 and def.arc_degrees < 360.0 and rad_to_deg(forward.angle_to(to.normalized())) > def.arc_degrees * 0.5:
+			continue
+		if not actor.is_player() and not actor.is_hostile_to(other):
+			continue
+		if actor.is_player() and other.is_player():
+			continue
+		out.append(other)
+		if def.targeting == AbilityDefinition.Targeting.TOUCH or def.targeting == AbilityDefinition.Targeting.PROJECTILE \
+				or def.targeting == AbilityDefinition.Targeting.BEAM:
+			break
+	return out
+
+
+## Roll the damage for one hit: ability ranges + main weapon ranges (when
+## scale_with_weapon), stat scaling, flat "attack" stat, crit.
+func build_damage(def: AbilityDefinition) -> DamageInfo:
+	var ranges: Dictionary = def.damage.duplicate()
+	if def.scale_with_weapon and actor.equipment:
+		var weapon := actor.equipment.main_weapon()
+		if weapon:
+			for t in weapon.def.damage:
+				var r = weapon.def.damage[t]
+				if ranges.has(t) and ranges[t] is Array and r is Array:
+					ranges[t] = [float(ranges[t][0]) + float(r[0]), float(ranges[t][1]) + float(r[1])]
+				else:
+					ranges[t] = r
+	if ranges.is_empty():
+		ranges = {"blunt": [1, 2]}
+	var info := DamageInfo.from_ranges(ranges, _rng, actor)
+	info.ability_id = def.id
+	info.tags.append("melee" if def.school == "physical" else "spell")
+	if actor.stats:
+		DamageCalculator.apply_scaling(info, def.scaling, actor.stats.all_final())
+	var attack := actor.stat("attack", 0.0)
+	if attack > 0.0:
+		info.add(info.primary_type(), attack)
+	info.is_crit = DamageCalculator.roll_crit(actor.stat("crit_chance", 0.0), _rng)
+	return info
 
 
 # --- Cooldowns ---------------------------------------------------------------

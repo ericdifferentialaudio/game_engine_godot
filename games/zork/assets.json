@@ -1,0 +1,36 @@
+{
+  "assets": {
+    "env.forest.day":       { "type": "environment", "path": "res://assets/environments/forest_day.tres" },
+    "env.interior.candle":  { "type": "environment", "path": "res://assets/environments/interior_candle.tres" },
+    "env.dungeon.damp":     { "type": "environment", "path": "res://assets/environments/dungeon_damp.tres" },
+
+    "portal.default":       { "type": "scene", "path": "res://games/zork/props/portal_path.tscn" },
+    "portal.doorway":       { "type": "scene", "path": "res://games/zork/props/portal_doorway.tscn" },
+    "portal.window":        { "type": "scene", "path": "res://games/zork/props/portal_window.tscn" },
+    "portal.stairs":        { "type": "scene", "path": "res://games/zork/props/portal_stairs.tscn" },
+    "portal.trapdoor":      { "type": "scene", "path": "res://games/zork/props/portal_trapdoor.tscn" },
+    "portal.tree":          { "type": "scene", "path": "res://games/zork/props/portal_tree.tscn" },
+
+    "prop.none":            { "type": "scene", "path": "res://games/zork/props/prop_none.tscn" },
+    "prop.note":            { "type": "scene", "path": "res://games/zork/props/prop_note.tscn" },
+    "prop.mailbox":         { "type": "scene", "path": "res://games/zork/props/prop_mailbox.tscn" },
+    "prop.door_boarded":    { "type": "scene", "path": "res://games/zork/props/prop_door_boarded.tscn" },
+    "prop.sack":            { "type": "scene", "path": "res://games/zork/props/prop_sack.tscn" },
+    "prop.bottle":          { "type": "scene", "path": "res://games/zork/props/prop_bottle.tscn" },
+    "prop.rope":            { "type": "scene", "path": "res://games/zork/props/prop_rope.tscn" },
+    "prop.knife":           { "type": "scene", "path": "res://games/zork/props/prop_knife.tscn" },
+    "prop.rug":             { "type": "scene", "path": "res://games/zork/props/prop_rug.tscn" },
+    "prop.trophy_case":     { "type": "scene", "path": "res://games/zork/props/prop_trophy_case.tscn" },
+    "prop.lantern":         { "type": "scene", "path": "res://games/zork/props/prop_lantern.tscn" },
+    "prop.sword":           { "type": "scene", "path": "res://games/zork/props/prop_sword.tscn" },
+    "prop.nest":            { "type": "scene", "path": "res://games/zork/props/prop_nest.tscn" },
+    "prop.leaves":          { "type": "scene", "path": "res://games/zork/props/prop_leaves.tscn" },
+    "prop.flagstone":       { "type": "scene", "path": "res://games/zork/props/prop_flagstone.tscn" },
+    "prop.skeleton":        { "type": "scene", "path": "res://games/zork/props/prop_skeleton.tscn" },
+    "prop.painting":        { "type": "scene", "path": "res://games/zork/props/prop_painting.tscn" },
+
+    "poi.loot":             { "type": "scene", "path": "res://games/zork/props/prop_loot.tscn" },
+    "actor.troll":          { "type": "scene", "path": "res://games/zork/props/actor_troll.tscn" },
+    "actor.thief":          { "type": "scene", "path": "res://games/zork/props/actor_thief.tscn" }
+  }
+}

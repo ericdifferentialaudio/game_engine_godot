@@ -10,6 +10,10 @@ var portal_id: String = ""
 var target_map: String = ""
 var label: String = ""
 var requires: Dictionary = {}
+var locked_message: String = "You lack the knowledge to pass here."
+var blocked_by_actor: String = ""     ## spawn key of an actor that must be dead/absent
+var blocked_message: String = ""
+var travel_text: String = ""          ## narrated when traversed
 var visual_key: String = "portal.default"
 
 var _interactable: Interactable
@@ -38,8 +42,24 @@ func is_unlocked() -> bool:
 	return requires.is_empty() or IntelRegistry.evaluate(requires)
 
 
+## An actor standing guard (alive, on this map) blocks the way.
+func is_blocked() -> bool:
+	if blocked_by_actor == "":
+		return false
+	var map := MapManager.current_map
+	if map and map.get("actors") != null and map.actors.has(blocked_by_actor):
+		var guard = map.actors[blocked_by_actor]
+		return is_instance_valid(guard) and not guard.is_dead
+	return false
+
+
 func _on_interact(_by: Node) -> void:
 	if not is_unlocked():
-		EventBus.notification.emit("You lack the knowledge to pass here.", "locked")
+		EventBus.notification.emit(locked_message, "locked")
 		return
+	if is_blocked():
+		EventBus.notification.emit(blocked_message if blocked_message != "" else "Something blocks the way.", "locked")
+		return
+	if travel_text != "":
+		EventBus.notification.emit(travel_text, "travel")
 	MapManager.traverse_portal(portal_id)

@@ -94,6 +94,50 @@ func to_tile(_p: Vector2) -> Vector2i:
 	return Vector2i.ZERO
 
 
+## All tiles on a straight line from [param a] to [param b], inclusive of
+## both endpoints. Ported from Aevum's [code]_hex_line()[/code]
+## (linear interpolation in continuous space + rounding), generalised to work
+## for any topology via world-space lerp + [method to_tile] rather than
+## hex-cube math, so it works for hex and square-iso alike.
+func line(a: Vector2i, b: Vector2i) -> Array[Vector2i]:
+	var steps := distance(a, b)
+	if steps <= 0:
+		return [a]
+	var wa := to_world(a)
+	var wb := to_world(b)
+	var out: Array[Vector2i] = []
+	var last := Vector2i(0x7fffffff, 0x7fffffff)
+	for i in range(steps + 1):
+		var t := float(i) / float(steps)
+		var c := to_tile(wa.lerp(wb, t))
+		if c != last:
+			out.append(c)
+			last = c
+	if out.is_empty() or out[-1] != normalize(b):
+		out.append(normalize(b))
+	return out
+
+
+## True if no tile strictly between [param a] and [param b] has
+## [member TileDefinition.blocks_sight] set (endpoints are never blocking).
+## Ported from Aevum's [code]has_line_of_sight()[/code] (there, hardcoded to
+## "only Mountain blocks"; generalised here to any terrain/feature flagged
+## [code]blocks_sight[/code] in terrains.json/features).
+func has_line_of_sight(world: WorldMap, a: Vector2i, b: Vector2i) -> bool:
+	var pts := line(a, b)
+	for i in range(1, pts.size() - 1):
+		var tile := world.get_tile(pts[i])
+		if tile == null:
+			continue
+		if tile.terrain and tile.terrain.blocks_sight:
+			return false
+		for f in tile.features:
+			var fdef: TileDefinition = world.feature_definition(f)
+			if fdef and fdef.blocks_sight:
+				return false
+	return true
+
+
 ## Direction index (0..N-1) from a to adjacent b, for unit facing sprites.
 func facing(a: Vector2i, b: Vector2i) -> int:
 	var offs := _neighbor_offsets(a)

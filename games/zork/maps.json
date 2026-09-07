@@ -1,0 +1,164 @@
+{
+  "maps": [
+    { "id": "west_of_house", "display_name": "West of House", "kind": "region", "scene": "res://games/zork/maps/west_of_house.tscn", "environment": "env.forest.day",
+      "description": "You are standing in an open field west of a white house, with a boarded front door. There is a small mailbox here.",
+      "short_description": "The open field west of the white house. The mailbox waits.",
+      "spawns": { "default": { "position": [0, 0.2, 6], "yaw": 180 }, "from_north": { "position": [-6, 0.2, -6], "yaw": 200 }, "from_south": { "position": [-6, 0.2, 6], "yaw": 160 }, "from_forest": { "position": [-9, 0.2, 0], "yaw": 270 } },
+      "portals": [
+        { "id": "to_north", "label": "the north side of the house", "target_map": "north_of_house", "target_spawn": "from_west", "position": [6, 0, -8], "yaw": 45 },
+        { "id": "to_south", "label": "the south side of the house", "target_map": "south_of_house", "target_spawn": "from_west", "position": [6, 0, 8], "yaw": 135 },
+        { "id": "to_forest", "label": "the forest", "target_map": "forest_path", "target_spawn": "from_house", "position": [-10, 0, 0], "yaw": 90,
+          "travel_text": "You walk west, into the trees." }
+      ] },
+
+    { "id": "north_of_house", "display_name": "North of House", "kind": "region", "parent": "west_of_house", "scene": "res://games/zork/maps/north_of_house.tscn", "environment": "env.forest.day",
+      "description": "You are facing the north side of a white house. There is no door here, and all the windows are boarded up. To the north a narrow path winds through the trees.",
+      "short_description": "The boarded north side of the house.",
+      "spawns": { "default": { "position": [0, 0.2, 0], "yaw": 0 }, "from_west": { "position": [-7, 0.2, 2], "yaw": 270 }, "from_east": { "position": [7, 0.2, 2], "yaw": 90 }, "from_path": { "position": [0, 0.2, -7], "yaw": 0 } },
+      "portals": [
+        { "id": "to_west", "label": "west of the house", "target_map": "west_of_house", "target_spawn": "from_north", "position": [-9, 0, 2], "yaw": 90 },
+        { "id": "to_east", "label": "behind the house", "target_map": "behind_house", "target_spawn": "from_north", "position": [9, 0, 2], "yaw": 270 },
+        { "id": "to_path", "label": "the forest path", "target_map": "forest_path", "target_spawn": "from_north", "position": [0, 0, -9], "yaw": 180 }
+      ] },
+
+    { "id": "south_of_house", "display_name": "South of House", "kind": "region", "parent": "west_of_house", "scene": "res://games/zork/maps/south_of_house.tscn", "environment": "env.forest.day",
+      "description": "You are facing the south side of a white house. There is no door here, and all the windows are boarded.",
+      "short_description": "The boarded south side of the house.",
+      "spawns": { "default": { "position": [0, 0.2, 0], "yaw": 180 }, "from_west": { "position": [-7, 0.2, -2], "yaw": 270 }, "from_east": { "position": [7, 0.2, -2], "yaw": 90 } },
+      "portals": [
+        { "id": "to_west", "label": "west of the house", "target_map": "west_of_house", "target_spawn": "from_south", "position": [-9, 0, -2], "yaw": 90 },
+        { "id": "to_east", "label": "behind the house", "target_map": "behind_house", "target_spawn": "from_south", "position": [9, 0, -2], "yaw": 270 }
+      ] },
+
+    { "id": "behind_house", "display_name": "Behind House", "kind": "region", "parent": "west_of_house", "scene": "res://games/zork/maps/behind_house.tscn", "environment": "env.forest.day",
+      "description": "You are behind the white house. A path leads into the forest to the east. In one corner of the house there is a small window which is slightly ajar.",
+      "short_description": "Behind the white house. The small window is here.",
+      "spawns": { "default": { "position": [0, 0.2, 0], "yaw": 0 }, "from_north": { "position": [-2, 0.2, -7], "yaw": 0 }, "from_south": { "position": [-2, 0.2, 7], "yaw": 180 }, "from_kitchen": { "position": [-5, 0.2, 0], "yaw": 90 } },
+      "portals": [
+        { "id": "to_north", "label": "the north side of the house", "target_map": "north_of_house", "target_spawn": "from_east", "position": [-2, 0, -9], "yaw": 180 },
+        { "id": "to_south", "label": "the south side of the house", "target_map": "south_of_house", "target_spawn": "from_east", "position": [-2, 0, 9], "yaw": 0 },
+        { "id": "window", "label": "the window (climb through)", "target_map": "kitchen", "target_spawn": "default", "position": [-7.4, 0, 0], "yaw": 90, "visual": "portal.window",
+          "requires": { "flag": "window_open" }, "locked_message": "The window is only slightly ajar. You would need to open it first (look at it and press E).",
+          "travel_text": "With great effort, you squeeze through the window into the house." }
+      ] },
+
+    { "id": "kitchen", "display_name": "Kitchen", "kind": "interior", "parent": "behind_house", "exterior": false, "scene": "res://games/zork/maps/kitchen.tscn", "environment": "env.interior.candle",
+      "description": "You are in the kitchen of the white house. A table seems to have been used recently for the preparation of food. A passage leads to the west and a dark staircase can be seen leading upward. A dark chimney leads down and to the east is a small window which is open. On the table is an elongated brown sack, smelling of hot peppers. A bottle is sitting on the table.",
+      "short_description": "The kitchen. Table, sack, bottle; stairs up, passage west.",
+      "spawns": { "default": { "position": [4, 0.2, 0], "yaw": 90 }, "from_living": { "position": [-4, 0.2, 0], "yaw": 270 }, "from_attic": { "position": [0, 0.2, -4], "yaw": 0 } },
+      "portals": [
+        { "id": "window", "label": "the window (climb out)", "target_map": "behind_house", "target_spawn": "from_kitchen", "position": [5.4, 0, 0], "yaw": 270, "visual": "portal.window" },
+        { "id": "to_living", "label": "the living room", "target_map": "living_room", "target_spawn": "default", "position": [-5.4, 0, 0], "yaw": 90, "visual": "portal.doorway" },
+        { "id": "to_attic", "label": "the staircase up", "target_map": "attic", "target_spawn": "default", "position": [0, 0, -5.4], "yaw": 180, "visual": "portal.stairs",
+          "travel_text": "You climb the dark, creaking stairs." }
+      ] },
+
+    { "id": "attic", "display_name": "Attic", "kind": "interior", "parent": "kitchen", "exterior": false, "dark": true, "scene": "res://games/zork/maps/attic.tscn", "environment": "env.interior.candle",
+      "description": "This is the attic. The only exit is a stairway leading down. A large coil of rope is lying in the corner. On a table is a nasty-looking knife. Someone has scrawled on the wall in what you hope is crayon.",
+      "short_description": "The dusty attic.",
+      "dark_description": "It is pitch black up here. You can hear the stairs behind you and nothing else. Something in the dark is breathing very slowly. You are likely to be eaten by a grue.",
+      "spawns": { "default": { "position": [0, 0.2, 3], "yaw": 180 } },
+      "portals": [
+        { "id": "to_kitchen", "label": "the stairway down", "target_map": "kitchen", "target_spawn": "from_attic", "position": [0, 0, 4.4], "yaw": 0, "visual": "portal.stairs" }
+      ] },
+
+    { "id": "living_room", "display_name": "Living Room", "kind": "interior", "parent": "kitchen", "exterior": false, "scene": "res://games/zork/maps/living_room.tscn", "environment": "env.interior.candle",
+      "description": "You are in the living room. There is a doorway to the east, a wooden door with strange gothic lettering to the west, which appears to be nailed shut, a trophy case, and a large oriental rug in the center of the room. Above the mantelpiece hangs an elvish sword of great antiquity. A battery-powered brass lantern is on the trophy case.",
+      "short_description": "The living room. Trophy case, rug, nailed door.",
+      "spawns": { "default": { "position": [5, 0.2, 0], "yaw": 90 }, "from_cellar": { "position": [0, 0.2, 2], "yaw": 180 } },
+      "portals": [
+        { "id": "to_kitchen", "label": "the kitchen", "target_map": "kitchen", "target_spawn": "from_living", "position": [6.4, 0, 0], "yaw": 270, "visual": "portal.doorway" },
+        { "id": "trapdoor", "label": "the trap door (descend)", "target_map": "cellar", "target_spawn": "default", "position": [0, 0, 0], "yaw": 0, "visual": "portal.trapdoor",
+          "requires": { "all": [ { "flag": "rug_moved" }, { "flag": "trapdoor_open" } ] },
+          "locked_message": "The rug covers the floor here. If there is anything under it, you'd have to move the rug first.",
+          "travel_text": "You descend the rickety staircase into the darkness. The trap door crashes shut behind you, and you hear someone barring it." }
+      ] },
+
+    { "id": "forest_path", "display_name": "Forest Path", "kind": "region", "parent": "west_of_house", "scene": "res://games/zork/maps/forest_path.tscn", "environment": "env.forest.day",
+      "description": "This is a path winding through a dimly lit forest. The path heads north-south here. One particularly large tree with some low branches stands at the edge of the path. Somewhere a bird is singing; it does not sound happy about it.",
+      "short_description": "The forest path. The large tree is here.",
+      "spawns": { "default": { "position": [0, 0.2, 0], "yaw": 0 }, "from_house": { "position": [8, 0.2, 4], "yaw": 90 }, "from_north": { "position": [0, 0.2, 8], "yaw": 180 }, "from_clearing": { "position": [0, 0.2, -8], "yaw": 0 }, "from_tree": { "position": [-4, 0.2, -1], "yaw": 270 } },
+      "portals": [
+        { "id": "to_house", "label": "west of the house", "target_map": "west_of_house", "target_spawn": "from_forest", "position": [10, 0, 4], "yaw": 270 },
+        { "id": "to_north_house", "label": "the north side of the house", "target_map": "north_of_house", "target_spawn": "from_path", "position": [0, 0, 10], "yaw": 0 },
+        { "id": "to_clearing", "label": "the clearing to the north", "target_map": "clearing", "target_spawn": "default", "position": [0, 0, -10], "yaw": 180 },
+        { "id": "climb_tree", "label": "the large tree (climb)", "target_map": "up_a_tree", "target_spawn": "default", "position": [-6, 0, -1], "yaw": 90, "visual": "portal.tree",
+          "travel_text": "You climb the low branches, scraping your palms." }
+      ] },
+
+    { "id": "up_a_tree", "display_name": "Up a Tree", "kind": "special", "parent": "forest_path", "scene": "res://games/zork/maps/up_a_tree.tscn", "environment": "env.forest.day",
+      "description": "You are about ten feet above the ground nestled among some large branches. The nearest branch above you is above your reach. Beside you on the branch is a small bird's nest. In the bird's nest is a large egg encrusted with precious jewels, apparently scavenged by a childless songbird.",
+      "short_description": "Up the tree, among the branches.",
+      "spawns": { "default": { "position": [0, 0.2, 2], "yaw": 180 } },
+      "portals": [
+        { "id": "climb_down", "label": "the ground (climb down)", "target_map": "forest_path", "target_spawn": "from_tree", "position": [0, 0, 3.6], "yaw": 0, "visual": "portal.tree" }
+      ] },
+
+    { "id": "clearing", "display_name": "Clearing", "kind": "region", "parent": "forest_path", "scene": "res://games/zork/maps/clearing.tscn", "environment": "env.forest.day",
+      "description": "You are in a clearing, with a forest surrounding you on all sides. A path leads south. On the ground is a pile of leaves. There is something metallic beneath them; a corner of it catches the light.",
+      "short_description": "The forest clearing. Leaves, and the grating.",
+      "spawns": { "default": { "position": [0, 0.2, 6], "yaw": 180 } },
+      "portals": [
+        { "id": "to_path", "label": "the path south", "target_map": "forest_path", "target_spawn": "from_clearing", "position": [0, 0, 9], "yaw": 0 },
+        { "id": "grating", "label": "the grating (descend)", "target_map": "round_room", "target_spawn": "from_grating", "position": [0, 0, -2], "yaw": 0, "visual": "portal.trapdoor",
+          "requires": { "all": [ { "flag": "leaves_moved" }, { "flag": "grating_unlocked" } ] },
+          "locked_message": "The grating is locked. There is no keyhole on this side; it must be unlocked from below.",
+          "travel_text": "You lower yourself through the grating into the dark." }
+      ] },
+
+    { "id": "cellar", "display_name": "Cellar", "kind": "dungeon", "parent": "living_room", "exterior": false, "dark": true, "scene": "res://games/zork/maps/cellar.tscn", "environment": "env.dungeon.damp",
+      "description": "You are in a dark and damp cellar with a narrow passageway leading north, and a crawlway to the south. On the west is the bottom of a steep metal ramp which is unclimbable. Above, the trap door is barred. Something is carved into the underside of the stairs.",
+      "short_description": "The damp cellar. Passage north, crawlway south.",
+      "spawns": { "default": { "position": [0, 0.2, 3], "yaw": 180 }, "from_troll": { "position": [0, 0.2, -5], "yaw": 0 } },
+      "portals": [
+        { "id": "to_troll", "label": "the narrow passage north", "target_map": "troll_room", "target_spawn": "default", "position": [0, 0, -7.4], "yaw": 180, "visual": "portal.doorway",
+          "travel_text": "You edge along the narrow passage. Something ahead smells terrible." },
+        { "id": "trapdoor_up", "label": "the trap door (barred)", "target_map": "living_room", "target_spawn": "from_cellar", "position": [0, 0, 6.4], "yaw": 0, "visual": "portal.stairs",
+          "requires": { "flag": "trapdoor_unbarred" }, "locked_message": "The trap door is barred from above. You push. It does not move. Whoever barred it was thorough." }
+      ] },
+
+    { "id": "troll_room", "display_name": "The Troll Room", "kind": "dungeon", "parent": "cellar", "exterior": false, "dark": true, "scene": "res://games/zork/maps/troll_room.tscn", "environment": "env.dungeon.damp",
+      "description": "This is a small room with passages to the east and south and a forbidding hole leading west. Bloodstains and deep scratches (perhaps made by an axe) mar the walls. A nasty-looking troll, brandishing a bloody axe, blocks all passages out of the room.",
+      "short_description": "The Troll Room. Scratches, bloodstains, and the smell.",
+      "spawns": { "default": { "position": [0, 0.2, 6], "yaw": 180 }, "from_passage": { "position": [6, 0.2, 0], "yaw": 90 } },
+      "spawn_tables": [ { "actor": "troll", "key": "troll", "position": [0, 0.2, -1], "yaw": 0, "unless_flag": "troll_dead" } ],
+      "portals": [
+        { "id": "to_cellar", "label": "the passage south", "target_map": "cellar", "target_spawn": "from_troll", "position": [0, 0, 7.4], "yaw": 0, "visual": "portal.doorway" },
+        { "id": "to_passage", "label": "the passage east", "target_map": "ew_passage", "target_spawn": "default", "position": [7.4, 0, 0], "yaw": 270, "visual": "portal.doorway",
+          "blocked_by": "troll", "blocked_message": "The troll fends you off with a menacing gesture. He is not letting you past — not while he stands and not while you're a stranger to him. Talk to him, or fight him.",
+          "requires": { "any": [ { "flag": "troll_dead" }, { "flag": "troll_pacified" } ] },
+          "locked_message": "The troll fends you off with a menacing gesture." }
+      ] },
+
+    { "id": "ew_passage", "display_name": "East-West Passage", "kind": "dungeon", "parent": "troll_room", "exterior": false, "dark": true, "scene": "res://games/zork/maps/ew_passage.tscn", "environment": "env.dungeon.damp",
+      "description": "This is a narrow east-west passageway. There is a narrow stairway leading down at the north end of the room. Water drips somewhere with the patience of geology. Against the wall slumps what is left of a previous adventurer.",
+      "short_description": "The east-west passage. The dead adventurer is here.",
+      "spawns": { "default": { "position": [-6, 0.2, 0], "yaw": 270 }, "from_round": { "position": [6, 0.2, 0], "yaw": 90 } },
+      "portals": [
+        { "id": "to_troll", "label": "the Troll Room (west)", "target_map": "troll_room", "target_spawn": "from_passage", "position": [-7.4, 0, 0], "yaw": 90, "visual": "portal.doorway" },
+        { "id": "to_round", "label": "the passage east", "target_map": "round_room", "target_spawn": "default", "position": [7.4, 0, 0], "yaw": 270, "visual": "portal.doorway" }
+      ] },
+
+    { "id": "round_room", "display_name": "Round Room", "kind": "dungeon", "parent": "ew_passage", "exterior": false, "dark": true, "scene": "res://games/zork/maps/round_room.tscn", "environment": "env.dungeon.damp",
+      "description": "This is a circular stone room with passages in all directions. Several of them have unfortunately been blocked by cave-ins. A shaft above admits a thin grey light and the smell of leaves; iron rungs climb toward a grating. To the north is a doorway with a frame of carved marble.",
+      "short_description": "The Round Room. Passages west, north; rungs to the grating.",
+      "spawns": { "default": { "position": [-6, 0.2, 0], "yaw": 270 }, "from_grating": { "position": [0, 0.2, 0], "yaw": 0 }, "from_gallery": { "position": [0, 0.2, -6], "yaw": 0 } },
+      "portals": [
+        { "id": "to_passage", "label": "the passage west", "target_map": "ew_passage", "target_spawn": "from_round", "position": [-7.4, 0, 0], "yaw": 90, "visual": "portal.doorway" },
+        { "id": "to_gallery", "label": "the marble doorway north", "target_map": "gallery", "target_spawn": "default", "position": [0, 0, -7.4], "yaw": 180, "visual": "portal.doorway" },
+        { "id": "grating_up", "label": "the rungs to the grating", "target_map": "clearing", "target_spawn": "default", "position": [2, 0, 2], "yaw": 0, "visual": "portal.stairs",
+          "requires": { "flag": "grating_unlocked" }, "locked_message": "You climb the rungs. The grating above is locked. There IS a keyhole on this side. (Look at the grating from the Round Room floor and press E with a key.)",
+          "travel_text": "You climb the rungs, push the grating up, and haul yourself into daylight." }
+      ] },
+
+    { "id": "gallery", "display_name": "Gallery", "kind": "dungeon", "parent": "round_room", "exterior": false, "dark": false, "scene": "res://games/zork/maps/gallery.tscn", "environment": "env.interior.candle",
+      "description": "This is an art gallery. Most of the paintings have been stolen by vandals with exceptional taste. The vandals left through either the north or west exits. Fortunately, there is still one chance for you to be a vandal, for on the far wall is a painting of unparalleled beauty. Oil lamps in sconces keep the room lit, which is thoughtful of someone.",
+      "short_description": "The Gallery. Empty frames, one painting.",
+      "spawns": { "default": { "position": [0, 0.2, 6], "yaw": 180 } },
+      "spawn_tables": [ { "actor": "thief", "key": "thief", "position": [4, 0.2, -3], "yaw": 220, "unless_flag": "thief_resolved" } ],
+      "portals": [
+        { "id": "to_round", "label": "the Round Room (south)", "target_map": "round_room", "target_spawn": "from_gallery", "position": [0, 0, 7.4], "yaw": 0, "visual": "portal.doorway" }
+      ] }
+  ]
+}
+

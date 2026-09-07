@@ -25,6 +25,9 @@ const KIND_NAMES := {
 @export var music_key: String = ""
 @export var spawn_tables: Array[Dictionary] = [] ## {actor, count, position?, respawn?} (M3 spawners)
 @export var seed: int = 0                   ## For generated maps.
+@export var short_description: String = ""  ## Printed on revisits (Zork "brief" mode).
+@export var dark: bool = false              ## Needs a light source; see game.json "light".
+@export var dark_description: String = ""   ## Printed instead of description when unlit.
 
 var poi_ids: Array[String] = []             ## Filled by MapManager from pois.json.
 
@@ -45,6 +48,9 @@ func _apply(d: Dictionary) -> void:
 	music_key = d.get("music", "")
 	spawn_tables = Definition._dict_array(d.get("spawn_tables", []))
 	seed = int(d.get("seed", 0))
+	short_description = str(d.get("short_description", ""))
+	dark = bool(d.get("dark", false))
+	dark_description = str(d.get("dark_description", "It is pitch black. You are likely to be eaten by a grue."))
 
 
 func get_portal(portal_id: String) -> Dictionary:

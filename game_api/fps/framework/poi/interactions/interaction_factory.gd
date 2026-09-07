@@ -9,6 +9,9 @@ static var _registry: Dictionary = {
 	"shop": preload("res://framework/poi/interactions/shop_interaction.gd"),
 	"dialogue": preload("res://framework/poi/interactions/dialogue_interaction.gd"),
 	"portal": preload("res://framework/poi/interactions/portal_interaction.gd"),
+	"examine": preload("res://framework/poi/interactions/examine_interaction.gd"),
+	"pickup": preload("res://framework/poi/interactions/pickup_interaction.gd"),
+	"container": preload("res://framework/poi/interactions/container_interaction.gd"),
 }
 
 

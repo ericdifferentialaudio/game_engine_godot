@@ -1,0 +1,73 @@
+{
+  "items": [
+    { "id": "zorkmid", "display_name": "Zorkmid", "category": "currency", "value": 1 },
+
+    { "id": "leaflet", "display_name": "Leaflet", "category": "quest", "weight": 0.1, "value": 0,
+      "description": "A small leaflet. WELCOME TO ZORK!", "lore_intel": "lore_leaflet" },
+
+    { "id": "brass_lantern", "display_name": "Brass Lantern (off)", "category": "misc", "weight": 1.5, "value": 5,
+      "description": "A battery-powered brass lantern. It is not lit. (Press F to switch it on.)" },
+
+    { "id": "brass_lantern_lit", "display_name": "Brass Lantern (lit)", "category": "misc", "weight": 1.5, "value": 5,
+      "description": "The brass lantern is on, throwing a warm circle of light. (Press F to switch it off.)" },
+
+    { "id": "elvish_sword", "display_name": "Elvish Sword", "category": "weapon", "rarity": "rare",
+      "weight": 3.0, "equip_slot": "main_hand", "value": 0,
+      "description": "A sword of elvish workmanship. Its blade glows faintly blue.",
+      "damage": { "slash": [5, 9] }, "stats": { "attack": 2 }, "abilities": ["sword_slash"],
+      "lore_intel": "know_sword_glows" },
+
+    { "id": "nasty_knife", "display_name": "Nasty Knife", "category": "weapon", "weight": 1.0, "equip_slot": "main_hand",
+      "value": 0, "description": "A nasty-looking knife, rusty but wickedly sharp.",
+      "damage": { "pierce": [3, 6] }, "abilities": ["knife_stab"] },
+
+    { "id": "bloody_axe", "display_name": "Bloody Axe", "category": "weapon", "weight": 5.0, "equip_slot": "main_hand",
+      "two_handed": true, "value": 0, "description": "The troll's axe. It has seen use.",
+      "damage": { "slash": [7, 12] }, "stats": { "attack": 3 }, "abilities": ["axe_chop"], "requires_stats": { "strength": 10 } },
+
+    { "id": "stiletto", "display_name": "Stiletto", "category": "weapon", "weight": 0.5, "equip_slot": "main_hand",
+      "value": 0, "description": "A slim, vicious stiletto, still warm from a hand.",
+      "damage": { "pierce": [4, 8] }, "stats": { "crit_chance": 0.15 }, "abilities": ["knife_stab"] },
+
+    { "id": "rope", "display_name": "Rope", "category": "misc", "weight": 2.0, "value": 0,
+      "description": "A large coil of rope." },
+
+    { "id": "brown_sack", "display_name": "Brown Sack", "category": "misc", "weight": 0.2, "value": 0,
+      "description": "An elongated brown sack, smelling of hot peppers." },
+
+    { "id": "lunch", "display_name": "Lunch", "category": "consumable", "weight": 0.3, "value": 0, "stackable": false,
+      "description": "A lunch, wrapped in paper. Hot peppers, by the smell.", "use_ability": "eat_lunch" },
+
+    { "id": "garlic", "display_name": "Clove of Garlic", "category": "consumable", "weight": 0.1, "value": 0, "stackable": false,
+      "description": "A clove of garlic. Potent.", "use_ability": "eat_garlic", "tags": ["reeks"] },
+
+    { "id": "water_bottle", "display_name": "Bottle of Water", "category": "consumable", "weight": 0.5, "value": 0, "stackable": false,
+      "description": "A glass bottle containing a quantity of water.", "use_ability": "drink_water" },
+
+    { "id": "jewelled_egg", "display_name": "Jewel-Encrusted Egg", "category": "quest", "weight": 0.5, "value": 5,
+      "tags": ["treasure"], "treasure_score": 5,
+      "description": "The egg is covered with fine gold inlay and ornamented in lapis lazuli and mother-of-pearl. It has a delicate clasp." },
+
+    { "id": "golden_canary", "display_name": "Golden Clockwork Canary", "category": "quest", "weight": 0.2, "value": 6,
+      "tags": ["treasure"], "treasure_score": 6,
+      "description": "A golden clockwork canary, exquisitely made. It sings when wound." },
+
+    { "id": "painting", "display_name": "Painting", "category": "quest", "weight": 1.5, "value": 4,
+      "tags": ["treasure"], "treasure_score": 4,
+      "description": "A painting of unparalleled beauty — the masterpiece of an unknown artist." },
+
+    { "id": "troll_gem", "display_name": "Large Emerald", "category": "quest", "weight": 0.2, "value": 5,
+      "tags": ["treasure"], "treasure_score": 5,
+      "description": "A large emerald, hidden by the troll beneath a flagstone. It is astonishingly green." },
+
+    { "id": "platinum_bar", "display_name": "Platinum Bar", "category": "quest", "weight": 4.0, "value": 10,
+      "tags": ["treasure"], "treasure_score": 10,
+      "description": "A heavy bar of platinum, taken from the thief's bag." },
+
+    { "id": "adventurer_notebook", "display_name": "Dead Adventurer's Notebook", "category": "quest", "weight": 0.2, "value": 0,
+      "description": "A water-stained notebook in a cramped hand. Most pages are legible.", "lore_intel": "know_thief_true_name" },
+
+    { "id": "skeleton_key", "display_name": "Skeleton Key", "category": "key", "weight": 0.1, "value": 0,
+      "description": "A rusty skeleton key." }
+  ]
+}

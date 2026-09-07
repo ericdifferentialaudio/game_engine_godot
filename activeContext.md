@@ -27,7 +27,40 @@ spread, trade, give), interactions (8 kinds) and live places.
 Both engines boot with the core installed and feed it their real game package.
 
 **Verified** (Godot 4.7.2, `tools/run_tests.ps1`):
-core 94/94 · isometric 4/4 · fps 4/4 · iso smoke 37/37 · fps boot check 8/8.
+core 130/130 (94 + 24 goal-selector + 12 road-builder) · isometric 10/10
+(4 + 6 line-of-sight) · fps 4/4 · iso smoke 37/37 · fps boot check 8/8.
+
+**Aevum port (in progress).** Porting good algorithms/practice from the
+standalone Python project `C:\Aevum\engine` (a separate, unrelated hex-grid
+strategy game) into `game_core`/the isometric engine, translated to
+GDScript — not a wholesale code dump, cherry-picked by value. Landed so far:
+
+1. `CoreGoalSelector` (`core/addons/game_core/managers/core_goal_selector.gd`),
+   ported from `engine/engine_goals.py` — roulette-wheel weighted goal
+   selection (normalize/select_weighted/apply_repeat_penalty/
+   roll_commitment/proximity_bonus/apply_cooldown), draws from the shared
+   `CoreContext.rng()` for determinism. Wired into `AIHeuristicManager`
+   (was an explicit TODO placeholder stub) with per-agent cooldown/
+   commitment Dictionaries. 24 GUT tests.
+2. `CoreRoadBuilder` (`core/addons/game_core/managers/core_road_builder.gd`),
+   ported from `engine/engine_map_pipeline.py`'s Dijkstra/A* organic-road
+   pipeline (Sprint 23 "#166") — terrain-cost-aware `find_path()` plus
+   `build_road_network()`'s 3-pass model (direct spokes -> greedy MST ->
+   short stubs for isolated minor sites). Kept in `core/` (not the iso
+   engine) since it depends only on injected Callables
+   (neighbors/cost/distance), no GridTopology/WorldMap coupling, so any
+   future grid-based world model can reuse it. Wired into the isometric
+   engine's `MapGenerator.build_roads()`. 12 GUT tests.
+3. Isometric combat, ported from `engine/combat_engine.py`:
+   `GridTopology.line()`/`has_line_of_sight()` (generalised from Aevum's
+   hex-only cube-coordinate line + hardcoded "only Mountain blocks" to any
+   topology via world-space lerp, and any terrain/feature flagged
+   `blocks_sight`), gating `CombatResolver.resolve()` behind LoS
+   (`rules.combat.require_line_of_sight`); and a data-driven monster-
+   weakness/damage-type bonus (`_apply_monster_weakness`, generalised from
+   Aevum's hardcoded clan/lair model to `EntityDefinition.metadata`
+   `weak_to`/`resists`/`damage_type`, gated on an intel token like any
+   other fact). 6 GUT tests (`game_api/isometric/tests/unit/test_line_of_sight.gd`).
 
 ## Known gaps
 
