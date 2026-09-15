@@ -1,0 +1,14 @@
+{
+  "intel": [
+    {
+      "id": "first_rumor",
+      "title": "A first rumour",
+      "summary": "Replace me.",
+      "subject": "world",
+      "scope": "global",
+      "category": "rumor",
+      "reliability": 0.5,
+      "value": 10
+    }
+  ]
+}

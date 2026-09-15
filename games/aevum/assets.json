@@ -1,0 +1,1548 @@
+{
+  "assets": {
+    "tile.plains": {
+      "type": "texture",
+      "path": "res://assets/tiles/placeholder/plains.png"
+    },
+    "tile.forest": {
+      "type": "texture",
+      "path": "res://assets/tiles/placeholder/forest.png"
+    },
+    "tile.hills": {
+      "type": "texture",
+      "path": "res://assets/tiles/placeholder/hills.png"
+    },
+    "tile.mountain": {
+      "type": "texture",
+      "path": "res://assets/tiles/placeholder/mountain.png"
+    },
+    "tile.swamp": {
+      "type": "texture",
+      "path": "res://assets/tiles/placeholder/swamp.png"
+    },
+    "tile.sacred": {
+      "type": "texture",
+      "path": "res://assets/tiles/placeholder/sacred.png"
+    },
+    "tile.grassland": {
+      "type": "texture",
+      "path": "res://assets/tiles/placeholder/grassland.png"
+    },
+    "tile.ocean": {
+      "type": "texture",
+      "path": "res://assets/tiles/placeholder/ocean.png"
+    },
+    "tile.coast": {
+      "type": "texture",
+      "path": "res://assets/tiles/placeholder/coast.png"
+    },
+    "unit.fighter_scout": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/fighter_scout/frames.tres",
+      "facings": 6
+    },
+    "portrait.fighter_scout": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/fighter_scout.png"
+    },
+    "unit.mage_scout": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/mage_scout/frames.tres",
+      "facings": 6
+    },
+    "portrait.mage_scout": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/mage_scout.png"
+    },
+    "unit.cleric_scout": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/cleric_scout/frames.tres",
+      "facings": 6
+    },
+    "portrait.cleric_scout": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/cleric_scout.png"
+    },
+    "unit.dwarf_scout": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/dwarf_scout/frames.tres",
+      "facings": 6
+    },
+    "portrait.dwarf_scout": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/dwarf_scout.png"
+    },
+    "unit.ranger_scout": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/ranger_scout/frames.tres",
+      "facings": 6
+    },
+    "portrait.ranger_scout": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/ranger_scout.png"
+    },
+    "unit.elf_scout": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/elf_scout/frames.tres",
+      "facings": 6
+    },
+    "portrait.elf_scout": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/elf_scout.png"
+    },
+    "unit.rogue_scout": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/rogue_scout/frames.tres",
+      "facings": 6
+    },
+    "portrait.rogue_scout": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/rogue_scout.png"
+    },
+    "unit.monk_scout": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/monk_scout/frames.tres",
+      "facings": 6
+    },
+    "portrait.monk_scout": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/monk_scout.png"
+    },
+    "unit.druid_scout": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/druid_scout/frames.tres",
+      "facings": 6
+    },
+    "portrait.druid_scout": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/druid_scout.png"
+    },
+    "unit.necromancer_scout": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/necromancer_scout/frames.tres",
+      "facings": 6
+    },
+    "portrait.necromancer_scout": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/necromancer_scout.png"
+    },
+    "unit.bard_scout": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/bard_scout/frames.tres",
+      "facings": 6
+    },
+    "portrait.bard_scout": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/bard_scout.png"
+    },
+    "unit.shaman_scout": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/shaman_scout/frames.tres",
+      "facings": 6
+    },
+    "portrait.shaman_scout": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/shaman_scout.png"
+    },
+    "unit.fighter_archer": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/fighter_archer/frames.tres",
+      "facings": 6
+    },
+    "portrait.fighter_archer": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/fighter_archer.png"
+    },
+    "unit.mage_archer": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/mage_archer/frames.tres",
+      "facings": 6
+    },
+    "portrait.mage_archer": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/mage_archer.png"
+    },
+    "unit.cleric_archer": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/cleric_archer/frames.tres",
+      "facings": 6
+    },
+    "portrait.cleric_archer": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/cleric_archer.png"
+    },
+    "unit.dwarf_archer": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/dwarf_archer/frames.tres",
+      "facings": 6
+    },
+    "portrait.dwarf_archer": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/dwarf_archer.png"
+    },
+    "unit.ranger_archer": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/ranger_archer/frames.tres",
+      "facings": 6
+    },
+    "portrait.ranger_archer": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/ranger_archer.png"
+    },
+    "unit.elf_archer": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/elf_archer/frames.tres",
+      "facings": 6
+    },
+    "portrait.elf_archer": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/elf_archer.png"
+    },
+    "unit.rogue_archer": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/rogue_archer/frames.tres",
+      "facings": 6
+    },
+    "portrait.rogue_archer": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/rogue_archer.png"
+    },
+    "unit.monk_archer": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/monk_archer/frames.tres",
+      "facings": 6
+    },
+    "portrait.monk_archer": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/monk_archer.png"
+    },
+    "unit.druid_archer": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/druid_archer/frames.tres",
+      "facings": 6
+    },
+    "portrait.druid_archer": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/druid_archer.png"
+    },
+    "unit.necromancer_archer": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/necromancer_archer/frames.tres",
+      "facings": 6
+    },
+    "portrait.necromancer_archer": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/necromancer_archer.png"
+    },
+    "unit.bard_archer": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/bard_archer/frames.tres",
+      "facings": 6
+    },
+    "portrait.bard_archer": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/bard_archer.png"
+    },
+    "unit.shaman_archer": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/shaman_archer/frames.tres",
+      "facings": 6
+    },
+    "portrait.shaman_archer": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/shaman_archer.png"
+    },
+    "unit.fighter_defender": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/fighter_defender/frames.tres",
+      "facings": 6
+    },
+    "portrait.fighter_defender": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/fighter_defender.png"
+    },
+    "unit.mage_defender": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/mage_defender/frames.tres",
+      "facings": 6
+    },
+    "portrait.mage_defender": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/mage_defender.png"
+    },
+    "unit.cleric_defender": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/cleric_defender/frames.tres",
+      "facings": 6
+    },
+    "portrait.cleric_defender": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/cleric_defender.png"
+    },
+    "unit.dwarf_defender": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/dwarf_defender/frames.tres",
+      "facings": 6
+    },
+    "portrait.dwarf_defender": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/dwarf_defender.png"
+    },
+    "unit.ranger_defender": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/ranger_defender/frames.tres",
+      "facings": 6
+    },
+    "portrait.ranger_defender": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/ranger_defender.png"
+    },
+    "unit.elf_defender": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/elf_defender/frames.tres",
+      "facings": 6
+    },
+    "portrait.elf_defender": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/elf_defender.png"
+    },
+    "unit.rogue_defender": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/rogue_defender/frames.tres",
+      "facings": 6
+    },
+    "portrait.rogue_defender": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/rogue_defender.png"
+    },
+    "unit.monk_defender": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/monk_defender/frames.tres",
+      "facings": 6
+    },
+    "portrait.monk_defender": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/monk_defender.png"
+    },
+    "unit.druid_defender": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/druid_defender/frames.tres",
+      "facings": 6
+    },
+    "portrait.druid_defender": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/druid_defender.png"
+    },
+    "unit.necromancer_defender": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/necromancer_defender/frames.tres",
+      "facings": 6
+    },
+    "portrait.necromancer_defender": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/necromancer_defender.png"
+    },
+    "unit.bard_defender": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/bard_defender/frames.tres",
+      "facings": 6
+    },
+    "portrait.bard_defender": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/bard_defender.png"
+    },
+    "unit.shaman_defender": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/shaman_defender/frames.tres",
+      "facings": 6
+    },
+    "portrait.shaman_defender": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/shaman_defender.png"
+    },
+    "unit.fighter_chieftain": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/fighter_chieftain/frames.tres",
+      "facings": 6
+    },
+    "portrait.fighter_chieftain": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/fighter_chieftain.png"
+    },
+    "unit.mage_chieftain": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/mage_chieftain/frames.tres",
+      "facings": 6
+    },
+    "portrait.mage_chieftain": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/mage_chieftain.png"
+    },
+    "unit.cleric_chieftain": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/cleric_chieftain/frames.tres",
+      "facings": 6
+    },
+    "portrait.cleric_chieftain": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/cleric_chieftain.png"
+    },
+    "unit.dwarf_chieftain": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/dwarf_chieftain/frames.tres",
+      "facings": 6
+    },
+    "portrait.dwarf_chieftain": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/dwarf_chieftain.png"
+    },
+    "unit.ranger_chieftain": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/ranger_chieftain/frames.tres",
+      "facings": 6
+    },
+    "portrait.ranger_chieftain": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/ranger_chieftain.png"
+    },
+    "unit.elf_chieftain": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/elf_chieftain/frames.tres",
+      "facings": 6
+    },
+    "portrait.elf_chieftain": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/elf_chieftain.png"
+    },
+    "unit.rogue_chieftain": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/rogue_chieftain/frames.tres",
+      "facings": 6
+    },
+    "portrait.rogue_chieftain": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/rogue_chieftain.png"
+    },
+    "unit.monk_chieftain": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/monk_chieftain/frames.tres",
+      "facings": 6
+    },
+    "portrait.monk_chieftain": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/monk_chieftain.png"
+    },
+    "unit.druid_chieftain": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/druid_chieftain/frames.tres",
+      "facings": 6
+    },
+    "portrait.druid_chieftain": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/druid_chieftain.png"
+    },
+    "unit.necromancer_chieftain": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/necromancer_chieftain/frames.tres",
+      "facings": 6
+    },
+    "portrait.necromancer_chieftain": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/necromancer_chieftain.png"
+    },
+    "unit.bard_chieftain": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/bard_chieftain/frames.tres",
+      "facings": 6
+    },
+    "portrait.bard_chieftain": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/bard_chieftain.png"
+    },
+    "unit.shaman_chieftain": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/shaman_chieftain/frames.tres",
+      "facings": 6
+    },
+    "portrait.shaman_chieftain": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/shaman_chieftain.png"
+    },
+    "unit.fighter_seeker": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/fighter_seeker/frames.tres",
+      "facings": 6
+    },
+    "portrait.fighter_seeker": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/fighter_seeker.png"
+    },
+    "unit.mage_seeker": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/mage_seeker/frames.tres",
+      "facings": 6
+    },
+    "portrait.mage_seeker": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/mage_seeker.png"
+    },
+    "unit.cleric_seeker": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/cleric_seeker/frames.tres",
+      "facings": 6
+    },
+    "portrait.cleric_seeker": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/cleric_seeker.png"
+    },
+    "unit.dwarf_seeker": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/dwarf_seeker/frames.tres",
+      "facings": 6
+    },
+    "portrait.dwarf_seeker": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/dwarf_seeker.png"
+    },
+    "unit.ranger_seeker": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/ranger_seeker/frames.tres",
+      "facings": 6
+    },
+    "portrait.ranger_seeker": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/ranger_seeker.png"
+    },
+    "unit.elf_seeker": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/elf_seeker/frames.tres",
+      "facings": 6
+    },
+    "portrait.elf_seeker": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/elf_seeker.png"
+    },
+    "unit.rogue_seeker": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/rogue_seeker/frames.tres",
+      "facings": 6
+    },
+    "portrait.rogue_seeker": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/rogue_seeker.png"
+    },
+    "unit.monk_seeker": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/monk_seeker/frames.tres",
+      "facings": 6
+    },
+    "portrait.monk_seeker": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/monk_seeker.png"
+    },
+    "unit.druid_seeker": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/druid_seeker/frames.tres",
+      "facings": 6
+    },
+    "portrait.druid_seeker": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/druid_seeker.png"
+    },
+    "unit.necromancer_seeker": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/necromancer_seeker/frames.tres",
+      "facings": 6
+    },
+    "portrait.necromancer_seeker": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/necromancer_seeker.png"
+    },
+    "unit.bard_seeker": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/bard_seeker/frames.tres",
+      "facings": 6
+    },
+    "portrait.bard_seeker": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/bard_seeker.png"
+    },
+    "unit.shaman_seeker": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/shaman_seeker/frames.tres",
+      "facings": 6
+    },
+    "portrait.shaman_seeker": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/shaman_seeker.png"
+    },
+    "unit.fighter_clan": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/fighter_clan/frames.tres",
+      "facings": 6
+    },
+    "portrait.fighter_clan": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/fighter_clan.png"
+    },
+    "unit.mage_clan": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/mage_clan/frames.tres",
+      "facings": 6
+    },
+    "portrait.mage_clan": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/mage_clan.png"
+    },
+    "unit.cleric_clan": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/cleric_clan/frames.tres",
+      "facings": 6
+    },
+    "portrait.cleric_clan": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/cleric_clan.png"
+    },
+    "unit.dwarf_clan": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/dwarf_clan/frames.tres",
+      "facings": 6
+    },
+    "portrait.dwarf_clan": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/dwarf_clan.png"
+    },
+    "unit.ranger_clan": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/ranger_clan/frames.tres",
+      "facings": 6
+    },
+    "portrait.ranger_clan": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/ranger_clan.png"
+    },
+    "unit.elf_clan": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/elf_clan/frames.tres",
+      "facings": 6
+    },
+    "portrait.elf_clan": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/elf_clan.png"
+    },
+    "unit.rogue_clan": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/rogue_clan/frames.tres",
+      "facings": 6
+    },
+    "portrait.rogue_clan": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/rogue_clan.png"
+    },
+    "unit.monk_clan": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/monk_clan/frames.tres",
+      "facings": 6
+    },
+    "portrait.monk_clan": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/monk_clan.png"
+    },
+    "unit.druid_clan": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/druid_clan/frames.tres",
+      "facings": 6
+    },
+    "portrait.druid_clan": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/druid_clan.png"
+    },
+    "unit.necromancer_clan": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/necromancer_clan/frames.tres",
+      "facings": 6
+    },
+    "portrait.necromancer_clan": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/necromancer_clan.png"
+    },
+    "unit.bard_clan": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/bard_clan/frames.tres",
+      "facings": 6
+    },
+    "portrait.bard_clan": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/bard_clan.png"
+    },
+    "unit.shaman_clan": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/shaman_clan/frames.tres",
+      "facings": 6
+    },
+    "portrait.shaman_clan": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/shaman_clan.png"
+    },
+    "unit.fighter_advanced": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/fighter_advanced/frames.tres",
+      "facings": 6
+    },
+    "portrait.fighter_advanced": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/fighter_advanced.png"
+    },
+    "unit.mage_advanced": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/mage_advanced/frames.tres",
+      "facings": 6
+    },
+    "portrait.mage_advanced": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/mage_advanced.png"
+    },
+    "unit.cleric_advanced": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/cleric_advanced/frames.tres",
+      "facings": 6
+    },
+    "portrait.cleric_advanced": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/cleric_advanced.png"
+    },
+    "unit.dwarf_advanced": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/dwarf_advanced/frames.tres",
+      "facings": 6
+    },
+    "portrait.dwarf_advanced": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/dwarf_advanced.png"
+    },
+    "unit.ranger_advanced": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/ranger_advanced/frames.tres",
+      "facings": 6
+    },
+    "portrait.ranger_advanced": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/ranger_advanced.png"
+    },
+    "unit.elf_advanced": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/elf_advanced/frames.tres",
+      "facings": 6
+    },
+    "portrait.elf_advanced": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/elf_advanced.png"
+    },
+    "unit.rogue_advanced": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/rogue_advanced/frames.tres",
+      "facings": 6
+    },
+    "portrait.rogue_advanced": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/rogue_advanced.png"
+    },
+    "unit.monk_advanced": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/monk_advanced/frames.tres",
+      "facings": 6
+    },
+    "portrait.monk_advanced": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/monk_advanced.png"
+    },
+    "unit.druid_advanced": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/druid_advanced/frames.tres",
+      "facings": 6
+    },
+    "portrait.druid_advanced": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/druid_advanced.png"
+    },
+    "unit.necromancer_advanced": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/necromancer_advanced/frames.tres",
+      "facings": 6
+    },
+    "portrait.necromancer_advanced": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/necromancer_advanced.png"
+    },
+    "unit.bard_advanced": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/bard_advanced/frames.tres",
+      "facings": 6
+    },
+    "portrait.bard_advanced": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/bard_advanced.png"
+    },
+    "unit.shaman_advanced": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/shaman_advanced/frames.tres",
+      "facings": 6
+    },
+    "portrait.shaman_advanced": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/shaman_advanced.png"
+    },
+    "unit.fighter_specialty": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/fighter_specialty/frames.tres",
+      "facings": 6
+    },
+    "portrait.fighter_specialty": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/fighter_specialty.png"
+    },
+    "unit.mage_specialty": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/mage_specialty/frames.tres",
+      "facings": 6
+    },
+    "portrait.mage_specialty": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/mage_specialty.png"
+    },
+    "unit.cleric_specialty": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/cleric_specialty/frames.tres",
+      "facings": 6
+    },
+    "portrait.cleric_specialty": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/cleric_specialty.png"
+    },
+    "unit.dwarf_specialty": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/dwarf_specialty/frames.tres",
+      "facings": 6
+    },
+    "portrait.dwarf_specialty": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/dwarf_specialty.png"
+    },
+    "unit.ranger_specialty": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/ranger_specialty/frames.tres",
+      "facings": 6
+    },
+    "portrait.ranger_specialty": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/ranger_specialty.png"
+    },
+    "unit.elf_specialty": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/elf_specialty/frames.tres",
+      "facings": 6
+    },
+    "portrait.elf_specialty": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/elf_specialty.png"
+    },
+    "unit.rogue_specialty": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/rogue_specialty/frames.tres",
+      "facings": 6
+    },
+    "portrait.rogue_specialty": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/rogue_specialty.png"
+    },
+    "unit.monk_specialty": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/monk_specialty/frames.tres",
+      "facings": 6
+    },
+    "portrait.monk_specialty": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/monk_specialty.png"
+    },
+    "unit.druid_specialty": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/druid_specialty/frames.tres",
+      "facings": 6
+    },
+    "portrait.druid_specialty": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/druid_specialty.png"
+    },
+    "unit.necromancer_specialty": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/necromancer_specialty/frames.tres",
+      "facings": 6
+    },
+    "portrait.necromancer_specialty": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/necromancer_specialty.png"
+    },
+    "unit.bard_specialty": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/bard_specialty/frames.tres",
+      "facings": 6
+    },
+    "portrait.bard_specialty": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/bard_specialty.png"
+    },
+    "unit.shaman_specialty": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/shaman_specialty/frames.tres",
+      "facings": 6
+    },
+    "portrait.shaman_specialty": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/shaman_specialty.png"
+    },
+    "unit.galley": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/galley/frames.tres",
+      "facings": 6
+    },
+    "portrait.galley": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/galley.png"
+    },
+    "unit.warship": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/warship/frames.tres",
+      "facings": 6
+    },
+    "portrait.warship": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/warship.png"
+    },
+    "unit.privateer": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/privateer/frames.tres",
+      "facings": 6
+    },
+    "portrait.privateer": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/privateer.png"
+    },
+    "unit.goblin": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/goblin/frames.tres",
+      "facings": 6
+    },
+    "portrait.goblin": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/goblin.png"
+    },
+    "unit.orc": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/orc/frames.tres",
+      "facings": 6
+    },
+    "portrait.orc": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/orc.png"
+    },
+    "unit.warg": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/warg/frames.tres",
+      "facings": 6
+    },
+    "portrait.warg": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/warg.png"
+    },
+    "unit.harpy": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/harpy/frames.tres",
+      "facings": 6
+    },
+    "portrait.harpy": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/harpy.png"
+    },
+    "unit.skeleton": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/skeleton/frames.tres",
+      "facings": 6
+    },
+    "portrait.skeleton": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/skeleton.png"
+    },
+    "unit.basilisk": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/basilisk/frames.tres",
+      "facings": 6
+    },
+    "portrait.basilisk": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/basilisk.png"
+    },
+    "unit.troll": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/troll/frames.tres",
+      "facings": 6
+    },
+    "portrait.troll": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/troll.png"
+    },
+    "unit.wraith": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/wraith/frames.tres",
+      "facings": 6
+    },
+    "portrait.wraith": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/wraith.png"
+    },
+    "unit.elemental": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/elemental/frames.tres",
+      "facings": 6
+    },
+    "portrait.elemental": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/elemental.png"
+    },
+    "unit.demon": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/demon/frames.tres",
+      "facings": 6
+    },
+    "portrait.demon": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/demon.png"
+    },
+    "unit.drake": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/drake/frames.tres",
+      "facings": 6
+    },
+    "portrait.drake": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/drake.png"
+    },
+    "unit.dragon": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/dragon/frames.tres",
+      "facings": 6
+    },
+    "portrait.dragon": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/dragon.png"
+    },
+    "unit.reef_shark": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/reef_shark/frames.tres",
+      "facings": 6
+    },
+    "portrait.reef_shark": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/reef_shark.png"
+    },
+    "unit.electric_eel": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/electric_eel/frames.tres",
+      "facings": 6
+    },
+    "portrait.electric_eel": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/electric_eel.png"
+    },
+    "unit.cave_crawler": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/cave_crawler/frames.tres",
+      "facings": 6
+    },
+    "portrait.cave_crawler": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/cave_crawler.png"
+    },
+    "unit.giant_bat": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/giant_bat/frames.tres",
+      "facings": 6
+    },
+    "portrait.giant_bat": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/giant_bat.png"
+    },
+    "unit.bog_lurker": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/bog_lurker/frames.tres",
+      "facings": 6
+    },
+    "portrait.bog_lurker": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/bog_lurker.png"
+    },
+    "unit.will_o_wisp": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/will_o_wisp/frames.tres",
+      "facings": 6
+    },
+    "portrait.will_o_wisp": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/will_o_wisp.png"
+    },
+    "unit.crypt_skeleton": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/crypt_skeleton/frames.tres",
+      "facings": 6
+    },
+    "portrait.crypt_skeleton": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/crypt_skeleton.png"
+    },
+    "unit.shadow": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/shadow/frames.tres",
+      "facings": 6
+    },
+    "portrait.shadow": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/shadow.png"
+    },
+    "unit.bandit": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/bandit/frames.tres",
+      "facings": 6
+    },
+    "portrait.bandit": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/bandit.png"
+    },
+    "unit.sporeling": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/sporeling/frames.tres",
+      "facings": 6
+    },
+    "portrait.sporeling": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/sporeling.png"
+    },
+    "unit.phantom_wisp": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/phantom_wisp/frames.tres",
+      "facings": 6
+    },
+    "portrait.phantom_wisp": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/phantom_wisp.png"
+    },
+    "unit.boss_giant_octopus": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_giant_octopus/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_giant_octopus": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_giant_octopus.png"
+    },
+    "unit.boss_sea_serpent": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_sea_serpent/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_sea_serpent": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_sea_serpent.png"
+    },
+    "unit.boss_kraken": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_kraken/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_kraken": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_kraken.png"
+    },
+    "unit.boss_cave_bear": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_cave_bear/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_cave_bear": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_cave_bear.png"
+    },
+    "unit.boss_stone_golem": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_stone_golem/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_stone_golem": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_stone_golem.png"
+    },
+    "unit.boss_ancient_golem": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_ancient_golem/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_ancient_golem": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_ancient_golem.png"
+    },
+    "unit.boss_swamp_hag": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_swamp_hag/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_swamp_hag": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_swamp_hag.png"
+    },
+    "unit.boss_bog_troll": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_bog_troll/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_bog_troll": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_bog_troll.png"
+    },
+    "unit.boss_plague_hydra": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_plague_hydra/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_plague_hydra": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_plague_hydra.png"
+    },
+    "unit.boss_skeleton_champion": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_skeleton_champion/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_skeleton_champion": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_skeleton_champion.png"
+    },
+    "unit.boss_lich_acolyte": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_lich_acolyte/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_lich_acolyte": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_lich_acolyte.png"
+    },
+    "unit.boss_lich_lord": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_lich_lord/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_lich_lord": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_lich_lord.png"
+    },
+    "unit.boss_bandit_lord": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_bandit_lord/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_bandit_lord": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_bandit_lord.png"
+    },
+    "unit.boss_wraith_captain": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_wraith_captain/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_wraith_captain": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_wraith_captain.png"
+    },
+    "unit.boss_death_knight": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_death_knight/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_death_knight": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_death_knight.png"
+    },
+    "unit.boss_spore_shambler": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_spore_shambler/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_spore_shambler": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_spore_shambler.png"
+    },
+    "unit.boss_myconid_elder": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_myconid_elder/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_myconid_elder": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_myconid_elder.png"
+    },
+    "unit.boss_fungal_horror": {
+      "type": "sprite_frames",
+      "path": "res://assets/units/boss_fungal_horror/frames.tres",
+      "facings": 6
+    },
+    "portrait.boss_fungal_horror": {
+      "type": "texture",
+      "path": "res://assets/characters/portraits/boss_fungal_horror.png"
+    },
+    "icon.item.iron_shield": {
+      "type": "texture",
+      "path": "res://assets/items/icons/iron_shield.png"
+    },
+    "icon.item.swift_boots": {
+      "type": "texture",
+      "path": "res://assets/items/icons/swift_boots.png"
+    },
+    "icon.item.keen_blade": {
+      "type": "texture",
+      "path": "res://assets/items/icons/keen_blade.png"
+    },
+    "icon.item.lantern": {
+      "type": "texture",
+      "path": "res://assets/items/icons/lantern.png"
+    },
+    "icon.item.heal_potion": {
+      "type": "texture",
+      "path": "res://assets/items/icons/heal_potion.png"
+    },
+    "icon.item.shrine_map": {
+      "type": "texture",
+      "path": "res://assets/items/icons/shrine_map.png"
+    },
+    "icon.item.spell_scroll": {
+      "type": "texture",
+      "path": "res://assets/items/icons/spell_scroll.png"
+    },
+    "icon.item.flameblade": {
+      "type": "texture",
+      "path": "res://assets/items/icons/flameblade.png"
+    },
+    "icon.item.shadowblade": {
+      "type": "texture",
+      "path": "res://assets/items/icons/shadowblade.png"
+    },
+    "icon.item.frostblade": {
+      "type": "texture",
+      "path": "res://assets/items/icons/frostblade.png"
+    },
+    "icon.item.soulreaver": {
+      "type": "texture",
+      "path": "res://assets/items/icons/soulreaver.png"
+    },
+    "icon.item.runic_axe": {
+      "type": "texture",
+      "path": "res://assets/items/icons/runic_axe.png"
+    },
+    "icon.item.egg_shard": {
+      "type": "texture",
+      "path": "res://assets/items/icons/egg_shard.png"
+    },
+    "icon.item.ancient_map": {
+      "type": "texture",
+      "path": "res://assets/items/icons/ancient_map.png"
+    },
+    "icon.item.seer_stone": {
+      "type": "texture",
+      "path": "res://assets/items/icons/seer_stone.png"
+    },
+    "icon.item.war_horn": {
+      "type": "texture",
+      "path": "res://assets/items/icons/war_horn.png"
+    },
+    "icon.item.warding_rune": {
+      "type": "texture",
+      "path": "res://assets/items/icons/warding_rune.png"
+    },
+    "icon.item.shadow_cloak": {
+      "type": "texture",
+      "path": "res://assets/items/icons/shadow_cloak.png"
+    },
+    "icon.item.heal_totem": {
+      "type": "texture",
+      "path": "res://assets/items/icons/heal_totem.png"
+    },
+    "icon.item.masons_tools": {
+      "type": "texture",
+      "path": "res://assets/items/icons/masons_tools.png"
+    },
+    "icon.item.scholars_lens": {
+      "type": "texture",
+      "path": "res://assets/items/icons/scholars_lens.png"
+    },
+    "icon.item.foresters_axe": {
+      "type": "texture",
+      "path": "res://assets/items/icons/foresters_axe.png"
+    },
+    "icon.item.nautical_chart": {
+      "type": "texture",
+      "path": "res://assets/items/icons/nautical_chart.png"
+    },
+    "icon.item.sea_glass_lens": {
+      "type": "texture",
+      "path": "res://assets/items/icons/sea_glass_lens.png"
+    },
+    "icon.item.kraken_talisman": {
+      "type": "texture",
+      "path": "res://assets/items/icons/kraken_talisman.png"
+    },
+    "icon.item.coral_armor": {
+      "type": "texture",
+      "path": "res://assets/items/icons/coral_armor.png"
+    },
+    "icon.item.storm_anchor": {
+      "type": "texture",
+      "path": "res://assets/items/icons/storm_anchor.png"
+    },
+    "icon.item.driftwood_chart": {
+      "type": "texture",
+      "path": "res://assets/items/icons/driftwood_chart.png"
+    },
+    "icon.item.knights_blade": {
+      "type": "texture",
+      "path": "res://assets/items/icons/knights_blade.png"
+    },
+    "icon.item.tower_shield": {
+      "type": "texture",
+      "path": "res://assets/items/icons/tower_shield.png"
+    },
+    "icon.item.windrunner_boots": {
+      "type": "texture",
+      "path": "res://assets/items/icons/windrunner_boots.png"
+    },
+    "icon.item.enhanced_lantern": {
+      "type": "texture",
+      "path": "res://assets/items/icons/enhanced_lantern.png"
+    },
+    "icon.item.plate_helm": {
+      "type": "texture",
+      "path": "res://assets/items/icons/plate_helm.png"
+    },
+    "icon.item.short_sword": {
+      "type": "texture",
+      "path": "res://assets/items/icons/short_sword.png"
+    },
+    "icon.item.buckler": {
+      "type": "texture",
+      "path": "res://assets/items/icons/buckler.png"
+    },
+    "icon.item.travellers_cloak": {
+      "type": "texture",
+      "path": "res://assets/items/icons/travellers_cloak.png"
+    },
+    "icon.item.iron_cap": {
+      "type": "texture",
+      "path": "res://assets/items/icons/iron_cap.png"
+    },
+    "icon.item.dragon_egg": {
+      "type": "texture",
+      "path": "res://assets/items/icons/dragon_egg.png"
+    },
+    "icon.item.dragon_orb": {
+      "type": "texture",
+      "path": "res://assets/items/icons/dragon_orb.png"
+    },
+    "icon.item.dragonhide_mantle": {
+      "type": "texture",
+      "path": "res://assets/items/icons/dragonhide_mantle.png"
+    },
+    "icon.item.egg_spoof": {
+      "type": "texture",
+      "path": "res://assets/items/icons/egg_spoof.png"
+    },
+    "icon.item.elfbow": {
+      "type": "texture",
+      "path": "res://assets/items/icons/elfbow.png"
+    },
+    "icon.item.exhaust_sigil": {
+      "type": "texture",
+      "path": "res://assets/items/icons/exhaust_sigil.png"
+    },
+    "icon.item.focus_crystal": {
+      "type": "texture",
+      "path": "res://assets/items/icons/focus_crystal.png"
+    },
+    "icon.item.healing_potion": {
+      "type": "texture",
+      "path": "res://assets/items/icons/healing_potion.png"
+    },
+    "icon.item.longbow": {
+      "type": "texture",
+      "path": "res://assets/items/icons/longbow.png"
+    },
+    "icon.item.mana_staff": {
+      "type": "texture",
+      "path": "res://assets/items/icons/mana_staff.png"
+    },
+    "icon.item.riders_bind": {
+      "type": "texture",
+      "path": "res://assets/items/icons/riders_bind.png"
+    },
+    "icon.item.shadowbow": {
+      "type": "texture",
+      "path": "res://assets/items/icons/shadowbow.png"
+    },
+    "icon.item.spell_staff": {
+      "type": "texture",
+      "path": "res://assets/items/icons/spell_staff.png"
+    },
+    "icon.item.stormbow": {
+      "type": "texture",
+      "path": "res://assets/items/icons/stormbow.png"
+    },
+    "icon.item.warding_stone": {
+      "type": "texture",
+      "path": "res://assets/items/icons/warding_stone.png"
+    },
+    "site.shrine": {
+      "type": "scene",
+      "path": "res://assets/structures/shrine/shrine.tscn"
+    },
+    "site.enclave": {
+      "type": "scene",
+      "path": "res://assets/structures/enclave/enclave.tscn"
+    },
+    "site.town": {
+      "type": "scene",
+      "path": "res://assets/structures/town/town.tscn"
+    },
+    "site.lair": {
+      "type": "scene",
+      "path": "res://assets/structures/lair/lair.tscn"
+    },
+    "site.veil": {
+      "type": "scene",
+      "path": "res://assets/structures/veil/veil.tscn"
+    },
+    "env.overworld": {
+      "type": "environment",
+      "path": "res://assets/env/overworld.tres"
+    },
+    "env.cave": {
+      "type": "environment",
+      "path": "res://assets/env/cave.tres"
+    },
+    "env.crypt": {
+      "type": "environment",
+      "path": "res://assets/env/crypt.tres"
+    },
+    "music.overworld": {
+      "type": "audio",
+      "path": "res://assets/audio/overworld.ogg"
+    },
+    "music.lair": {
+      "type": "audio",
+      "path": "res://assets/audio/lair.ogg"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "id": "gold",
+      "display_name": "Gold",
+      "category": "currency",
+      "value": 1
+    }
+  ]
+}

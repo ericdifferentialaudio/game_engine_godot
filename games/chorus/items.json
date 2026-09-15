@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "id": "healing_herb",
+      "display_name": "Healing Herb",
+      "kind": "consumable",
+      "value": 8,
+      "use_effects": [
+        {
+          "kind": "reward",
+          "stat_delta": {
+            "health": 5
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "units": [
+    {
+      "id": "hero",
+      "display_name": "Hero",
+      "kind": "hero",
+      "stats": {
+        "health": 12,
+        "strength": 3,
+        "moves": 3,
+        "sight": 3,
+        "perception": 2
+      },
+      "equipment_slots": [
+        "weapon"
+      ],
+      "level_curve": {
+        "base_xp": 15,
+        "growth": 1.5,
+        "per_level": {
+          "health": 2
+        }
+      }
+    },
+    {
+      "id": "scout",
+      "display_name": "Scout",
+      "kind": "unit",
+      "stats": {
+        "health": 8,
+        "strength": 2,
+        "moves": 4,
+        "sight": 3
+      },
+      "ai_profile": "explorer"
+    },
+    {
+      "id": "wolf",
+      "display_name": "Wolf",
+      "kind": "monster",
+      "stats": {
+        "health": 6,
+        "strength": 3,
+        "moves": 3,
+        "sight": 2
+      },
+      "ai_profile": "hunter",
+      "xp_value": 4
+    }
+  ],
+  "abilities": {}
+}

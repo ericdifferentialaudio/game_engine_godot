@@ -1,0 +1,27 @@
+{
+  "actors": [
+    {
+      "id": "player",
+      "display_name": "You",
+      "role": "player",
+      "faction": "player",
+      "brain": "player",
+      "stats": {
+        "strength": 10,
+        "agility": 10,
+        "intellect": 10,
+        "perception": 5,
+        "armor": 0,
+        "move_speed": 4.5
+      },
+      "resources": {
+        "health": 100,
+        "mana": 50,
+        "stamina": 100
+      },
+      "abilities": [
+        "punch"
+      ]
+    }
+  ]
+}

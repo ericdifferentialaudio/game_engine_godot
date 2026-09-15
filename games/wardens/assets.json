@@ -1,0 +1,16 @@
+{
+  "assets": {
+    "env.forest.day": {
+      "type": "environment",
+      "path": "res://assets/environments/forest_day.tres"
+    },
+    "portal.default": {
+      "type": "scene",
+      "path": "res://assets/props/portal_marker/portal_marker.tscn"
+    },
+    "poi.landmark": {
+      "type": "scene",
+      "path": "res://assets/props/poi_marker/poi_marker.tscn"
+    }
+  }
+}

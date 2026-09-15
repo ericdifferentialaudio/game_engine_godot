@@ -1,0 +1,25 @@
+{
+  "pois": [
+    {
+      "id": "first_landmark",
+      "map": "overworld",
+      "display_name": "A Weathered Signpost",
+      "category": "landmark",
+      "position": [
+        5,
+        0,
+        -5
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "first_rumor"
+          ],
+          "once": true,
+          "message": "The signpost points somewhere interesting."
+        }
+      ]
+    }
+  ]
+}

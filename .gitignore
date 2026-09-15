@@ -1,3 +1,12 @@
+
+# Chaos forge: regression history and raw harness logs are build artifacts.
+# latest.json / *.jsonl are regenerated on every run; history.sqlite is a local
+# cache used to classify NEW vs REGRESSION vs FLAKE.
+tools/regressions/*.jsonl
+tools/regressions/*.log
+tools/regressions/history.sqlite
+tools/regressions/latest.json
+
 # Godot 4+ specific ignores (each project root: core/, game_api/isometric/, game_api/fps/)
 .godot/
 **/.godot/
@@ -27,6 +36,11 @@ Thumbs.db
 
 # Local Godot executable paths (per machine; copy godot.local.example.json)
 godot.local.json
+
+# Claude Code: .claude/ is intentionally tracked (shared settings, agents,
+# skills, hooks). Per-machine overrides and session state are not.
+.claude/settings.local.json
+.claude/*.local.json
 
 # Scratch/debug output
 _*.log

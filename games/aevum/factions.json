@@ -1,0 +1,509 @@
+{
+  "factions": [
+    {
+      "id": "fighter",
+      "display_name": "Fighter",
+      "color": "#4a90d9",
+      "control": "human",
+      "turn_order": 0,
+      "starting_units": [
+        "fighter_chieftain",
+        "fighter_scout",
+        "fighter_scout",
+        "fighter_defender"
+      ],
+      "resources": {
+        "gold": 200
+      },
+      "claims_start_territory": true,
+      "default_stance": "peace",
+      "stances": {
+        "wilds": "war",
+        "dragon": "war"
+      },
+      "ai": {
+        "profile": "clan_standard"
+      },
+      "tags": [
+        "clan"
+      ],
+      "metadata": {
+        "magic_tier": 0,
+        "shrine_bonus": "atk",
+        "passive": "Charge: move through occupied hex",
+        "specialty_unit": "warlord",
+        "specialty_building": "war_hall",
+        "virtues": {
+          "primary": "Valor",
+          "secondary": "Honour"
+        },
+        "start_territory_radius": 2
+      }
+    },
+    {
+      "id": "mage",
+      "display_name": "Mage",
+      "color": "#ba68c8",
+      "control": "ai",
+      "turn_order": 1,
+      "starting_units": [
+        "mage_chieftain",
+        "mage_scout",
+        "mage_scout",
+        "mage_defender"
+      ],
+      "resources": {
+        "gold": 200
+      },
+      "claims_start_territory": true,
+      "default_stance": "peace",
+      "stances": {
+        "wilds": "war",
+        "dragon": "war"
+      },
+      "ai": {
+        "profile": "clan_standard"
+      },
+      "tags": [
+        "clan"
+      ],
+      "metadata": {
+        "magic_tier": 5,
+        "shrine_bonus": "vis",
+        "passive": "Highest mana pool in game",
+        "specialty_unit": "arcanist",
+        "specialty_building": "arcane_tower",
+        "virtues": {
+          "primary": "Wisdom",
+          "secondary": "Honesty"
+        },
+        "start_territory_radius": 2
+      }
+    },
+    {
+      "id": "cleric",
+      "display_name": "Cleric",
+      "color": "#f06292",
+      "control": "ai",
+      "turn_order": 2,
+      "starting_units": [
+        "cleric_chieftain",
+        "cleric_scout",
+        "cleric_scout",
+        "cleric_defender"
+      ],
+      "resources": {
+        "gold": 200
+      },
+      "claims_start_territory": true,
+      "default_stance": "peace",
+      "stances": {
+        "wilds": "war",
+        "dragon": "war"
+      },
+      "ai": {
+        "profile": "clan_standard"
+      },
+      "tags": [
+        "clan"
+      ],
+      "metadata": {
+        "magic_tier": 3,
+        "shrine_bonus": "def",
+        "passive": "Heals adjacent unit as free action",
+        "specialty_unit": "high_priest",
+        "specialty_building": "temple",
+        "virtues": {
+          "primary": "Compassion",
+          "secondary": "Sacrifice"
+        },
+        "start_territory_radius": 2
+      }
+    },
+    {
+      "id": "dwarf",
+      "display_name": "Dwarf",
+      "color": "#e8a838",
+      "control": "ai",
+      "turn_order": 3,
+      "starting_units": [
+        "dwarf_chieftain",
+        "dwarf_scout",
+        "dwarf_scout",
+        "dwarf_defender"
+      ],
+      "resources": {
+        "gold": 200
+      },
+      "claims_start_territory": true,
+      "default_stance": "peace",
+      "stances": {
+        "wilds": "war",
+        "dragon": "war"
+      },
+      "ai": {
+        "profile": "clan_standard"
+      },
+      "tags": [
+        "clan"
+      ],
+      "metadata": {
+        "magic_tier": 0,
+        "shrine_bonus": "hp",
+        "passive": "Mountain movement cost 2/hex",
+        "specialty_unit": "runesmith",
+        "specialty_building": "forge",
+        "virtues": {
+          "primary": "Fortitude",
+          "secondary": "Loyalty"
+        },
+        "start_territory_radius": 2
+      }
+    },
+    {
+      "id": "ranger",
+      "display_name": "Ranger",
+      "color": "#6abf69",
+      "control": "ai",
+      "turn_order": 4,
+      "starting_units": [
+        "ranger_chieftain",
+        "ranger_scout",
+        "ranger_scout",
+        "ranger_defender"
+      ],
+      "resources": {
+        "gold": 200
+      },
+      "claims_start_territory": true,
+      "default_stance": "peace",
+      "stances": {
+        "wilds": "war",
+        "dragon": "war"
+      },
+      "ai": {
+        "profile": "clan_standard"
+      },
+      "tags": [
+        "clan"
+      ],
+      "metadata": {
+        "magic_tier": 1,
+        "shrine_bonus": "mov",
+        "passive": "Forest/hills free. Mountain cost 1/hex",
+        "specialty_unit": "trapper",
+        "specialty_building": "ranger_post",
+        "virtues": {
+          "primary": "Spirituality",
+          "secondary": "Justice"
+        },
+        "start_territory_radius": 2
+      }
+    },
+    {
+      "id": "elf",
+      "display_name": "Elf",
+      "color": "#4dd0e1",
+      "control": "ai",
+      "turn_order": 5,
+      "starting_units": [
+        "elf_chieftain",
+        "elf_scout",
+        "elf_scout",
+        "elf_defender"
+      ],
+      "resources": {
+        "gold": 200
+      },
+      "claims_start_territory": true,
+      "default_stance": "peace",
+      "stances": {
+        "wilds": "war",
+        "dragon": "war"
+      },
+      "ai": {
+        "profile": "clan_standard"
+      },
+      "tags": [
+        "clan"
+      ],
+      "metadata": {
+        "magic_tier": 3,
+        "shrine_bonus": "arc",
+        "passive": "Immune to forest DEF penalty vs Archers",
+        "specialty_unit": "starbow",
+        "specialty_building": "archer_range",
+        "virtues": {
+          "primary": "Honour",
+          "secondary": "Valor"
+        },
+        "start_territory_radius": 2
+      }
+    },
+    {
+      "id": "rogue",
+      "display_name": "Rogue",
+      "color": "#a1887f",
+      "control": "ai",
+      "turn_order": 6,
+      "starting_units": [
+        "rogue_chieftain",
+        "rogue_scout",
+        "rogue_scout",
+        "rogue_defender"
+      ],
+      "resources": {
+        "gold": 200
+      },
+      "claims_start_territory": true,
+      "default_stance": "peace",
+      "stances": {
+        "wilds": "war",
+        "dragon": "war"
+      },
+      "ai": {
+        "profile": "clan_standard"
+      },
+      "tags": [
+        "clan"
+      ],
+      "metadata": {
+        "magic_tier": 1,
+        "shrine_bonus": "stl",
+        "passive": "Invisible until 2 hexes from enemies",
+        "specialty_unit": "assassin",
+        "specialty_building": "shadow_den",
+        "virtues": {
+          "primary": "Loyalty",
+          "secondary": "Fortitude"
+        },
+        "start_territory_radius": 2
+      }
+    },
+    {
+      "id": "monk",
+      "display_name": "Monk",
+      "color": "#ff8a65",
+      "control": "ai",
+      "turn_order": 7,
+      "starting_units": [
+        "monk_chieftain",
+        "monk_scout",
+        "monk_scout",
+        "monk_defender"
+      ],
+      "resources": {
+        "gold": 200
+      },
+      "claims_start_territory": true,
+      "default_stance": "peace",
+      "stances": {
+        "wilds": "war",
+        "dragon": "war"
+      },
+      "ai": {
+        "profile": "clan_standard"
+      },
+      "tags": [
+        "clan"
+      ],
+      "metadata": {
+        "magic_tier": 2,
+        "shrine_bonus": "res",
+        "passive": "Does not auto-trigger zone of control",
+        "specialty_unit": "iron_fist",
+        "specialty_building": "monastery",
+        "virtues": {
+          "primary": "Humility",
+          "secondary": "Temperance"
+        },
+        "start_territory_radius": 2
+      }
+    },
+    {
+      "id": "druid",
+      "display_name": "Druid",
+      "color": "#6abf69",
+      "control": "ai",
+      "turn_order": 8,
+      "starting_units": [
+        "druid_chieftain",
+        "druid_scout",
+        "druid_scout",
+        "druid_defender"
+      ],
+      "resources": {
+        "gold": 200
+      },
+      "claims_start_territory": true,
+      "default_stance": "peace",
+      "stances": {
+        "wilds": "war",
+        "dragon": "war"
+      },
+      "ai": {
+        "profile": "clan_standard"
+      },
+      "tags": [
+        "clan"
+      ],
+      "metadata": {
+        "magic_tier": 3,
+        "shrine_bonus": "lck",
+        "passive": "Grows forest. Free forest movement",
+        "specialty_unit": "thornweaver",
+        "specialty_building": "grove",
+        "virtues": {
+          "primary": "Temperance",
+          "secondary": "Humility"
+        },
+        "start_territory_radius": 2
+      }
+    },
+    {
+      "id": "necromancer",
+      "display_name": "Necromancer",
+      "color": "#9b6bd0",
+      "control": "ai",
+      "turn_order": 9,
+      "starting_units": [
+        "necromancer_chieftain",
+        "necromancer_scout",
+        "necromancer_scout",
+        "necromancer_defender"
+      ],
+      "resources": {
+        "gold": 200
+      },
+      "claims_start_territory": true,
+      "default_stance": "peace",
+      "stances": {
+        "wilds": "war",
+        "dragon": "war"
+      },
+      "ai": {
+        "profile": "clan_standard"
+      },
+      "tags": [
+        "clan"
+      ],
+      "metadata": {
+        "magic_tier": 4,
+        "shrine_bonus": "atk_weak",
+        "passive": "ATK +1 per 3 units dead on map",
+        "specialty_unit": "death_knight",
+        "specialty_building": "crypt",
+        "virtues": {
+          "primary": "Sacrifice",
+          "secondary": "Compassion"
+        },
+        "start_territory_radius": 2
+      }
+    },
+    {
+      "id": "bard",
+      "display_name": "Bard",
+      "color": "#b89848",
+      "control": "ai",
+      "turn_order": 10,
+      "starting_units": [
+        "bard_chieftain",
+        "bard_scout",
+        "bard_scout",
+        "bard_defender"
+      ],
+      "resources": {
+        "gold": 200
+      },
+      "claims_start_territory": true,
+      "default_stance": "peace",
+      "stances": {
+        "wilds": "war",
+        "dragon": "war"
+      },
+      "ai": {
+        "profile": "clan_standard"
+      },
+      "tags": [
+        "clan"
+      ],
+      "metadata": {
+        "magic_tier": 2,
+        "shrine_bonus": "int_stat",
+        "passive": "Reads enemy shrine completion status",
+        "specialty_unit": "spymaster",
+        "specialty_building": "thieves_guild",
+        "virtues": {
+          "primary": "Honesty",
+          "secondary": "Wisdom"
+        },
+        "start_territory_radius": 2
+      }
+    },
+    {
+      "id": "shaman",
+      "display_name": "Shaman",
+      "color": "#9b8ea0",
+      "control": "ai",
+      "turn_order": 11,
+      "starting_units": [
+        "shaman_chieftain",
+        "shaman_scout",
+        "shaman_scout",
+        "shaman_defender"
+      ],
+      "resources": {
+        "gold": 200
+      },
+      "claims_start_territory": true,
+      "default_stance": "peace",
+      "stances": {
+        "wilds": "war",
+        "dragon": "war"
+      },
+      "ai": {
+        "profile": "clan_standard"
+      },
+      "tags": [
+        "clan"
+      ],
+      "metadata": {
+        "magic_tier": 4,
+        "shrine_bonus": "arc_elem",
+        "passive": "Area spell damage +1",
+        "specialty_unit": "stormcaller",
+        "specialty_building": "spirit_lodge",
+        "virtues": {
+          "primary": "Justice",
+          "secondary": "Spirituality"
+        },
+        "start_territory_radius": 2
+      }
+    },
+    {
+      "id": "wilds",
+      "display_name": "The Wilds",
+      "color": "#7f8c8d",
+      "control": "hostile",
+      "starting_units": [],
+      "claims_start_territory": false,
+      "default_stance": "war",
+      "tags": [
+        "monsters"
+      ]
+    },
+    {
+      "id": "dragon",
+      "display_name": "The Dragon",
+      "color": "#8e2f1c",
+      "control": "hostile",
+      "starting_units": [],
+      "claims_start_territory": false,
+      "default_stance": "war",
+      "tags": [
+        "unique",
+        "dragon"
+      ]
+    }
+  ]
+}

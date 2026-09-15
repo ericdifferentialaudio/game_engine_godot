@@ -1,0 +1,21 @@
+{
+  "factions": [
+    {
+      "id": "player",
+      "display_name": "Adventurer"
+    },
+    {
+      "id": "townsfolk",
+      "display_name": "Townsfolk",
+      "relations": {
+        "player": "friendly"
+      },
+      "player_reputation": 10
+    },
+    {
+      "id": "monsters",
+      "display_name": "Monsters",
+      "default_relation": "hostile"
+    }
+  ]
+}

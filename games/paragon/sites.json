@@ -1,0 +1,168 @@
+{
+  "sites": [
+    {
+      "id": "anchor_town_gate",
+      "map": "anchor_overworld",
+      "display_name": "The Anchor Town",
+      "description": "The first town of the pilgrimage.",
+      "category": "village",
+      "coord": [8, 9],
+      "visual": "site.village",
+      "owner": "town_folk",
+      "capturable": false,
+      "discover_intel": ["seen_anchor_town"],
+      "interactions": [
+        { "kind": "portal", "target_map": "anchor_town", "target_coord": [1, 1], "direction": "descend", "message": "You pass through the gate into the Anchor Town." }
+      ],
+      "tags": ["settlement", "portal"]
+    },
+    {
+      "id": "site_mantra_keeper",
+      "map": "anchor_town",
+      "display_name": "The Mantra-Keeper's Table",
+      "category": "generic",
+      "coord": [3, 2],
+      "visual": "site.generic",
+      "spawns": [{ "unit": "mantra_keeper", "faction": "town_folk", "count": 1, "radius": 0 }],
+      "interactions": [
+        {
+          "kind": "dialogue", "speaker": "The Mantra-Keeper", "portrait": "portrait.mantra_keeper", "start": "greet", "consumes": false,
+          "nodes": {
+            "greet": { "text": "Before I give thee a word that opens a shrine — hast thou, since thou came through the gate, taken anything that was not thine?", "choices": [
+              { "text": "Yes. (truthful)", "next": "yes_truth" },
+              { "text": "No. (truthful)", "next": "no_truth" },
+              { "text": "No. (a lie)", "next": "lie" },
+              { "text": "I would rather not answer.", "next": null }
+            ] },
+            "yes_truth": { "text": "Then thou knowest what the word costs. Here it is.", "grant_intel": ["token_mantra_slot1"], "set_flags": ["asked_mantra_keeper"], "effects": [{ "kind": "reward", "stat_delta": { "virtue_integrity": 4 }, "message": "Costly honesty." }], "next": null },
+            "no_truth": { "text": "Then take it, and go in peace.", "grant_intel": ["token_mantra_slot1"], "set_flags": ["asked_mantra_keeper"], "effects": [{ "kind": "reward", "stat_delta": { "virtue_integrity": 1 } }], "next": null },
+            "lie": { "text": "So.", "set_flags": ["asked_mantra_keeper", "lied_to_mantra_keeper"], "effects": [{ "kind": "reward", "stat_delta": { "virtue_integrity": -3 }, "message": "The keeper will not ask again." }], "next": null }
+          }
+        }
+      ],
+      "tags": ["informant", "role.town.mantra_keeper"]
+    },
+    {
+      "id": "site_shrine_pointer",
+      "map": "anchor_town",
+      "display_name": "The Old Fisher",
+      "category": "generic",
+      "coord": [11, 2],
+      "visual": "site.generic",
+      "spawns": [{ "unit": "shrine_pointer", "faction": "town_folk", "count": 1, "radius": 0 }],
+      "interactions": [
+        { "kind": "intel", "tokens": ["token_shrine_location_slot1"], "channel": "told", "once_per_faction": true, "message": "Half a day along the shore. Look for the standing stones." }
+      ],
+      "tags": ["informant", "role.town.shrine_pointer"]
+    },
+    {
+      "id": "site_sigil_hider",
+      "map": "anchor_town",
+      "display_name": "The Child at the Bakery",
+      "category": "generic",
+      "coord": [3, 6],
+      "visual": "site.generic",
+      "interactions": [
+        { "kind": "intel", "tokens": ["token_sigil_location_slot1"], "channel": "told", "once_per_faction": true, "message": "I hid it where the cat sleeps. Cats sleep where it's warm." }
+      ],
+      "tags": ["informant", "role.town.sigil_hider"]
+    },
+    {
+      "id": "site_beggar",
+      "map": "anchor_town",
+      "display_name": "The Beggar at the Gate",
+      "category": "generic",
+      "coord": [1, 4],
+      "visual": "site.generic",
+      "spawns": [{ "unit": "beggar", "faction": "town_folk", "count": 1, "radius": 0 }],
+      "interactions": [
+        { "kind": "reward", "resources": { "gold": -2 }, "requires": { "not": { "faction_flag": "gave_beggar_1" } }, "set_flags": ["gave_beggar_1"], "message": "You give a coin. \"Bless thee.\"" },
+        { "kind": "reward", "resources": { "gold": -2 }, "requires": { "all": [ { "faction_flag": "gave_beggar_1" }, { "not": { "faction_flag": "gave_beggar_2" } } ] }, "set_flags": ["gave_beggar_2"], "effects": [{ "kind": "reward", "stat_delta": { "virtue_compassion": 2 } }], "message": "You give again. \"Not many do that twice.\"" },
+        { "kind": "intel", "requires": { "all": [ { "faction_flag": "gave_beggar_2" }, { "not": { "faction_flag": "gave_beggar_3" } } ] }, "tokens": ["token_shrine_location_slot1_beggar"], "channel": "told", "once_per_faction": true, "message": "The stones by the sea. That's where they go to be quiet." }
+      ],
+      "tags": ["role.town.beggar"]
+    },
+    {
+      "id": "site_drunk",
+      "map": "anchor_town",
+      "display_name": "The Drunk",
+      "category": "generic",
+      "coord": [11, 6],
+      "visual": "site.generic",
+      "interactions": [
+        { "kind": "intel", "tokens": ["token_shrine_location_false"], "channel": "told", "once_per_faction": true, "message": "Shrine? Up the hill, past the mill. Everyone knows." }
+      ],
+      "tags": ["role.town.drunk"]
+    },
+    {
+      "id": "site_priest",
+      "map": "anchor_town",
+      "display_name": "The Priest",
+      "category": "generic",
+      "coord": [7, 7],
+      "visual": "site.generic",
+      "interactions": [
+        { "kind": "intel", "tokens": ["rule_shrine_own_stones"], "channel": "told", "once_per_faction": true, "message": "Not the hill — that is the old watchtower. The shrine is by the water. And know this: the word opens nothing but at its own stones. Speak it there, and it is done." }
+      ],
+      "tags": ["informant", "role.town.priest"]
+    },
+    {
+      "id": "compassion_shrine_entrance",
+      "map": "anchor_overworld",
+      "display_name": "The Standing Stones",
+      "description": "Stones by the sea, worn smooth.",
+      "category": "shrine",
+      "coord": [4, 12],
+      "visual": "site.shrine",
+      "hidden_until": { "any": [ { "has": "token_shrine_location_slot1" }, { "has": "token_shrine_location_slot1_beggar" } ] },
+      "interactions": [
+        { "kind": "portal", "target_map": "compassion_shrine_interior", "target_coord": [1, 1], "direction": "descend", "message": "You climb down among the stones, into the Shrine of Compassion." }
+      ],
+      "tags": ["dungeon", "portal", "key"]
+    },
+    {
+      "id": "site_compassion_shrine_vision",
+      "map": "compassion_shrine_interior",
+      "display_name": "The Shrine of Compassion",
+      "category": "shrine",
+      "coord": [4, 3],
+      "visual": "site.shrine",
+      "interactions": [
+        { "kind": "dialogue", "speaker": "", "start": "vision1", "consumes": false,
+          "nodes": {
+            "vision1": { "text": "Thou standest in a crowd. Every face turns to thee, and every face is in pain, and thou canst not look away.", "choices": [ { "text": "Continue.", "next": "vision2" } ] },
+            "vision2": { "text": "One face is thine. It has been in pain the whole time. Thou hadst not noticed.", "choices": [ { "text": "Continue.", "next": "vision3" } ] },
+            "vision3": { "text": "The crowd is gone. One hand is in thine. Thou dost not know whose, and it does not matter.", "set_flags": ["compassion_enlightenment"], "effects": [{ "kind": "reward", "stat_delta": { "virtue_compassion": 6 }, "message": "Enlightenment." }], "next": null }
+          }
+        },
+        { "kind": "spawn", "unit": "companion_healer", "faction": "actor", "requires": { "flag": "compassion_enlightenment" }, "once": true, "message": "The healer rises from the water and asks to walk with you." }
+      ],
+      "tags": ["shrine", "key"]
+    },
+    {
+      "id": "dream_first_camp",
+      "map": "anchor_overworld",
+      "display_name": "The First Camp",
+      "description": "The pilgrim's first night outdoors, before the town.",
+      "category": "generic",
+      "coord": [6, 11],
+      "visual": "site.generic",
+      "interactions": [
+        { "kind": "intel", "tokens": ["token_sigil_location_slot1_dream"], "channel": "scripted", "once_per_faction": true, "message": "That night you dream: a cat asleep on warm brick. Under it, a mark." }
+      ],
+      "tags": ["oblique"]
+    },
+    {
+      "id": "wolf_den",
+      "map": "anchor_overworld",
+      "display_name": "Wolf Den",
+      "category": "camp",
+      "coord": [14, 5],
+      "visual": "site.camp",
+      "owner": "wilds",
+      "capturable": false,
+      "spawns": [{ "unit": "wolf", "faction": "wilds", "count": 2, "radius": 1, "respawn_turns": 10 }],
+      "tags": ["monster"]
+    }
+  ]
+}

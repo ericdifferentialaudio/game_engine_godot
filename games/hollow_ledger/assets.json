@@ -1,0 +1,12 @@
+{
+  "assets": {
+    "site.ruins": {
+      "type": "scene",
+      "path": "res://framework/world/placeholder_prop.tscn"
+    },
+    "site.camp": {
+      "type": "scene",
+      "path": "res://framework/world/placeholder_prop.tscn"
+    }
+  }
+}

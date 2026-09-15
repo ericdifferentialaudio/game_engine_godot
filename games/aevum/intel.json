@@ -1,0 +1,1333 @@
+{
+  "intel": [
+    {
+      "id": "location_shrine_fighter",
+      "title": "Location of the Shrine of Valor",
+      "summary": "You know where this shrine stands.",
+      "subject": "shrine_fighter",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.9,
+      "corroboration_step": 0.05,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 40,
+      "reveals": {
+        "sites": [
+          "shrine_fighter"
+        ],
+        "radius": 2
+      },
+      "tags": [
+        "shrine",
+        "location"
+      ]
+    },
+    {
+      "id": "mantra_fighter",
+      "title": "Mantra of the Shrine of Valor",
+      "summary": "The word spoken to enter the shrine's silence quickly.",
+      "subject": "shrine_fighter",
+      "scope": "site",
+      "category": "password",
+      "reliability": 0.8,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 90,
+      "tags": [
+        "mantra",
+        "fighter"
+      ],
+      "metadata": {
+        "meditation_tier": "direct"
+      }
+    },
+    {
+      "id": "location_shrine_mage",
+      "title": "Location of the Shrine of Wisdom",
+      "summary": "You know where this shrine stands.",
+      "subject": "shrine_mage",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.9,
+      "corroboration_step": 0.05,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 40,
+      "reveals": {
+        "sites": [
+          "shrine_mage"
+        ],
+        "radius": 2
+      },
+      "tags": [
+        "shrine",
+        "location"
+      ]
+    },
+    {
+      "id": "mantra_mage",
+      "title": "Mantra of the Shrine of Wisdom",
+      "summary": "The word spoken to enter the shrine's silence quickly.",
+      "subject": "shrine_mage",
+      "scope": "site",
+      "category": "password",
+      "reliability": 0.8,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 90,
+      "tags": [
+        "mantra",
+        "mage"
+      ],
+      "metadata": {
+        "meditation_tier": "direct"
+      }
+    },
+    {
+      "id": "location_shrine_cleric",
+      "title": "Location of the Shrine of Compassion",
+      "summary": "You know where this shrine stands.",
+      "subject": "shrine_cleric",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.9,
+      "corroboration_step": 0.05,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 40,
+      "reveals": {
+        "sites": [
+          "shrine_cleric"
+        ],
+        "radius": 2
+      },
+      "tags": [
+        "shrine",
+        "location"
+      ]
+    },
+    {
+      "id": "mantra_cleric",
+      "title": "Mantra of the Shrine of Compassion",
+      "summary": "The word spoken to enter the shrine's silence quickly.",
+      "subject": "shrine_cleric",
+      "scope": "site",
+      "category": "password",
+      "reliability": 0.8,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 90,
+      "tags": [
+        "mantra",
+        "cleric"
+      ],
+      "metadata": {
+        "meditation_tier": "direct"
+      }
+    },
+    {
+      "id": "location_shrine_dwarf",
+      "title": "Location of the Shrine of Fortitude",
+      "summary": "You know where this shrine stands.",
+      "subject": "shrine_dwarf",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.9,
+      "corroboration_step": 0.05,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 40,
+      "reveals": {
+        "sites": [
+          "shrine_dwarf"
+        ],
+        "radius": 2
+      },
+      "tags": [
+        "shrine",
+        "location"
+      ]
+    },
+    {
+      "id": "mantra_dwarf",
+      "title": "Mantra of the Shrine of Fortitude",
+      "summary": "The word spoken to enter the shrine's silence quickly.",
+      "subject": "shrine_dwarf",
+      "scope": "site",
+      "category": "password",
+      "reliability": 0.8,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 90,
+      "tags": [
+        "mantra",
+        "dwarf"
+      ],
+      "metadata": {
+        "meditation_tier": "direct"
+      }
+    },
+    {
+      "id": "location_shrine_ranger",
+      "title": "Location of the Shrine of Spirituality",
+      "summary": "You know where this shrine stands.",
+      "subject": "shrine_ranger",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.9,
+      "corroboration_step": 0.05,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 40,
+      "reveals": {
+        "sites": [
+          "shrine_ranger"
+        ],
+        "radius": 2
+      },
+      "tags": [
+        "shrine",
+        "location"
+      ]
+    },
+    {
+      "id": "mantra_ranger",
+      "title": "Mantra of the Shrine of Spirituality",
+      "summary": "The word spoken to enter the shrine's silence quickly.",
+      "subject": "shrine_ranger",
+      "scope": "site",
+      "category": "password",
+      "reliability": 0.8,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 90,
+      "tags": [
+        "mantra",
+        "ranger"
+      ],
+      "metadata": {
+        "meditation_tier": "direct"
+      }
+    },
+    {
+      "id": "location_shrine_elf",
+      "title": "Location of the Shrine of Honour",
+      "summary": "You know where this shrine stands.",
+      "subject": "shrine_elf",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.9,
+      "corroboration_step": 0.05,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 40,
+      "reveals": {
+        "sites": [
+          "shrine_elf"
+        ],
+        "radius": 2
+      },
+      "tags": [
+        "shrine",
+        "location"
+      ]
+    },
+    {
+      "id": "mantra_elf",
+      "title": "Mantra of the Shrine of Honour",
+      "summary": "The word spoken to enter the shrine's silence quickly.",
+      "subject": "shrine_elf",
+      "scope": "site",
+      "category": "password",
+      "reliability": 0.8,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 90,
+      "tags": [
+        "mantra",
+        "elf"
+      ],
+      "metadata": {
+        "meditation_tier": "direct"
+      }
+    },
+    {
+      "id": "location_shrine_rogue",
+      "title": "Location of the Shrine of Loyalty",
+      "summary": "You know where this shrine stands.",
+      "subject": "shrine_rogue",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.9,
+      "corroboration_step": 0.05,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 40,
+      "reveals": {
+        "sites": [
+          "shrine_rogue"
+        ],
+        "radius": 2
+      },
+      "tags": [
+        "shrine",
+        "location"
+      ]
+    },
+    {
+      "id": "mantra_rogue",
+      "title": "Mantra of the Shrine of Loyalty",
+      "summary": "The word spoken to enter the shrine's silence quickly.",
+      "subject": "shrine_rogue",
+      "scope": "site",
+      "category": "password",
+      "reliability": 0.8,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 90,
+      "tags": [
+        "mantra",
+        "rogue"
+      ],
+      "metadata": {
+        "meditation_tier": "direct"
+      }
+    },
+    {
+      "id": "location_shrine_monk",
+      "title": "Location of the Shrine of Humility",
+      "summary": "You know where this shrine stands.",
+      "subject": "shrine_monk",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.9,
+      "corroboration_step": 0.05,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 40,
+      "reveals": {
+        "sites": [
+          "shrine_monk"
+        ],
+        "radius": 2
+      },
+      "tags": [
+        "shrine",
+        "location"
+      ]
+    },
+    {
+      "id": "mantra_monk",
+      "title": "Mantra of the Shrine of Humility",
+      "summary": "The word spoken to enter the shrine's silence quickly.",
+      "subject": "shrine_monk",
+      "scope": "site",
+      "category": "password",
+      "reliability": 0.8,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 90,
+      "tags": [
+        "mantra",
+        "monk"
+      ],
+      "metadata": {
+        "meditation_tier": "direct"
+      }
+    },
+    {
+      "id": "location_shrine_druid",
+      "title": "Location of the Shrine of Temperance",
+      "summary": "You know where this shrine stands.",
+      "subject": "shrine_druid",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.9,
+      "corroboration_step": 0.05,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 40,
+      "reveals": {
+        "sites": [
+          "shrine_druid"
+        ],
+        "radius": 2
+      },
+      "tags": [
+        "shrine",
+        "location"
+      ]
+    },
+    {
+      "id": "mantra_druid",
+      "title": "Mantra of the Shrine of Temperance",
+      "summary": "The word spoken to enter the shrine's silence quickly.",
+      "subject": "shrine_druid",
+      "scope": "site",
+      "category": "password",
+      "reliability": 0.8,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 90,
+      "tags": [
+        "mantra",
+        "druid"
+      ],
+      "metadata": {
+        "meditation_tier": "direct"
+      }
+    },
+    {
+      "id": "location_shrine_necromancer",
+      "title": "Location of the Shrine of Sacrifice",
+      "summary": "You know where this shrine stands.",
+      "subject": "shrine_necromancer",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.9,
+      "corroboration_step": 0.05,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 40,
+      "reveals": {
+        "sites": [
+          "shrine_necromancer"
+        ],
+        "radius": 2
+      },
+      "tags": [
+        "shrine",
+        "location"
+      ]
+    },
+    {
+      "id": "mantra_necromancer",
+      "title": "Mantra of the Shrine of Sacrifice",
+      "summary": "The word spoken to enter the shrine's silence quickly.",
+      "subject": "shrine_necromancer",
+      "scope": "site",
+      "category": "password",
+      "reliability": 0.8,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 90,
+      "tags": [
+        "mantra",
+        "necromancer"
+      ],
+      "metadata": {
+        "meditation_tier": "direct"
+      }
+    },
+    {
+      "id": "location_shrine_bard",
+      "title": "Location of the Shrine of Honesty",
+      "summary": "You know where this shrine stands.",
+      "subject": "shrine_bard",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.9,
+      "corroboration_step": 0.05,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 40,
+      "reveals": {
+        "sites": [
+          "shrine_bard"
+        ],
+        "radius": 2
+      },
+      "tags": [
+        "shrine",
+        "location"
+      ]
+    },
+    {
+      "id": "mantra_bard",
+      "title": "Mantra of the Shrine of Honesty",
+      "summary": "The word spoken to enter the shrine's silence quickly.",
+      "subject": "shrine_bard",
+      "scope": "site",
+      "category": "password",
+      "reliability": 0.8,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 90,
+      "tags": [
+        "mantra",
+        "bard"
+      ],
+      "metadata": {
+        "meditation_tier": "direct"
+      }
+    },
+    {
+      "id": "location_shrine_shaman",
+      "title": "Location of the Shrine of Justice",
+      "summary": "You know where this shrine stands.",
+      "subject": "shrine_shaman",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.9,
+      "corroboration_step": 0.05,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 40,
+      "reveals": {
+        "sites": [
+          "shrine_shaman"
+        ],
+        "radius": 2
+      },
+      "tags": [
+        "shrine",
+        "location"
+      ]
+    },
+    {
+      "id": "mantra_shaman",
+      "title": "Mantra of the Shrine of Justice",
+      "summary": "The word spoken to enter the shrine's silence quickly.",
+      "subject": "shrine_shaman",
+      "scope": "site",
+      "category": "password",
+      "reliability": 0.8,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 90,
+      "tags": [
+        "mantra",
+        "shaman"
+      ],
+      "metadata": {
+        "meditation_tier": "direct"
+      }
+    },
+    {
+      "id": "weakness_goblin",
+      "title": "Weakness of the Goblin",
+      "summary": "Fast, cowardly, swarms in packs. Weak individually but overwhelming in numbers.",
+      "subject": "goblin",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.7,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 50,
+      "tags": [
+        "weakness",
+        "monster"
+      ],
+      "metadata": {
+        "weakness_pool": [
+          "arrows",
+          "fire",
+          "holy"
+        ],
+        "resistance_pool": [
+          "poison",
+          "cold",
+          "darkness"
+        ]
+      }
+    },
+    {
+      "id": "seen_goblin",
+      "title": "Goblin sighted",
+      "subject": "goblin",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.6,
+      "decay_turns": 12,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 10,
+      "tags": [
+        "sighting"
+      ]
+    },
+    {
+      "id": "weakness_orc",
+      "title": "Weakness of the Orc",
+      "summary": "Heavy melee. Dangerous when wounded — gets stronger as it takes damage.",
+      "subject": "orc",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.7,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 50,
+      "tags": [
+        "weakness",
+        "monster"
+      ],
+      "metadata": {
+        "weakness_pool": [
+          "magic",
+          "arrows",
+          "silver"
+        ],
+        "resistance_pool": [
+          "physical",
+          "cold"
+        ]
+      }
+    },
+    {
+      "id": "seen_orc",
+      "title": "Orc sighted",
+      "subject": "orc",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.6,
+      "decay_turns": 12,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 10,
+      "tags": [
+        "sighting"
+      ]
+    },
+    {
+      "id": "weakness_warg",
+      "title": "Weakness of the Warg",
+      "summary": "Wolf-pack predator. High mobility. Hunts wounded units across hexes.",
+      "subject": "warg",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.7,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 50,
+      "tags": [
+        "weakness",
+        "monster"
+      ],
+      "metadata": {
+        "weakness_pool": [
+          "fire",
+          "blunt",
+          "light"
+        ],
+        "resistance_pool": [
+          "ranged",
+          "cold"
+        ]
+      }
+    },
+    {
+      "id": "seen_warg",
+      "title": "Warg sighted",
+      "subject": "warg",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.6,
+      "decay_turns": 12,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 10,
+      "tags": [
+        "sighting"
+      ]
+    },
+    {
+      "id": "weakness_harpy",
+      "title": "Weakness of the Harpy",
+      "summary": "Flying — ignores all terrain movement costs. Swoops on isolated units. Turns invisible between attacks.",
+      "subject": "harpy",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.7,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 50,
+      "tags": [
+        "weakness",
+        "monster"
+      ],
+      "metadata": {
+        "weakness_pool": [
+          "arrows",
+          "lightning",
+          "wind"
+        ],
+        "resistance_pool": [
+          "melee",
+          "entangle"
+        ]
+      }
+    },
+    {
+      "id": "seen_harpy",
+      "title": "Harpy sighted",
+      "subject": "harpy",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.6,
+      "decay_turns": 12,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 10,
+      "tags": [
+        "sighting"
+      ]
+    },
+    {
+      "id": "weakness_skeleton",
+      "title": "Weakness of the Skeleton",
+      "summary": "Undead. No fear, no pain response. Unusual resistances. May rise again at 0 HP.",
+      "subject": "skeleton",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.7,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 50,
+      "tags": [
+        "weakness",
+        "monster"
+      ],
+      "metadata": {
+        "weakness_pool": [
+          "holy",
+          "blunt",
+          "fire"
+        ],
+        "resistance_pool": [
+          "ranged",
+          "poison",
+          "dark"
+        ]
+      }
+    },
+    {
+      "id": "seen_skeleton",
+      "title": "Skeleton sighted",
+      "subject": "skeleton",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.6,
+      "decay_turns": 12,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 10,
+      "tags": [
+        "sighting"
+      ]
+    },
+    {
+      "id": "weakness_basilisk",
+      "title": "Weakness of the Basilisk",
+      "summary": "Slow, but its gaze causes paralysis. Units hit by a Basilisk lose their next action.",
+      "subject": "basilisk",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.7,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 50,
+      "tags": [
+        "weakness",
+        "monster"
+      ],
+      "metadata": {
+        "weakness_pool": [
+          "cold",
+          "blunt",
+          "mirror"
+        ],
+        "resistance_pool": [
+          "fire",
+          "magic",
+          "ranged"
+        ]
+      }
+    },
+    {
+      "id": "seen_basilisk",
+      "title": "Basilisk sighted",
+      "subject": "basilisk",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.6,
+      "decay_turns": 12,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 10,
+      "tags": [
+        "sighting"
+      ]
+    },
+    {
+      "id": "weakness_troll",
+      "title": "Weakness of the Troll",
+      "summary": "Regenerates 2 HP per turn unless damaged by fire this turn. Must be burned to die permanently.",
+      "subject": "troll",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.7,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 50,
+      "tags": [
+        "weakness",
+        "monster"
+      ],
+      "metadata": {
+        "weakness_pool": [
+          "fire",
+          "acid",
+          "lightning"
+        ],
+        "resistance_pool": [
+          "physical",
+          "cold",
+          "ranged"
+        ]
+      }
+    },
+    {
+      "id": "seen_troll",
+      "title": "Troll sighted",
+      "subject": "troll",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.6,
+      "decay_turns": 12,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 10,
+      "tags": [
+        "sighting"
+      ]
+    },
+    {
+      "id": "weakness_wraith",
+      "title": "Weakness of the Wraith",
+      "summary": "Ghost. Phases through terrain and ZoC. Cannot be blocked. Must be fought head-on.",
+      "subject": "wraith",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.7,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 50,
+      "tags": [
+        "weakness",
+        "monster"
+      ],
+      "metadata": {
+        "weakness_pool": [
+          "holy",
+          "soulreaver",
+          "sunlight"
+        ],
+        "resistance_pool": [
+          "physical",
+          "ranged",
+          "cold",
+          "dark"
+        ]
+      }
+    },
+    {
+      "id": "seen_wraith",
+      "title": "Wraith sighted",
+      "subject": "wraith",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.6,
+      "decay_turns": 12,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 10,
+      "tags": [
+        "sighting"
+      ]
+    },
+    {
+      "id": "weakness_elemental",
+      "title": "Weakness of the Elemental",
+      "summary": "Fire, Ice, or Lightning variant — seed picks one per game. Immune to its own element. Weak to its counter. Each variant has a different on-hit effect.",
+      "subject": "elemental",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.7,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 50,
+      "tags": [
+        "weakness",
+        "monster"
+      ],
+      "metadata": {
+        "weakness_pool": [
+          "counter_element"
+        ],
+        "resistance_pool": [
+          "own_element"
+        ]
+      }
+    },
+    {
+      "id": "seen_elemental",
+      "title": "Elemental sighted",
+      "subject": "elemental",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.6,
+      "decay_turns": 12,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 10,
+      "tags": [
+        "sighting"
+      ]
+    },
+    {
+      "id": "weakness_demon",
+      "title": "Weakness of the Demon",
+      "summary": "Powerful T3 boss. Spell-slinging, high stats. Resists most things. Requires coordinated assault.",
+      "subject": "demon",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.7,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 50,
+      "tags": [
+        "weakness",
+        "monster"
+      ],
+      "metadata": {
+        "weakness_pool": [
+          "holy",
+          "soulreaver",
+          "silver"
+        ],
+        "resistance_pool": [
+          "fire",
+          "dark",
+          "physical"
+        ]
+      }
+    },
+    {
+      "id": "seen_demon",
+      "title": "Demon sighted",
+      "subject": "demon",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.6,
+      "decay_turns": 12,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 10,
+      "tags": [
+        "sighting"
+      ]
+    },
+    {
+      "id": "weakness_drake",
+      "title": "Weakness of the Drake",
+      "summary": "Lesser dragon. High HP, melee and breath. Guards central zone approaches. Patrols aggressively.",
+      "subject": "drake",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.7,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 50,
+      "tags": [
+        "weakness",
+        "monster"
+      ],
+      "metadata": {
+        "weakness_pool": [
+          "ice",
+          "piercing",
+          "magic"
+        ],
+        "resistance_pool": [
+          "fire",
+          "blunt"
+        ]
+      }
+    },
+    {
+      "id": "seen_drake",
+      "title": "Drake sighted",
+      "subject": "drake",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.6,
+      "decay_turns": 12,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 10,
+      "tags": [
+        "sighting"
+      ]
+    },
+    {
+      "id": "weakness_dragon",
+      "title": "Weakness of the Dragon",
+      "summary": "The apex predator. Unique — one per game, always present. Invisible until a Seeker enters radius 8 of the Veil Hex. Cannot be permanently avoided. Can be permanently slain.",
+      "subject": "dragon",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.7,
+      "corroboration_step": 0.1,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 50,
+      "tags": [
+        "weakness",
+        "monster"
+      ],
+      "metadata": {
+        "weakness_pool": [
+          "ice",
+          "soulreaver",
+          "ancient"
+        ],
+        "resistance_pool": [
+          "fire",
+          "dark",
+          "physical"
+        ]
+      }
+    },
+    {
+      "id": "seen_dragon",
+      "title": "Dragon sighted",
+      "subject": "dragon",
+      "scope": "unit",
+      "category": "military",
+      "reliability": 0.6,
+      "decay_turns": 12,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 10,
+      "tags": [
+        "sighting"
+      ]
+    },
+    {
+      "id": "location_lair_ocean",
+      "title": "Location of the ocean lair",
+      "subject": "lair_ocean",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.8,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 30,
+      "reveals": {
+        "sites": [
+          "lair_ocean"
+        ],
+        "radius": 1
+      },
+      "tags": [
+        "lair",
+        "location"
+      ]
+    },
+    {
+      "id": "cleared_lair_ocean",
+      "title": "The ocean lair is cleared",
+      "subject": "lair_ocean",
+      "scope": "site",
+      "category": "fact",
+      "reliability": 1.0,
+      "spreadable": true,
+      "value": 15,
+      "tags": [
+        "lair"
+      ]
+    },
+    {
+      "id": "location_lair_cave",
+      "title": "Location of the cave lair",
+      "subject": "lair_cave",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.8,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 30,
+      "reveals": {
+        "sites": [
+          "lair_cave"
+        ],
+        "radius": 1
+      },
+      "tags": [
+        "lair",
+        "location"
+      ]
+    },
+    {
+      "id": "cleared_lair_cave",
+      "title": "The cave lair is cleared",
+      "subject": "lair_cave",
+      "scope": "site",
+      "category": "fact",
+      "reliability": 1.0,
+      "spreadable": true,
+      "value": 15,
+      "tags": [
+        "lair"
+      ]
+    },
+    {
+      "id": "location_lair_swamp",
+      "title": "Location of the swamp lair",
+      "subject": "lair_swamp",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.8,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 30,
+      "reveals": {
+        "sites": [
+          "lair_swamp"
+        ],
+        "radius": 1
+      },
+      "tags": [
+        "lair",
+        "location"
+      ]
+    },
+    {
+      "id": "cleared_lair_swamp",
+      "title": "The swamp lair is cleared",
+      "subject": "lair_swamp",
+      "scope": "site",
+      "category": "fact",
+      "reliability": 1.0,
+      "spreadable": true,
+      "value": 15,
+      "tags": [
+        "lair"
+      ]
+    },
+    {
+      "id": "location_lair_crypt",
+      "title": "Location of the crypt lair",
+      "subject": "lair_crypt",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.8,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 30,
+      "reveals": {
+        "sites": [
+          "lair_crypt"
+        ],
+        "radius": 1
+      },
+      "tags": [
+        "lair",
+        "location"
+      ]
+    },
+    {
+      "id": "cleared_lair_crypt",
+      "title": "The crypt lair is cleared",
+      "subject": "lair_crypt",
+      "scope": "site",
+      "category": "fact",
+      "reliability": 1.0,
+      "spreadable": true,
+      "value": 15,
+      "tags": [
+        "lair"
+      ]
+    },
+    {
+      "id": "location_lair_ruined",
+      "title": "Location of the ruined lair",
+      "subject": "lair_ruined",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.8,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 30,
+      "reveals": {
+        "sites": [
+          "lair_ruined"
+        ],
+        "radius": 1
+      },
+      "tags": [
+        "lair",
+        "location"
+      ]
+    },
+    {
+      "id": "cleared_lair_ruined",
+      "title": "The ruined lair is cleared",
+      "subject": "lair_ruined",
+      "scope": "site",
+      "category": "fact",
+      "reliability": 1.0,
+      "spreadable": true,
+      "value": 15,
+      "tags": [
+        "lair"
+      ]
+    },
+    {
+      "id": "location_lair_fungal",
+      "title": "Location of the fungal lair",
+      "subject": "lair_fungal",
+      "scope": "site",
+      "category": "location",
+      "reliability": 0.8,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 30,
+      "reveals": {
+        "sites": [
+          "lair_fungal"
+        ],
+        "radius": 1
+      },
+      "tags": [
+        "lair",
+        "location"
+      ]
+    },
+    {
+      "id": "cleared_lair_fungal",
+      "title": "The fungal lair is cleared",
+      "subject": "lair_fungal",
+      "scope": "site",
+      "category": "fact",
+      "reliability": 1.0,
+      "spreadable": true,
+      "value": 15,
+      "tags": [
+        "lair"
+      ]
+    },
+    {
+      "id": "egg_location",
+      "title": "Where the Dragon's egg lies",
+      "summary": "The Veil hides it. A Seeker who knows this can walk to it.",
+      "subject": "the_veil",
+      "scope": "site",
+      "category": "secret",
+      "reliability": 0.5,
+      "corroboration_step": 0.15,
+      "secrecy": 0.9,
+      "spreadable": false,
+      "tradeable": true,
+      "value": 400,
+      "conflicts": [
+        "egg_location_false"
+      ],
+      "reveals": {
+        "sites": [
+          "the_veil"
+        ],
+        "radius": 2
+      },
+      "tags": [
+        "egg",
+        "victory"
+      ]
+    },
+    {
+      "id": "egg_location_false",
+      "title": "Where the Dragon's egg lies (a lie)",
+      "summary": "A confident, wrong answer, sold in three pubs at once.",
+      "subject": "the_veil",
+      "scope": "site",
+      "category": "rumor",
+      "reliability": 0.4,
+      "spreadable": true,
+      "tradeable": true,
+      "value": 60,
+      "conflicts": [
+        "egg_location"
+      ],
+      "tags": [
+        "egg",
+        "false"
+      ]
+    },
+    {
+      "id": "veil_found",
+      "title": "The Veil has been found",
+      "subject": "the_veil",
+      "scope": "site",
+      "category": "fact",
+      "reliability": 1.0,
+      "spreadable": true,
+      "value": 120,
+      "tags": [
+        "egg"
+      ]
+    },
+    {
+      "id": "pub_rumour",
+      "title": "Pub talk",
+      "summary": "Half of it is true.",
+      "subject": "aevum",
+      "scope": "global",
+      "category": "rumor",
+      "reliability": 0.35,
+      "decay_turns": 20,
+      "spreadable": true,
+      "tradeable": false,
+      "value": 5,
+      "tags": [
+        "rumour"
+      ]
+    },
+    {
+      "id": "avatar_declared",
+      "title": "A clan has become Avatar",
+      "subject": "aevum",
+      "scope": "faction",
+      "category": "diplomatic",
+      "reliability": 1.0,
+      "spreadable": true,
+      "value": 80,
+      "tags": [
+        "avatar"
+      ]
+    }
+  ]
+}

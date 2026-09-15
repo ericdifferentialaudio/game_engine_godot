@@ -1,0 +1,8 @@
+{
+  "items": [
+    { "id": "travellers_staff", "display_name": "Traveller's Staff", "kind": "equipment", "slot": "weapon", "rarity": "common", "value": 12, "modifiers": { "strength": 1 }, "tags": ["weapon", "melee"] },
+    { "id": "wolf_pelt", "display_name": "Wolf Pelt", "kind": "resource", "stackable": true, "value": 6, "tags": ["trade_good"] },
+    { "id": "healing_herb", "display_name": "Healing Herb", "kind": "consumable", "stackable": true, "max_stack": 10, "value": 8, "use_effects": [{ "kind": "reward", "stat_delta": { "health": 5 }, "message": "The herb knits your wounds." }], "tags": ["consumable", "healing"] },
+    { "id": "sigil_stone_slot1", "display_name": "Sigil-Stone", "kind": "key", "rarity": "rare", "unique": true, "value": 0, "tags": ["quest", "sigil"] }
+  ]
+}

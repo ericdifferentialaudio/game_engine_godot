@@ -1,0 +1,46 @@
+{
+  "maps": [
+    {
+      "id": "overworld",
+      "display_name": "Overworld",
+      "kind": "overworld",
+      "size": [
+        24,
+        16
+      ],
+      "generator": {
+        "type": "noise",
+        "frequency": 0.09,
+        "terrain_bands": [
+          {
+            "max_height": 0.4,
+            "terrain": "ocean"
+          },
+          {
+            "max_height": 0.72,
+            "terrain": "grassland"
+          },
+          {
+            "max_height": 0.85,
+            "terrain": "hills"
+          },
+          {
+            "max_height": 1.0,
+            "terrain": "mountain"
+          }
+        ]
+      },
+      "fog": "full",
+      "starts": {
+        "player": [
+          5,
+          8
+        ],
+        "rival": [
+          18,
+          8
+        ]
+      }
+    }
+  ]
+}

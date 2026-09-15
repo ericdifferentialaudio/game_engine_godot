@@ -1,0 +1,16 @@
+{
+  "derivations": [],
+  "spread": [
+    {
+      "id": "trade_gossip",
+      "between": "trade_partners",
+      "chance": 0.15,
+      "max_secrecy": 0.35,
+      "reliability_loss": 0.2
+    }
+  ],
+  "contradiction": {
+    "dispute_amount": 0.15,
+    "flag_source_trust_loss": 0.2
+  }
+}

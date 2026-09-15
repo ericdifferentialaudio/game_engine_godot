@@ -1,0 +1,50 @@
+{
+  "factions": [
+    {
+      "id": "player",
+      "display_name": "Player",
+      "color": "#3b82f6",
+      "control": "human",
+      "turn_order": 0,
+      "starting_units": [
+        "hero",
+        "scout"
+      ],
+      "resources": {
+        "gold": 50
+      },
+      "stances": {
+        "rival": "peace",
+        "wilds": "war"
+      },
+      "trade_partners": [
+        "rival"
+      ]
+    },
+    {
+      "id": "rival",
+      "display_name": "Rival",
+      "color": "#c0392b",
+      "control": "ai",
+      "turn_order": 1,
+      "starting_units": [
+        "scout"
+      ],
+      "resources": {
+        "gold": 50
+      },
+      "stances": {
+        "player": "peace",
+        "wilds": "war"
+      }
+    },
+    {
+      "id": "wilds",
+      "display_name": "The Wilds",
+      "color": "#7f8c8d",
+      "control": "hostile",
+      "default_stance": "war",
+      "claims_start_territory": false
+    }
+  ]
+}

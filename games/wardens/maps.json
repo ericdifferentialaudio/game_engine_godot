@@ -1,0 +1,22 @@
+{
+  "maps": [
+    {
+      "id": "overworld",
+      "display_name": "Overworld",
+      "kind": "overworld",
+      "scene": "res://games/wardens/maps/overworld.tscn",
+      "environment": "env.forest.day",
+      "spawns": {
+        "default": {
+          "position": [
+            0,
+            1,
+            0
+          ],
+          "yaw": 0
+        }
+      },
+      "portals": []
+    }
+  ]
+}

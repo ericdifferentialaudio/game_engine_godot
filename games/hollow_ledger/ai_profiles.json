@@ -1,0 +1,19 @@
+{
+  "profiles": {
+    "idle": {
+      "behavior": "idle"
+    },
+    "guard": {
+      "behavior": "guard",
+      "radius": 1
+    },
+    "explorer": {
+      "behavior": "explore"
+    },
+    "hunter": {
+      "behavior": "hunt",
+      "flee_below_health": 0.25
+    }
+  },
+  "abilities": {}
+}

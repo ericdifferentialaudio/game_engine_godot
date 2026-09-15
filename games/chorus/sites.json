@@ -1,0 +1,44 @@
+{
+  "sites": [
+    {
+      "id": "first_landmark",
+      "map": "overworld",
+      "display_name": "A Weathered Signpost",
+      "category": "ruins",
+      "coord": [
+        7,
+        8
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "first_rumor"
+          ],
+          "once_per_faction": true,
+          "message": "The signpost points somewhere interesting."
+        }
+      ]
+    },
+    {
+      "id": "wolf_den",
+      "map": "overworld",
+      "display_name": "Wolf Den",
+      "category": "camp",
+      "coord": [
+        12,
+        10
+      ],
+      "owner": "wilds",
+      "spawns": [
+        {
+          "unit": "wolf",
+          "faction": "wilds",
+          "count": 1,
+          "radius": 1,
+          "respawn_turns": 8
+        }
+      ]
+    }
+  ]
+}

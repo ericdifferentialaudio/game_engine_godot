@@ -1,0 +1,52 @@
+{
+  "id": "hollow_ledger",
+  "title": "The Hollow Ledger",
+  "version": "0.1.0",
+  "description": "",
+  "grid": {
+    "topology": "square_iso",
+    "orientation": "pointy",
+    "wrap_x": false
+  },
+  "turns": {
+    "mode": "sequential",
+    "timer_seconds": 0,
+    "ticks_per_turn": 10,
+    "seconds_per_tick": 1.0
+  },
+  "calendar": {
+    "start_year": 1,
+    "years_per_turn": 1,
+    "eras": [
+      {
+        "id": "dawn",
+        "label": "The Dawn",
+        "from_turn": 1
+      }
+    ]
+  },
+  "start_map": "overworld",
+  "player_faction": "player",
+  "max_map_depth": 3,
+  "seed": 42,
+  "currencies": [
+    "gold"
+  ],
+  "stats": {
+    "health": 10,
+    "strength": 2,
+    "defense": 2,
+    "moves": 2,
+    "sight": 2,
+    "perception": 0
+  },
+  "rules": {
+    "fog": {
+      "shared_vision_allies": true
+    },
+    "intel": {
+      "observe_units": true,
+      "observe_sites": true
+    }
+  }
+}

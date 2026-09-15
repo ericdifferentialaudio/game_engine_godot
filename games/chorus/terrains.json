@@ -1,0 +1,52 @@
+{
+  "terrains": [
+    {
+      "id": "ocean",
+      "display_name": "Ocean",
+      "domain": "sea",
+      "color": "#1d4e89",
+      "elevation": -1
+    },
+    {
+      "id": "grassland",
+      "display_name": "Grassland",
+      "domain": "land",
+      "color": "#6aa84f",
+      "yields": {
+        "gold": 1
+      }
+    },
+    {
+      "id": "hills",
+      "display_name": "Hills",
+      "domain": "land",
+      "move_cost": 2,
+      "color": "#8b7d5a",
+      "elevation": 1,
+      "defense_bonus": 25
+    },
+    {
+      "id": "mountain",
+      "display_name": "Mountain",
+      "domain": "land",
+      "passable": false,
+      "color": "#6e6e73",
+      "elevation": 2,
+      "blocks_sight": true
+    }
+  ],
+  "features": [
+    {
+      "id": "forest",
+      "display_name": "Forest",
+      "move_cost": 1,
+      "blocks_sight": true,
+      "defense_bonus": 25,
+      "allowed_on": [
+        "grassland",
+        "hills"
+      ],
+      "spawn_chance": 0.2
+    }
+  ]
+}
