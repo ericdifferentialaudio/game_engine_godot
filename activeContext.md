@@ -1,6 +1,6 @@
-# Active Context
+﻿# Active Context
 
-_Keep this file short. Update in place — do not let it grow into a changelog.
+_Keep this file short. Update in place â€” do not let it grow into a changelog.
 Full history lives in git log; full design lives in docs/ARCHITECTURE.md and
 docs/API.md._
 
@@ -8,10 +8,10 @@ docs/API.md._
 
 A game engine platform with **three APIs**:
 
-- **common** (`core/addons/game_core/`) — all context, data, data structures
+- **common** (`core/addons/game_core/`) â€” all context, data, data structures
   and simulation. Knows nothing about either renderer.
-- **isometric** (`game_api/isometric/`) — 2D hex/iso renderer, grid, fog, camera.
-- **3D/FPS** (`game_api/fps/`) — first-person renderer, navmesh, raycasts.
+- **isometric** (`game_api/isometric/`) â€” 2D hex/iso renderer, grid, fog, camera.
+- **3D/FPS** (`game_api/fps/`) â€” first-person renderer, navmesh, raycasts.
 
 The rule: if two different renderers would both need it, it belongs in common.
 Engines plug in with `CoreContext.install(<Adapter>.new())`; every
@@ -26,17 +26,26 @@ spread, trade, give), interactions (8 kinds) and live places.
 
 Both engines boot with the core installed and feed it their real game package.
 
+**First real game: `games/zork/`** (fps layer). 15 rooms as separate 3D maps,
+troll + thief with branching dialogue whose answers are `check`ed against the
+intel journal (true tokens vs. false rumours linked by `conflicts`; `debunk`
+marks lies). Engine gained: melee execution, actor spawning/death/loot,
+`examine`/`pickup`/`container` interactions, talkable actors (`ActorTalk`),
+`DialogueUi`, narration-log HUD with score/moves, dark rooms + light sources,
+`boot_script` hook, `tools/sync_game.ps1`. fps now 23/23 Â· zork boot check 8/8
+Â· zork playtest 48/48 (troll, thief, cyclops) (`tools/zork_playtest.gd`).
+
 **Verified** (Godot 4.7.2, `tools/run_tests.ps1`):
-core 130/130 (94 + 24 goal-selector + 12 road-builder) · isometric 10/10
-(4 + 6 line-of-sight) · fps 4/4 · iso smoke 37/37 · fps boot check 8/8.
+core 130/130 (94 + 24 goal-selector + 12 road-builder) Â· isometric 10/10
+(4 + 6 line-of-sight) Â· fps 4/4 Â· iso smoke 37/37 Â· fps boot check 8/8.
 
 **Aevum port (in progress).** Porting good algorithms/practice from the
 standalone Python project `C:\Aevum\engine` (a separate, unrelated hex-grid
 strategy game) into `game_core`/the isometric engine, translated to
-GDScript — not a wholesale code dump, cherry-picked by value. Landed so far:
+GDScript â€” not a wholesale code dump, cherry-picked by value. Landed so far:
 
 1. `CoreGoalSelector` (`core/addons/game_core/managers/core_goal_selector.gd`),
-   ported from `engine/engine_goals.py` — roulette-wheel weighted goal
+   ported from `engine/engine_goals.py` â€” roulette-wheel weighted goal
    selection (normalize/select_weighted/apply_repeat_penalty/
    roll_commitment/proximity_bonus/apply_cooldown), draws from the shared
    `CoreContext.rng()` for determinism. Wired into `AIHeuristicManager`
@@ -44,7 +53,7 @@ GDScript — not a wholesale code dump, cherry-picked by value. Landed so far:
    commitment Dictionaries. 24 GUT tests.
 2. `CoreRoadBuilder` (`core/addons/game_core/managers/core_road_builder.gd`),
    ported from `engine/engine_map_pipeline.py`'s Dijkstra/A* organic-road
-   pipeline (Sprint 23 "#166") — terrain-cost-aware `find_path()` plus
+   pipeline (Sprint 23 "#166") â€” terrain-cost-aware `find_path()` plus
    `build_road_network()`'s 3-pass model (direct spokes -> greedy MST ->
    short stubs for isolated minor sites). Kept in `core/` (not the iso
    engine) since it depends only on injected Callables
@@ -64,7 +73,7 @@ GDScript — not a wholesale code dump, cherry-picked by value. Landed so far:
 
 ## Known gaps
 
-- Neither example package has a `places.json` yet — still on the old
+- Neither example package has a `places.json` yet â€” still on the old
   `sites.json` / `pois.json`. Places are proven in tests, not yet consumed
   end-to-end by real content.
 - Both engines still contain their own `ItemDefinition`, `IntelToken`,
@@ -73,9 +82,84 @@ GDScript — not a wholesale code dump, cherry-picked by value. Landed so far:
 - `C:\game_engine` and `C:\game_engine_iso` are fully absorbed (content-level
   audit passed; they are plain folders, not git repos) and can be deleted.
 
+## Narrative / asset / screen framework (landed)
+
+Shared infrastructure for text-and-conversation games. See **docs/NARRATIVE.md**.
+
+- **Ink** via vendored `inkgd` (`core/addons/inkgd/`, `godot4` branch pinned at
+  `fea9098`, `mono/` excluded; see its `VENDOR.md`). Confirmed the right choice
+  over GodotInk: that one needs .NET in all three project roots. `CoreInkEngine`
+  is the **only** file referencing inkgd, so the runtime is swappable.
+  `inklecate` 1.2.1 vendored at `tools/inklecate/` — not a build dependency,
+  compiled `.ink.json` is committed.
+- **Two asset systems, both façades over what already existed** (not new
+  stores): `CoreKnowledge` (boolean, over `CoreIntel` — `knows()` is
+  belief-thresholded, so a 0.3-reliability rumour is *heard* but not *known*)
+  and `CoreAssets` (counted, over `CoreInventory`; currency vs. item resolved
+  by `CoreItemDefinition.category`).
+- **`CoreStanding`** — per-NPC relationship as a third lightweight value, with
+  named tiers/decay left to each game (`rules.standing`). Optional place
+  qualifier (`fence@round_room`) subsumes the aevum pub-relationship model.
+- **`CoreContextBuilder`** — hybrid: slow scalars pushed as Ink variables,
+  volatile state as external functions, so a mid-conversation gain is visible
+  to the next condition. `watch()` keeps the snapshot live.
+- **Pattern library** `core/ink/patterns/patterns.ink` — barter · interrogate ·
+  persuade · confide, as tunnels returning an outcome code.
+- **Validators** — static pass + context simulation, as GUT tests and as a CLI
+  (`core/tools/validate_ink.gd`, exits non-zero on errors).
+- **Windows in core** (`core/addons/game_core/ui/`) — `CoreWindow` contract,
+  text/graphics/map/units/icon_text types, `CoreWindowRegistry` (role lookup,
+  null when absent), and a data-driven nested-`SplitContainer` layout with
+  aspect-keyed variants. Split ratios -> `user://ui_layout.cfg` (user prefs,
+  not save data). Sample: `games/zork/layout.json`.
+- **`CoreSaveBundle`** — one nested dict of all core state, including Ink's own
+  JSON, so engine SaveManagers need no edit when a core system is added.
+- **Demo:** `games/zork/ink/round_room_fence.ink` — a Round Room fence gated on
+  currency AND knowledge AND standing, granting an item AND a token, rendered
+  through registered windows by registry lookup only. **Purely additive**: it
+  reuses existing zork ids (`zorkmid`, `brass_lantern`, `know_trapdoor`,
+  `rumor_rug_worthless`, `know_grue`), so the 48/48 playtest is untouched.
+- `sync_core.ps1` now syncs `addons/game_core`, `addons/inkgd` and
+  `ink/patterns`.
+
+**Verified:** core 211/211 (was 169) · isometric 10/10 · fps 23/23 ·
+iso smoke 37/37 · fps boot 8/8 · zork boot 8/8 · zork playtest 48/48
+(all five checks green via `tools/run_tests.ps1`, re-confirmed 2026-09-15).
+
+**Flaky-test fix (2026-09-15).** The zork playtest failed ~30% of runs on
+"wounded thief flag set". Not a regression in the feature: the check landed a
+single scripted blow on the thief, who has `dodge: 0.25`, and `Damageable.rng`
+is an unseeded `RandomNumberGenerator`, so a quarter of runs dodged it and the
+0.35 flee threshold was never crossed. The check tests the wound *reaction*, so
+it now hits repeatedly until he is below threshold (the retry shape the troll
+fight already used). 10/10 consecutive clean runs after the fix.
+Note for later: `Damageable.rng` and `AbilityCaster._rng` are still ad-hoc
+unseeded generators rather than `CoreContext.rng()`, so FPS combat is not
+replayable from a seed — see Future work #11.
+
+### Outstanding on this feature
+
+1. Neither engine's `SaveManager` calls `CoreSaveBundle` yet — the bundle is
+   built and tested, but wiring it into `game_api/*/core/save_manager.gd` is a
+   deliberate follow-up (it touches engine-layer save versioning/migrations).
+2. No engine subclasses `CoreMapWindow` yet; the base draws simple markers.
+   The iso engine should override `_draw_markers()` with a real minimap.
+3. `CoreGraphicsWindow.set_image()` resolves via an optional adapter method
+   `resolve_texture(id)` that neither adapter implements yet, so art windows
+   stay blank until an engine provides it.
+4. The old `DialogueManager` autoload scaffold is now superseded by
+   `CoreInkEngine` but not yet removed (it is one of the 4 unintegrated
+   scaffolds in Future work #9).
+5. Validators are not yet wired into `tools/run_tests.ps1` as a gate; they run
+   as GUT tests, and the CLI is available for writers.
+
 ## Next planned
 
-1. **`CoreMapDefinition` + portals** — the recursive containment tree that
+_(see Future work below for the previously queued items.)_
+
+## Future work
+
+1. **`CoreMapDefinition` + portals** â€” the recursive containment tree that
    makes `contains` / `leads_to` real (overworld -> town -> tavern -> cellar;
    castle -> courtyard -> keep; dungeon -> levels).
 2. **Convert one example package** to `places.json` + the unified field names,
@@ -85,12 +169,12 @@ GDScript — not a wholesale code dump, cherry-picked by value. Landed so far:
    -> `IntelToken`/`IntelQuery`/`IntelJournal` -> `Interaction` -> unit/faction
    defs -> `SiteDefinition`/`PoiDefinition`. Keep an engine subclass only where
    behaviour genuinely differs.
-   Wire `game_api/fps/tests/engine/` into the runner **first** — it covers
+   Wire `game_api/fps/tests/engine/` into the runner **first** â€” it covers
    exactly the classes this touches.
 4. **World model into common**: tiles, terrain, ownership, fog *state*,
    garrison respawn. Engines keep only rendering.
 5. `Shop`/economy and `StatusEffects` into common.
-6. Combat as a pluggable `CoreCombatResolver` — the two engines genuinely
+6. Combat as a pluggable `CoreCombatResolver` â€” the two engines genuinely
    differ (Civ-style strength ratio vs. 3D damage types/resistances), so this
    is an interface, not one shared implementation.
 7. Merge the 21 `schemas/*.json` into one shared set; point both
@@ -99,7 +183,14 @@ GDScript — not a wholesale code dump, cherry-picked by value. Landed so far:
 9. Decide keep-vs-drop on the 4 unintegrated scaffold managers
    (`VirtueSystem`, `WorldStateManager`, `DialogueManager`,
    `AIHeuristicManager`).
-10. Start the first real game under `games/` (still empty).
+10. Start the first real game under `games/`: **Paragon** (`games/paragon/`, isometric) â€” design docs
+    landed 2026-09-07 (29 `.md` from the former `C:\UIV`); read `games/paragon/activeContext.md` first.
+11. **Route FPS combat RNG through `CoreContext.rng()`** â€” `Damageable.rng` and
+    `AbilityCaster._rng` each construct their own unseeded
+    `RandomNumberGenerator`, so dodge/crit/effect-chance rolls are not
+    reproducible from `game.json`'s `seed` and can make scripted checks flaky
+    (see the 2026-09-15 fix above). The iso layer and all of `core/` already use
+    the shared generator.
 
 ## Working notes
 

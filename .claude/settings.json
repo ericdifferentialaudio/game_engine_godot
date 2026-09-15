@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(./tools/run_tests.ps1:*)",
+      "Bash(./tools/sync_core.ps1:*)",
+      "Bash(./tools/sync_game.ps1:*)",
+      "Bash(powershell*tools/run_tests.ps1*)",
+      "Bash(powershell*tools/sync_core.ps1*)",
+      "Bash(powershell*tools/sync_game.ps1*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(godot --headless*)"
+    ],
+    "deny": [
+      "Read(./**/*.env)",
+      "Bash(git push --force:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/sync_reminder.ps1",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
