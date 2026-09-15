@@ -174,6 +174,8 @@ func _observe_surroundings() -> void:
 func attack(target: Unit) -> Dictionary:
 	if not alive or action_points <= 0.0 or target == null or not target.alive:
 		return {}
+	if flags.get("cannot_attack", false):
+		return {}
 	if not FactionRegistry.are_hostile(faction_id, target.faction_id):
 		return {}
 	var result := CombatResolver.active.resolve(self, target)

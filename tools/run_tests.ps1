@@ -15,7 +15,8 @@
 
 param(
     [string]$GodotPath = "",
-    [switch]$Import
+    [switch]$Import,
+    [switch]$LogJson
 )
 
 # Godot writes push_warning()/push_error() to stderr, and PowerShell surfaces
@@ -75,9 +76,20 @@ foreach ($project in $projects) {
 
     # Run through cmd with stderr merged into stdout: Godot's push_warning()
     # output on stderr would otherwise be raised as PowerShell error records.
-    cmd /c "`"$GodotPath`" --headless -s --path `"$($project.Path)`" addons/gut/gut_cmdln.gd -gexit 2>&1"
+    if ($LogJson) {
+        # Capture as well as display, so tools/regression_hook.py can turn the
+        # run into structured records for post-analysis.
+        $out = cmd /c "`"$GodotPath`" --headless -s --path `"$($project.Path)`" addons/gut/gut_cmdln.gd -gexit 2>&1"
+        $exitCode = $LASTEXITCODE
+        $out | Write-Host
+        $tmp = Join-Path $env:TEMP "gut_$($project.Name).log"
+        $out | Out-File -FilePath $tmp -Encoding utf8
+        python (Join-Path $PSScriptRoot "regression_hook.py") --log $tmp --suite $project.Name --engine $project.Name
+    } else {
+        cmd /c "`"$GodotPath`" --headless -s --path `"$($project.Path)`" addons/gut/gut_cmdln.gd -gexit 2>&1"
+        $exitCode = $LASTEXITCODE
+    }
 
-    $exitCode = $LASTEXITCODE
     if ($exitCode -ne 0) {
         Write-Host "FAILED: $($project.Name) (exit code $exitCode)" -ForegroundColor Red
         $overallExitCode = 1
@@ -92,7 +104,8 @@ foreach ($project in $projects) {
 $runtimeChecks = @(
     @{ Name = "isometric (smoke)";   Path = Join-Path $repoRoot "game_api\isometric"; Arg = "--smoke" },
     @{ Name = "fps (boot check)";    Path = Join-Path $repoRoot "game_api\fps";       Arg = "--boot-check" },
-    @{ Name = "fps zork (boot check)"; Path = Join-Path $repoRoot "game_api\fps";     Arg = "--game=zork --boot-check" }
+    @{ Name = "fps zork (boot check)"; Path = Join-Path $repoRoot "game_api\fps";     Arg = "--game=zork --boot-check" },
+    @{ Name = "fps zork (playtest)";   Path = Join-Path $repoRoot "game_api\fps";     Arg = "--game=zork --playtest" }
 )
 
 # Game packages under games/ are copied into the engine layer to run; make

@@ -1,0 +1,125 @@
+{
+  "id": "aevum",
+  "title": "Aevum: Age of Shrines",
+  "version": "0.1.0",
+  "description": "Eight of twelve clans race across a hex world to meditate every shrine and become Avatar, build a Seeker, steal the Dragon's egg and carry it home uncontested - or eliminate every rival first.",
+  "grid": {
+    "topology": "hex",
+    "orientation": "pointy",
+    "tile_size": [
+      64,
+      56
+    ],
+    "wrap_x": false
+  },
+  "turns": {
+    "mode": "simultaneous",
+    "timer_seconds": 0,
+    "ticks_per_turn": 10,
+    "seconds_per_tick": 1.0
+  },
+  "calendar": {
+    "start_year": 1,
+    "years_per_turn": 1,
+    "year_suffix_neg": "BR",
+    "year_suffix_pos": "AR",
+    "eras": [
+      {
+        "id": "founding",
+        "label": "The Founding",
+        "from_turn": 1
+      },
+      {
+        "id": "contest",
+        "label": "The Contest of Shrines",
+        "from_turn": 40
+      },
+      {
+        "id": "wake",
+        "label": "The Dragon's Waking",
+        "from_turn": 120
+      }
+    ]
+  },
+  "boot_script": "aevum_boot.gd",
+  "start_map": "aevum",
+  "player_faction": "fighter",
+  "max_map_depth": 3,
+  "seed": 42,
+  "currencies": [
+    "gold"
+  ],
+  "stats": {
+    "health": 6,
+    "strength": 2,
+    "defense": 2,
+    "moves": 3,
+    "sight": 2,
+    "perception": 0,
+    "mana": 0,
+    "reach": 1,
+    "stealth": 0,
+    "arcane": 0,
+    "luck": 0,
+    "resilience": 0,
+    "endurance": 0,
+    "intellect": 0
+  },
+  "rules": {
+    "movement": {
+      "road_cost": 0.5
+    },
+    "combat": {
+      "randomness": 0.2,
+      "base_damage": 1,
+      "retaliation_scale": 0.6,
+      "defender_terrain_bonus": true,
+      "attack_ends_turn": true
+    },
+    "fog": {
+      "shared_vision_allies": true,
+      "owned_tile_sight": 1,
+      "site_sight": 2
+    },
+    "intel": {
+      "observe_units": true,
+      "observe_sites": true,
+      "perception_reliability_per_point": 0.02
+    },
+    "units": {
+      "heal_per_turn": 1
+    },
+    "sites": {
+      "capture_on_enter": true
+    },
+    "economy": {
+      "sell_ratio": 0.5,
+      "track_all_yields": false
+    },
+    "victory": {
+      "last_faction_standing": true,
+      "eliminate_on_no_units": true
+    },
+    "aevum": {
+      "active_clans": 8,
+      "sacred_ground_radius": 2,
+      "shrine_distance_from_enclave": [
+        8,
+        12
+      ],
+      "shrine_camp_penalty_turns": 3,
+      "meditation_turns": {
+        "direct": 1,
+        "secondhand": 3,
+        "unknown": 12
+      },
+      "avatar_requires_all_shrines": true,
+      "seeker_requires_avatar": true,
+      "egg_carrier_move_penalty": 1,
+      "dragon_wake_radius": 8,
+      "dragon_damage_negated_per_turn": 5,
+      "monster_weakness_bonus": 3,
+      "monster_resistance_malus": 1
+    }
+  }
+}

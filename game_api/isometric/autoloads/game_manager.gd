@@ -30,6 +30,7 @@ var player_faction_id: String = ""
 var smoke_mode: bool = false               ## Set by main.gd when run with --smoke.
 
 var _previous_state: State = State.BOOT
+var _boot: Node = null                     ## Optional per-game boot script (game.json "boot_script").
 
 
 func _ready() -> void:
@@ -70,7 +71,31 @@ func load_game(id: String) -> bool:
 	WorldManager.load_definitions(data_path("terrains"), data_path("maps"), data_path("sites"))
 	GameClock.configure(cfg.get("calendar", {}), cfg.get("turns", {}))
 	TurnManager.configure(cfg.get("turns", {}))
+	_load_boot_script(package_path(id))
 	return true
+
+
+## Optional per-game GDScript hook for rules the shared platform cannot express
+## (game.json "boot_script", a path relative to the package or res://-absolute).
+## The script is instanced as a child node and, if it defines boot(game_manager),
+## that is called once after the package's data and clock are configured.
+func _load_boot_script(base: String) -> void:
+	if _boot:
+		_boot.queue_free()
+		_boot = null
+	var rel := str(game_config.get("boot_script", ""))
+	if rel == "":
+		return
+	var path := rel if rel.begins_with("res://") else base.path_join(rel)
+	if not ResourceLoader.exists(path):
+		push_warning("GameManager: boot_script '%s' not found" % path)
+		return
+	var script: GDScript = load(path)
+	_boot = script.new()
+	_boot.name = "GameBoot"
+	add_child(_boot)
+	if _boot.has_method("boot"):
+		_boot.boot(self)
 
 
 ## Start a fresh run of the loaded package.

@@ -1,0 +1,2019 @@
+{
+  "sites": [
+    {
+      "id": "shrine_fighter",
+      "map": "aevum",
+      "display_name": "Shrine of Valor",
+      "description": "Carved from black stone. No ornamentation. Just a flat altar worn smooth by countless weapons laid in offering.",
+      "category": "shrine",
+      "placement": "random_land",
+      "visual": "site.shrine",
+      "sight": 2,
+      "capturable": false,
+      "discover_intel": [
+        "location_shrine_fighter"
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "avatar_declared"
+          ],
+          "channel": "observed",
+          "reliability": 1.0,
+          "requires": {
+            "faction_flag": "is_avatar"
+          },
+          "once_per_faction": true,
+          "message": "Word spreads that a clan has walked every shrine."
+        }
+      ],
+      "tags": [
+        "shrine",
+        "fighter"
+      ],
+      "metadata": {
+        "clan": "fighter",
+        "bonus_stat": "strength",
+        "bonus_label": "+ATK",
+        "sacred_ground_radius": 2,
+        "placement_rule": {
+          "distance_from_enclave": [
+            8,
+            12
+          ],
+          "preferred_terrain": [
+            "plains",
+            "hills"
+          ],
+          "avoid_terrain": [
+            "swamp",
+            "mountain"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shrine_mage",
+      "map": "aevum",
+      "display_name": "Shrine of Wisdom",
+      "description": "A tower of pale crystal that hums faintly. Looking into it, you see what is, not what you wish.",
+      "category": "shrine",
+      "placement": "random_land",
+      "visual": "site.shrine",
+      "sight": 2,
+      "capturable": false,
+      "discover_intel": [
+        "location_shrine_mage"
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "avatar_declared"
+          ],
+          "channel": "observed",
+          "reliability": 1.0,
+          "requires": {
+            "faction_flag": "is_avatar"
+          },
+          "once_per_faction": true,
+          "message": "Word spreads that a clan has walked every shrine."
+        }
+      ],
+      "tags": [
+        "shrine",
+        "mage"
+      ],
+      "metadata": {
+        "clan": "mage",
+        "bonus_stat": "sight",
+        "bonus_label": "+VIS",
+        "sacred_ground_radius": 2,
+        "placement_rule": {
+          "distance_from_enclave": [
+            8,
+            12
+          ],
+          "preferred_terrain": [
+            "ruins",
+            "plains"
+          ],
+          "avoid_terrain": [
+            "forest",
+            "swamp"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shrine_cleric",
+      "map": "aevum",
+      "display_name": "Shrine of Compassion",
+      "description": "Warm to the touch even in winter. Those who kneel here rise feeling lighter.",
+      "category": "shrine",
+      "placement": "random_land",
+      "visual": "site.shrine",
+      "sight": 2,
+      "capturable": false,
+      "discover_intel": [
+        "location_shrine_cleric"
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "avatar_declared"
+          ],
+          "channel": "observed",
+          "reliability": 1.0,
+          "requires": {
+            "faction_flag": "is_avatar"
+          },
+          "once_per_faction": true,
+          "message": "Word spreads that a clan has walked every shrine."
+        }
+      ],
+      "tags": [
+        "shrine",
+        "cleric"
+      ],
+      "metadata": {
+        "clan": "cleric",
+        "bonus_stat": "defense",
+        "bonus_label": "+DEF",
+        "sacred_ground_radius": 2,
+        "placement_rule": {
+          "distance_from_enclave": [
+            8,
+            12
+          ],
+          "preferred_terrain": [
+            "plains",
+            "grasslands"
+          ],
+          "avoid_terrain": [
+            "mountain",
+            "swamp"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shrine_dwarf",
+      "map": "aevum",
+      "display_name": "Shrine of Fortitude",
+      "description": "Built into a mountain face. The entrance is low — you must bow your head to enter.",
+      "category": "shrine",
+      "placement": "random_land",
+      "visual": "site.shrine",
+      "sight": 2,
+      "capturable": false,
+      "discover_intel": [
+        "location_shrine_dwarf"
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "avatar_declared"
+          ],
+          "channel": "observed",
+          "reliability": 1.0,
+          "requires": {
+            "faction_flag": "is_avatar"
+          },
+          "once_per_faction": true,
+          "message": "Word spreads that a clan has walked every shrine."
+        }
+      ],
+      "tags": [
+        "shrine",
+        "dwarf"
+      ],
+      "metadata": {
+        "clan": "dwarf",
+        "bonus_stat": "health",
+        "bonus_label": "+HP",
+        "sacred_ground_radius": 2,
+        "placement_rule": {
+          "distance_from_enclave": [
+            8,
+            12
+          ],
+          "preferred_terrain": [
+            "hills",
+            "mountain"
+          ],
+          "avoid_terrain": [
+            "swamp",
+            "plains"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shrine_ranger",
+      "map": "aevum",
+      "display_name": "Shrine of Spirituality",
+      "description": "A standing stone deep in forest. No path leads here — you find it by instinct.",
+      "category": "shrine",
+      "placement": "random_land",
+      "visual": "site.shrine",
+      "sight": 2,
+      "capturable": false,
+      "discover_intel": [
+        "location_shrine_ranger"
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "avatar_declared"
+          ],
+          "channel": "observed",
+          "reliability": 1.0,
+          "requires": {
+            "faction_flag": "is_avatar"
+          },
+          "once_per_faction": true,
+          "message": "Word spreads that a clan has walked every shrine."
+        }
+      ],
+      "tags": [
+        "shrine",
+        "ranger"
+      ],
+      "metadata": {
+        "clan": "ranger",
+        "bonus_stat": "moves",
+        "bonus_label": "+MOV",
+        "sacred_ground_radius": 2,
+        "placement_rule": {
+          "distance_from_enclave": [
+            8,
+            12
+          ],
+          "preferred_terrain": [
+            "forest",
+            "grasslands"
+          ],
+          "avoid_terrain": [
+            "mountain",
+            "ruins"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shrine_elf",
+      "map": "aevum",
+      "display_name": "Shrine of Honour",
+      "description": "Older than memory. The carvings on it are in a language nobody reads anymore.",
+      "category": "shrine",
+      "placement": "random_land",
+      "visual": "site.shrine",
+      "sight": 2,
+      "capturable": false,
+      "discover_intel": [
+        "location_shrine_elf"
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "avatar_declared"
+          ],
+          "channel": "observed",
+          "reliability": 1.0,
+          "requires": {
+            "faction_flag": "is_avatar"
+          },
+          "once_per_faction": true,
+          "message": "Word spreads that a clan has walked every shrine."
+        }
+      ],
+      "tags": [
+        "shrine",
+        "elf"
+      ],
+      "metadata": {
+        "clan": "elf",
+        "bonus_stat": "arcane",
+        "bonus_label": "+ARC",
+        "sacred_ground_radius": 2,
+        "placement_rule": {
+          "distance_from_enclave": [
+            8,
+            12
+          ],
+          "preferred_terrain": [
+            "forest",
+            "grasslands"
+          ],
+          "avoid_terrain": [
+            "mountain",
+            "swamp"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shrine_rogue",
+      "map": "aevum",
+      "display_name": "Shrine of Loyalty",
+      "description": "Hidden in plain sight. Most people walk past it three times before they notice it.",
+      "category": "shrine",
+      "placement": "random_land",
+      "visual": "site.shrine",
+      "sight": 2,
+      "capturable": false,
+      "discover_intel": [
+        "location_shrine_rogue"
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "avatar_declared"
+          ],
+          "channel": "observed",
+          "reliability": 1.0,
+          "requires": {
+            "faction_flag": "is_avatar"
+          },
+          "once_per_faction": true,
+          "message": "Word spreads that a clan has walked every shrine."
+        }
+      ],
+      "tags": [
+        "shrine",
+        "rogue"
+      ],
+      "metadata": {
+        "clan": "rogue",
+        "bonus_stat": "stealth",
+        "bonus_label": "+STL",
+        "sacred_ground_radius": 2,
+        "placement_rule": {
+          "distance_from_enclave": [
+            8,
+            12
+          ],
+          "preferred_terrain": [
+            "ruins",
+            "grasslands"
+          ],
+          "avoid_terrain": [
+            "plains",
+            "mountain"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shrine_monk",
+      "map": "aevum",
+      "display_name": "Shrine of Humility",
+      "description": "A perfectly circular clearing. No wind, no sound. Whatever you carry feels lighter here.",
+      "category": "shrine",
+      "placement": "random_land",
+      "visual": "site.shrine",
+      "sight": 2,
+      "capturable": false,
+      "discover_intel": [
+        "location_shrine_monk"
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "avatar_declared"
+          ],
+          "channel": "observed",
+          "reliability": 1.0,
+          "requires": {
+            "faction_flag": "is_avatar"
+          },
+          "once_per_faction": true,
+          "message": "Word spreads that a clan has walked every shrine."
+        }
+      ],
+      "tags": [
+        "shrine",
+        "monk"
+      ],
+      "metadata": {
+        "clan": "monk",
+        "bonus_stat": "resilience",
+        "bonus_label": "+RES",
+        "sacred_ground_radius": 2,
+        "placement_rule": {
+          "distance_from_enclave": [
+            8,
+            12
+          ],
+          "preferred_terrain": [
+            "plains",
+            "grasslands"
+          ],
+          "avoid_terrain": [
+            "swamp",
+            "mountain"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shrine_druid",
+      "map": "aevum",
+      "display_name": "Shrine of Temperance",
+      "description": "Grown over with living vines that part for those who approach with patience.",
+      "category": "shrine",
+      "placement": "random_land",
+      "visual": "site.shrine",
+      "sight": 2,
+      "capturable": false,
+      "discover_intel": [
+        "location_shrine_druid"
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "avatar_declared"
+          ],
+          "channel": "observed",
+          "reliability": 1.0,
+          "requires": {
+            "faction_flag": "is_avatar"
+          },
+          "once_per_faction": true,
+          "message": "Word spreads that a clan has walked every shrine."
+        }
+      ],
+      "tags": [
+        "shrine",
+        "druid"
+      ],
+      "metadata": {
+        "clan": "druid",
+        "bonus_stat": "luck",
+        "bonus_label": "+LCK",
+        "sacred_ground_radius": 2,
+        "placement_rule": {
+          "distance_from_enclave": [
+            8,
+            12
+          ],
+          "preferred_terrain": [
+            "forest",
+            "grasslands"
+          ],
+          "avoid_terrain": [
+            "mountain",
+            "ruins"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shrine_necromancer",
+      "map": "aevum",
+      "display_name": "Shrine of Sacrifice",
+      "description": "Cold air that doesn't move. The silence here isn't peaceful — it's waiting.",
+      "category": "shrine",
+      "placement": "random_land",
+      "visual": "site.shrine",
+      "sight": 2,
+      "capturable": false,
+      "discover_intel": [
+        "location_shrine_necromancer"
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "avatar_declared"
+          ],
+          "channel": "observed",
+          "reliability": 1.0,
+          "requires": {
+            "faction_flag": "is_avatar"
+          },
+          "once_per_faction": true,
+          "message": "Word spreads that a clan has walked every shrine."
+        }
+      ],
+      "tags": [
+        "shrine",
+        "necromancer"
+      ],
+      "metadata": {
+        "clan": "necromancer",
+        "bonus_stat": "atk_weak",
+        "bonus_label": "+ATK(weak)",
+        "sacred_ground_radius": 2,
+        "placement_rule": {
+          "distance_from_enclave": [
+            8,
+            12
+          ],
+          "preferred_terrain": [
+            "swamp",
+            "ruins"
+          ],
+          "avoid_terrain": [
+            "grasslands",
+            "plains"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shrine_bard",
+      "map": "aevum",
+      "display_name": "Shrine of Honesty",
+      "description": "Music plays here with no instrument. Sit long enough and the words begin to make sense.",
+      "category": "shrine",
+      "placement": "random_land",
+      "visual": "site.shrine",
+      "sight": 2,
+      "capturable": false,
+      "discover_intel": [
+        "location_shrine_bard"
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "avatar_declared"
+          ],
+          "channel": "observed",
+          "reliability": 1.0,
+          "requires": {
+            "faction_flag": "is_avatar"
+          },
+          "once_per_faction": true,
+          "message": "Word spreads that a clan has walked every shrine."
+        }
+      ],
+      "tags": [
+        "shrine",
+        "bard"
+      ],
+      "metadata": {
+        "clan": "bard",
+        "bonus_stat": "intellect",
+        "bonus_label": "+INT",
+        "sacred_ground_radius": 2,
+        "placement_rule": {
+          "distance_from_enclave": [
+            8,
+            12
+          ],
+          "preferred_terrain": [
+            "plains",
+            "ruins"
+          ],
+          "avoid_terrain": [
+            "mountain",
+            "swamp"
+          ]
+        }
+      }
+    },
+    {
+      "id": "shrine_shaman",
+      "map": "aevum",
+      "display_name": "Shrine of Justice",
+      "description": "The ground vibrates faintly. Kneel here and you feel what others feel, nearby.",
+      "category": "shrine",
+      "placement": "random_land",
+      "visual": "site.shrine",
+      "sight": 2,
+      "capturable": false,
+      "discover_intel": [
+        "location_shrine_shaman"
+      ],
+      "interactions": [
+        {
+          "kind": "intel",
+          "tokens": [
+            "avatar_declared"
+          ],
+          "channel": "observed",
+          "reliability": 1.0,
+          "requires": {
+            "faction_flag": "is_avatar"
+          },
+          "once_per_faction": true,
+          "message": "Word spreads that a clan has walked every shrine."
+        }
+      ],
+      "tags": [
+        "shrine",
+        "shaman"
+      ],
+      "metadata": {
+        "clan": "shaman",
+        "bonus_stat": "arc_elem",
+        "bonus_label": "+ARC(elem)",
+        "sacred_ground_radius": 2,
+        "placement_rule": {
+          "distance_from_enclave": [
+            8,
+            12
+          ],
+          "preferred_terrain": [
+            "plains",
+            "grasslands"
+          ],
+          "avoid_terrain": [
+            "mountain",
+            "forest"
+          ]
+        }
+      }
+    },
+    {
+      "id": "enclave_fighter",
+      "map": "aevum",
+      "display_name": "Fighter Enclave",
+      "category": "enclave",
+      "placement": "random_land",
+      "visual": "site.enclave",
+      "owner": "fighter",
+      "sight": 3,
+      "defense_bonus": 25,
+      "capturable": true,
+      "yields": {
+        "gold": 5
+      },
+      "tags": [
+        "enclave",
+        "home",
+        "fighter"
+      ],
+      "metadata": {
+        "clan": "fighter",
+        "is_home": true
+      }
+    },
+    {
+      "id": "enclave_mage",
+      "map": "aevum",
+      "display_name": "Mage Enclave",
+      "category": "enclave",
+      "placement": "random_land",
+      "visual": "site.enclave",
+      "owner": "mage",
+      "sight": 3,
+      "defense_bonus": 25,
+      "capturable": true,
+      "yields": {
+        "gold": 5
+      },
+      "tags": [
+        "enclave",
+        "home",
+        "mage"
+      ],
+      "metadata": {
+        "clan": "mage",
+        "is_home": true
+      }
+    },
+    {
+      "id": "enclave_cleric",
+      "map": "aevum",
+      "display_name": "Cleric Enclave",
+      "category": "enclave",
+      "placement": "random_land",
+      "visual": "site.enclave",
+      "owner": "cleric",
+      "sight": 3,
+      "defense_bonus": 25,
+      "capturable": true,
+      "yields": {
+        "gold": 5
+      },
+      "tags": [
+        "enclave",
+        "home",
+        "cleric"
+      ],
+      "metadata": {
+        "clan": "cleric",
+        "is_home": true
+      }
+    },
+    {
+      "id": "enclave_dwarf",
+      "map": "aevum",
+      "display_name": "Dwarf Enclave",
+      "category": "enclave",
+      "placement": "random_land",
+      "visual": "site.enclave",
+      "owner": "dwarf",
+      "sight": 3,
+      "defense_bonus": 25,
+      "capturable": true,
+      "yields": {
+        "gold": 5
+      },
+      "tags": [
+        "enclave",
+        "home",
+        "dwarf"
+      ],
+      "metadata": {
+        "clan": "dwarf",
+        "is_home": true
+      }
+    },
+    {
+      "id": "enclave_ranger",
+      "map": "aevum",
+      "display_name": "Ranger Enclave",
+      "category": "enclave",
+      "placement": "random_land",
+      "visual": "site.enclave",
+      "owner": "ranger",
+      "sight": 3,
+      "defense_bonus": 25,
+      "capturable": true,
+      "yields": {
+        "gold": 5
+      },
+      "tags": [
+        "enclave",
+        "home",
+        "ranger"
+      ],
+      "metadata": {
+        "clan": "ranger",
+        "is_home": true
+      }
+    },
+    {
+      "id": "enclave_elf",
+      "map": "aevum",
+      "display_name": "Elf Enclave",
+      "category": "enclave",
+      "placement": "random_land",
+      "visual": "site.enclave",
+      "owner": "elf",
+      "sight": 3,
+      "defense_bonus": 25,
+      "capturable": true,
+      "yields": {
+        "gold": 5
+      },
+      "tags": [
+        "enclave",
+        "home",
+        "elf"
+      ],
+      "metadata": {
+        "clan": "elf",
+        "is_home": true
+      }
+    },
+    {
+      "id": "enclave_rogue",
+      "map": "aevum",
+      "display_name": "Rogue Enclave",
+      "category": "enclave",
+      "placement": "random_land",
+      "visual": "site.enclave",
+      "owner": "rogue",
+      "sight": 3,
+      "defense_bonus": 25,
+      "capturable": true,
+      "yields": {
+        "gold": 5
+      },
+      "tags": [
+        "enclave",
+        "home",
+        "rogue"
+      ],
+      "metadata": {
+        "clan": "rogue",
+        "is_home": true
+      }
+    },
+    {
+      "id": "enclave_monk",
+      "map": "aevum",
+      "display_name": "Monk Enclave",
+      "category": "enclave",
+      "placement": "random_land",
+      "visual": "site.enclave",
+      "owner": "monk",
+      "sight": 3,
+      "defense_bonus": 25,
+      "capturable": true,
+      "yields": {
+        "gold": 5
+      },
+      "tags": [
+        "enclave",
+        "home",
+        "monk"
+      ],
+      "metadata": {
+        "clan": "monk",
+        "is_home": true
+      }
+    },
+    {
+      "id": "enclave_druid",
+      "map": "aevum",
+      "display_name": "Druid Enclave",
+      "category": "enclave",
+      "placement": "random_land",
+      "visual": "site.enclave",
+      "owner": "druid",
+      "sight": 3,
+      "defense_bonus": 25,
+      "capturable": true,
+      "yields": {
+        "gold": 5
+      },
+      "tags": [
+        "enclave",
+        "home",
+        "druid"
+      ],
+      "metadata": {
+        "clan": "druid",
+        "is_home": true
+      }
+    },
+    {
+      "id": "enclave_necromancer",
+      "map": "aevum",
+      "display_name": "Necromancer Enclave",
+      "category": "enclave",
+      "placement": "random_land",
+      "visual": "site.enclave",
+      "owner": "necromancer",
+      "sight": 3,
+      "defense_bonus": 25,
+      "capturable": true,
+      "yields": {
+        "gold": 5
+      },
+      "tags": [
+        "enclave",
+        "home",
+        "necromancer"
+      ],
+      "metadata": {
+        "clan": "necromancer",
+        "is_home": true
+      }
+    },
+    {
+      "id": "enclave_bard",
+      "map": "aevum",
+      "display_name": "Bard Enclave",
+      "category": "enclave",
+      "placement": "random_land",
+      "visual": "site.enclave",
+      "owner": "bard",
+      "sight": 3,
+      "defense_bonus": 25,
+      "capturable": true,
+      "yields": {
+        "gold": 5
+      },
+      "tags": [
+        "enclave",
+        "home",
+        "bard"
+      ],
+      "metadata": {
+        "clan": "bard",
+        "is_home": true
+      }
+    },
+    {
+      "id": "enclave_shaman",
+      "map": "aevum",
+      "display_name": "Shaman Enclave",
+      "category": "enclave",
+      "placement": "random_land",
+      "visual": "site.enclave",
+      "owner": "shaman",
+      "sight": 3,
+      "defense_bonus": 25,
+      "capturable": true,
+      "yields": {
+        "gold": 5
+      },
+      "tags": [
+        "enclave",
+        "home",
+        "shaman"
+      ],
+      "metadata": {
+        "clan": "shaman",
+        "is_home": true
+      }
+    },
+    {
+      "id": "skara_brae",
+      "map": "aevum",
+      "display_name": "Skara Brae",
+      "description": "A town of spiritual contemplation. Primary Contemplation Hall. Strong magic item stock.",
+      "category": "town",
+      "placement": "random_land",
+      "visual": "site.town",
+      "sight": 2,
+      "capturable": false,
+      "yields": {
+        "gold": 3
+      },
+      "interactions": [
+        {
+          "kind": "shop",
+          "shop_id": "shop_skara_brae",
+          "currency": "gold",
+          "buys_intel": true,
+          "intel_price_multiplier": 1.0,
+          "stock": [
+            {
+              "item": "mana_staff",
+              "price": 0
+            },
+            {
+              "item": "spell_staff",
+              "price": 0
+            },
+            {
+              "item": "focus_crystal",
+              "price": 0
+            },
+            {
+              "item": "exhaust_sigil",
+              "price": 0
+            },
+            {
+              "item": "spell_scroll",
+              "price": 0
+            },
+            {
+              "item": "egg_spoof",
+              "price": 0
+            },
+            {
+              "item": "healing_potion",
+              "price": 0
+            },
+            {
+              "item": "shrine_map",
+              "price": 0
+            },
+            {
+              "item": "lantern",
+              "price": 0
+            }
+          ],
+          "message": "The markets of Skara Brae are open."
+        },
+        {
+          "kind": "intel",
+          "tokens": [
+            "pub_rumour",
+            "egg_location_false"
+          ],
+          "channel": "told",
+          "reliability": 0.35,
+          "once_per_faction": true,
+          "message": "Talk in the pub turns to the shrines, and to the Dragon."
+        },
+        {
+          "kind": "intel",
+          "tokens": [
+            "mantra_fighter",
+            "mantra_mage",
+            "mantra_cleric",
+            "mantra_dwarf",
+            "mantra_ranger",
+            "mantra_elf",
+            "mantra_rogue",
+            "mantra_monk",
+            "mantra_druid",
+            "mantra_necromancer",
+            "mantra_bard",
+            "mantra_shaman"
+          ],
+          "channel": "read",
+          "reliability": 0.8,
+          "once_per_faction": true,
+          "message": "In the Contemplation Hall the mantras are recited aloud."
+        }
+      ],
+      "tags": [
+        "town",
+        "shop",
+        "pub"
+      ],
+      "metadata": {
+        "theme": "Spirituality",
+        "contemplation_hall": {
+          "tier": "primary",
+          "commission_pct": 0
+        },
+        "special_services": [],
+        "pub_personality_pool": [
+          "wise",
+          "cryptic",
+          "serene"
+        ]
+      }
+    },
+    {
+      "id": "trinsic",
+      "map": "aevum",
+      "display_name": "Trinsic",
+      "description": "A town of honour and martial tradition. Premium melee weapons. Virtue restoration available.",
+      "category": "town",
+      "placement": "random_land",
+      "visual": "site.town",
+      "sight": 2,
+      "capturable": false,
+      "yields": {
+        "gold": 3
+      },
+      "interactions": [
+        {
+          "kind": "shop",
+          "shop_id": "shop_trinsic",
+          "currency": "gold",
+          "buys_intel": true,
+          "intel_price_multiplier": 1.0,
+          "stock": [
+            {
+              "item": "flameblade",
+              "price": 0
+            },
+            {
+              "item": "soulreaver",
+              "price": 0
+            },
+            {
+              "item": "runic_axe",
+              "price": 0
+            },
+            {
+              "item": "keen_blade",
+              "price": 0
+            },
+            {
+              "item": "iron_shield",
+              "price": 0
+            },
+            {
+              "item": "dragonhide_mantle",
+              "price": 0
+            },
+            {
+              "item": "healing_potion",
+              "price": 0
+            },
+            {
+              "item": "lantern",
+              "price": 0
+            },
+            {
+              "item": "swift_boots",
+              "price": 0
+            }
+          ],
+          "message": "The markets of Trinsic are open."
+        },
+        {
+          "kind": "intel",
+          "tokens": [
+            "pub_rumour",
+            "egg_location_false"
+          ],
+          "channel": "told",
+          "reliability": 0.35,
+          "once_per_faction": true,
+          "message": "Talk in the pub turns to the shrines, and to the Dragon."
+        }
+      ],
+      "tags": [
+        "town",
+        "shop",
+        "pub"
+      ],
+      "metadata": {
+        "theme": "Honour",
+        "contemplation_hall": null,
+        "special_services": [
+          {
+            "id": "virtue_restoration",
+            "name": "Virtue Restoration",
+            "desc": "Pay 150g to remove one virtue debt record from the end-game summary for this clan. Max 1 use per clan per game. Does NOT restore shrine bonus stats (those are permanent).",
+            "cost": 150,
+            "max_uses_per_clan": 1,
+            "relationship_required": "trusted"
+          }
+        ],
+        "pub_personality_pool": [
+          "stern",
+          "honourable",
+          "blunt"
+        ]
+      }
+    },
+    {
+      "id": "minoc",
+      "map": "aevum",
+      "display_name": "Minoc",
+      "description": "A mining and crafting town. Practical items. Artisan tools for workers.",
+      "category": "town",
+      "placement": "random_land",
+      "visual": "site.town",
+      "sight": 2,
+      "capturable": false,
+      "yields": {
+        "gold": 3
+      },
+      "interactions": [
+        {
+          "kind": "shop",
+          "shop_id": "shop_minoc",
+          "currency": "gold",
+          "buys_intel": true,
+          "intel_price_multiplier": 1.0,
+          "stock": [
+            {
+              "item": "runic_axe",
+              "price": 0
+            },
+            {
+              "item": "keen_blade",
+              "price": 0
+            },
+            {
+              "item": "iron_shield",
+              "price": 0
+            },
+            {
+              "item": "frostblade",
+              "price": 0
+            },
+            {
+              "item": "dragonhide_mantle",
+              "price": 0
+            },
+            {
+              "item": "healing_potion",
+              "price": 0
+            },
+            {
+              "item": "lantern",
+              "price": 0
+            }
+          ],
+          "message": "The markets of Minoc are open."
+        },
+        {
+          "kind": "intel",
+          "tokens": [
+            "pub_rumour",
+            "egg_location_false"
+          ],
+          "channel": "told",
+          "reliability": 0.35,
+          "once_per_faction": true,
+          "message": "Talk in the pub turns to the shrines, and to the Dragon."
+        }
+      ],
+      "tags": [
+        "town",
+        "shop",
+        "pub"
+      ],
+      "metadata": {
+        "theme": "Sacrifice",
+        "contemplation_hall": null,
+        "special_services": [
+          {
+            "id": "worker_upgrade",
+            "name": "Artisan Tools",
+            "desc": "Pay 60g to reduce a specific worker unit's improvement build time by 1 turn (min 1). Applies to next build action only.",
+            "cost": 60,
+            "max_uses_per_clan": 3
+          }
+        ],
+        "pub_personality_pool": [
+          "gruff",
+          "practical",
+          "hardworking"
+        ]
+      }
+    },
+    {
+      "id": "yew",
+      "map": "aevum",
+      "display_name": "Yew",
+      "description": "A town of justice and law. Secondary Contemplation Hall (verified provenance, 15% commission). Good archer equipment.",
+      "category": "town",
+      "placement": "random_land",
+      "visual": "site.town",
+      "sight": 2,
+      "capturable": false,
+      "yields": {
+        "gold": 3
+      },
+      "interactions": [
+        {
+          "kind": "shop",
+          "shop_id": "shop_yew",
+          "currency": "gold",
+          "buys_intel": true,
+          "intel_price_multiplier": 1.0,
+          "stock": [
+            {
+              "item": "shadowblade",
+              "price": 0
+            },
+            {
+              "item": "shadowbow",
+              "price": 0
+            },
+            {
+              "item": "elfbow",
+              "price": 0
+            },
+            {
+              "item": "longbow",
+              "price": 0
+            },
+            {
+              "item": "healing_potion",
+              "price": 0
+            },
+            {
+              "item": "shrine_map",
+              "price": 0
+            }
+          ],
+          "message": "The markets of Yew are open."
+        },
+        {
+          "kind": "intel",
+          "tokens": [
+            "pub_rumour",
+            "egg_location_false"
+          ],
+          "channel": "told",
+          "reliability": 0.35,
+          "once_per_faction": true,
+          "message": "Talk in the pub turns to the shrines, and to the Dragon."
+        },
+        {
+          "kind": "intel",
+          "tokens": [
+            "mantra_fighter",
+            "mantra_mage",
+            "mantra_cleric",
+            "mantra_dwarf",
+            "mantra_ranger",
+            "mantra_elf",
+            "mantra_rogue",
+            "mantra_monk",
+            "mantra_druid",
+            "mantra_necromancer",
+            "mantra_bard",
+            "mantra_shaman"
+          ],
+          "channel": "read",
+          "reliability": 0.8,
+          "once_per_faction": true,
+          "message": "In the Contemplation Hall the mantras are recited aloud."
+        }
+      ],
+      "tags": [
+        "town",
+        "shop",
+        "pub"
+      ],
+      "metadata": {
+        "theme": "Justice",
+        "contemplation_hall": {
+          "tier": "secondary",
+          "commission_pct": 15,
+          "verified": true
+        },
+        "special_services": [],
+        "pub_personality_pool": [
+          "fair",
+          "measured",
+          "inquisitive"
+        ]
+      }
+    },
+    {
+      "id": "moonglow",
+      "map": "aevum",
+      "display_name": "Moonglow",
+      "description": "A town of truth-seekers. Tertiary Contemplation Hall (rare shrine focus). Oracle service. Egg intel.",
+      "category": "town",
+      "placement": "random_land",
+      "visual": "site.town",
+      "sight": 2,
+      "capturable": false,
+      "yields": {
+        "gold": 3
+      },
+      "interactions": [
+        {
+          "kind": "shop",
+          "shop_id": "shop_moonglow",
+          "currency": "gold",
+          "buys_intel": true,
+          "intel_price_multiplier": 1.0,
+          "stock": [
+            {
+              "item": "mana_staff",
+              "price": 0
+            },
+            {
+              "item": "focus_crystal",
+              "price": 0
+            },
+            {
+              "item": "longbow",
+              "price": 0
+            },
+            {
+              "item": "lantern",
+              "price": 0
+            },
+            {
+              "item": "egg_spoof",
+              "price": 0
+            },
+            {
+              "item": "shrine_map",
+              "price": 0
+            },
+            {
+              "item": "seer_stone",
+              "price": 0
+            },
+            {
+              "item": "healing_potion",
+              "price": 0
+            }
+          ],
+          "message": "The markets of Moonglow are open."
+        },
+        {
+          "kind": "intel",
+          "tokens": [
+            "pub_rumour",
+            "egg_location_false"
+          ],
+          "channel": "told",
+          "reliability": 0.35,
+          "once_per_faction": true,
+          "message": "Talk in the pub turns to the shrines, and to the Dragon."
+        },
+        {
+          "kind": "intel",
+          "tokens": [
+            "mantra_fighter",
+            "mantra_mage",
+            "mantra_cleric",
+            "mantra_dwarf",
+            "mantra_ranger",
+            "mantra_elf",
+            "mantra_rogue",
+            "mantra_monk",
+            "mantra_druid",
+            "mantra_necromancer",
+            "mantra_bard",
+            "mantra_shaman"
+          ],
+          "channel": "read",
+          "reliability": 0.8,
+          "once_per_faction": true,
+          "message": "In the Contemplation Hall the mantras are recited aloud."
+        }
+      ],
+      "tags": [
+        "town",
+        "shop",
+        "pub"
+      ],
+      "metadata": {
+        "theme": "Honesty",
+        "contemplation_hall": {
+          "tier": "tertiary",
+          "commission_pct": 10,
+          "rare_shrine_focus": true
+        },
+        "special_services": [
+          {
+            "id": "oracle",
+            "name": "Oracle",
+            "desc": "One yes/no question about the egg location answered truthfully. 80g per question. Max 2 uses per clan per game.",
+            "cost": 80,
+            "max_uses_per_clan": 2,
+            "relationship_required": "trusted",
+            "answers_truthfully": true
+          }
+        ],
+        "pub_personality_pool": [
+          "honest",
+          "direct",
+          "scholarly"
+        ]
+      }
+    },
+    {
+      "id": "jhelom",
+      "map": "aevum",
+      "display_name": "Jhelom",
+      "description": "A warrior town. Best combat weapon selection. Widest armory pool of any town.",
+      "category": "town",
+      "placement": "random_land",
+      "visual": "site.town",
+      "sight": 2,
+      "capturable": false,
+      "yields": {
+        "gold": 3
+      },
+      "interactions": [
+        {
+          "kind": "shop",
+          "shop_id": "shop_jhelom",
+          "currency": "gold",
+          "buys_intel": true,
+          "intel_price_multiplier": 1.0,
+          "stock": [
+            {
+              "item": "flameblade",
+              "price": 0
+            },
+            {
+              "item": "stormbow",
+              "price": 0
+            },
+            {
+              "item": "longbow",
+              "price": 0
+            },
+            {
+              "item": "elfbow",
+              "price": 0
+            },
+            {
+              "item": "keen_blade",
+              "price": 0
+            },
+            {
+              "item": "frostblade",
+              "price": 0
+            },
+            {
+              "item": "riders_bind",
+              "price": 0
+            },
+            {
+              "item": "healing_potion",
+              "price": 0
+            },
+            {
+              "item": "swift_boots",
+              "price": 0
+            },
+            {
+              "item": "iron_shield",
+              "price": 0
+            }
+          ],
+          "message": "The markets of Jhelom are open."
+        },
+        {
+          "kind": "intel",
+          "tokens": [
+            "pub_rumour",
+            "egg_location_false"
+          ],
+          "channel": "told",
+          "reliability": 0.35,
+          "once_per_faction": true,
+          "message": "Talk in the pub turns to the shrines, and to the Dragon."
+        }
+      ],
+      "tags": [
+        "town",
+        "shop",
+        "pub"
+      ],
+      "metadata": {
+        "theme": "Valour",
+        "contemplation_hall": null,
+        "special_services": [],
+        "pub_personality_pool": [
+          "boisterous",
+          "brave",
+          "battle-scarred"
+        ]
+      }
+    },
+    {
+      "id": "britain",
+      "map": "aevum",
+      "display_name": "Britain",
+      "description": "The compassionate capital. ONLY place to heal exhaustion HP. Essential for heavy spellcasters.",
+      "category": "town",
+      "placement": "random_land",
+      "visual": "site.town",
+      "sight": 2,
+      "capturable": false,
+      "yields": {
+        "gold": 3
+      },
+      "interactions": [
+        {
+          "kind": "shop",
+          "shop_id": "shop_britain",
+          "currency": "gold",
+          "buys_intel": true,
+          "intel_price_multiplier": 1.0,
+          "stock": [
+            {
+              "item": "iron_shield",
+              "price": 0
+            },
+            {
+              "item": "warding_stone",
+              "price": 0
+            },
+            {
+              "item": "mana_staff",
+              "price": 0
+            },
+            {
+              "item": "healing_potion",
+              "price": 0
+            },
+            {
+              "item": "lantern",
+              "price": 0
+            }
+          ],
+          "message": "The markets of Britain are open."
+        },
+        {
+          "kind": "intel",
+          "tokens": [
+            "pub_rumour",
+            "egg_location_false"
+          ],
+          "channel": "told",
+          "reliability": 0.35,
+          "once_per_faction": true,
+          "message": "Talk in the pub turns to the shrines, and to the Dragon."
+        }
+      ],
+      "tags": [
+        "town",
+        "shop",
+        "pub"
+      ],
+      "metadata": {
+        "theme": "Compassion",
+        "contemplation_hall": null,
+        "special_services": [
+          {
+            "id": "exhaustion_healing",
+            "name": "Healer's Sanctum",
+            "desc": "The ONLY place exhaustion HP can be healed. 25g per exhaustion HP restored. Max 3 uses per clan per game. Cannot heal combat HP (use standard Healer tab for that).",
+            "cost_per_hp": 25,
+            "max_uses_per_clan": 3,
+            "heals_exhaustion": true,
+            "note": "If Britain is not one of the 4 active towns this game, there is NO exhaustion healing available."
+          }
+        ],
+        "pub_personality_pool": [
+          "kind",
+          "compassionate",
+          "worried"
+        ]
+      }
+    },
+    {
+      "id": "buccaneers_den",
+      "map": "aevum",
+      "display_name": "Buccaneer's Den",
+      "description": "The thieves' den. Unofficial Contemplation Hall (15% fake chance). Fence discounts. Rumor planting.",
+      "category": "town",
+      "placement": "random_land",
+      "visual": "site.town",
+      "sight": 2,
+      "capturable": false,
+      "yields": {
+        "gold": 3
+      },
+      "interactions": [
+        {
+          "kind": "shop",
+          "shop_id": "shop_buccaneers_den",
+          "currency": "gold",
+          "buys_intel": true,
+          "intel_price_multiplier": 1.0,
+          "stock": [
+            {
+              "item": "shadowblade",
+              "price": 0
+            },
+            {
+              "item": "shadowbow",
+              "price": 0
+            },
+            {
+              "item": "flameblade",
+              "price": 0
+            },
+            {
+              "item": "soulreaver",
+              "price": 0
+            },
+            {
+              "item": "elfbow",
+              "price": 0
+            },
+            {
+              "item": "dragon_orb",
+              "price": 0
+            },
+            {
+              "item": "healing_potion",
+              "price": 0
+            },
+            {
+              "item": "lantern",
+              "price": 0
+            },
+            {
+              "item": "warding_stone",
+              "price": 0
+            }
+          ],
+          "message": "The markets of Buccaneer's Den are open."
+        },
+        {
+          "kind": "intel",
+          "tokens": [
+            "pub_rumour",
+            "egg_location_false"
+          ],
+          "channel": "told",
+          "reliability": 0.35,
+          "once_per_faction": true,
+          "message": "Talk in the pub turns to the shrines, and to the Dragon."
+        },
+        {
+          "kind": "intel",
+          "tokens": [
+            "mantra_fighter",
+            "mantra_mage",
+            "mantra_cleric",
+            "mantra_dwarf",
+            "mantra_ranger",
+            "mantra_elf",
+            "mantra_rogue",
+            "mantra_monk",
+            "mantra_druid",
+            "mantra_necromancer",
+            "mantra_bard",
+            "mantra_shaman"
+          ],
+          "channel": "read",
+          "reliability": 0.8,
+          "once_per_faction": true,
+          "message": "In the Contemplation Hall the mantras are recited aloud."
+        }
+      ],
+      "tags": [
+        "town",
+        "shop",
+        "pub"
+      ],
+      "metadata": {
+        "theme": "Deception",
+        "contemplation_hall": {
+          "tier": "unofficial",
+          "commission_pct": 0,
+          "fake_credit_chance": 0.15,
+          "fake_note": "15% chance credit is planted misinformation. Bard clan INT check at Regular+ relationship reduces fake chance by 50%."
+        },
+        "special_services": [
+          {
+            "id": "fence",
+            "name": "Fence",
+            "desc": "Buy items at 40% discount (no questions asked about provenance). Stock rotates each visit.",
+            "discount_pct": 40
+          },
+          {
+            "id": "rumor_plant",
+            "name": "Hired Rumor Plant",
+            "desc": "Pay 100g to inject one false intel fragment into a named village's pub knowledge base. Appears as real intel to other clans. Bard Spymaster gets this for free.",
+            "cost": 100,
+            "max_uses_per_clan": 2,
+            "relationship_required": "acquaintance"
+          }
+        ],
+        "pub_personality_pool": [
+          "shifty",
+          "knowing",
+          "amused"
+        ]
+      }
+    },
+    {
+      "id": "lair_ocean",
+      "map": "aevum",
+      "display_name": "Ocean Lair",
+      "category": "lair",
+      "placement": "random_land",
+      "visual": "site.lair",
+      "sight": 1,
+      "capturable": true,
+      "discover_intel": [
+        "location_lair_ocean"
+      ],
+      "interactions": [
+        {
+          "kind": "portal",
+          "target_map": "lair_cave",
+          "direction": "descend",
+          "message": "You descend into the ocean lair."
+        }
+      ],
+      "tags": [
+        "lair",
+        "ocean"
+      ],
+      "metadata": {
+        "biome": "ocean"
+      },
+      "spawns": [
+        {
+          "unit": "reef_shark",
+          "faction": "wilds",
+          "count": 2,
+          "radius": 1,
+          "respawn_turns": 10
+        }
+      ]
+    },
+    {
+      "id": "lair_cave",
+      "map": "aevum",
+      "display_name": "Cave Lair",
+      "category": "lair",
+      "placement": "random_land",
+      "visual": "site.lair",
+      "sight": 1,
+      "capturable": true,
+      "discover_intel": [
+        "location_lair_cave"
+      ],
+      "interactions": [
+        {
+          "kind": "portal",
+          "target_map": "lair_cave",
+          "direction": "descend",
+          "message": "You descend into the cave lair."
+        }
+      ],
+      "tags": [
+        "lair",
+        "cave"
+      ],
+      "metadata": {
+        "biome": "cave"
+      },
+      "spawns": [
+        {
+          "unit": "cave_crawler",
+          "faction": "wilds",
+          "count": 2,
+          "radius": 1,
+          "respawn_turns": 10
+        }
+      ]
+    },
+    {
+      "id": "lair_swamp",
+      "map": "aevum",
+      "display_name": "Swamp Lair",
+      "category": "lair",
+      "placement": "random_land",
+      "visual": "site.lair",
+      "sight": 1,
+      "capturable": true,
+      "discover_intel": [
+        "location_lair_swamp"
+      ],
+      "interactions": [
+        {
+          "kind": "portal",
+          "target_map": "lair_cave",
+          "direction": "descend",
+          "message": "You descend into the swamp lair."
+        }
+      ],
+      "tags": [
+        "lair",
+        "swamp"
+      ],
+      "metadata": {
+        "biome": "swamp"
+      },
+      "spawns": [
+        {
+          "unit": "bog_lurker",
+          "faction": "wilds",
+          "count": 2,
+          "radius": 1,
+          "respawn_turns": 10
+        }
+      ]
+    },
+    {
+      "id": "lair_crypt",
+      "map": "aevum",
+      "display_name": "Crypt Lair",
+      "category": "lair",
+      "placement": "random_land",
+      "visual": "site.lair",
+      "sight": 1,
+      "capturable": true,
+      "discover_intel": [
+        "location_lair_crypt"
+      ],
+      "interactions": [
+        {
+          "kind": "portal",
+          "target_map": "lair_crypt",
+          "direction": "descend",
+          "message": "You descend into the crypt lair."
+        }
+      ],
+      "tags": [
+        "lair",
+        "crypt"
+      ],
+      "metadata": {
+        "biome": "crypt"
+      },
+      "spawns": [
+        {
+          "unit": "crypt_skeleton",
+          "faction": "wilds",
+          "count": 2,
+          "radius": 1,
+          "respawn_turns": 10
+        }
+      ]
+    },
+    {
+      "id": "lair_ruined",
+      "map": "aevum",
+      "display_name": "Ruined Lair",
+      "category": "lair",
+      "placement": "random_land",
+      "visual": "site.lair",
+      "sight": 1,
+      "capturable": true,
+      "discover_intel": [
+        "location_lair_ruined"
+      ],
+      "interactions": [
+        {
+          "kind": "portal",
+          "target_map": "lair_crypt",
+          "direction": "descend",
+          "message": "You descend into the ruined lair."
+        }
+      ],
+      "tags": [
+        "lair",
+        "ruined"
+      ],
+      "metadata": {
+        "biome": "ruined"
+      },
+      "spawns": [
+        {
+          "unit": "bandit",
+          "faction": "wilds",
+          "count": 2,
+          "radius": 1,
+          "respawn_turns": 10
+        }
+      ]
+    },
+    {
+      "id": "lair_fungal",
+      "map": "aevum",
+      "display_name": "Fungal Lair",
+      "category": "lair",
+      "placement": "random_land",
+      "visual": "site.lair",
+      "sight": 1,
+      "capturable": true,
+      "discover_intel": [
+        "location_lair_fungal"
+      ],
+      "interactions": [
+        {
+          "kind": "portal",
+          "target_map": "lair_cave",
+          "direction": "descend",
+          "message": "You descend into the fungal lair."
+        }
+      ],
+      "tags": [
+        "lair",
+        "fungal"
+      ],
+      "metadata": {
+        "biome": "fungal"
+      },
+      "spawns": [
+        {
+          "unit": "sporeling",
+          "faction": "wilds",
+          "count": 2,
+          "radius": 1,
+          "respawn_turns": 10
+        }
+      ]
+    },
+    {
+      "id": "the_veil",
+      "map": "aevum",
+      "display_name": "The Veil",
+      "description": "The air here is wrong. Something enormous is breathing.",
+      "category": "veil",
+      "placement": "random_land",
+      "visual": "site.veil",
+      "sight": 0,
+      "hidden_until": {
+        "has": "egg_location",
+        "min_reliability": 0.6
+      },
+      "discover_intel": [
+        "veil_found"
+      ],
+      "spawns": [
+        {
+          "unit": "dragon",
+          "faction": "dragon",
+          "count": 1,
+          "radius": 0
+        }
+      ],
+      "interactions": [
+        {
+          "kind": "reward",
+          "items": {
+            "dragon_egg": 1
+          },
+          "to": "actor",
+          "requires": {
+            "has": "egg_location",
+            "min_reliability": 0.6
+          },
+          "once": true,
+          "message": "Beneath the Veil, warm and terrible, lies the Dragon's egg. You take it."
+        }
+      ],
+      "tags": [
+        "veil",
+        "dragon",
+        "egg"
+      ],
+      "metadata": {
+        "holds_egg": true,
+        "wake_radius": 8
+      }
+    }
+  ]
+}

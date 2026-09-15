@@ -1,28 +1,39 @@
 ; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
 config/name="isometric"
 config/description="Isometric/hex tile-based engine API layer built on the shared game_core platform."
 run/main_scene="res://scenes/main.tscn"
-config/features=PackedStringArray("4.3", "Mobile")
+config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/gut/plugin.cfg", "res://addons/game_core/plugin.cfg")
 
 [autoload]
 
 CoreContext="*res://addons/game_core/core_context.gd"
 CoreRegistry="*res://addons/game_core/managers/core_registry.gd"
 CoreIntel="*res://addons/game_core/managers/core_intel.gd"
-VirtueSystem="*res://addons/game_core/managers/virtue_system.gd"
-WorldStateManager="*res://addons/game_core/managers/world_state_manager.gd"
-DialogueManager="*res://addons/game_core/managers/dialogue_manager.gd"
-AIHeuristicManager="*res://addons/game_core/managers/ai_heuristic_manager.gd"
+CoreKnowledge="*res://addons/game_core/gameplay/core_knowledge.gd"
+CoreAssets="*res://addons/game_core/gameplay/core_assets.gd"
+CoreStanding="*res://addons/game_core/gameplay/core_standing.gd"
+CoreInkEngine="*res://addons/game_core/narrative/core_ink_engine.gd"
+CoreWindowRegistry="*res://addons/game_core/ui/core_window_registry.gd"
+VirtueSystem="*uid://ck7r482xwbb3h"
+WorldStateManager="*uid://bjdxr5rft4b2m"
+DialogueManager="*uid://cm40ohctfbfu3"
+AIHeuristicManager="*uid://cf3eox4dip80e"
 EventBus="*res://autoloads/event_bus.gd"
 AssetRegistry="*res://autoloads/asset_registry.gd"
 GameManager="*res://autoloads/game_manager.gd"
@@ -35,12 +46,9 @@ IntelRegistry="*res://autoloads/intel_registry.gd"
 WorldManager="*res://autoloads/world_manager.gd"
 SaveManager="*res://autoloads/save_manager.gd"
 
-[rendering]
+[editor_plugins]
 
-renderer/rendering_method="mobile"
-textures/canvas_textures/default_texture_filter=0
-2d/snap/snap_2d_transforms_to_pixel=true
-2d/snap/snap_2d_vertices_to_pixel=true
+enabled=PackedStringArray("res://addons/gut/plugin.cfg", "res://addons/game_core/plugin.cfg")
 
 [input]
 
@@ -118,3 +126,10 @@ toggle_pause_clock={
 2d_render/layer_4="Units"
 2d_render/layer_5="Fog"
 2d_render/layer_6="Overlay"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="mobile"
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true

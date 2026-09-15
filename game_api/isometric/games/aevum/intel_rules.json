@@ -1,0 +1,54 @@
+{
+  "derivations": [
+    {
+      "id": "triangulate_egg",
+      "description": "Sighting the Veil and hearing the pub talk pins the egg.",
+      "when": {
+        "all": [
+          {
+            "has": "veil_found"
+          },
+          {
+            "has": "pub_rumour",
+            "min_reliability": 0.3
+          }
+        ]
+      },
+      "grant": "egg_location",
+      "reliability": 0.75,
+      "once": true
+    }
+  ],
+  "spread": [
+    {
+      "tokens": [
+        "pub_rumour"
+      ],
+      "filter": "all",
+      "chance": 0.15,
+      "decay": 0.05
+    },
+    {
+      "tokens": [
+        "avatar_declared"
+      ],
+      "filter": "all",
+      "chance": 0.5
+    },
+    {
+      "tokens": [
+        "egg_location_false"
+      ],
+      "filter": "all",
+      "chance": 0.2
+    }
+  ],
+  "contradiction": {
+    "resolve": "reliability",
+    "penalty": 0.2
+  },
+  "observation": {
+    "units": true,
+    "sites": true
+  }
+}

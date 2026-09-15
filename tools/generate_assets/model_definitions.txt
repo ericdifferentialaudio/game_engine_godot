@@ -1,0 +1,148 @@
+MESHY_API_KEY="PUT_YOUR_MESHY_API_KEY_HERE"
+
+# ---------------------------------------------------------------------------
+# TEMPLATE COPY. This file ships with the engine's tools/generate_assets/
+# tree as a fallback/example only. Copy it into YOUR GAME'S graphics/ folder
+# and edit it there -- the pipeline looks for model_definitions.txt in the
+# resolved assets root FIRST, and only falls back to this template.
+#
+# Do NOT commit a real Meshy API key into this shared tools tree. Either put
+# the key on line 1 of your game's own copy, or (preferred) leave the
+# placeholder above alone and set the MESHY_API_KEY environment variable:
+#     $env:MESHY_API_KEY = "msy_..."      # PowerShell
+# The environment variable always wins over line 1.
+# ---------------------------------------------------------------------------
+#
+# model_definitions.txt -- batch instructions for attach_hand_item.py's
+# `batch` subcommand and meshy_animate.py's rig+animate pipeline (see also
+# preview_batch_items.py for QA previews of every model block here).
+#
+# Line 1 of this file MUST be the Meshy API key (used by meshy_animate.py):
+#   MESHY_API_KEY="msy_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+#
+# Lines starting with '#' (like this one) and blank lines are ignored.
+#
+# MODEL BLOCK SYNTAX:
+#   model <clan> <unit_type> <model_name> <slot>:<item|none> [X:deg Y:deg Z:deg]
+#       [TX:m TY:m TZ:m] [S:m] [--flip / --flip-left / --flip-right] ...
+#       -- anim <state> anim_text: "<free-form text-to-motion prompt>"
+#       -- anim <state> anim_text: "<free-form text-to-motion prompt>"
+#       ...
+#
+#   <clan> <unit_type>   -- e.g. "bard scout" -- selects
+#                            clans/<clan>/<unit_type>/... under assets/graphics.
+#   <model_name>         -- a unique name for this attached-item variant of
+#                            the unit (e.g. "bard_scout_dagger_raised"). The
+#                            model is attached/merged EXACTLY ONCE by
+#                            attach_hand_item.py batch, written to
+#                            clans/<clan>/<unit_type>/base_mesh/_models/<model_name>_final.glb,
+#                            then meshy_animate.py rigs that ONE file and
+#                            reuses the resulting rig for EVERY one of its
+#                            "-- anim" lines below -- so multiple animation
+#                            states sharing the same held-item pose only
+#                            cost one Meshy rigging operation.
+#   -- anim <state> anim_text: "..." -- one line per animation state this
+#                            model should be animated for. <state> is one of
+#                            render_config.ANIM_STATES's keys (idle/walk/
+#                            attack/bow/cast/death/defend/meditate). anim_text
+#                            is the free-form natural-language prompt sent to
+#                            Meshy's Text to Motion API (max 400 chars).
+#                            ~13 Meshy credits/state (10-cred text-to-motion
+#                            in --mode prime, or 3 in --mode swift, + ~3 for
+#                            the animate step). Result varies with the prompt
+#                            and can differ slightly between re-runs.
+#   -- anim <state> action_id: <int> -- alternative form: retargets a FIXED
+#                            preset from Meshy's free Animation Library
+#                            instead of generating one from a prompt. ~3
+#                            Meshy credits/state (skips text-to-motion
+#                            entirely) and deterministic/previewable. Browse
+#                            or search the library (no credits consumed) with:
+#                                python utils/list_animation_library.py --search attack
+#                                python utils/list_animation_library.py --category Fighting
+#                            or see https://docs.meshy.ai/en/api/animation-library
+#                            for the full catalog (~700 actions: WalkAndRun,
+#                            BodyMovements, DailyActions, Fighting, Dancing).
+#                            Requires a biped rig (this pipeline's rigs always
+#                            are). Example: "-- anim idle action_id: 1"
+#
+# SLOTS (each is "<slot>:<item_name>" or "<slot>:none" to leave it empty):
+#   left:   / right:   -- hand-grip attachment (e.g. a held dagger/sword).
+#                          Anchored at the LeftHand/RightHand joint using the
+#                          hand's own skinned-vertex cluster to build a grip
+#                          frame (see compute_grip_frame in
+#                          attach_hand_item.py).
+#   back:               -- fixed-mount attachment anchored at the
+#                          neck/spine-top joint, offset BACKWARD (opposite the
+#                          character's own forward-facing axis, derived from
+#                          torso vertex normals -- see compute_forward_axis).
+#                          For back-mounted gear (banners, quivers, capes,
+#                          shields, etc).
+#   head:               -- fixed-mount attachment anchored above the Head
+#                          joint (offset upward along the spine's vertical
+#                          axis). For hats/helmets/VFX sockets etc.
+#
+# Every slot supports its OWN independent set of the following tokens; the
+# most recently seen "<slot>:" token on the line sets which slot any
+# following X:/Y:/Z:/TX:/TY:/TZ:/S: tokens apply to (stateful left-to-right
+# scan) -- so put an item's fine-tuning tokens immediately after its own
+# "<slot>:<item>" token:
+#   X: Y: Z:    -- rotation in DEGREES applied after the item is auto-aligned
+#                  to its slot's grip/mount axis.
+#   TX: TY: TZ: -- rotation PIVOT point in METERS (measured from the item's
+#                  auto-detected handle/grip point along that same slot's
+#                  local axes -- local Y is always the grip/mount axis); only
+#                  matters when X:/Y:/Z: is non-zero (a no-op otherwise).
+#   S:          -- a plain scalar SLIDE in METERS along the item's own grip/
+#                  mount axis, applied last, independent of any rotation.
+#   --flip / --flip-left / --flip-right -- use the item's OTHER end as the
+#                  handle/grip point if the auto-detected end is wrong.
+#
+# All tokens default to a no-op if omitted (X:0 Y:0 Z:0 TX:0 TY:0 TZ:0 S:0,
+# no flip).
+#
+# ITEM PRESETS: a line starting with the literal token "item" (instead of a
+# clan name) defines a reusable, named pose for a base item, so multiple
+# subject lines can share one set of X:/Y:/Z:/TX:/TY:/TZ:/S:/--flip tokens
+# instead of repeating them on every line:
+#   item <clan> <preset_name> <base_item> [X:deg Y:deg Z:deg]
+#       [TX:m TY:m TZ:m] [S:m] [--flip]
+# A subject line then references <preset_name> in place of a literal item
+# filename for any slot, e.g. "right:dagger_down" below. Preset lookup is
+# scoped per-clan and tried first -- if no preset with that name exists for
+# that clan, the value falls back to a literal clans/<clan>/_items/<value>.glb
+# item name exactly as before. A subject line can still override individual
+# fields of a preset by adding its own token(s) after the slot reference,
+# e.g. "right:dagger_down Z:90" keeps dagger_down's TY:/S: but replaces its
+# Z: rotation. "item" lines may appear anywhere in the file and are never
+# treated as subjects themselves. See attach_hand_item.py's module docstring
+# for full resolution rules.
+#
+# MERGE / TEXTURE-ATLAS CONSTANTS (attach_hand_item.py, near
+# merge_item_into_character_mesh): every attached item's mesh/material/UV are
+# merged into the character's own single mesh/material/UV map (required for
+# Meshy re-rig compatibility -- Meshy merges all uploaded meshes into one, and
+# separately-UV-mapped meshes each spanning the full [0,1] range collide once
+# merged, corrupting textures). Governed by:
+#   ATLAS_SIZE          -- pixel size (square) of the shared composited
+#                          texture atlas both character + item textures are
+#                          packed into.
+#   ITEM_UV_FRACTION     -- fraction of the atlas's width/height reserved for
+#                          the item's own packed texture region (a corner).
+#   ITEM_UV_MARGIN       -- small margin (in atlas UV units) kept empty around
+#                          the item's packed region, to avoid texture bleed
+#                          across the seam.
+#
+
+item bard dagger_raised small_dagger X:0 Y:0 Z:45 TY:0.03 S:-0.05
+item bard dagger_neutral small_dagger X:0 Y:0 Z:0 TY:0.0 S:-0.05
+
+model bard scout bard_scout_no_dagger right:none left:none back:none head:none
+    -- anim cast anim_text: "casting a simple spell"
+    -- anim meditate anim_text: "meditation"
+model bard scout bard_scout_dagger_raised right:dagger_raised left:none back:none head:none
+    -- anim attack anim_text: "dagger stabbing"
+    -- anim defend anim_text: "dagger parrying"
+model bard scout bard_scout_dagger_neutral right:dagger_neutral left:none back:none head:none
+    -- anim death anim_text: "dead falling backwards"
+    -- anim idle anim_text: "slow idle movement"
+    -- anim walk anim_text: "walking forward"

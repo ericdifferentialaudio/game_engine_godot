@@ -1,0 +1,31 @@
+{
+  "id": "paragon",
+  "title": "Paragon",
+  "version": "0.1.0",
+  "description": "Isometric, turn-based party RPG: knowledge-driven discovery, hidden virtue simulation, a procedurally generated world. This package is the first playable slice (M0/M1): the Anchor Town (Integrity) token chain and the Compassion shrine/companion, authored per docs/QUEST_TREE.md and docs/content/.",
+  "grid": { "topology": "square_iso", "orientation": "pointy", "tile_size": [64, 32], "wrap_x": false },
+  "turns": { "mode": "sequential", "timer_seconds": 0, "ticks_per_turn": 10, "seconds_per_tick": 1.0 },
+  "calendar": {
+    "start_year": 1, "years_per_turn": 1,
+    "eras": [ { "id": "pilgrimage", "label": "The Pilgrimage", "from_turn": 1 } ]
+  },
+  "start_map": "anchor_overworld",
+  "player_faction": "pilgrims",
+  "max_map_depth": 3,
+  "seed": 1,
+  "currencies": ["gold", "food"],
+  "stats": {
+    "health": 12, "strength": 2, "defense": 2, "moves": 2, "sight": 2, "perception": 1,
+    "virtue_integrity": 0, "virtue_compassion": 0, "virtue_humility": 0, "wisdom": 0
+  },
+  "rules": {
+    "movement": { "road_cost": 0.5 },
+    "combat": { "randomness": 0.2, "base_damage": 3, "retaliation_scale": 0.6, "defender_terrain_bonus": true, "attack_ends_turn": true },
+    "fog": { "shared_vision_allies": true, "owned_tile_sight": 1, "site_sight": 2 },
+    "intel": { "observe_units": true, "observe_sites": true, "perception_reliability_per_point": 0.02 },
+    "units": { "heal_per_turn": 1 },
+    "sites": { "capture_on_enter": false },
+    "economy": { "sell_ratio": 0.5, "track_all_yields": false },
+    "victory": { "last_faction_standing": false }
+  }
+}

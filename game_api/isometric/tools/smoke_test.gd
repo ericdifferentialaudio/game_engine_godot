@@ -48,14 +48,22 @@ func _run_deferred() -> void:
 	_check(CoreContext.adapter.all_holders().size() > 1,
 		"core sees every faction as an intel holder (%d)" % CoreContext.adapter.all_holders().size())
 
-	# Triangulation end to end, on the authored tokens.
+	# Triangulation end to end, on whichever package is loaded: satisfy the first
+	# authored derivation rule's clauses generically, then check its grant fires.
 	var pf := GameManager.player_faction_id
-	for src in ["smoke_a", "smoke_b"]:
-		CoreIntel.acquire(pf, "rumor_crypt_west", src, "told")
-	CoreIntel.acquire(pf, "rumor_crypt_reeds", "smoke_c", "told")
-	CoreIntel.acquire(pf, "ruin_inscription", "smoke_d", "read")
-	_check(CoreIntel.knows(pf, "crypt_location"),
-		"core derivation triangulated crypt_location from three clues")
+	if CoreIntel.rules.derivations.size() > 0:
+		var first_rule: Dictionary = CoreIntel.rules.derivations[0]
+		var clauses: Array = first_rule.get("when", {}).get("all", [])
+		for i in clauses.size():
+			var sub: Dictionary = clauses[i]
+			if sub.has("has"):
+				# Acquire from two independent sources: a single low-trust source may
+				# leave reliability below a clause's min_reliability, but corroboration
+				# from a second source raises it, same as a player hearing it twice.
+				CoreIntel.acquire(pf, sub["has"], "smoke_%d_a" % i, "told")
+				CoreIntel.acquire(pf, sub["has"], "smoke_%d_b" % i, "told")
+		_check(CoreIntel.knows(pf, first_rule.get("grant", "")),
+			"core derivation '%s' triangulated '%s'" % [first_rule.get("id"), first_rule.get("grant")])
 
 	var tick := CoreIntel.tick()
 	_check(tick.has("derived") and tick.has("spread"),

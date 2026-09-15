@@ -1,0 +1,92 @@
+{
+  "units": [
+    {
+      "id": "hero_pilgrim",
+      "display_name": "The Pilgrim",
+      "description": "The player character. Carries no name until the epilogue names it after what it did.",
+      "kind": "hero",
+      "visual": "unit.hero_pilgrim",
+      "portrait": "portrait.pilgrim",
+      "stats": { "health": 14, "strength": 3, "defense": 2, "moves": 3, "sight": 3, "perception": 2 },
+      "movement": { "domain": "land", "uses_roads": true },
+      "equipment_slots": ["weapon", "trinket"],
+      "starting_items": [{ "item": "travellers_staff", "count": 1, "equip": true }],
+      "level_curve": { "base_xp": 15, "growth": 1.5, "per_level": { "health": 2 } },
+      "tags": ["hero", "player"]
+    },
+    {
+      "id": "companion_healer",
+      "display_name": "The Healer",
+      "description": "Compassion's companion: a village healer who lost a patient to their own hesitation and now hesitates at nothing. Warm, quick, exhausting. (docs/content/virtues/compassion.md §3)",
+      "kind": "npc",
+      "visual": "unit.companion_healer",
+      "portrait": "portrait.healer",
+      "stats": { "health": 10, "strength": 1, "defense": 1, "moves": 2, "sight": 2, "perception": 2 },
+      "movement": { "domain": "land" },
+      "abilities": ["mend_wounds"],
+      "blocks_tile": false,
+      "ai_profile": "idle",
+      "tags": ["npc", "companion", "companion:compassion"]
+    },
+    {
+      "id": "mantra_keeper",
+      "display_name": "The Mantra-Keeper",
+      "description": "Town notary; holds true source #1 of the Integrity mantra, behind an honesty test. (docs/content/tokens/anchor_town_chain.md §1-3)",
+      "kind": "npc",
+      "visual": "unit.npc_scholar",
+      "portrait": "portrait.mantra_keeper",
+      "stats": { "health": 6, "strength": 0, "defense": 1, "moves": 0, "sight": 1 },
+      "movement": { "domain": "land" },
+      "blocks_tile": false,
+      "ai_profile": "idle",
+      "intel_profile": { "on_sight": ["met_mantra_keeper"] },
+      "tags": ["npc", "informant", "role.town.mantra_keeper"]
+    },
+    {
+      "id": "shrine_pointer",
+      "display_name": "The Old Fisher",
+      "description": "Points the way to the shrine; true source #1 of the shrine location. (anchor_town_chain.md §1-2)",
+      "kind": "npc",
+      "visual": "unit.npc_elder",
+      "portrait": "portrait.shrine_pointer",
+      "stats": { "health": 6, "strength": 0, "defense": 1, "moves": 0, "sight": 1 },
+      "movement": { "domain": "land" },
+      "blocks_tile": false,
+      "ai_profile": "idle",
+      "tags": ["npc", "informant", "role.town.shrine_pointer"]
+    },
+    {
+      "id": "beggar",
+      "display_name": "The Beggar",
+      "description": "At the gate; a Care scenario. After 3 gifts, gives shrine location source #2. (anchor_town_chain.md §1)",
+      "kind": "npc",
+      "visual": "unit.npc_beggar",
+      "portrait": "portrait.beggar",
+      "stats": { "health": 4, "strength": 0, "defense": 0, "moves": 0, "sight": 1 },
+      "movement": { "domain": "land" },
+      "blocks_tile": false,
+      "ai_profile": "idle",
+      "tags": ["npc", "role.town.beggar"]
+    },
+    {
+      "id": "wolf",
+      "display_name": "Grey Wolf",
+      "kind": "monster",
+      "visual": "unit.wolf",
+      "stats": { "health": 7, "strength": 3, "defense": 1, "moves": 3, "sight": 2 },
+      "movement": { "domain": "land" },
+      "ai_profile": "hunter",
+      "aggression": 0.8,
+      "xp_value": 5,
+      "loot": [{ "item": "wolf_pelt", "chance": 0.6 }],
+      "tags": ["beast"]
+    }
+  ],
+  "abilities": {
+    "mend_wounds": {
+      "display_name": "Mend Wounds",
+      "cost_ap": 1, "cooldown": 2, "target": "ally",
+      "effects": [{ "kind": "reward", "stat_delta": { "health": 6 }, "message": "The healer's hands are quick and sure." }]
+    }
+  }
+}

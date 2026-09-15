@@ -1,0 +1,20 @@
+{
+  "derivations": [
+    {
+      "id": "confirm_shrine_by_water",
+      "description": "The fisher's direct pointer plus the priest's independent rule (\"the shrine is by the water\") triangulate the shrine location with more confidence than either alone.",
+      "when": { "all": [
+        { "has": "token_shrine_location_slot1", "min_reliability": 0.5 },
+        { "has": "rule_shrine_own_stones" }
+      ] },
+      "grant": "token_shrine_location_slot1",
+      "reliability": 0.95,
+      "once": true
+    }
+  ],
+  "spread": [
+    { "id": "town_gossip", "description": "Low-secrecy rumours leak between town folk and pilgrims at peace.", "channel": "spread", "between": "friendly", "chance": 0.1, "max_secrecy": 0.3, "reliability_loss": 0.15, "categories": ["rumor", "location"] }
+  ],
+  "contradiction": { "dispute_amount": 0.15, "flag_source_trust_loss": 0.25 },
+  "observation": { "unit_sight_reveals_tokens": true }
+}
