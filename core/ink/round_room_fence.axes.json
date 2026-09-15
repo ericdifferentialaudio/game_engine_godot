@@ -1,0 +1,17 @@
+{
+  "_comment": "Context axes for the simulation validator. Each entry names a dimension of the world and the representative values to try; the validator runs the cross-product. Keep the values few and meaningful (absent/present, below/above a threshold) - the point is coverage of the interesting boundaries, not exhaustive search.",
+
+  "npc": "fence",
+
+  "assets": {
+    "zorkmid": [0, 5]
+  },
+
+  "knowledge": {
+    "know_trapdoor": [false, true]
+  },
+
+  "standing": {
+    "fence": [0, 40]
+  }
+}

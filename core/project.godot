@@ -1,24 +1,37 @@
 ; Engine configuration file.
-; This is a minimal Godot project used ONLY as a headless test harness
-; for the shared game_core addon. It is not a playable game.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
 config/name="game_core_harness"
-config/features=PackedStringArray("4.3", "Forward Plus")
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/gut/plugin.cfg", "res://addons/game_core/plugin.cfg")
+config/features=PackedStringArray("4.7", "Forward Plus")
 
 [autoload]
 
 CoreContext="*res://addons/game_core/core_context.gd"
 CoreRegistry="*res://addons/game_core/managers/core_registry.gd"
 CoreIntel="*res://addons/game_core/managers/core_intel.gd"
-VirtueSystem="*res://addons/game_core/managers/virtue_system.gd"
-WorldStateManager="*res://addons/game_core/managers/world_state_manager.gd"
-DialogueManager="*res://addons/game_core/managers/dialogue_manager.gd"
-AIHeuristicManager="*res://addons/game_core/managers/ai_heuristic_manager.gd"
+CoreKnowledge="*res://addons/game_core/gameplay/core_knowledge.gd"
+CoreAssets="*res://addons/game_core/gameplay/core_assets.gd"
+CoreStanding="*res://addons/game_core/gameplay/core_standing.gd"
+CoreInkEngine="*res://addons/game_core/narrative/core_ink_engine.gd"
+CoreWindowRegistry="*res://addons/game_core/ui/core_window_registry.gd"
+VirtueSystem="*uid://ck7r482xwbb3h"
+WorldStateManager="*uid://bjdxr5rft4b2m"
+DialogueManager="*uid://cm40ohctfbfu3"
+AIHeuristicManager="*uid://cf3eox4dip80e"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gut/plugin.cfg", "res://addons/game_core/plugin.cfg")
