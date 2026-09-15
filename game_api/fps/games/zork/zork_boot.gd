@@ -23,6 +23,7 @@ func boot(_gm: Node) -> void:
 	EventBus.actor_died.connect(_on_actor_died)
 	EventBus.status_applied.connect(_on_status_applied)
 	EventBus.status_removed.connect(_on_status_removed)
+	EventBus.actor_spawned.connect(func(a): if a is Actor: _watch_thief(a))
 
 
 func _on_map_loaded(map_id: String, _depth: int) -> void:
@@ -163,6 +164,18 @@ func _update_sword_glow() -> void:
 			"off":
 				if not first:
 					EventBus.notification.emit("Your sword is no longer glowing.", "examine")
+
+
+## Wounded thief: below his flee threshold he stops fighting and will parley.
+func _watch_thief(actor: Actor) -> void:
+	if actor.actor_def == null or actor.actor_def.id != "thief" or actor.health == null:
+		return
+	actor.health.damaged.connect(func(_amount, _info):
+		if not actor.is_dead and actor.health.is_below(0.35) and not GameManager.has_flag("thief_wounded"):
+			GameManager.set_flag("thief_wounded", true)
+			if actor.brain is AIBrain:
+				(actor.brain as AIBrain).set_state(AIBrain.State.FLEE)
+			EventBus.notification.emit("The thief staggers, clutching his side. 'Wait — WAIT.' He lowers the stiletto a fraction. He seems to want to talk.", "combat"))
 
 
 func _on_actor_died(actor: Node3D, killer: Node3D) -> void:

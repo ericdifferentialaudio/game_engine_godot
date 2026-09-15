@@ -173,7 +173,8 @@
 
     { "id": "gallery_frames", "map": "gallery", "display_name": "Empty Frames", "category": "landmark", "visual": "prop.none",
       "position": [6.2, 1.5, 0], "yaw": 270, "discover_radius": 8,
-      "interactions": [ { "kind": "examine", "text": "Empty frames, dozens of them, hung with care. Whoever stole the paintings took the trouble to straighten the frames afterward. That tells you something about him." } ] }
+      "interactions": [ { "kind": "examine", "text": "Empty frames, dozens of them, hung with care. Whoever stole the paintings took the trouble to straighten the frames afterward. That tells you something about him. Scratched into one frame in a joking hand: 'the cyclops is terrified of a man called NOBBY.'",
+        "grant_intel": ["rumor_cyclops_name_false"], "reliability": 0.25 } ] }
   ]
 }
 

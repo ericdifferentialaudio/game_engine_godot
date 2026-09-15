@@ -167,6 +167,7 @@ func _spawn_portals() -> void:
 		portal.requires = p.get("requires", {})
 		portal.locked_message = str(p.get("locked_message", portal.locked_message))
 		portal.blocked_by_actor = str(p.get("blocked_by", ""))
+		portal.blocked_unless = p.get("blocked_unless", {})
 		portal.blocked_message = str(p.get("blocked_message", ""))
 		portal.travel_text = str(p.get("travel_text", ""))
 		portal.visual_key = str(p.get("visual", "portal.default"))

@@ -31,6 +31,7 @@
 
     "poi.loot":             { "type": "scene", "path": "res://games/zork/props/prop_loot.tscn" },
     "actor.troll":          { "type": "scene", "path": "res://games/zork/props/actor_troll.tscn" },
-    "actor.thief":          { "type": "scene", "path": "res://games/zork/props/actor_thief.tscn" }
+    "actor.thief":          { "type": "scene", "path": "res://games/zork/props/actor_thief.tscn" },
+    "actor.cyclops":        { "type": "scene", "path": "res://games/zork/props/actor_cyclops.tscn" }
   }
 }

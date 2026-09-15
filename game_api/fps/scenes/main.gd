@@ -23,6 +23,10 @@ func _ready() -> void:
 		var check := BootCheck.new()
 		add_child(check)
 		check.run()
+	elif "--playtest" in OS.get_cmdline_user_args() and game_id == "zork":
+		var play := ZorkPlaytest.new()
+		add_child(play)
+		play.run()
 
 
 func _resolve_game_id() -> String:

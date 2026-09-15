@@ -182,8 +182,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if event.is_action_pressed("look"):
 		describe_room(false)
-	elif event.is_action_pressed("toggle_inventory"):
-		_print_inventory()
+	elif event.is_action_pressed("toggle_inventory") and get_tree().current_scene.get_node_or_null("InventoryUi") == null:
+		_print_inventory()   # text fallback when no InventoryUi panel is present
 
 
 func _print_inventory() -> void:

@@ -179,6 +179,7 @@ func _make_hostile() -> void:
 			owner_actor.faction.make_personal_enemy(_by)
 		if owner_actor.brain is AIBrain:
 			var b := owner_actor.brain as AIBrain
+			b.provoked = true
 			b.target = _by
 			b.set_state(AIBrain.State.CHASE)
 	EventBus.notification.emit("%s attacks!" % speaker(), "combat")

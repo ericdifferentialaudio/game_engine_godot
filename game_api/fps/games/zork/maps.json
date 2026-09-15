@@ -451,9 +451,14 @@
             2
           ],
           "yaw": 180
-        }
+        },
+        "from_cyclops": { "position": [-4.5, 0.2, 3], "yaw": 270 }
       },
       "portals": [
+        { "id": "gothic_door", "label": "the smashed gothic door (down to the cyclops)", "target_map": "cyclops_room", "target_spawn": "from_living",
+          "position": [-6.2, 0, 3], "yaw": 90, "visual": "portal.doorway",
+          "requires": { "flag": "trapdoor_unbarred" },
+          "locked_message": "The door is nailed shut. The engraving still says 'This space intentionally left blank.'" },
         {
           "id": "to_kitchen",
           "label": "the kitchen",
@@ -819,6 +824,9 @@
           "yaw": 270,
           "visual": "portal.doorway",
           "blocked_by": "troll",
+          "blocked_unless": {
+            "flag": "troll_pacified"
+          },
           "blocked_message": "The troll fends you off with a menacing gesture. He is not letting you past — not while he stands and not while you're a stranger to him. Talk to him, or fight him.",
           "requires": {
             "any": [
@@ -983,16 +991,10 @@
       "scene": "res://games/zork/maps/gallery.tscn",
       "environment": "env.interior.candle",
       "description": "This is an art gallery. Most of the paintings have been stolen by vandals with exceptional taste. The vandals left through either the north or west exits. Fortunately, there is still one chance for you to be a vandal, for on the far wall is a painting of unparalleled beauty. Oil lamps in sconces keep the room lit, which is thoughtful of someone.",
-      "short_description": "The Gallery. Empty frames, one painting.",
+      "short_description": "The Gallery. Empty frames, one painting. Doorway north.",
       "spawns": {
-        "default": {
-          "position": [
-            0,
-            0.2,
-            6
-          ],
-          "yaw": 180
-        }
+        "default": { "position": [0, 0.2, 6], "yaw": 180 },
+        "from_cyclops": { "position": [0, 0.2, -5.5], "yaw": 0 }
       },
       "spawn_tables": [
         {
@@ -1020,8 +1022,29 @@
           ],
           "yaw": 0,
           "visual": "portal.doorway"
-        }
+        },
+        { "id": "to_cyclops", "label": "the doorway north", "target_map": "cyclops_room", "target_spawn": "default",
+          "position": [0, 0, -7.4], "yaw": 180, "visual": "portal.doorway",
+          "travel_text": "Beyond the gallery the passage narrows. Something very large is breathing, slowly, ahead." }
       ]
-    }
+    },
+
+    { "id": "cyclops_room", "display_name": "Cyclops Room", "kind": "dungeon", "exterior": false, "dark": true,
+      "scene": "res://games/zork/maps/cyclops_room.tscn", "environment": "env.dungeon.damp",
+      "description": "This room has an exit on the northwest, and a staircase leading up. A cyclops, who looks prepared to eat horses (much less mere adventurers), blocks the staircase. From his state of health, and the bloodstains on the walls, you gather that he is not very friendly, though he likes people.",
+      "short_description": "The Cyclops Room. The staircase up is behind the cyclops.",
+      "spawns": { "default": { "position": [0, 0.2, 6], "yaw": 180 }, "from_living": { "position": [4, 0.2, -5], "yaw": 90 } },
+      "spawn_tables": [ { "actor": "cyclops", "key": "cyclops", "position": [3, 0.2, -4], "yaw": 30, "unless_flag": "cyclops_resolved" } ],
+      "portals": [
+        { "id": "to_gallery", "label": "the Gallery (south)", "target_map": "gallery", "target_spawn": "from_cyclops",
+          "position": [0, 0, 7.4], "yaw": 0, "visual": "portal.doorway" },
+        { "id": "stairs_up", "label": "the staircase up", "target_map": "living_room", "target_spawn": "from_cyclops",
+          "position": [5.5, 0, -6.5], "yaw": 180, "visual": "portal.stairs",
+          "blocked_by": "cyclops", "blocked_unless": { "flag": "cyclops_asleep" },
+          "blocked_message": "The cyclops shifts his bulk in front of the stairs and grins with a great many teeth. He does not seem to want you to leave. Not on your feet.",
+          "requires": { "any": [ { "flag": "cyclops_resolved" }, { "flag": "cyclops_asleep" } ] },
+          "locked_message": "The cyclops is between you and the stairs.",
+          "travel_text": "You climb the stairs. At the top, a door with strange gothic lettering — the nailed one — has been smashed clean through from this side. You step into the living room." }
+      ] }
   ]
 }

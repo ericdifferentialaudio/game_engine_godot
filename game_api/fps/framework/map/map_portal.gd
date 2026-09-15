@@ -12,6 +12,7 @@ var label: String = ""
 var requires: Dictionary = {}
 var locked_message: String = "You lack the knowledge to pass here."
 var blocked_by_actor: String = ""     ## spawn key of an actor that must be dead/absent
+var blocked_unless: Dictionary = {}   ## IntelQuery that lifts the actor block (pacified, bribed...)
 var blocked_message: String = ""
 var travel_text: String = ""          ## narrated when traversed
 var visual_key: String = "portal.default"
@@ -42,9 +43,12 @@ func is_unlocked() -> bool:
 	return requires.is_empty() or IntelRegistry.evaluate(requires)
 
 
-## An actor standing guard (alive, on this map) blocks the way.
+## An actor standing guard (alive, on this map) blocks the way — unless the
+## `blocked_unless` query passes (he was talked down, bribed, named...).
 func is_blocked() -> bool:
 	if blocked_by_actor == "":
+		return false
+	if not blocked_unless.is_empty() and IntelRegistry.evaluate(blocked_unless):
 		return false
 	var map := MapManager.current_map
 	if map and map.get("actors") != null and map.actors.has(blocked_by_actor):

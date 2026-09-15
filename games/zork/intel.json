@@ -74,7 +74,11 @@
 
     { "id": "know_cyclops_word", "title": "A word the cyclops fears", "category": "secret", "subject": "cyclops",
       "summary": "The gallery painting's frame is engraved: 'Ulysses blinded him; the very name ODYSSEUS drives the cyclops mad with fear.'",
-      "tags": ["password", "lore"], "reliability": 0.9 },
+      "tags": ["password", "lore"], "reliability": 0.9, "conflicts": ["rumor_cyclops_name_false"] },
+
+    { "id": "rumor_cyclops_name_false", "title": "The cyclops's nemesis (dubious)", "category": "rumor", "subject": "cyclops",
+      "summary": "A joke scratched into an empty gallery frame: 'the cyclops is terrified of a man called NOBBY.'",
+      "tags": ["password"], "reliability": 0.25, "facts": { "name": "nobby" }, "conflicts": ["know_cyclops_word"] },
 
     { "id": "know_grating", "title": "The grating in the clearing", "category": "location", "subject": "forest",
       "summary": "A grating in the forest clearing, hidden under leaves, leads down into the Empire. It is locked from below.",

@@ -398,6 +398,10 @@ def validate_package(pkg: Path) -> Report:
         for p in m.get("portals", []):
             if p.get("visual"):
                 refs["assets"].add(p["visual"])
+            if "blocked_unless" in p:
+                collect_query_refs(p["blocked_unless"], f"map '{mid}' portal '{p.get('id')}'.blocked_unless", rep, refs["req_tokens"], refs["flags"])
+            if p.get("blocked_by") and p["blocked_by"] not in {s.get("key", s.get("actor")) for s in m.get("spawn_tables", [])}:
+                rep.error(f"map '{mid}' portal '{p.get('id')}': blocked_by '{p['blocked_by']}' is not a spawn key on this map")
         for i, s in enumerate(m.get("spawn_tables", [])):
             if s.get("actor") not in actors:
                 rep.error(f"map '{mid}' spawn_tables[{i}]: unknown actor '{s.get('actor')}'")

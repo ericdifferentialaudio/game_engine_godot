@@ -271,6 +271,41 @@ func test_killing_troll_sets_death_flag_and_drops_axe() -> void:
 	assert_true(found, "troll's axe dropped as a WorldPickup")
 
 
+func test_cyclops_odysseus_requires_reliable_token() -> void:
+	# The cyclops's own hints only reach 0.45 — not enough; the painting frame (0.9) is.
+	IntelRegistry.acquire("know_cyclops_word", "cyclops", 0.45)
+	var d := _dialogue("cyclops")
+	_start_at(d, "name_challenge")
+	d.choose(_choice_index(d, "'ODYSSEUS.'"))
+	assert_eq(d.last_result, "fail", "half-remembered name is a bluff")
+	IntelRegistry.acquire("know_cyclops_word", "gallery_painting", 0.9)
+	d = _dialogue("cyclops")
+	_start_at(d, "name_challenge")
+	d.choose(_choice_index(d, "'ODYSSEUS.'"))
+	assert_eq(d.last_result, "pass")
+	assert_true(GameManager.has_flag("trapdoor_unbarred"), "cyclops fleeing opens the way up")
+	assert_true(IntelRegistry.is_debunked("rumor_cyclops_name_false"))
+
+
+func test_thief_steals_treasure_only_until_named() -> void:
+	var thief := _make_actor("thief", false)
+	thief.remove_child(thief.brain)
+	var b := AIBrain.new()
+	thief.add_child(b)
+	b.setup(thief)
+	b.behaviour = (DefinitionRegistry.get_def("actors", "thief") as ActorDefinition).behaviour
+	_player.global_position = thief.global_position + Vector3(1, 0, 0)
+	_player.inventory.add_item("painting", 1)
+	b._try_steal(0.0)
+	assert_false(_player.inventory.has_item("painting"), "treasure stolen")
+	assert_true(thief.inventory.has_item("painting"))
+	GameManager.set_flag("thief_named", true)
+	_player.inventory.add_item("painting", 1)
+	b._steal_ready_at = 0.0
+	b._try_steal(0.0)
+	assert_true(_player.inventory.has_item("painting"), "named thief keeps his hands to himself")
+
+
 func test_score_source_only_counts_once() -> void:
 	assert_true(GameManager.add_score(5, "deposit:egg"))
 	assert_false(GameManager.add_score(5, "deposit:egg"))

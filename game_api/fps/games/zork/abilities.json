@@ -23,6 +23,9 @@
       "arc_degrees": 80, "damage": { "pierce": [5, 9] }, "cooldown": 0.7, "noise": 0.2,
       "apply_effects": [ { "effect": "bleeding", "chance": 0.3, "target": "enemy" } ], "ai_tags": ["melee"] },
 
+    { "id": "cyclops_smash", "display_name": "Cyclops Smash", "school": "physical", "targeting": "melee_arc", "range": 3.0,
+      "arc_degrees": 140, "damage": { "blunt": [14, 22] }, "cooldown": 2.4, "noise": 1.2, "ai_tags": ["melee"] },
+
     { "id": "eat_lunch", "display_name": "Eat", "school": "physical", "targeting": "self", "heal": 25, "cooldown": 1.0 },
     { "id": "eat_garlic", "display_name": "Eat Garlic", "school": "physical", "targeting": "self", "heal": 2, "cooldown": 1.0,
       "apply_effects": [ { "effect": "reeks_of_garlic", "chance": 1.0, "target": "self" } ] },

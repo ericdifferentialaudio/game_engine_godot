@@ -129,10 +129,12 @@
       "drops": { "platinum_bar": 1 },
       "size": { "radius": 0.35, "height": 1.8 }, "visual": "actor.thief",
       "death_flag": "thief_dead", "death_intel": "thief_dead",
-      "behaviour": { "style": "skirmisher", "flee_below": 0.2, "preferred_range": 1.7 },
+      "behaviour": { "style": "skirmisher", "flee_below": 0.35, "preferred_range": 1.7,
+                     "wander": true, "wander_radius": 4.5, "steal": true, "steal_range": 2.4, "steal_cooldown": 30.0,
+                     "steal_tags": ["treasure"], "no_steal_flag": "thief_named" },
       "senses": { "sight_range": 20, "fov": 120, "hearing": 16, "memory": 20 },
       "interactions": [
-        { "kind": "dialogue", "start": "greet", "speaker": "Thief", "requires": { "not": { "flag": "thief_resolved" } }, "nodes": {
+        { "kind": "dialogue", "start": "greet", "speaker": "Thief", "requires": { "all": [ { "not": { "flag": "thief_resolved" } }, { "not": { "flag": "thief_wounded" } } ] }, "nodes": {
           "greet": {
             "text": "A seedy-looking gentleman in a threadbare frock coat straightens from behind a plinth, a large bag over one shoulder. He bows. 'Ah. A fellow connoisseur. Forgive the surprise — one so rarely gets visitors in the Gallery. Are you here for the collection, or merely lost? Most are merely lost.'",
             "grant_intel": ["met_thief"],
@@ -256,6 +258,46 @@
             "next": null
           }
         } },
+        { "kind": "dialogue", "start": "wounded", "speaker": "Thief", "requires": { "all": [ { "flag": "thief_wounded" }, { "not": { "flag": "thief_named" } } ] }, "nodes": {
+          "wounded": {
+            "text": "The thief backs against the wall, one hand pressed to his side, the stiletto wavering. 'All right. ALL RIGHT. You've made your point, and rather more forcefully than was necessary.' He tries a smile and doesn't quite manage it. 'Shall we... discuss terms?'",
+            "choices": [
+              { "text": "'Everything in the bag. Now.'", "next": "surrender_bag" },
+              { "text": "'Open the egg and I'll let you go.'", "requires_item": { "jewelled_egg": 1 }, "next": "surrender_egg" },
+              { "text": "Say his true name.", "requires": { "subject": "thief", "count": 2 }, "next": "surrender_name" },
+              { "text": "'No terms.'", "next": "no_terms" }
+            ]
+          },
+          "surrender_bag": {
+            "text": "He upends the bag without a word. A platinum bar, and whatever he lifted from you, clatter to the floor. Then he is gone through the north doorway, leaving a thin trail of blood. You doubt he will be back.",
+            "give_items": { "platinum_bar": 1 }, "set_flags": ["thief_resolved", "thief_gave_bar", "thief_fled"], "score": 8,
+            "despawn": true, "next": null
+          },
+          "surrender_egg": {
+            "text": "He takes the egg with shaking hands, and even now the clasp opens for him like a lover. He gives you back both halves and the golden canary within, bows — a little unsteadily — and limps away north. 'Mind the grue,' he says, and means it.",
+            "give_items": { "golden_canary": 1 }, "set_flags": ["egg_opened", "thief_resolved", "thief_fled"], "score": 10,
+            "despawn": true, "next": null
+          },
+          "surrender_name": {
+            "text": "'Which name?' he rasps. 'I have several.'",
+            "choices": [
+              { "text": "'Tarbel Flathead.'", "check": { "has": "know_thief_true_name", "min_reliability": 0.5 }, "correct": true,
+                "next_pass": "surrender_named", "next_fail": "no_terms" },
+              { "text": "'Sir Reginald Pockets.'", "check": { "fact": ["rumor_thief_name_false", "name", "tarbel"] }, "correct": false,
+                "next_pass": "surrender_named", "next_fail": "no_terms" }
+            ]
+          },
+          "surrender_named": {
+            "text": "He closes his eyes. 'Yes,' he says. 'That one.' He sets the bag down, and the stiletto beside it, and walks out without another word — upright, for the first time, like a man who has stopped pretending. Everything he carried is yours.",
+            "give_items": { "platinum_bar": 1, "stiletto": 1 }, "set_flags": ["thief_named", "thief_resolved", "thief_gave_bar", "thief_fled"], "score": 12,
+            "grant_intel": [{ "token": "know_thief_true_name", "reliability": 1.0 }], "debunk": ["rumor_thief_name_false"],
+            "despawn": true, "next": null
+          },
+          "no_terms": {
+            "text": "'Ah.' The smile finally arrives, thin and tired. 'Then it's simply what we DO.' The stiletto steadies.",
+            "hostile": true, "next": null
+          }
+        } },
         { "kind": "dialogue", "start": "again", "speaker": "Thief", "requires": { "flag": "thief_named" }, "nodes": {
           "again": { "text": "'Flathead-namer.' He inclines his head. 'Was there something else?'",
             "choices": [
@@ -274,9 +316,104 @@
             "text": "He shoulders the bag. 'Mind the grue.' And he is gone.",
             "give_items": { "platinum_bar": 1 }, "set_flags": ["thief_resolved", "thief_banished", "thief_gave_bar"], "score": 10, "despawn": true, "next": null }
         } }
+      ] },
+
+    { "id": "cyclops", "display_name": "Cyclops", "role": "boss", "faction": "trolls", "level": 8,
+      "description": "A cyclops, who looks prepared to eat horses (much less mere adventurers).",
+      "stats": { "strength": 22, "agility": 4, "intellect": 4, "armor": 12, "move_speed": 3.0, "dodge": 0.0 },
+      "resources": { "health": 160 }, "resistances": { "blunt": 0.5, "slash": 0.2 },
+      "abilities": ["cyclops_smash"], "xp": 200,
+      "size": { "radius": 0.8, "height": 3.2 }, "visual": "actor.cyclops",
+      "death_flag": "cyclops_resolved",
+      "behaviour": { "style": "melee", "flee_below": 0.0, "preferred_range": 2.6, "passive_until_provoked": true },
+      "senses": { "sight_range": 12, "fov": 120, "hearing": 8, "memory": 30 },
+      "interactions": [
+        { "kind": "dialogue", "start": "greet", "speaker": "Cyclops", "requires": { "not": { "flag": "cyclops_resolved" } }, "nodes": {
+          "greet": {
+            "text": "The cyclops regards you with his single enormous eye. He does not get up. 'Adventurer,' he rumbles, tasting the word. 'Been a while. Last one was... stringy.' He picks something out of his teeth. 'You stay right there. Talking's fine. Leaving's not.'",
+            "choices": [
+              { "text": "'I know a name you won't like.'", "next": "name_challenge" },
+              { "text": "Offer him the lunch.", "requires_item": { "lunch": 1 }, "consume_item": true, "next": "lunch" },
+              { "text": "Offer him the bottle of water.", "requires_item": { "water_bottle": 1 }, "requires": { "flag": "cyclops_ate" }, "consume_item": true, "next": "water" },
+              { "text": "'Why the bloodstains?'", "next": "bloodstains" },
+              { "text": "Attack.", "next": "fight" }
+            ]
+          },
+          "bloodstains": {
+            "text": "'Decorating.' He shrugs a shoulder like a landslide. 'Some of it's mine. There was a fellow once — Greek — very rude. Put a stick in my eye. Well. The OTHER eye.' A vast, slow blink. 'I don't like to talk about him.'",
+            "grant_intel": [{ "token": "know_cyclops_word", "reliability": 0.3 }],
+            "choices": [
+              { "text": "'What was his name?'", "next": "name_hint" },
+              { "text": "'Sorry to hear it.'", "next": "greet_short" }
+            ]
+          },
+          "name_hint": {
+            "text": "The eye narrows to a slit. 'Don't,' he says, very quietly, and the room gets colder. 'Don't you say it.'",
+            "grant_intel": [{ "token": "know_cyclops_word", "reliability": 0.45 }],
+            "next": "greet_short"
+          },
+          "greet_short": {
+            "text": "He settles his bulk more firmly in front of the stairs and waits.",
+            "choices": [
+              { "text": "'I know a name you won't like.'", "next": "name_challenge" },
+              { "text": "Offer him the lunch.", "requires_item": { "lunch": 1 }, "consume_item": true, "next": "lunch" },
+              { "text": "Offer him the bottle of water.", "requires_item": { "water_bottle": 1 }, "requires": { "flag": "cyclops_ate" }, "consume_item": true, "next": "water" },
+              { "text": "Attack.", "next": "fight" },
+              { "text": "Back away.", "next": null }
+            ]
+          },
+
+          "name_challenge": {
+            "text": "'Do you.' It is not a question. The cyclops leans forward until his eye fills your view. 'Go on then, little adventurer. Say your name. Say it WRONG.'",
+            "choices": [
+              { "text": "'ODYSSEUS.'", "check": { "has": "know_cyclops_word", "min_reliability": 0.6 }, "correct": true,
+                "next_pass": "flees", "next_fail": "name_bluff" },
+              { "text": "'NOBBY.'", "check": { "fact": ["rumor_cyclops_name_false", "name", "odysseus"] }, "correct": false,
+                "next_pass": "flees", "next_fail": "name_wrong" },
+              { "text": "Think better of it.", "next": "greet_short" }
+            ]
+          },
+          "flees": {
+            "text": "The cyclops, hearing the name of his father's deadly nemesis, flees the room by knocking down the wall on the east of the room — and, judging by the crashing above, the door at the top of the stairs as well. The way up is open.",
+            "set_flags": ["cyclops_resolved", "cyclops_fled", "trapdoor_unbarred"], "score": 10,
+            "grant_intel": [{ "token": "know_cyclops_word", "reliability": 1.0 }], "debunk": ["rumor_cyclops_name_false"],
+            "despawn": true, "next": null
+          },
+          "name_bluff": {
+            "text": "You say the name — a name you half-remember from a painting frame or a thief's parting remark — and it comes out uncertain, a question rather than a curse. The cyclops laughs, a sound like a cave collapsing. 'You don't even KNOW who he was.' He stands up.",
+            "next": "fight"
+          },
+          "name_wrong": {
+            "text": "'Nobby,' repeats the cyclops. 'NOBBY.' He looks, for a moment, genuinely hurt. Then he is on his feet.",
+            "debunk": ["rumor_cyclops_name_false"],
+            "next": "fight"
+          },
+          "lunch": {
+            "text": "The cyclops takes the lunch and eats it, paper and all, in a single bite. 'Mmf. Peppers.' He belches magnificently. 'Hot. HOT. Adventurer got anything to DRINK?'",
+            "set_flags": ["cyclops_ate"], "score": 3,
+            "choices": [
+              { "text": "Offer him the bottle of water.", "requires_item": { "water_bottle": 1 }, "consume_item": true, "next": "water" },
+              { "text": "'No. Sorry.'", "next": "greet_short" }
+            ]
+          },
+          "water": {
+            "text": "The cyclops takes the bottle, drains it, and sits down heavily. His eye droops. 'Better,' he mumbles. 'Much... better...' He is asleep before the bottle hits the floor, and he snores like a rockfall. The stairs are unguarded.",
+            "set_flags": ["cyclops_asleep", "cyclops_resolved", "trapdoor_unbarred"], "score": 10,
+            "next": null
+          },
+          "fight": {
+            "text": "The cyclops rises to his full height and reaches for you.",
+            "hostile": true, "reputation": { "trolls": -30 }, "set_flags": ["cyclops_provoked"],
+            "next": null
+          }
+        } },
+        { "kind": "dialogue", "start": "snore", "speaker": "Cyclops", "requires": { "flag": "cyclops_asleep" }, "nodes": {
+          "snore": { "text": "The cyclops snores. The stairs are clear. Best not to wake him.", "next": null }
+        } }
       ] }
   ]
 }
+
 
 
 
