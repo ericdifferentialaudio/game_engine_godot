@@ -122,7 +122,7 @@ Shared infrastructure for text-and-conversation games. See **docs/NARRATIVE.md**
 - `sync_core.ps1` now syncs `addons/game_core`, `addons/inkgd` and
   `ink/patterns`.
 
-**Verified:** core 211/211 (was 169) · isometric 10/10 · fps 23/23 ·
+**Verified:** core 211/211 · isometric 10/10 · fps 30/30 (was 23, +7 seeded-RNG) ·
 iso smoke 37/37 · fps boot 8/8 · zork boot 8/8 · zork playtest 48/48
 (all five checks green via `tools/run_tests.ps1`, re-confirmed 2026-09-15).
 
@@ -133,9 +133,8 @@ is an unseeded `RandomNumberGenerator`, so a quarter of runs dodged it and the
 0.35 flee threshold was never crossed. The check tests the wound *reaction*, so
 it now hits repeatedly until he is below threshold (the retry shape the troll
 fight already used). 10/10 consecutive clean runs after the fix.
-Note for later: `Damageable.rng` and `AbilityCaster._rng` are still ad-hoc
-unseeded generators rather than `CoreContext.rng()`, so FPS combat is not
-replayable from a seed — see Future work #11.
+The underlying cause (ad-hoc unseeded generators in FPS combat) is now fixed —
+see "Seeded FPS combat RNG" below.
 
 ### Outstanding on this feature
 
@@ -155,7 +154,59 @@ replayable from a seed — see Future work #11.
 
 ## Next planned
 
-_(see Future work below for the previously queued items.)_
+Working list, in order. Tick items off here as they land; move the detail into
+the section above and delete the entry.
+
+- [x] **1. Seeded FPS combat RNG** (was Future work #11) — landed 2026-09-15,
+      see "Seeded FPS combat RNG" below.
+- [ ] **2. Wire `CoreSaveBundle` into both `SaveManager`s.** Touch
+      `game_api/isometric/core/save_manager.gd` and
+      `game_api/fps/autoloads/save_manager.gd`: write the bundle under one
+      `"core"` key, read it back through `CoreSaveBundle`, and bump the save
+      version with a migration that tolerates the old flat layout. Acceptance:
+      iso smoke's `user://saves/smoke.json` still round-trips, plus a new test
+      per engine that saves mid-Ink-conversation and restores the same knot.
+      (Outstanding #1.)
+- [ ] **3. Gate the Ink validators in `tools/run_tests.ps1`.** Add a runtime
+      check row calling `core/tools/validate_ink.gd` headless (it already exits
+      non-zero on errors), so a broken `.ink` fails the merge gate rather than
+      only a GUT run. (Outstanding #5.)
+- [ ] **4. Drop the superseded `DialogueManager` autoload.** `CoreInkEngine`
+      replaces it; remove the script, the autoload line in all three
+      `project.godot` files, and re-run `sync_core.ps1`. Fold the verdict into
+      Future work #9 for the other three scaffolds. (Outstanding #4.)
+- [ ] **5. Real minimap: subclass `CoreMapWindow` in the iso engine** and
+      override `_draw_markers()`. (Outstanding #2.)
+- [ ] **6. Implement `resolve_texture(id)` on both adapters** so
+      `CoreGraphicsWindow.set_image()` stops rendering blank. (Outstanding #3.)
+- [ ] **7. Fix the flaky core Ink test.**
+      `test_core_ink_integration.gd:test_layout_without_a_status_window_degrades_quietly`
+      fails intermittently (3 "Method/function failed. Returning: Variant()"
+      engine errors around line 201) — it also failed on clean `HEAD`, so it is
+      not a regression from item 1, but it makes `core` a 210/211 coin-flip.
+
+Then the numbered **Future work** backlog below, unchanged.
+
+## Seeded FPS combat RNG (landed 2026-09-15)
+
+Closes the old Future work #11 and the root cause behind the wounded-thief
+flake. `Damageable.rng` and `AbilityCaster._rng` were each an unseeded
+`RandomNumberGenerator.new()`; both are now **computed properties returning
+`CoreContext.rng()`**, so every dodge, crit, damage-range and effect-chance roll
+comes off the one shared seeded generator. Keeping the property names means no
+call site changed (`DamageCalculator.resolve(..., rng)`,
+`DamageInfo.from_ranges(ranges, _rng, actor)`, `roll_crit(..., _rng)`).
+`AIBrain`'s two bare `randf_range()` calls (wander wait, wander point) were
+routed through the same generator — they were the last unseeded draws in the
+FPS framework. `games/zork/game.json` gained `"seed": 1980` so the playtest is
+actually reproducible rather than merely reproducible-in-principle.
+
+New `game_api/fps/tests/unit/test_seeded_combat_rng.gd` (7 tests): identity of
+the shared generator, one generator shared across actors, same seed replays,
+different seeds diverge, a 20-roll dodge *outcome* sequence replays exactly, and
+a source-scanning guard that fails if `RandomNumberGenerator.new()`,
+`randomize()`, `randf()`, `randf_range()` or `randi()` reappears in the three
+combat files. fps is now **30/30**.
 
 ## Future work
 
@@ -185,12 +236,9 @@ _(see Future work below for the previously queued items.)_
    `AIHeuristicManager`).
 10. Start the first real game under `games/`: **Paragon** (`games/paragon/`, isometric) â€” design docs
     landed 2026-09-07 (29 `.md` from the former `C:\UIV`); read `games/paragon/activeContext.md` first.
-11. **Route FPS combat RNG through `CoreContext.rng()`** â€” `Damageable.rng` and
-    `AbilityCaster._rng` each construct their own unseeded
-    `RandomNumberGenerator`, so dodge/crit/effect-chance rolls are not
-    reproducible from `game.json`'s `seed` and can make scripted checks flaky
-    (see the 2026-09-15 fix above). The iso layer and all of `core/` already use
-    the shared generator.
+11. ~~Route FPS combat RNG through `CoreContext.rng()`~~ - **done 2026-09-15**,
+    see "Seeded FPS combat RNG" above. The iso layer and all of `core/` already
+    used the shared generator; the FPS layer now does too.
 
 ## Working notes
 

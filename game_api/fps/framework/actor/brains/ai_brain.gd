@@ -100,7 +100,7 @@ func _think_wander() -> void:
 		_pick_wander_point()
 	elif actor.global_position.distance_to(_wander_target) < 0.8:
 		if _wander_wait <= 0.0:
-			_wander_wait = randf_range(1.0, 3.0)
+			_wander_wait = CoreContext.rng().randf_range(1.0, 3.0)
 		_wander_wait -= think_interval
 		if _wander_wait <= 0.0:
 			_pick_wander_point()
@@ -108,7 +108,8 @@ func _think_wander() -> void:
 
 func _pick_wander_point() -> void:
 	var r := float(behaviour.get("wander_radius", 5.0))
-	var off := Vector3(randf_range(-r, r), 0.0, randf_range(-r, r))
+	var rng := CoreContext.rng()
+	var off := Vector3(rng.randf_range(-r, r), 0.0, rng.randf_range(-r, r))
 	_wander_target = home_position + off
 
 

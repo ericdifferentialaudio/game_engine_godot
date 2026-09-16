@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "description": "A first-person re-imagining of the classic 1980 text adventure. Every room is its own 3D map; the narration log speaks in the original's dry voice; dialogue is gated on what you actually know.",
   "boot_script": "zork_boot.gd",
+  "seed": 1980,
   "start_map": "west_of_house",
   "start_spawn": "default",
   "max_map_depth": 6,

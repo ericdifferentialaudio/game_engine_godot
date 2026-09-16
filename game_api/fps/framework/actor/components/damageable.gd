@@ -11,7 +11,11 @@ signal dodged(info: DamageInfo)
 var base_resistances: Dictionary = {}
 var base_immunities: Array[String] = []
 var hurtbox_multipliers: Dictionary = {"body": 1.0, "head": 2.0, "limb": 0.75}
-var rng := RandomNumberGenerator.new()
+
+## Dodge rolls draw from the shared seeded generator, never an ad-hoc
+## [RandomNumberGenerator], so a seeded game replays identically.
+var rng: RandomNumberGenerator:
+	get: return CoreContext.rng()
 
 
 func _definition_applied(def: ActorDefinition) -> void:

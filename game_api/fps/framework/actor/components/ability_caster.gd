@@ -16,7 +16,12 @@ signal cooldown_started(ability_id: String, seconds: float)
 signal hit_landed(victim: Actor, info: DamageInfo, dealt: float)
 
 var known: Dictionary = {}          ## ability_id -> {"permanent": bool, "sources": [..]}
-var _rng := RandomNumberGenerator.new()
+
+## Damage rolls, crits and effect-chance rolls draw from the shared seeded
+## generator, never an ad-hoc [RandomNumberGenerator], so a seeded game
+## replays identically.
+var _rng: RandomNumberGenerator:
+	get: return CoreContext.rng()
 var cooldowns: Dictionary = {}      ## ability_id -> real time (msec) when ready
 var global_cooldown_until: int = 0
 var is_casting: bool = false
