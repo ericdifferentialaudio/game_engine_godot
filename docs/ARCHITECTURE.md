@@ -177,8 +177,11 @@ other Godot singleton:
 |-----------------------|---------------------------------------------------|
 | `VirtueSystem`        | Player/NPC virtue & morality values + signals      |
 | `WorldStateManager`   | Shared world-state / consequence fact graph        |
-| `DialogueManager`     | Branching dialogue/conversation state              |
 | `AIHeuristicManager`  | Shared AI influence-map / heuristic decision logic |
+
+Conversation state is **not** in that list: the placeholder `DialogueManager`
+was removed on 2026-09-19, superseded by `CoreInkEngine` (see
+[NARRATIVE.md](NARRATIVE.md)).
 
 Each engine API layer (isometric, fps) only reacts to these managers'
 **signals** and calls their **public API** — the core never references

@@ -122,9 +122,10 @@ Shared infrastructure for text-and-conversation games. See **docs/NARRATIVE.md**
 - `sync_core.ps1` now syncs `addons/game_core`, `addons/inkgd` and
   `ink/patterns`.
 
-**Verified:** core 211/211 · isometric 15/15 · fps 36/36 ·
-iso smoke 40/40 · fps boot 8/8 · zork boot 8/8 · zork playtest 48/48
-(all five checks green via `tools/run_tests.ps1`, re-confirmed 2026-09-19).
+**Verified:** core 211/211 · isometric 26/26 · fps 36/36 · core ink OK ·
+zork ink OK · iso smoke 40/40 · fps boot 8/8 · zork boot 8/8 ·
+zork playtest 48/48 (all **nine** checks green via `tools/run_tests.ps1`,
+2026-09-19).
 
 **Flaky-test fix (2026-09-15).** The zork playtest failed ~30% of runs on
 "wounded thief flag set". Not a regression in the feature: the check landed a
@@ -138,18 +139,16 @@ see "Seeded FPS combat RNG" below.
 
 ### Outstanding on this feature
 
-1. ~~Neither engine's `SaveManager` calls `CoreSaveBundle` yet~~ — **done
-   2026-09-19**, see "Core save bundle in both engines" above.
-2. No engine subclasses `CoreMapWindow` yet; the base draws simple markers.
-   The iso engine should override `_draw_markers()` with a real minimap.
-3. `CoreGraphicsWindow.set_image()` resolves via an optional adapter method
-   `resolve_texture(id)` that neither adapter implements yet, so art windows
-   stay blank until an engine provides it.
-4. The old `DialogueManager` autoload scaffold is now superseded by
-   `CoreInkEngine` but not yet removed (it is one of the 4 unintegrated
-   scaffolds in Future work #9).
-5. Validators are not yet wired into `tools/run_tests.ps1` as a gate; they run
-   as GUT tests, and the CLI is available for writers.
+**All five closed 2026-09-19** — see "Core save bundle in both engines" and
+"Narrative gate, minimap, art seam" below:
+
+1. ~~Neither engine's `SaveManager` calls `CoreSaveBundle`.~~
+2. ~~No engine subclasses `CoreMapWindow`.~~ Now `IsoMapWindow`; the fps layer
+   still has no map window, which is correct — a first-person game's map is a
+   game-level design decision, not an engine default.
+3. ~~`resolve_texture(id)` unimplemented on both adapters.~~
+4. ~~`DialogueManager` superseded but not removed.~~
+5. ~~Validators not wired into `tools/run_tests.ps1` as a gate.~~
 
 ## Next planned
 
@@ -160,25 +159,72 @@ the section above and delete the entry.
       see "Seeded FPS combat RNG" below.
 - [x] **2. `CoreSaveBundle` wired into both `SaveManager`s** — landed
       2026-09-19, see "Core save bundle in both engines" below.
-- [ ] **3. Gate the Ink validators in `tools/run_tests.ps1`.** Add a runtime
-      check row calling `core/tools/validate_ink.gd` headless (it already exits
-      non-zero on errors), so a broken `.ink` fails the merge gate rather than
-      only a GUT run. (Outstanding #5.)
-- [ ] **4. Drop the superseded `DialogueManager` autoload.** `CoreInkEngine`
-      replaces it; remove the script, the autoload line in all three
-      `project.godot` files, and re-run `sync_core.ps1`. Fold the verdict into
-      Future work #9 for the other three scaffolds. (Outstanding #4.)
-- [ ] **5. Real minimap: subclass `CoreMapWindow` in the iso engine** and
-      override `_draw_markers()`. (Outstanding #2.)
-- [ ] **6. Implement `resolve_texture(id)` on both adapters** so
-      `CoreGraphicsWindow.set_image()` stops rendering blank. (Outstanding #3.)
-- [ ] **7. Fix the flaky core Ink test.**
-      `test_core_ink_integration.gd:test_layout_without_a_status_window_degrades_quietly`
-      fails intermittently (3 "Method/function failed. Returning: Variant()"
-      engine errors around line 201) — it also failed on clean `HEAD`, so it is
-      not a regression from item 1, but it makes `core` a 210/211 coin-flip.
+- [x] **3. Ink validators gated in `tools/run_tests.ps1`** — 2026-09-19.
+- [x] **4. `DialogueManager` removed** — 2026-09-19.
+- [x] **5. Real iso minimap (`IsoMapWindow`)** — 2026-09-19.
+- [x] **6. `resolve_texture(id)` on both adapters** — 2026-09-19.
+- [x] **7. Flaky core Ink test fixed** — 2026-09-19 (a real UI bug, not a bad
+      test; see below).
 
-Then the numbered **Future work** backlog below, unchanged.
+All seven items are done; see "Narrative gate, minimap, art seam" below. Next
+up is the numbered **Future work** backlog below.
+
+## Narrative gate, minimap, art seam (landed 2026-09-19)
+
+Closes Outstanding #2–#5 and the flaky Ink test.
+
+**Ink validators are now a merge gate.** `tools/run_tests.ps1` gained an
+`$inkChecks` stage running `tools/validate_ink.gd` headless for `core` and for
+`fps`'s zork story; it already exited non-zero on ERROR findings. Passing
+`--package=res://games/zork` (a base path, not a bare game id) matters: with the
+package loaded the simulation resolves real items/tokens and finds **4**
+reachable choices instead of 3 — without it, the knowledge-gated branch was
+silently never exercised.
+
+**`DialogueManager` is gone** — a 25-line unimplemented placeholder superseded
+by `CoreInkEngine`. Removed the script, the entry in `game_core_plugin.gd`'s
+`AUTOLOADS`, the line in all three `project.godot` files, and the row in
+`docs/ARCHITECTURE.md`. Nothing referenced it. Three scaffolds remain for
+Future work #9.
+
+**`IsoMapWindow`** (`game_api/isometric/framework/ui/iso_map_window.gd`) is a
+real minimap: terrain painted from `TileDefinition.color` (already documented as
+the "blockout / minimap colour", so no new data), fog-aware (unexplored skipped,
+explored dimmed 45%), faction-coloured unit pips, roads lightened. It draws on a
+layer *behind* the base class's marker canvas, so every inherited marker/focus/
+registry behaviour is untouched and game code never learns which window is
+installed. Redraws are rate-limited to 10 Hz and driven by EventBus
+(`visibility_changed`/`unit_moved`/`unit_died`/`tile_owner_changed`/
+`turn_started`/`world_loaded`) rather than by callers remembering to refresh.
+`coord_at()`/`normalised_of()` convert between tile and window space.
+**Enemy units are drawn only where the viewer has vision** — a minimap that
+leaked positions would quietly undo fog of war.
+
+**`resolve_texture(id)`** now exists on both adapters, resolving logical art
+keys through each engine's `AssetRegistry`. The two deliberately differ: iso
+returns `AssetRegistry.load_texture()`, whose generated colour swatch means an
+art window shows something identifiable before the art pass; fps returns null
+for unknown keys, so `set_image()` reports false and the frame stays blank
+(a wrong portrait is worse than none). Also added the missing
+`CoreWindowRegistry.get_map_window()` / `get_graphics_window()` typed lookups —
+the registry had them for text/unit/icon_text only, a real gap once engines
+started subclassing.
+
+**The flaky Ink test was a real UI bug**, not a bad test. `CoreTextWindow._scroll_to_bottom()`
+did `await get_tree().process_frame` then guarded `is_instance_valid(_scroll)` —
+but an await suspends *the window itself*, so when a test tore its layout down
+before the frame landed, Godot logged "Resumed function after await, but class
+instance is gone" and GUT attributed the stray engine errors to whichever test
+was running. The guard could never help: it never ran. Now a `call_deferred`,
+which is simply dropped when its target is gone. Reproduced at ~1 in 8 runs
+before; **0 failures and 0 "instance is gone" errors in 8 consecutive full core
+runs** after. Any `await` in a UI teardown path is suspect for the same reason.
+
+Tests: `game_api/isometric/tests/unit/test_iso_map_window.gd` (11) — registry
+lookup by role, all inherited marker behaviour still intact, coordinate
+round-trip, safety with no world loaded, rate-limited refresh, and the
+`resolve_texture` seam end-to-end through a real `CoreGraphicsWindow`.
+iso **26/26**. `run_tests.ps1` now runs **nine** checks, not five.
 
 ## Core save bundle in both engines (landed 2026-09-19)
 
@@ -251,9 +297,10 @@ combat files. fps is now **30/30**.
 7. Merge the 21 `schemas/*.json` into one shared set; point both
    `tools/validate_data.py` at it.
 8. Adapt `.github/workflows/ci.yml.reference` to the monorepo and enable it.
-9. Decide keep-vs-drop on the 4 unintegrated scaffold managers
-   (`VirtueSystem`, `WorldStateManager`, `DialogueManager`,
-   `AIHeuristicManager`).
+9. Decide keep-vs-drop on the 3 remaining unintegrated scaffold managers
+   (`VirtueSystem`, `WorldStateManager`, `AIHeuristicManager`).
+   `DialogueManager` was the fourth and was dropped 2026-09-19;
+   `AIHeuristicManager` is now genuinely used by `CoreGoalSelector`.
 10. Start the first real game under `games/`: **Paragon** (`games/paragon/`, isometric) â€” design docs
     landed 2026-09-07 (29 `.md` from the former `C:\UIV`); read `games/paragon/activeContext.md` first.
 11. ~~Route FPS combat RNG through `CoreContext.rng()`~~ - **done 2026-09-15**,
@@ -265,7 +312,12 @@ combat files. fps is now **30/30**.
 - After **any** edit under `core/addons/game_core/`, run
   `./tools/sync_core.ps1` (Godot cannot resolve `res://` across project roots).
   `-Check` verifies without copying.
-- `tools/run_tests.ps1` runs all five checks and exits non-zero on failure.
+- `tools/run_tests.ps1` runs all **nine** checks (3 GUT suites · 2 Ink
+  validators · 4 runtime integrations) and exits non-zero on failure.
+- Never `await get_tree().process_frame` in UI code that can be freed while
+  suspended — the coroutine belongs to the node, so no `is_instance_valid()`
+  guard after the await can save you; it never runs. Use `call_deferred`, which
+  is dropped silently. This caused a 1-in-8 flake (see below).
 - A `class_name` that a project has never referenced may be **missing from its
   stale `.godot/global_script_class_cache.cfg`**, giving a confusing
   `Identifier "X" not declared in the current scope` at parse time even though

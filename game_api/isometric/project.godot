@@ -1,4 +1,4 @@
-; Engine configuration file.
+﻿; Engine configuration file.
 ; It's best edited using the editor UI and not directly,
 ; since the parameters that go here are not all obvious.
 ;
@@ -32,7 +32,6 @@ CoreInkEngine="*res://addons/game_core/narrative/core_ink_engine.gd"
 CoreWindowRegistry="*res://addons/game_core/ui/core_window_registry.gd"
 VirtueSystem="*uid://ck7r482xwbb3h"
 WorldStateManager="*uid://bjdxr5rft4b2m"
-DialogueManager="*uid://cm40ohctfbfu3"
 AIHeuristicManager="*uid://cf3eox4dip80e"
 EventBus="*res://autoloads/event_bus.gd"
 AssetRegistry="*res://autoloads/asset_registry.gd"

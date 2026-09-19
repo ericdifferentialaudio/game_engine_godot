@@ -139,6 +139,19 @@ func notify(text: String, category: String = "info") -> void:
 	EventBus.notification.emit(text, category)
 
 
+## Turn a logical art key ("portrait.fence") into a texture for
+## `CoreGraphicsWindow.set_image()`. Core never knows `res://` paths; this is
+## the seam where a game's own `assets.json` answers the question.
+##
+## Unknown keys fall back to `AssetRegistry`'s generated colour swatch rather
+## than null, so an art window shows *something* stable and identifiable before
+## the art pass — every package in this repo is still placeholder-backed.
+func resolve_texture(texture_id: String) -> Texture2D:
+	if texture_id == "":
+		return null
+	return AssetRegistry.load_texture(texture_id)
+
+
 ## Reveal tiles/sites/units to a faction's fog of war.
 func reveal(holder: String, reveals: Dictionary) -> void:
 	var world = WorldManager.world

@@ -137,6 +137,21 @@ func notify(text: String, category: String = "info") -> void:
 	EventBus.notification.emit(text, category)
 
 
+## Turn a logical art key ("portrait.troll") into a texture for
+## `CoreGraphicsWindow.set_image()`. Core never knows `res://` paths; this is
+## the seam where a game's own `assets.json` answers the question.
+##
+## Returns null for an unknown key — `set_image()` reports false and the window
+## stays blank, which is the documented contract: a missing portrait must never
+## stop a conversation. (The isometric adapter substitutes a generated swatch
+## instead; that suits a tile map, not a first-person portrait frame.)
+func resolve_texture(texture_id: String) -> Texture2D:
+	if texture_id == "" or not AssetRegistry.has_asset(texture_id):
+		return null
+	var res := AssetRegistry.load_asset(texture_id)
+	return res as Texture2D
+
+
 ## Map knowledge in the FPS engine = marking maps/POIs as discovered.
 func reveal(_holder: String, reveals: Dictionary) -> void:
 	for map_id in reveals.get("maps", []):

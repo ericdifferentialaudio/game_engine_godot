@@ -107,6 +107,17 @@ func get_icon_text_window(role: String) -> CoreIconTextWindow:
 	return window_for(role) as CoreIconTextWindow
 
 
+## Returns the base type, so an engine subclass (the isometric `IsoMapWindow`,
+## say) is found here exactly like the plain core window — callers look up a
+## *role*, never a concrete class.
+func get_map_window(role: String) -> CoreMapWindow:
+	return window_for(role) as CoreMapWindow
+
+
+func get_graphics_window(role: String) -> CoreGraphicsWindow:
+	return window_for(role) as CoreGraphicsWindow
+
+
 # --- Convenience --------------------------------------------------------------
 
 ## Push a line to a text window if that role exists. Returns false when the

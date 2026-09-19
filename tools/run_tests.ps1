@@ -98,6 +98,45 @@ foreach ($project in $projects) {
     }
 }
 
+# Narrative gate. The Ink validator runs as a GUT test too, but a broken story
+# should fail the merge gate on its own terms: this is the CLI writers use, and
+# it exits non-zero on any ERROR-severity finding.
+$inkChecks = @(
+    @{
+        Name  = "core ink (round_room_fence)"
+        Path  = Join-Path $repoRoot "core"
+        Args  = "--story=res://ink/round_room_fence.ink.json " +
+                "--source=res://ink/round_room_fence.ink " +
+                "--source=res://ink/patterns/patterns.ink " +
+                "--axes=res://ink/round_room_fence.axes.json"
+    },
+    @{
+        Name  = "fps zork ink (round_room_fence)"
+        Path  = Join-Path $repoRoot "game_api\fps"
+        Args  = "--story=res://games/zork/ink/round_room_fence.ink.json " +
+                "--source=res://games/zork/ink/round_room_fence.ink " +
+                "--source=res://games/zork/ink/patterns.ink " +
+                "--axes=res://games/zork/ink/round_room_fence.axes.json " +
+                "--package=res://games/zork"
+    }
+)
+
+foreach ($check in $inkChecks) {
+    Write-Host ""
+    Write-Host "==================================================" -ForegroundColor Cyan
+    Write-Host " Narrative validator: $($check.Name)" -ForegroundColor Cyan
+    Write-Host "==================================================" -ForegroundColor Cyan
+
+    cmd /c "`"$GodotPath`" --headless --path `"$($check.Path)`" -s tools/validate_ink.gd -- $($check.Args) 2>&1"
+
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "FAILED: $($check.Name) (exit code $LASTEXITCODE)" -ForegroundColor Red
+        $overallExitCode = 1
+    } else {
+        Write-Host "PASSED: $($check.Name)" -ForegroundColor Green
+    }
+}
+
 # Unit tests exercise the platform in isolation; these headless runs prove it is
 # actually wired into each graphics engine at runtime (adapter installed, clock
 # tracking, real game package loaded into CoreRegistry).

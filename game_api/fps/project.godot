@@ -1,4 +1,4 @@
-; Engine configuration file.
+﻿; Engine configuration file.
 
 config_version=5
 
@@ -26,7 +26,6 @@ CoreInkEngine="*res://addons/game_core/narrative/core_ink_engine.gd"
 CoreWindowRegistry="*res://addons/game_core/ui/core_window_registry.gd"
 VirtueSystem="*res://addons/game_core/managers/virtue_system.gd"
 WorldStateManager="*res://addons/game_core/managers/world_state_manager.gd"
-DialogueManager="*res://addons/game_core/managers/dialogue_manager.gd"
 AIHeuristicManager="*res://addons/game_core/managers/ai_heuristic_manager.gd"
 EventBus="*res://autoloads/event_bus.gd"
 GameClock="*res://autoloads/game_clock.gd"

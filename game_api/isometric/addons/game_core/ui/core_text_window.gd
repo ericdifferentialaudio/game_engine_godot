@@ -161,9 +161,21 @@ func _trim() -> void:
 			oldest.free()
 
 
+## Scroll to the newest line once the container has re-laid-out.
+##
+## Deliberately `call_deferred`, not `await get_tree().process_frame`: an await
+## suspends *this object's* coroutine, and if the window is freed before the
+## frame lands — a scene change, or a test tearing down its layout — Godot
+## reports "Resumed function after await, but class instance is gone". No guard
+## inside the function can prevent that, because the guard never runs. A
+## deferred call is simply dropped when its target is gone.
 func _scroll_to_bottom() -> void:
 	if _scroll == null or not is_inside_tree():
 		return
-	await get_tree().process_frame
-	if is_instance_valid(_scroll):
-		_scroll.scroll_vertical = int(_scroll.get_v_scroll_bar().max_value)
+	_apply_scroll.call_deferred()
+
+
+func _apply_scroll() -> void:
+	if not is_instance_valid(_scroll):
+		return
+	_scroll.scroll_vertical = int(_scroll.get_v_scroll_bar().max_value)
