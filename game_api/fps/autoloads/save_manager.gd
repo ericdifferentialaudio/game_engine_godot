@@ -2,7 +2,10 @@
 ## aggregated here; the schema is versioned so migrations can be added later.
 extends Node
 
-const SAVE_VERSION := 2   ## v2: actor/component player data, game clock, reputation
+## v2: actor/component player data, game clock, reputation
+## v3: one "core" section written by CoreSaveBundle (context/intel/assets/
+##     standing/ink). Adding a core system no longer touches this file.
+const SAVE_VERSION := 3
 const SAVE_DIR := "user://saves/"
 
 
@@ -30,6 +33,8 @@ func save_game(slot: String = "auto") -> bool:
 		"maps": MapManager.to_save_data(),
 		"intel": IntelRegistry.to_save_data(),
 		"player": player_data,
+		# Every core system in one nested dict, so a new one needs no edit here.
+		"core": CoreSaveBundle.collect(),
 	}
 	var file := FileAccess.open(_slot_path(slot), FileAccess.WRITE)
 	if file == null:
@@ -55,6 +60,9 @@ func load_game(slot: String = "auto") -> bool:
 	GameClock.from_save_data(data.get("clock", {}))
 	IntelRegistry.from_save_data(data.get("intel", {}))
 	MapManager.from_save_data(data.get("maps", {}))
+	# After the engine layer, so core systems overwrite any engine-side mirror
+	# of the same state (CoreContext.flags in particular) rather than the reverse.
+	CoreSaveBundle.apply(data.get("core", {}))
 	if GameManager.player and GameManager.player.has_method("from_save_data"):
 		GameManager.player.from_save_data(data.get("player", {}))
 	GameManager.set_state(GameManager.State.PLAYING)
@@ -72,6 +80,18 @@ func list_slots() -> PackedStringArray:
 
 func _migrate(data: Dictionary) -> Dictionary:
 	# Add per-version migration steps here as SAVE_VERSION increments.
-	push_warning("SaveManager: migrating save from version %s" % str(data.get("version")))
+	var from := int(data.get("version", 0))
+	push_warning("SaveManager: migrating save from version %s" % str(from))
+
+	# v2 -> v3: no "core" section existed. Synthesise one from the engine-side
+	# state the old save did carry, so flags survive; the systems that had no
+	# pre-v3 equivalent (assets, standing, ink) simply stay absent and
+	# CoreSaveBundle.apply() skips them, leaving the live defaults alone.
+	if from < 3 and not data.has("core"):
+		data["core"] = {
+			"version": CoreSaveBundle.VERSION,
+			"context": {"flags": data.get("flags", {})},
+		}
+
 	data["version"] = SAVE_VERSION
 	return data

@@ -122,9 +122,9 @@ Shared infrastructure for text-and-conversation games. See **docs/NARRATIVE.md**
 - `sync_core.ps1` now syncs `addons/game_core`, `addons/inkgd` and
   `ink/patterns`.
 
-**Verified:** core 211/211 · isometric 10/10 · fps 30/30 (was 23, +7 seeded-RNG) ·
-iso smoke 37/37 · fps boot 8/8 · zork boot 8/8 · zork playtest 48/48
-(all five checks green via `tools/run_tests.ps1`, re-confirmed 2026-09-15).
+**Verified:** core 211/211 · isometric 15/15 · fps 36/36 ·
+iso smoke 40/40 · fps boot 8/8 · zork boot 8/8 · zork playtest 48/48
+(all five checks green via `tools/run_tests.ps1`, re-confirmed 2026-09-19).
 
 **Flaky-test fix (2026-09-15).** The zork playtest failed ~30% of runs on
 "wounded thief flag set". Not a regression in the feature: the check landed a
@@ -138,9 +138,8 @@ see "Seeded FPS combat RNG" below.
 
 ### Outstanding on this feature
 
-1. Neither engine's `SaveManager` calls `CoreSaveBundle` yet — the bundle is
-   built and tested, but wiring it into `game_api/*/core/save_manager.gd` is a
-   deliberate follow-up (it touches engine-layer save versioning/migrations).
+1. ~~Neither engine's `SaveManager` calls `CoreSaveBundle` yet~~ — **done
+   2026-09-19**, see "Core save bundle in both engines" above.
 2. No engine subclasses `CoreMapWindow` yet; the base draws simple markers.
    The iso engine should override `_draw_markers()` with a real minimap.
 3. `CoreGraphicsWindow.set_image()` resolves via an optional adapter method
@@ -159,14 +158,8 @@ the section above and delete the entry.
 
 - [x] **1. Seeded FPS combat RNG** (was Future work #11) — landed 2026-09-15,
       see "Seeded FPS combat RNG" below.
-- [ ] **2. Wire `CoreSaveBundle` into both `SaveManager`s.** Touch
-      `game_api/isometric/core/save_manager.gd` and
-      `game_api/fps/autoloads/save_manager.gd`: write the bundle under one
-      `"core"` key, read it back through `CoreSaveBundle`, and bump the save
-      version with a migration that tolerates the old flat layout. Acceptance:
-      iso smoke's `user://saves/smoke.json` still round-trips, plus a new test
-      per engine that saves mid-Ink-conversation and restores the same knot.
-      (Outstanding #1.)
+- [x] **2. `CoreSaveBundle` wired into both `SaveManager`s** — landed
+      2026-09-19, see "Core save bundle in both engines" below.
 - [ ] **3. Gate the Ink validators in `tools/run_tests.ps1`.** Add a runtime
       check row calling `core/tools/validate_ink.gd` headless (it already exits
       non-zero on errors), so a broken `.ink` fails the merge gate rather than
@@ -186,6 +179,33 @@ the section above and delete the entry.
       not a regression from item 1, but it makes `core` a 210/211 coin-flip.
 
 Then the numbered **Future work** backlog below, unchanged.
+
+## Core save bundle in both engines (landed 2026-09-19)
+
+Closes Outstanding #1. Both `SaveManager`s now write core state as a single
+`"core"` key (`CoreSaveBundle.collect()`) and restore it with
+`CoreSaveBundle.apply()`, so **adding a core system no longer touches either
+engine's SaveManager** — only `CoreSaveBundle.SYSTEMS` and the next
+`sync_core.ps1`. Save versions bumped: **fps 2 -> 3**, **isometric 1 -> 2**,
+each with a migration that synthesises a `"core"` section from the old
+engine-side `flags` when one is absent. Systems that had no pre-bundle
+equivalent (assets, standing, ink) stay absent, and `apply()` skips them rather
+than wiping live state — so an old save loads without silently zeroing anything.
+
+Two ordering decisions worth keeping: `apply()` runs **after** the engine-layer
+restores, so `CoreContext.flags` wins over any engine-side mirror of the same
+state; and the bundle carries the RNG seed *and* `state`, so a reloaded game
+continues the random stream rather than restarting it (asserted in the iso test).
+
+Tests: `game_api/fps/tests/unit/test_save_bundle_wiring.gd` (6) — section
+present, round-trip through a real `user://` save file, **save mid-Ink-
+conversation and resume at the same knot**, v2 migration, migration leaving
+unknown systems alone, and no re-migration of a current save;
+`game_api/isometric/tests/unit/test_save_bundle_wiring.gd` (5) — the same,
+minus Ink (this project has no compiled `.ink.json`; only `core/` does), plus
+the RNG-continuity check. `tools/smoke_test.gd` gained 3 checks asserting core
+standing/flags survive the real save→load path. fps **36/36**, iso **15/15**,
+iso smoke **40/40**.
 
 ## Seeded FPS combat RNG (landed 2026-09-15)
 
@@ -246,6 +266,11 @@ combat files. fps is now **30/30**.
   `./tools/sync_core.ps1` (Godot cannot resolve `res://` across project roots).
   `-Check` verifies without copying.
 - `tools/run_tests.ps1` runs all five checks and exits non-zero on failure.
+- A `class_name` that a project has never referenced may be **missing from its
+  stale `.godot/global_script_class_cache.cfg`**, giving a confusing
+  `Identifier "X" not declared in the current scope` at parse time even though
+  the file is right there (hit with `CoreSaveBundle`). Fix:
+  `godot --headless --import --path <project>`, or `run_tests.ps1 -Import`.
 - Data parsing is deliberately lenient: authored JSON writes single-element
   lists as bare strings and `equipment` as a slot map. Use
   `CoreDataLoader.str_array()` / `packed_str_array()`, never a raw

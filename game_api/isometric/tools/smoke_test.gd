@@ -123,10 +123,16 @@ func _run_deferred() -> void:
 		await get_tree().process_frame
 	_check(GameClock.turn >= start_turn + TURNS_TO_RUN - 1, "turns advanced (%d -> %d)" % [start_turn, GameClock.turn])
 
-	# Save / load round trip.
+	# Save / load round trip. Core state (standing/flags, via CoreSaveBundle)
+	# rides along in the "core" section and must survive with everything else.
+	CoreStanding.set_score("smoke_npc", 33.0, "player")
+	CoreContext.set_flag("smoke_core_flag")
 	var data := SaveManager.build_save_data()
 	var json := JSON.stringify(data)
 	_check(json.length() > 100, "save data serialises (%d bytes)" % json.length())
+	_check(data.has("core"), "save carries a CoreSaveBundle section")
+	CoreStanding.reset()
+	CoreContext.reset()
 	var units_before := EntityRegistry.units.size()
 	var tiles_before := WorldManager.world.tiles.size()
 	var intel_before := IntelRegistry.journal_for(player).tokens.size()
@@ -137,6 +143,8 @@ func _run_deferred() -> void:
 	_check(WorldManager.world.tiles.size() == tiles_before, "tiles restored (%d == %d)" % [WorldManager.world.tiles.size(), tiles_before])
 	_check(IntelRegistry.journal_for(player).tokens.size() == intel_before, "intel restored (%d == %d)" % [IntelRegistry.journal_for(player).tokens.size(), intel_before])
 	_check(GameClock.turn >= start_turn, "clock restored (turn %d)" % GameClock.turn)
+	_check(CoreStanding.score("smoke_npc", "player") == 33.0, "core standing restored")
+	_check(CoreContext.has_flag("smoke_core_flag"), "core flags restored")
 	await get_tree().process_frame
 	_check(SaveManager.save_game("smoke"), "save written to user://saves/smoke.json")
 
