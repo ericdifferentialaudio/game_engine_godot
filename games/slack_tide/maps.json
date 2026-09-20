@@ -1,0 +1,227 @@
+{
+  "_comment": "15 locations. Eleven are `scene` cards (a backdrop plus clickable hotspots, hosted by the graphics window); four are `tile` maps (small grids for the danger zones). `open_when` gates a place on the tide or the clock - the Salt Steps are dry for one hour of dawn/dusk ebb and no other time, and knowing that is itself a token (t_lowebb).",
+
+  "maps": [
+    {
+      "id": "sorrel_landing", "display_name": "Sorrel Landing", "presentation": "scene",
+      "kind": "region", "region": "sorrel", "map_pos": [0.14, 0.52],
+      "description": "The west bank. Tar, wet rope and fish that stopped being fresh on somebody else's shift. The Patience lies against the pilings with her fenders squealing, and the tide-post beside the office reads the same mark it read yesterday.",
+      "short_description": "Home dock. Hesper's office, the chandlery, the Patience at her berth.",
+      "hotspots": [
+        { "id": "hesper_office", "label": "The ferrymaster's office", "actor": "hesper" },
+        { "id": "chandlery", "label": "Ballast & Rope", "actor": "goldie" },
+        { "id": "tide_post", "label": "The tide-post", "poi": "tide_post" },
+        { "id": "notice_board", "label": "The notice board", "poi": "notice_board" }
+      ],
+      "links": [
+        { "to": "ferry_deck", "label": "Board the Patience", "requires_slot": "crossing" },
+        { "to": "low_lantern", "label": "The Low Lantern", "requires_slot": "night" },
+        { "to": "reedwick_marsh", "label": "The marsh path", "requires": { "has": "t_lowebb" } }
+      ]
+    },
+
+    {
+      "id": "ferry_deck", "display_name": "The ferry Patience", "presentation": "scene",
+      "kind": "vehicle", "region": "river", "map_pos": [0.42, 0.5],
+      "description": "Forty feet of tarred deck and a wheelhouse that leaks. Between here and the far bank there is nothing to do but coil rope, take fares, and listen.",
+      "short_description": "The crossing. Two to five passengers, and whatever they let slip.",
+      "manifest": { "min": 2, "max": 5, "archetypes": ["merchant", "pilgrim", "scribe", "smuggler", "child", "sailor", "warden_aide"] },
+      "hotspots": [
+        { "id": "doss_post", "label": "Doss, coiling rope badly", "actor": "doss" },
+        { "id": "fare_box", "label": "The fare box", "poi": "fare_box" },
+        { "id": "parcel_locker", "label": "The parcel locker", "poi": "parcel_locker" },
+        { "id": "rail", "label": "The lee rail", "poi": "lee_rail" }
+      ],
+      "links": [
+        { "to": "sorrel_landing", "label": "Put in at Sorrel" },
+        { "to": "marl_landing", "label": "Put in at Marl Cross" },
+        { "to": "far_wend_landing", "label": "Put in at Far Wend" }
+      ]
+    },
+
+    {
+      "id": "low_lantern", "display_name": "The Low Lantern", "presentation": "scene",
+      "kind": "interior", "region": "sorrel", "map_pos": [0.1, 0.66],
+      "open_when": { "slots": ["night"] },
+      "description": "Low beams, low light, and a fire that has been going since before anyone here was born. This is where the shift ends and the Reach says what it actually thinks.",
+      "short_description": "The tavern. Cobb behind the bar, Fen in the corner, Doss wherever the talk is.",
+      "hotspots": [
+        { "id": "bar", "label": "Ma Cobb, behind the bar", "actor": "cobb" },
+        { "id": "fen_corner", "label": "Fen, in the corner", "actor": "fen" },
+        { "id": "doss_table", "label": "Doss, holding court", "actor": "doss" },
+        { "id": "hearth", "label": "The hearth", "poi": "hearth_talk" }
+      ],
+      "links": [{ "to": "sorrel_landing", "label": "Out into the night" }]
+    },
+
+    {
+      "id": "reedwick_marsh", "display_name": "Reedwick Marsh", "presentation": "scene",
+      "kind": "region", "region": "sorrel", "map_pos": [0.08, 0.82],
+      "open_when": { "tide": ["low", "ebb"] },
+      "description": "A path of heron-stones through water that is neither river nor land. At the wrong hour the stones are under a foot of it and the path is a rumour.",
+      "short_description": "Toma's stilt hut, the heron-stone path, and the Kelpmother's pool.",
+      "hotspots": [
+        { "id": "stilt_hut", "label": "Toma's stilt hut", "actor": "toma" },
+        { "id": "kelp_pool", "label": "The still pool", "monster": "kelpmother" }
+      ],
+      "links": [{ "to": "sorrel_landing", "label": "Back along the stones" }]
+    },
+
+    {
+      "id": "marl_landing", "display_name": "Marl Cross", "presentation": "scene",
+      "kind": "region", "region": "marl", "map_pos": [0.48, 0.42],
+      "description": "The island town, built on the spoil of the old city and not at all embarrassed about it. Market, scrapyard, wharf, and a stair down to the water that is only a stair twice a day.",
+      "short_description": "Mid-river island. Counting-house, customs, market, and the Salt Steps.",
+      "hotspots": [
+        { "id": "market", "label": "The market", "poi": "marl_market" },
+        { "id": "wharf", "label": "The wharf", "poi": "marl_wharf" },
+        { "id": "steps_head", "label": "The head of the Salt Steps", "poi": "steps_head" }
+      ],
+      "links": [
+        { "to": "ferry_deck", "label": "Back aboard", "requires_slot": "crossing" },
+        { "to": "tally_house", "label": "Tally & Prewitt" },
+        { "to": "customs_house", "label": "The Customs House" },
+        { "to": "salt_steps", "label": "Down the Salt Steps", "requires": { "has": "t_lowebb" } }
+      ]
+    },
+
+    {
+      "id": "tally_house", "display_name": "Tally & Prewitt Counting-House", "presentation": "scene",
+      "kind": "interior", "region": "marl", "map_pos": [0.54, 0.34],
+      "description": "Warm, dry, and smelling of ink and money. Every surface is a ledger and every ledger is the second-best copy.",
+      "short_description": "Ottoline's broker desk, Corvin's post, and a third stair that does not sound solid.",
+      "hotspots": [
+        { "id": "broker_desk", "label": "Ottoline Prewitt's desk", "actor": "ottoline" },
+        { "id": "corvin_post", "label": "Corvin Ashe's post", "actor": "corvin" },
+        { "id": "third_stair", "label": "The third stair", "poi": "third_stair",
+          "requires": { "has": "s_ottoline_ledger" } }
+      ],
+      "links": [{ "to": "marl_landing", "label": "Out to the square" }]
+    },
+
+    {
+      "id": "customs_house", "display_name": "The Customs House", "presentation": "scene",
+      "kind": "interior", "region": "marl", "map_pos": [0.56, 0.48],
+      "description": "A counter, a bell, and a great deal of paper nobody has read since it was filed. The cellar below holds sluice ledgers going back two hundred years.",
+      "short_description": "Wimble's records desk, Vosk's rooms, and a cellar that costs eight tallies.",
+      "hotspots": [
+        { "id": "records_desk", "label": "Clerk Wimble's desk", "actor": "wimble" },
+        { "id": "vosk_rooms", "label": "Dame Vosk's rooms", "actor": "vosk" },
+        { "id": "cellar", "label": "The records cellar", "poi": "customs_cellar",
+          "requires": { "any": [{ "flag": "cellar_paid" }, { "item": "skeleton_seal" }] } }
+      ],
+      "links": [{ "to": "marl_landing", "label": "Out to the square" }]
+    },
+
+    {
+      "id": "far_wend_landing", "display_name": "Far Wend", "presentation": "scene",
+      "kind": "region", "region": "far_wend", "map_pos": [0.78, 0.46],
+      "description": "The east bank climbs. Stone houses, a Warden post that has not posted a Warden in six years, and a tinker's wagon that has not moved in longer.",
+      "short_description": "East bank hill town. Yarrow's wagon, Brack's lodge, the Warden post.",
+      "hotspots": [
+        { "id": "yarrow_wagon", "label": "Yarrow's wagon", "actor": "yarrow" },
+        { "id": "brack_lodge", "label": "Captain Brack's lodge", "actor": "brack" },
+        { "id": "warden_post", "label": "The Warden post", "poi": "warden_post" }
+      ],
+      "links": [
+        { "to": "ferry_deck", "label": "Back aboard", "requires_slot": "crossing" },
+        { "to": "croy_lighthouse", "label": "The cliff path to Croy's Lamp" }
+      ]
+    },
+
+    {
+      "id": "croy_lighthouse", "display_name": "Croy's Lamp", "presentation": "scene",
+      "kind": "interior", "region": "far_wend", "map_pos": [0.9, 0.36],
+      "description": "A hundred and forty steps, and at the top an old man who has kept a light burning for a river that stopped needing one.",
+      "short_description": "The lighthouse and the lamp room. The only working signal lamp on the Reach.",
+      "hotspots": [
+        { "id": "lamp_room", "label": "Ansel Croy, in the lamp room", "actor": "croy" },
+        { "id": "crew_plaque", "label": "The crew plaque", "poi": "crew_plaque" }
+      ],
+      "links": [{ "to": "far_wend_landing", "label": "Down the cliff path" }]
+    },
+
+    {
+      "id": "cormorant_rocks", "display_name": "Cormorant Rocks", "presentation": "scene",
+      "kind": "region", "region": "river", "map_pos": [0.64, 0.74],
+      "entry": { "item": "skiff_hire", "label": "Hire Fen's skiff (4 tallies)" },
+      "description": "Bare rock, bird noise, and a bell-house built by somebody who wanted to be difficult to visit.",
+      "short_description": "Sister Wenna's bell-house. Boat only.",
+      "hotspots": [
+        { "id": "bell_house", "label": "Sister Wenna's bell-house", "actor": "wenna" },
+        { "id": "tide_marks", "label": "The old tide marks", "poi": "rock_tide_marks" }
+      ],
+      "links": [{ "to": "sorrel_landing", "label": "Back across the water" }]
+    },
+
+    {
+      "id": "weir_gatehouse", "display_name": "The Weir Gatehouse", "presentation": "scene",
+      "kind": "interior", "region": "weir", "map_pos": [0.94, 0.62],
+      "entry": { "any": ["boat_hire", "skeleton_seal"], "label": "The Lesser Gate" },
+      "description": "The tide-gate's own house, square and stubborn against the seaward current. Somebody has been living here alone for a long time.",
+      "short_description": "Doon's post. Guarded in some seeds. The lawful road ends here.",
+      "hotspots": [
+        { "id": "doon_post", "label": "The Weirkeeper", "actor": "doon" },
+        { "id": "lesser_gate_plaque", "label": "The plaque at the Lesser Gate", "poi": "gate_plaque" },
+        { "id": "guardroom", "label": "The guardroom", "monster": "gatehouse_guard",
+          "seeds": ["A", "B"] }
+      ],
+      "links": [{ "to": "weir_underworks", "label": "Down into the Underworks" }]
+    },
+
+    {
+      "id": "salt_steps", "display_name": "The Salt Steps", "presentation": "tile",
+      "kind": "dungeon", "region": "marl", "map_pos": [0.5, 0.58], "dark": true,
+      "tile_map": { "width": 12, "height": 9, "tileset": "undercity" },
+      "open_when": { "tide": ["low"], "slots": ["dawn_crossing", "dusk_crossing"], "first_hour": true },
+      "description": "A stair going down into water that is not there at the moment. The steps are furred with weed and the weed is dry, which it should not be.",
+      "short_description": "Tidal stair into the undercity. Dry one hour a tide, and not a minute more.",
+      "encounters": ["gulcher", "pale_collector"],
+      "links": [
+        { "to": "marl_landing", "label": "Back up into daylight" },
+        { "to": "drowned_arcade", "label": "In under the arch" }
+      ]
+    },
+
+    {
+      "id": "drowned_arcade", "display_name": "The Drowned Arcade", "presentation": "tile",
+      "kind": "dungeon", "region": "undercity", "map_pos": [0.56, 0.68], "dark": true,
+      "tile_map": { "width": 16, "height": 12, "tileset": "undercity" },
+      "description": "Shopfronts. That is the worst of it - they are shopfronts, with sills and door-numbers, and the river has been standing in them for four hundred years.",
+      "short_description": "The flooded arcade of the old city. Wights at slack; gulchers and the lullhound always.",
+      "encounters": ["silt_wight", "gulcher", "lullhound"],
+      "links": [
+        { "to": "salt_steps", "label": "Back to the stair" },
+        { "to": "bellmakers_cistern", "label": "The cistern door" }
+      ]
+    },
+
+    {
+      "id": "bellmakers_cistern", "display_name": "The Bellmaker's Cistern", "presentation": "tile",
+      "kind": "dungeon", "region": "undercity", "map_pos": [0.68, 0.72], "dark": true,
+      "tile_map": { "width": 12, "height": 12, "tileset": "undercity" },
+      "entry": { "requires": { "has": "r_cistern_knock" }, "label": "Knock twice, pause, once" },
+      "description": "A drum of brick the size of a church, and the sound of your own breathing arriving back at you a half-second late.",
+      "short_description": "The bellmaker's cistern. The knock opens it; the far door goes under the Weir.",
+      "encounters": ["silt_wight"],
+      "links": [
+        { "to": "drowned_arcade", "label": "Back to the arcade" },
+        { "to": "weir_underworks", "label": "The low door, seaward" }
+      ]
+    },
+
+    {
+      "id": "weir_underworks", "display_name": "The Weir Underworks", "presentation": "tile",
+      "kind": "dungeon", "region": "weir", "map_pos": [0.9, 0.76], "dark": true,
+      "tile_map": { "width": 18, "height": 14, "tileset": "weir" },
+      "description": "The machinery of the tide-gate, wet and turning and enormous. Underneath the noise of it, something is holding a note.",
+      "short_description": "Machinery, seals, and the Sunken Choir. The finale.",
+      "encounters": ["silt_wight", "lullhound", "sunken_choir"],
+      "finale": true,
+      "links": [
+        { "to": "bellmakers_cistern", "label": "Back through the low door" },
+        { "to": "weir_gatehouse", "label": "Up into the gatehouse" }
+      ]
+    }
+  ]
+}

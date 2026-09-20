@@ -4,14 +4,19 @@ extends GutTest
 ## v2 -> v3 migration of saves written before the "core" section existed.
 ## See "Next planned" item 2 in activeContext.md.
 
+## The package under test is deliberately the engine's own example_realm, not
+## a real game: this covers SaveManager/CoreSaveBundle wiring, so it should not
+## break when a game package is renamed or retired (as zork was).
 const HOLDER := "player"
-const STORY := "res://games/zork/ink/round_room_fence.ink.json"
+const PACKAGE := "example_realm"
+const CURRENCY := "gold"
+const STORY := "res://games/example_realm/ink/round_room_fence.ink.json"
 
 
 func before_all() -> void:
 	if CoreContext.adapter == null or CoreContext.adapter.engine_id != "fps":
 		CoreContext.install(FpsEngineAdapter.new())
-	assert_true(GameManager.load_game("zork"), "zork package loads")
+	assert_true(GameManager.load_game(PACKAGE), "%s package loads" % PACKAGE)
 
 
 func before_each() -> void:
@@ -37,7 +42,7 @@ func after_all() -> void:
 # --- The bundle is actually written and read ---------------------------------
 
 func test_save_data_carries_a_core_section() -> void:
-	CoreAssets.give("zorkmid", 4, HOLDER)
+	CoreAssets.give(CURRENCY, 4, HOLDER)
 	var data := _save_dict()
 	assert_true(data.has("core"), "SaveManager must embed CoreSaveBundle output")
 	assert_eq(CoreSaveBundle.version_of(data["core"]), CoreSaveBundle.VERSION)
@@ -45,7 +50,7 @@ func test_save_data_carries_a_core_section() -> void:
 
 
 func test_core_state_round_trips_through_a_real_save_file() -> void:
-	CoreAssets.give("zorkmid", 9, HOLDER)
+	CoreAssets.give(CURRENCY, 9, HOLDER)
 	CoreStanding.set_score("fence", 42.0, HOLDER)
 	CoreContext.set_flag("met_the_fence")
 
@@ -55,11 +60,11 @@ func test_core_state_round_trips_through_a_real_save_file() -> void:
 	CoreAssets.reset()
 	CoreStanding.reset()
 	CoreContext.reset()
-	assert_eq(CoreAssets.amount("zorkmid", HOLDER), 0, "precondition: wiped")
+	assert_eq(CoreAssets.amount(CURRENCY, HOLDER), 0, "precondition: wiped")
 
 	assert_true(SaveManager.load_game("test_bundle"), "save loaded")
 
-	assert_eq(CoreAssets.amount("zorkmid", HOLDER), 9, "assets restored")
+	assert_eq(CoreAssets.amount(CURRENCY, HOLDER), 9, "assets restored")
 	assert_eq(CoreStanding.score("fence", HOLDER), 42.0, "standing restored")
 	assert_true(CoreContext.has_flag("met_the_fence"), "core flags restored")
 
@@ -104,15 +109,15 @@ func test_v2_save_without_a_core_section_still_loads() -> void:
 
 
 func test_migrated_v2_save_leaves_systems_it_never_knew_about_alone() -> void:
-	CoreAssets.give("zorkmid", 5, HOLDER)
+	CoreAssets.give(CURRENCY, 5, HOLDER)
 	var migrated := SaveManager._migrate({"version": 2, "flags": {}})
 	CoreSaveBundle.apply(migrated["core"])
-	assert_eq(CoreAssets.amount("zorkmid", HOLDER), 5,
+	assert_eq(CoreAssets.amount(CURRENCY, HOLDER), 5,
 			"no assets section in a v2 save must not wipe live assets")
 
 
 func test_a_v3_save_is_not_re_migrated() -> void:
-	CoreAssets.give("zorkmid", 2, HOLDER)
+	CoreAssets.give(CURRENCY, 2, HOLDER)
 	var data := _save_dict()
 	assert_eq(int(data["version"]), SaveManager.SAVE_VERSION,
 			"a fresh save is already current, so _migrate is never reached")

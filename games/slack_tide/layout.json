@@ -1,0 +1,72 @@
+{
+  "id": "slack_tide",
+  "_comment": "Five windows: scene, narration, journal, map, status. Window POSITIONS are fixed here; window SIZES belong to the player (dragged dividers, remembered in user://ui_layout.cfg). Variants are chosen at startup from the real viewport aspect: the best match is the highest min_aspect the viewport still satisfies. Roles a variant omits return null from CoreWindowRegistry - that is the contract.",
+
+  "variants": [
+    {
+      "id": "wide",
+      "min_aspect": 1.4,
+      "_comment": "Landscape. Left column: scene card over narration. Right column: journal (the core mechanic, given the most room), Reach map, status strip.",
+      "root": {
+        "orientation": "horizontal",
+        "ratio": 0.62,
+        "children": [
+          {
+            "orientation": "vertical",
+            "ratio": 0.42,
+            "children": [
+              { "role": "scene", "type": "graphics", "title": "The Reach",
+                "min_size": [280, 160], "keep_aspect": true },
+              { "role": "narration", "type": "text", "title": "",
+                "min_size": [360, 220], "max_lines": 600 }
+            ]
+          },
+          {
+            "orientation": "vertical",
+            "ratio": 0.5,
+            "children": [
+              { "role": "journal", "type": "icon_text", "title": "Journal",
+                "min_size": [240, 200], "max_entries": 120 },
+              {
+                "orientation": "vertical",
+                "ratio": 0.55,
+                "children": [
+                  { "role": "map", "type": "map", "title": "The Sallow Reach",
+                    "min_size": [220, 160] },
+                  { "role": "status", "type": "icon_text", "title": "Status",
+                    "min_size": [220, 140] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "tall",
+      "min_aspect": 0.0,
+      "_comment": "Narrow or portrait. One column, narration given the most room; the map is dropped and the journal compresses.",
+      "root": {
+        "orientation": "vertical",
+        "ratio": 0.26,
+        "children": [
+          { "role": "scene", "type": "graphics", "title": "The Reach",
+            "min_size": [220, 130] },
+          {
+            "orientation": "vertical",
+            "ratio": 0.58,
+            "children": [
+              { "role": "narration", "type": "text", "title": "",
+                "min_size": [280, 240], "max_lines": 600 },
+              { "role": "journal", "type": "icon_text", "title": "Journal",
+                "min_size": [220, 140], "max_entries": 120 }
+            ]
+          },
+          { "role": "status", "type": "icon_text", "title": "Status",
+            "min_size": [220, 110] }
+        ]
+      }
+    }
+  ]
+}

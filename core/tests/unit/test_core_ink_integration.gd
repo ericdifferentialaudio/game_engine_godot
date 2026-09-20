@@ -15,7 +15,7 @@
 extends GutTest
 
 const STORY := "res://ink/round_room_fence.ink.json"
-const LAYOUT_FILE := "res://ink/zork_layout.json"
+const LAYOUT_FILE := "res://ink/sample_layout.json"
 const HOLDER := "player"
 const FENCE := "fence"
 

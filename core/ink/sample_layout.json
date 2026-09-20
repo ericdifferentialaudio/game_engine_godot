@@ -1,0 +1,58 @@
+{
+  "id": "sample",
+  "_comment": "A shipped sample layout, used by core's own tests to prove the window system parses and resolves roles. Deliberately generic: it belongs to no game. A layout is a tree of splits with a window at each leaf; POSITIONS are fixed here while SIZES belong to the player (dragged dividers, remembered in user://ui_layout.cfg). Variants are chosen at startup from the real viewport aspect - the best match is the highest min_aspect the viewport still satisfies. Roles a variant omits return null from CoreWindowRegistry, which is the contract that lets shared systems work on any screen.",
+
+  "variants": [
+    {
+      "id": "wide",
+      "min_aspect": 1.4,
+      "_comment": "Landscape: scene over prose on the left, party/status/log on the right.",
+      "root": {
+        "orientation": "horizontal",
+        "ratio": 0.68,
+        "children": [
+          {
+            "orientation": "vertical",
+            "ratio": 0.45,
+            "children": [
+              { "role": "scene", "type": "graphics", "title": "View",
+                "min_size": [240, 140], "keep_aspect": true },
+              { "role": "dialogue", "type": "text", "title": "Narration",
+                "min_size": [320, 200], "max_lines": 500 }
+            ]
+          },
+          {
+            "orientation": "vertical",
+            "ratio": 0.4,
+            "children": [
+              { "role": "party", "type": "units", "title": "Party",
+                "min_size": [180, 120], "primary_stat": "health" },
+              { "role": "status", "type": "icon_text", "title": "Carried",
+                "min_size": [180, 120] },
+              { "role": "log", "type": "icon_text", "title": "Recent",
+                "min_size": [180, 90], "newest_first": true, "max_entries": 20 }
+            ]
+          }
+        ]
+      }
+    },
+
+    {
+      "id": "tall",
+      "min_aspect": 0.0,
+      "_comment": "Narrow or portrait: one column, prose given the most room, no map.",
+      "root": {
+        "orientation": "vertical",
+        "ratio": 0.3,
+        "children": [
+          { "role": "scene", "type": "graphics", "title": "View",
+            "min_size": [200, 120] },
+          { "role": "dialogue", "type": "text", "title": "Narration",
+            "min_size": [260, 220], "max_lines": 500 },
+          { "role": "status", "type": "icon_text", "title": "Carried",
+            "min_size": [200, 100] }
+        ]
+      }
+    }
+  ]
+}

@@ -23,10 +23,10 @@ func _ready() -> void:
 		var check := BootCheck.new()
 		add_child(check)
 		check.run()
-	elif "--playtest" in OS.get_cmdline_user_args() and game_id == "zork":
-		var play := ZorkPlaytest.new()
-		add_child(play)
-		play.run()
+	# --playtest previously launched ZorkPlaytest. The zork package was renamed
+	# to slack_tide and moved to the isometric layer, taking its playtest with
+	# it, so this engine currently ships no scripted play-through. Re-add the
+	# branch here when an fps package grows one.
 
 
 func _resolve_game_id() -> String:

@@ -1,0 +1,2246 @@
+{
+ "title": "Slack Tide",
+ "codename": "slack_tide",
+ "engine": "isometric",
+ "schema_note": "Neutral schema. Cline must map to the engine's game.json / intel schema. Ids are stable.",
+ "values": {
+  "candor": "Telling the truth, calling out lies. Falls when you bluff.",
+  "mercy": "Sparing, aiding, leading rather than cutting down.",
+  "fairness": "Honest dealing: fair prices, fair tips, no skimming.",
+  "nerve": "Standing your ground when it costs you.",
+  "patience": "Waiting out slack water instead of forcing a crossing.",
+  "fidelity": "Keeping promises and keeping seals unbroken.",
+  "curiosity": "Listening, asking, reading what you were not meant to read.",
+  "restraint": "Declining the violent or powerful shortcut when another way exists."
+ },
+ "value_start": 3,
+ "value_cap": 10,
+ "value_events": [
+  {
+   "id": "ve_deliver_sealed",
+   "trigger": "Deliver a sealed parcel with the seal intact",
+   "deltas": {
+    "fidelity": 1
+   }
+  },
+  {
+   "id": "ve_open_parcel",
+   "trigger": "Break a parcel seal to read it (flag seals_broken += 1)",
+   "deltas": {
+    "curiosity": 1,
+    "fidelity": -2
+   }
+  },
+  {
+   "id": "ve_peek_clean",
+   "trigger": "Read a parcel with the Skeleton Seal (no seal broken)",
+   "deltas": {
+    "curiosity": 1
+   }
+  },
+  {
+   "id": "ve_bluff",
+   "trigger": "Attempt a bluff on a check you fail on reliability",
+   "deltas": {
+    "candor": -1
+   }
+  },
+  {
+   "id": "ve_call_liar",
+   "trigger": "Correctly call out a lie (conflict check passes)",
+   "deltas": {
+    "candor": 1
+   }
+  },
+  {
+   "id": "ve_wrong_accuse",
+   "trigger": "Accuse someone using a false or forged token",
+   "deltas": {
+    "fairness": -2
+   }
+  },
+  {
+   "id": "ve_return_purse",
+   "trigger": "Return a lost purse or overpaid change",
+   "deltas": {
+    "fairness": 1
+   }
+  },
+  {
+   "id": "ve_skim",
+   "trigger": "Join Doss's fare skimming",
+   "deltas": {
+    "fairness": -2
+   }
+  },
+  {
+   "id": "ve_wait_slack",
+   "trigger": "Wait out slack water instead of forcing a crossing",
+   "deltas": {
+    "patience": 1
+   }
+  },
+  {
+   "id": "ve_rush",
+   "trigger": "Force a crossing or skip a wait for gain",
+   "deltas": {
+    "patience": -1
+   }
+  },
+  {
+   "id": "ve_aid_passenger",
+   "trigger": "Stop to aid a cold or wounded passenger (costs a slot)",
+   "deltas": {
+    "mercy": 1
+   }
+  },
+  {
+   "id": "ve_lead_wight",
+   "trigger": "Lead a pleading silt-wight to the surface",
+   "deltas": {
+    "mercy": 1,
+    "restraint": 1
+   }
+  },
+  {
+   "id": "ve_cut_pleading",
+   "trigger": "Kill a pleading or surrendering creature",
+   "deltas": {
+    "mercy": -2
+   }
+  },
+  {
+   "id": "ve_hold_ground",
+   "trigger": "Stand your ground against the lullhound or a wight pack",
+   "deltas": {
+    "nerve": 1
+   }
+  },
+  {
+   "id": "ve_flee_needless",
+   "trigger": "Flee a fight you could have won safely",
+   "deltas": {
+    "nerve": -1
+   }
+  },
+  {
+   "id": "ve_keep_promise",
+   "trigger": "Keep an appointment or promise on time",
+   "deltas": {
+    "fidelity": 1
+   }
+  },
+  {
+   "id": "ve_break_promise",
+   "trigger": "Break a promise or miss an appointment",
+   "deltas": {
+    "fidelity": -2
+   }
+  },
+  {
+   "id": "ve_listen",
+   "trigger": "First full conversation with a new NPC",
+   "deltas": {
+    "curiosity": 1
+   }
+  },
+  {
+   "id": "ve_sell_harm",
+   "trigger": "Sell a secret that harms a decent person",
+   "deltas": {
+    "restraint": -1,
+    "mercy": -1
+   }
+  },
+  {
+   "id": "ve_violent_shortcut",
+   "trigger": "Use force when a non-violent route was open",
+   "deltas": {
+    "restraint": -1
+   }
+  },
+  {
+   "id": "ve_refuse_bribe",
+   "trigger": "Refuse a bribe or a look-away payment",
+   "deltas": {
+    "restraint": 1
+   }
+  },
+  {
+   "id": "ve_pay_toll",
+   "trigger": "Pay the Pale Collector's toll honestly",
+   "deltas": {
+    "fairness": 1
+   }
+  },
+  {
+   "id": "ve_pay_fare",
+   "trigger": "Pay a poor passenger's fare from your own pocket (-2t)",
+   "deltas": {
+    "mercy": 1
+   }
+  }
+ ],
+ "method_reliability": {
+  "overheard": 30,
+  "told": 55,
+  "slip": 55,
+  "sold": 60,
+  "document": 70,
+  "found": 70,
+  "witnessed": 90
+ },
+ "rumor_cap": 25,
+ "rumor_mills": [
+  "cobb",
+  "doss",
+  "pax_gossip"
+ ],
+ "gated_sources": [
+  "doon"
+ ],
+ "locations": {
+  "ferry_deck": {
+   "name": "The ferry Patience (deck)",
+   "links": [
+    "sorrel_landing",
+    "marl_landing",
+    "far_wend_landing"
+   ],
+   "note": "Every crossing scene. Passenger manifest is generated per leg.",
+   "presentation": "scene"
+  },
+  "sorrel_landing": {
+   "name": "Sorrel Landing",
+   "links": [
+    "ferry_deck",
+    "low_lantern",
+    "reedwick_marsh"
+   ],
+   "note": "Home dock. Hesper's office, Ballast & Rope chandlery (Goldie).",
+   "presentation": "scene"
+  },
+  "low_lantern": {
+   "name": "The Low Lantern",
+   "links": [
+    "sorrel_landing"
+   ],
+   "note": "Tavern. Cobb, Fen, Doss in the evenings. Gossip hub.",
+   "presentation": "scene"
+  },
+  "marl_landing": {
+   "name": "Marl Cross",
+   "links": [
+    "ferry_deck",
+    "tally_house",
+    "customs_house",
+    "salt_steps"
+   ],
+   "note": "Mid-river island town. Wharf, scrapyard, market. Salt Steps open at low ebb only.",
+   "presentation": "scene"
+  },
+  "tally_house": {
+   "name": "Tally & Prewitt Counting-House",
+   "links": [
+    "marl_landing"
+   ],
+   "note": "Ottoline's broker desk, Corvin's post, the ledger under the third stair.",
+   "presentation": "scene"
+  },
+  "customs_house": {
+   "name": "The Customs House",
+   "links": [
+    "marl_landing"
+   ],
+   "note": "Wimble's records desk, Vosk's rooms, cellar of old sluice ledgers.",
+   "presentation": "scene"
+  },
+  "far_wend_landing": {
+   "name": "Far Wend",
+   "links": [
+    "ferry_deck",
+    "croy_lighthouse"
+   ],
+   "note": "East bank hill town. Yarrow's wagon, Captain Brack's lodge, Warden post.",
+   "presentation": "scene"
+  },
+  "croy_lighthouse": {
+   "name": "Croy's Lamp",
+   "links": [
+    "far_wend_landing"
+   ],
+   "note": "Lighthouse and lamp room. The only working signal lamp.",
+   "presentation": "scene"
+  },
+  "reedwick_marsh": {
+   "name": "Reedwick Marsh",
+   "links": [
+    "sorrel_landing"
+   ],
+   "note": "Heron-stone path, Toma's stilt hut, the kelpmother's pool. On foot at low tide.",
+   "presentation": "scene"
+  },
+  "cormorant_rocks": {
+   "name": "Cormorant Rocks",
+   "links": [],
+   "note": "Sister Wenna's bell-house. Boat only (skiff hire 4t).",
+   "presentation": "scene"
+  },
+  "salt_steps": {
+   "name": "The Salt Steps",
+   "links": [
+    "marl_landing",
+    "drowned_arcade"
+   ],
+   "note": "Tidal stair. Dry only in the first hour of dawn/dusk ebb. Pale Collector, gulchers.",
+   "presentation": "tile"
+  },
+  "drowned_arcade": {
+   "name": "The Drowned Arcade",
+   "links": [
+    "salt_steps",
+    "bellmakers_cistern"
+   ],
+   "note": "Flooded arcade of the old undercity. Wights at slack, gulchers, lullhound.",
+   "presentation": "tile"
+  },
+  "bellmakers_cistern": {
+   "name": "The Bellmaker's Cistern",
+   "links": [
+    "drowned_arcade",
+    "weir_underworks"
+   ],
+   "note": "Password knock leads under the Weir.",
+   "presentation": "tile"
+  },
+  "weir_gatehouse": {
+   "name": "The Weir Gatehouse",
+   "links": [
+    "weir_underworks"
+   ],
+   "note": "Reached by boat via the Lesser Gate. Doon's post. Guards in seeds A and B.",
+   "presentation": "scene"
+  },
+  "weir_underworks": {
+   "name": "The Weir Underworks",
+   "links": [
+    "bellmakers_cistern",
+    "weir_gatehouse"
+   ],
+   "note": "Machinery, seals, the Sunken Choir. Finale.",
+   "presentation": "tile"
+  }
+ },
+ "npcs": {
+  "hesper": {
+   "name": "Hesper Quillon",
+   "role": "Ferrymaster of the Patience. Your employer.",
+   "location": "sorrel_landing"
+  },
+  "doss": {
+   "name": "Doss Pellam",
+   "role": "Fellow deckhand. Gossip, skimmer, rumor mill.",
+   "location": "ferry_deck"
+  },
+  "goldie": {
+   "name": "Marigold 'Goldie' Fenn",
+   "role": "Chandler at Ballast & Rope. Sells gear.",
+   "location": "sorrel_landing"
+  },
+  "cobb": {
+   "name": "Ma Cobb",
+   "role": "Landlady of the Low Lantern. Hears everything.",
+   "location": "low_lantern"
+  },
+  "fen": {
+   "name": "Fennick 'Fen' Aldous",
+   "role": "Old salvager. Tides, boats, the Stairs.",
+   "location": "low_lantern"
+  },
+  "ottoline": {
+   "name": "Ottoline Prewitt",
+   "role": "Head clerk and info broker, Tally & Prewitt.",
+   "location": "tally_house"
+  },
+  "corvin": {
+   "name": "Corvin Ashe",
+   "role": "Tally House agent. Nervous temper.",
+   "location": "tally_house"
+  },
+  "wimble": {
+   "name": "Clerk Wimble",
+   "role": "Customs records clerk. Sells access.",
+   "location": "customs_house"
+  },
+  "vosk": {
+   "name": "Dame Perrin Vosk",
+   "role": "Retired customs inspector. Gift: Skeleton Seal.",
+   "location": "customs_house"
+  },
+  "croy": {
+   "name": "Ansel Croy",
+   "role": "Old lampwright. Gift: Warding Wick.",
+   "location": "croy_lighthouse"
+  },
+  "yarrow": {
+   "name": "Yarrow Thistle",
+   "role": "Tinker-widow. Gift: Truthglass.",
+   "location": "far_wend_landing"
+  },
+  "brack": {
+   "name": "Captain Isolde Brack",
+   "role": "Retired Warden. Gift: Lull-Cutter.",
+   "location": "far_wend_landing"
+  },
+  "toma": {
+   "name": "Toma Reedhand",
+   "role": "Eel-catcher. Gift: Eelskin Cloak.",
+   "location": "reedwick_marsh"
+  },
+  "wenna": {
+   "name": "Sister Wenna",
+   "role": "Bell-hermit. Gift: Bell of Turning.",
+   "location": "cormorant_rocks"
+  },
+  "doon": {
+   "name": "Ilsabet Doon",
+   "role": "Weirkeeper. Culprit A; ally or obstacle.",
+   "location": "weir_gatehouse"
+  },
+  "collector": {
+   "name": "The Pale Collector",
+   "role": "Toll-ghost of the Salt Steps.",
+   "location": "salt_steps"
+  },
+  "harrow": {
+   "name": "Warden-Courier Lisle Harrow",
+   "role": "Dies on Day 2 leaving a sealed satchel.",
+   "location": "ferry_deck"
+  },
+  "gatehouse_guard": {
+   "name": "Gatehouse guard",
+   "role": "Doon's oath-guards (A) or Tally hirelings (B). None in C.",
+   "location": "weir_gatehouse"
+  }
+ },
+ "other_sources": {
+  "satchel": "Harrow's sealed satchel (open it, or hear it from Brack after delivery)",
+  "tide_almanac": "Purchasable almanac item",
+  "pax_gossip": "Passenger rumor mill (any passenger)",
+  "pax_smuggler": "Smuggler passenger archetype"
+ },
+ "items": {
+  "storm_lantern": {
+   "name": "Storm lantern",
+   "price": 10,
+   "seller": "goldie",
+   "effect": "Light source. Required below the Salt Steps."
+  },
+  "salt_pouch": {
+   "name": "Salt pouch",
+   "price": 4,
+   "seller": "goldie",
+   "effect": "One line of salt stops a wight pack for a scene."
+  },
+  "iron_nails": {
+   "name": "Iron nails",
+   "price": 5,
+   "seller": "goldie",
+   "effect": "Scatter to turn back gulchers."
+  },
+  "iron_pot": {
+   "name": "Iron pot",
+   "price": 2,
+   "seller": "goldie",
+   "effect": "Throwable decoy for the lullhound."
+  },
+  "felt_overshoes": {
+   "name": "Felt overshoes",
+   "price": 12,
+   "seller": "goldie",
+   "effect": "Silent movement. Lullhound cannot hear you."
+  },
+  "rope_grapnel": {
+   "name": "Rope and grapnel",
+   "price": 8,
+   "seller": "goldie",
+   "effect": "Crosses the rotten third stair."
+  },
+  "oilskin_coat": {
+   "name": "Oilskin coat",
+   "price": 18,
+   "seller": "goldie",
+   "effect": "Minor cold and water resistance."
+  },
+  "oiled_leather": {
+   "name": "Oiled leather jerkin",
+   "price": 70,
+   "seller": "goldie",
+   "effect": "Armor. Major damage reduction."
+  },
+  "boarding_pike": {
+   "name": "Boarding pike",
+   "price": 60,
+   "seller": "goldie",
+   "effect": "Weapon. Reach. Works on wights, gulchers, lullhound."
+  },
+  "ginger_tonic": {
+   "name": "Ginger tonic",
+   "price": 6,
+   "seller": "goldie",
+   "effect": "Heals. Carry two for any hard road."
+  },
+  "tide_almanac": {
+   "name": "Tide almanac",
+   "price": 6,
+   "seller": "goldie",
+   "effect": "Tide tokens read as documents (70)."
+  },
+  "fresh_eels": {
+   "name": "Fresh eels (three)",
+   "price": 6,
+   "seller": "toma",
+   "effect": "Kelpmother's tribute."
+  },
+  "skiff_hire": {
+   "name": "Skiff hire (one trip)",
+   "price": 4,
+   "seller": "fen",
+   "effect": "Reach Cormorant Rocks."
+  },
+  "boat_hire": {
+   "name": "Seaworthy boat hire",
+   "price": 30,
+   "seller": "fen",
+   "effect": "Passage to the Lesser Gate. Free if you are given the Patience."
+  },
+  "assize_fee": {
+   "name": "Assize petition fee",
+   "price": 10,
+   "seller": "brack",
+   "effect": "Convenes the Wardens' Assize."
+  },
+  "bribe_customs": {
+   "name": "Customs cellar bribe",
+   "price": 8,
+   "seller": "wimble",
+   "effect": "Access to the old sluice ledgers."
+  },
+  "bribe_guard_b": {
+   "name": "Gatehouse guard bribe",
+   "price": 25,
+   "seller": "corvin",
+   "effect": "Seed B only: Tally hirelings let you in."
+  }
+ },
+ "gifts": {
+  "warding_wick": {
+   "npc": "croy",
+   "name": "Warding Wick",
+   "hint": "p_croy",
+   "values": {
+    "mercy": 6,
+    "restraint": 5
+   },
+   "flags": {},
+   "effect": "Three charges. Banishes wights, sears the Choir.",
+   "line": "I'm old. This has been in a drawer since the crew went under. Take it and put the dark out."
+  },
+  "bell_of_turning": {
+   "npc": "wenna",
+   "name": "Bell of Turning",
+   "hint": "p_wenna",
+   "values": {
+    "patience": 7,
+    "nerve": 4
+   },
+   "flags": {},
+   "effect": "One use. Rung at the third bell it turns the tide locally and settles the Choir.",
+   "line": "It has waited longer than I have. Do not ring it early."
+  },
+  "skeleton_seal": {
+   "npc": "vosk",
+   "name": "Skeleton Seal",
+   "hint": "p_vosk",
+   "values": {
+    "fidelity": 7,
+    "candor": 5
+   },
+   "flags": {
+    "seals_broken": 0
+   },
+   "effect": "Read sealed parcels and open the gatehouse door without breaking anything.",
+   "line": "Forty years and I never broke one. You have the same look. Take it."
+  },
+  "eelskin_cloak": {
+   "npc": "toma",
+   "name": "Eelskin Cloak",
+   "hint": "p_toma",
+   "values": {
+    "fairness": 6,
+    "curiosity": 3
+   },
+   "flags": {},
+   "effect": "Armor. Cold and drowning resistance in the Stairs and the Underworks.",
+   "line": "You paid what the eels were worth. That is rarer than you think."
+  },
+  "truthglass": {
+   "npc": "yarrow",
+   "name": "Truthglass",
+   "hint": "p_yarrow",
+   "values": {
+    "candor": 8
+   },
+   "flags": {},
+   "effect": "Once per scene, shows whether an NPC's claim conflicts with a token in your journal.",
+   "line": "It only clears for the honest. I have watched liars fog it."
+  },
+  "lull_cutter": {
+   "npc": "brack",
+   "name": "Lull-Cutter",
+   "hint": "p_brack",
+   "values": {
+    "nerve": 7,
+    "mercy": 4
+   },
+   "flags": {},
+   "effect": "Weapon. Cuts wights, gulchers and the Choir. Never dulls.",
+   "line": "It drank the Lull once. It wants someone who will not enjoy using it."
+  },
+  "ferry_patience": {
+   "npc": "hesper",
+   "name": "The Patience (loan)",
+   "hint": "p_hesper",
+   "values": {
+    "fidelity": 6
+   },
+   "flags": {
+    "left_honorably": 1
+   },
+   "effect": "Free boat passage to the Lesser Gate. Saves the 30t boat hire.",
+   "line": "You gave notice like a person. Take her. Bring her back."
+  }
+ },
+ "weapons": [
+  "boarding_pike",
+  "lull_cutter"
+ ],
+ "armor": [
+  "eelskin_cloak",
+  "oiled_leather"
+ ],
+ "monsters": {
+  "silt_wight": {
+   "name": "Silt-wight",
+   "where": [
+    "drowned_arcade",
+    "bellmakers_cistern",
+    "weir_underworks"
+   ],
+   "active": "slack only",
+   "threat": 2,
+   "tokens": [
+    "b_wight_slack",
+    "b_wight_salt",
+    "b_wight_pleads"
+   ],
+   "counters": [
+    "salt_pouch",
+    "warding_wick",
+    "lull_cutter",
+    "boarding_pike"
+   ],
+   "nonviolent": "Lead pleading wights to the surface (mercy)."
+  },
+  "gulcher": {
+   "name": "Gulcher",
+   "where": [
+    "salt_steps",
+    "drowned_arcade"
+   ],
+   "active": "always",
+   "threat": 2,
+   "tokens": [
+    "b_gulcher_iron"
+   ],
+   "counters": [
+    "iron_nails",
+    "boarding_pike",
+    "lull_cutter"
+   ],
+   "nonviolent": "Scatter iron and walk past."
+  },
+  "lullhound": {
+   "name": "Lullhound",
+   "where": [
+    "drowned_arcade",
+    "weir_underworks"
+   ],
+   "active": "always",
+   "threat": 4,
+   "tokens": [
+    "b_lull_sound",
+    "b_lull_decoy"
+   ],
+   "counters": [
+    "felt_overshoes",
+    "iron_pot",
+    "lull_cutter",
+    "boarding_pike"
+   ],
+   "nonviolent": "Decoy or silent passage."
+  },
+  "kelpmother": {
+   "name": "Kelpmother",
+   "where": [
+    "reedwick_marsh"
+   ],
+   "active": "always",
+   "threat": 5,
+   "tokens": [
+    "b_kelp_tribute"
+   ],
+   "counters": [
+    "fresh_eels"
+   ],
+   "nonviolent": "Tribute only. Not fightable."
+  },
+  "pale_collector": {
+   "name": "The Pale Collector",
+   "where": [
+    "salt_steps"
+   ],
+   "active": "always",
+   "threat": 0,
+   "tokens": [
+    "b_collector_toll",
+    "t_old_coin"
+   ],
+   "counters": [],
+   "nonviolent": "Pay three drowned marks."
+  },
+  "gatehouse_guard": {
+   "name": "Gatehouse guards",
+   "where": [
+    "weir_gatehouse"
+   ],
+   "active": "seeds A and B",
+   "threat": 3,
+   "tokens": [],
+   "counters": [
+    "lull_cutter",
+    "boarding_pike",
+    "skeleton_seal",
+    "bribe_guard_b"
+   ],
+   "nonviolent": "Seal, welcome (A), bribe (B)."
+  },
+  "sunken_choir": {
+   "name": "The Sunken Choir",
+   "where": [
+    "weir_underworks"
+   ],
+   "active": "all seeds (asleep in A and B until provoked)",
+   "threat": 6,
+   "tokens": [
+    "b_choir_wick"
+   ],
+   "counters": [
+    "warding_wick",
+    "lull_cutter",
+    "bell_of_turning"
+   ],
+   "nonviolent": "Bell of Turning, or read its name (seed C)."
+  }
+ },
+ "tokens": [
+  {
+   "id": "c1a",
+   "cat": "case",
+   "name": "The Weirkeeper works the sluice",
+   "text": "The Weirkeeper closes the night sluice with her own hands at the third bell.",
+   "truth": "culprit=A",
+   "group": "q1",
+   "src": [
+    "fen:told",
+    "brack:told"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c1b",
+   "cat": "case",
+   "name": "Hirelings work the sluice",
+   "text": "Men paid in Tally coin close the night sluice at the third bell.",
+   "truth": "culprit=B",
+   "group": "q1",
+   "src": [
+    "fen:told",
+    "corvin:slip"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c1c",
+   "cat": "case",
+   "name": "Nobody works the sluice",
+   "text": "No hand touches the night sluice. It closes on its own, humming.",
+   "truth": "culprit=C",
+   "group": "q1",
+   "src": [
+    "fen:told",
+    "wenna:told"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c2a",
+   "cat": "case",
+   "name": "Harrow was silenced",
+   "text": "Warden-Courier Harrow was silenced at the Weir gatehouse by Doon's oath-guards for what she saw.",
+   "truth": "culprit=A",
+   "group": "q2",
+   "src": [
+    "brack:told",
+    "gatehouse_guard:overheard"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c2b",
+   "cat": "case",
+   "name": "Harrow was chased",
+   "text": "Tally House men chased Harrow off the Marl wharf for the sluice log and she went into the water.",
+   "truth": "culprit=B",
+   "group": "q2",
+   "src": [
+    "wimble:sold",
+    "corvin:slip"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c2c",
+   "cat": "case",
+   "name": "Harrow was taken by the Stairs",
+   "text": "The Stairs pulled Harrow under. The marks on her are gulcher, not man.",
+   "truth": "culprit=C",
+   "group": "q2",
+   "src": [
+    "toma:told",
+    "brack:told"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c3a",
+   "cat": "case",
+   "name": "The satchel holds Doon's plea",
+   "text": "The satchel holds Doon's own letter to the Wardens, begging for bell-founders before the Weir fails.",
+   "truth": "culprit=A",
+   "group": "q3",
+   "src": [
+    "satchel:document",
+    "brack:told"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c3b",
+   "cat": "case",
+   "name": "The satchel holds the log",
+   "text": "The satchel holds a page of the night-sluice log naming a paid crew.",
+   "truth": "culprit=B",
+   "group": "q3",
+   "src": [
+    "satchel:document",
+    "brack:told"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c3c",
+   "cat": "case",
+   "name": "The satchel holds a hum chart",
+   "text": "The satchel holds a chart of hum-marks along the causeway, drawn in Harrow's hand.",
+   "truth": "culprit=C",
+   "group": "q3",
+   "src": [
+    "satchel:document",
+    "brack:told"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c4a",
+   "cat": "case",
+   "name": "It begins at the gatehouse",
+   "text": "The Long Slack begins at the Weir gatehouse, where the sluice is held shut.",
+   "truth": "culprit=A",
+   "group": "q4",
+   "src": [
+    "doon:told",
+    "gatehouse_guard:overheard",
+    "fen:told"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c4b",
+   "cat": "case",
+   "name": "It begins at the Marl sluice-house",
+   "text": "The Long Slack begins at the Marl Cross sluice-house, where the crew works to a Tally chit.",
+   "truth": "culprit=B",
+   "group": "q4",
+   "src": [
+    "ottoline:sold",
+    "wimble:document"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c4c",
+   "cat": "case",
+   "name": "It begins beneath the Steps",
+   "text": "The Long Slack begins in the Underworks under the Salt Steps, where the water hums.",
+   "truth": "culprit=C",
+   "group": "q4",
+   "src": [
+    "salt_steps:witnessed",
+    "wenna:told"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c5a",
+   "cat": "case",
+   "name": "Only the Assize can free Doon",
+   "text": "Only the Wardens' Assize can release Doon from her oath. Then she will open the gate.",
+   "truth": "culprit=A",
+   "group": "q5",
+   "src": [
+    "doon:told",
+    "brack:told",
+    "vosk:told"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c5b",
+   "cat": "case",
+   "name": "Expose the ledger",
+   "text": "Break the consortium's hold: expose the ledger and the sluice crew will walk.",
+   "truth": "culprit=B",
+   "group": "q5",
+   "src": [
+    "ottoline:sold",
+    "wimble:document"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "c5c",
+   "cat": "case",
+   "name": "Ring the Bell",
+   "text": "Ring the Bell of Turning at the third bell of Full Slack and the Choir will sleep.",
+   "truth": "culprit=C",
+   "group": "q5",
+   "src": [
+    "wenna:told",
+    "satchel:document"
+   ],
+   "rumor": [
+    "doss:overheard",
+    "cobb:overheard",
+    "pax_gossip:overheard"
+   ],
+   "unlocks": []
+  },
+  {
+   "id": "ev_a_lantern",
+   "cat": "evidence",
+   "name": "Doon's lantern log",
+   "text": "A lantern log in Doon's hand: a trimmed wick and a mark at every third bell of the night.",
+   "truth": "culprit=A",
+   "group": "ev_a",
+   "src": [
+    "weir_gatehouse:found",
+    "brack:document"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "fg_a_lantern",
+   "cat": "evidence",
+   "name": "A lantern log, too fresh",
+   "text": "A lantern log said to be Doon's. The ink is still tacky.",
+   "truth": "culprit!=A",
+   "group": "ev_a",
+   "src": [
+    "corvin:sold",
+    "doss:sold"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "forged"
+   ]
+  },
+  {
+   "id": "ev_b_paystub",
+   "cat": "evidence",
+   "name": "Tally chit for the sluice crew",
+   "text": "A Tally House chit dated the night before the first Long Slack, made out to 'sluice crew'.",
+   "truth": "culprit=B",
+   "group": "ev_b",
+   "src": [
+    "tally_house:found",
+    "corvin:slip"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "fg_b_paystub",
+   "cat": "evidence",
+   "name": "A Tally chit, seal off",
+   "text": "A Tally House chit made out to 'sluice crew'. The seal is a shade off.",
+   "truth": "culprit!=B",
+   "group": "ev_b",
+   "src": [
+    "doss:sold",
+    "pax_gossip:overheard"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "forged"
+   ]
+  },
+  {
+   "id": "ev_c_hum",
+   "cat": "evidence",
+   "name": "The stone hums",
+   "text": "Stand on the Salt Steps at slack and the stone hums up through your boots.",
+   "truth": "culprit=C",
+   "group": null,
+   "src": [
+    "salt_steps:witnessed",
+    "wenna:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "t_lowebb",
+   "cat": "place",
+   "name": "The Steps are dry at ebb",
+   "text": "The Salt Steps are dry only in the first hour of dawn and dusk ebb.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "fen:told",
+    "tide_almanac:document",
+    "hesper:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "access:salt_steps"
+   ]
+  },
+  {
+   "id": "t_slack_grows",
+   "cat": "place",
+   "name": "Each slack runs longer",
+   "text": "Each slack lasts longer than the last, by about a quarter hour every third day.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "fen:told",
+    "hesper:told",
+    "cobb:overheard"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "t_third_stair",
+   "cat": "place",
+   "name": "The third stair is rotten",
+   "text": "The third landing of the Salt Steps is rotten. Bring rope.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "fen:told",
+    "salt_steps:witnessed"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "counter:gulcher:rope_grapnel"
+   ]
+  },
+  {
+   "id": "t_heron_stones",
+   "cat": "place",
+   "name": "Follow the heron-stones",
+   "text": "Reedwick's safe path follows the heron-stones. Step off them and the marsh keeps your boots.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "toma:told",
+    "cobb:overheard"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "access:reedwick_marsh"
+   ]
+  },
+  {
+   "id": "t_old_coin",
+   "cat": "place",
+   "name": "Drowned marks still spend",
+   "text": "Drowned marks, the old coin, turn up along the Steps and still spend with the Pale Collector.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "fen:told",
+    "salt_steps:found",
+    "collector:witnessed"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "t_weir_gates",
+   "cat": "place",
+   "name": "Three gates, one small",
+   "text": "The Weir has three gates. Only the Lesser Gate opens to a small boat at slack.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "fen:told",
+    "brack:told",
+    "doon:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "access:weir_gatehouse"
+   ]
+  },
+  {
+   "id": "t_cistern_way",
+   "cat": "place",
+   "name": "The cistern goes under the Weir",
+   "text": "Under the Salt Steps the Bellmaker's cistern runs beneath the Weir, if you know the knock.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "fen:told",
+    "wenna:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "access:bellmakers_cistern"
+   ]
+  },
+  {
+   "id": "t_lighthouse",
+   "cat": "place",
+   "name": "Croy's lamp calls the ferry",
+   "text": "Croy's lamp at Far Wend is the only working signal lamp and can call the ferry after dark.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "croy:told",
+    "hesper:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "t_customs_cellar",
+   "cat": "place",
+   "name": "The old ledgers are in the cellar",
+   "text": "The old sluice ledgers are shelved in the Customs House cellar.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "wimble:sold",
+    "vosk:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "access:customs_house"
+   ]
+  },
+  {
+   "id": "t_full_slack",
+   "cat": "place",
+   "name": "Full Slack stops the ferry",
+   "text": "When slack lasts a full day the ferry will not run. Hesper calls it Full Slack.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "hesper:told",
+    "fen:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "b_wight_slack",
+   "cat": "beast",
+   "name": "Wights rise at slack",
+   "text": "Silt-wights only rise at slack water.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "fen:told",
+    "toma:told",
+    "brack:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "b_wight_salt",
+   "cat": "beast",
+   "name": "Salt stops a wight",
+   "text": "A line of salt stops a silt-wight. A warded wick banishes it.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "goldie:told",
+    "brack:told",
+    "croy:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "counter:silt_wight:salt_pouch"
+   ]
+  },
+  {
+   "id": "b_wight_pleads",
+   "cat": "beast",
+   "name": "Some wights remember",
+   "text": "Some silt-wights are drowned laborers who still remember. They can be led up, not cut down.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "toma:told",
+    "wenna:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "b_gulcher_iron",
+   "cat": "beast",
+   "name": "Gulchers shy from iron",
+   "text": "Gulchers shy from iron. Scatter nails on the steps.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "goldie:told",
+    "toma:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "counter:gulcher:iron_nails"
+   ]
+  },
+  {
+   "id": "b_lull_sound",
+   "cat": "beast",
+   "name": "The lullhound hunts by sound",
+   "text": "The lullhound hunts by sound, not sight.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "brack:told",
+    "fen:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "counter:lullhound:felt_overshoes"
+   ]
+  },
+  {
+   "id": "b_lull_decoy",
+   "cat": "beast",
+   "name": "A clatter draws it off",
+   "text": "A clatter thrown down a passage pulls the lullhound away from you.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "brack:told",
+    "goldie:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "counter:lullhound:iron_pot"
+   ]
+  },
+  {
+   "id": "b_kelp_tribute",
+   "cat": "beast",
+   "name": "The kelpmother takes eels",
+   "text": "The kelpmother takes three fresh eels and asks nothing more.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "toma:told",
+    "cobb:overheard"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "counter:kelpmother:fresh_eels"
+   ]
+  },
+  {
+   "id": "b_collector_toll",
+   "cat": "beast",
+   "name": "Pay the Collector",
+   "text": "The Pale Collector wants three drowned marks. He is not fought. He is paid.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "fen:told",
+    "salt_steps:witnessed",
+    "cobb:overheard"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "b_choir_wick",
+   "cat": "beast",
+   "name": "The Choir fears flame",
+   "text": "The Sunken Choir cannot abide open flame. A warded wick hurts it.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "croy:told",
+    "wenna:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "counter:sunken_choir:warding_wick"
+   ]
+  },
+  {
+   "id": "p_hesper",
+   "cat": "people",
+   "name": "Hesper prizes a kept word",
+   "text": "Hesper values a kept word above a full purse. She will lend the Patience to someone who leaves honestly.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "hesper:told",
+    "cobb:overheard"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "gift:ferry_patience"
+   ]
+  },
+  {
+   "id": "p_doss",
+   "cat": "people",
+   "name": "Discount Doss by half",
+   "text": "Doss embroiders. Halve whatever he tells you.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "hesper:told",
+    "cobb:overheard",
+    "doss:witnessed"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "p_cobb",
+   "cat": "people",
+   "name": "Ma Cobb hears the Reach",
+   "text": "Ma Cobb hears the whole Reach for the price of a warm cup.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "fen:told",
+    "hesper:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "p_fen",
+   "cat": "people",
+   "name": "Fen is good before noon",
+   "text": "Fen Aldous is reliable on tides before noon and worthless after gin.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "cobb:told",
+    "hesper:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "p_ottoline",
+   "cat": "people",
+   "name": "Ottoline pays double for the unique",
+   "text": "Ottoline pays double for what nobody else has.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "wimble:told",
+    "corvin:slip"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "p_croy",
+   "cat": "people",
+   "name": "Croy keeps a wick-staff",
+   "text": "Ansel Croy keeps an old wick-staff in the lamp room. He says it should have been laid down with the crew. He gives to the merciful who hold their hand.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "yarrow:told",
+    "croy:told",
+    "brack:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "gift:warding_wick"
+   ]
+  },
+  {
+   "id": "p_wenna",
+   "cat": "people",
+   "name": "Wenna keeps a tide-bell",
+   "text": "Sister Wenna keeps a bell that turned tides in her mother's day. She only speaks to people who can wait.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "toma:told",
+    "fen:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "gift:bell_of_turning",
+    "access:cormorant_rocks"
+   ]
+  },
+  {
+   "id": "p_vosk",
+   "cat": "people",
+   "name": "Vosk never broke a seal",
+   "text": "Dame Vosk caught a forged ledger by the smell of the ink. She trusts only those who have never broken a seal.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "wimble:told",
+    "ottoline:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "gift:skeleton_seal"
+   ]
+  },
+  {
+   "id": "p_toma",
+   "cat": "people",
+   "name": "Toma deals fair or not at all",
+   "text": "Toma Reedhand pays and charges fair. Cheat him once and he will never speak to you again.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "goldie:told",
+    "cobb:overheard"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "gift:eelskin_cloak"
+   ]
+  },
+  {
+   "id": "p_yarrow",
+   "cat": "people",
+   "name": "Yarrow's glass catches lies",
+   "text": "Yarrow Thistle's glass is said to catch a lie. She parts with it only to someone who never told one.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "croy:told",
+    "brack:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "gift:truthglass"
+   ]
+  },
+  {
+   "id": "p_brack",
+   "cat": "people",
+   "name": "Brack's blade drank the Lull",
+   "text": "Captain Brack's blade drank the Lull once. She gives it to the brave who are not cruel.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "yarrow:told",
+    "croy:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "gift:lull_cutter"
+   ]
+  },
+  {
+   "id": "p_doon",
+   "cat": "people",
+   "name": "Doon answers to her oath",
+   "text": "Ilsabet Doon has kept the Weir since her husband died there. She answers to her oath before anyone.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "brack:told",
+    "fen:told",
+    "cobb:overheard"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "p_corvin",
+   "cat": "people",
+   "name": "Corvin's pouch bears the Tally seal",
+   "text": "Corvin Ashe carries a pouch stamped with the Tally seal and has a nervous temper.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "wimble:told",
+    "cobb:overheard"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "e_hearsay_half",
+   "cat": "econ",
+   "name": "Hearsay sells at half",
+   "text": "The counting-house buys hearsay at half price and corroborated facts at full.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "ottoline:told",
+    "wimble:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "e_spread_drops",
+   "cat": "econ",
+   "name": "A sold secret loses value",
+   "text": "Once a secret is sold, it spreads. Each buyer pays less than the last.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "ottoline:told",
+    "cobb:overheard"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "e_goldie_discount",
+   "cat": "econ",
+   "name": "Goldie rewards fair dealers",
+   "text": "Goldie takes a tenth off for anyone who has never cheated a customer.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "goldie:told",
+    "hesper:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "e_scrap_price",
+   "cat": "econ",
+   "name": "Brass sells at Marl",
+   "text": "Salvaged brass fittings fetch four tallies each at the Marl scrapyard.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "fen:told",
+    "goldie:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "e_smuggler_tip",
+   "cat": "econ",
+   "name": "Smugglers tip to be ignored",
+   "text": "Smugglers on the dusk run pay a few tallies to be ignored. Taking it costs you something else.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "doss:sold",
+    "cobb:overheard",
+    "pax_smuggler:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "e_fare_hike",
+   "cat": "econ",
+   "name": "Fares double after the first week",
+   "text": "Fares double after the first week, and tips with them.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "hesper:told",
+    "cobb:overheard"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "e_customs_bribe",
+   "cat": "econ",
+   "name": "The cellar costs eight",
+   "text": "Wimble opens the cellar for eight tallies if nobody is looking.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "doss:sold",
+    "wimble:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "e_eel_market",
+   "cat": "econ",
+   "name": "Eels cost six a bundle",
+   "text": "A bundle of three fresh eels is six tallies at Toma's hut or the Marl market.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "toma:told",
+    "goldie:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "e_boat_hire",
+   "cat": "econ",
+   "name": "Boat hire is thirty",
+   "text": "Fen hires a seaworthy boat for thirty tallies. A skiff for the Rocks is four.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "fen:told",
+    "hesper:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "s_doss_skims",
+   "cat": "secret",
+   "name": "Doss skims the fares",
+   "text": "Doss skims a tenth of the fares on the Marl run and Hesper does not know.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "cobb:overheard",
+    "pax_gossip:overheard",
+    "ferry_deck:witnessed"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "s_hesper_mortgage",
+   "cat": "secret",
+   "name": "The Patience is mortgaged",
+   "text": "The Patience is mortgaged to Tally & Prewitt, due at month's end.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "wimble:sold",
+    "ottoline:sold",
+    "corvin:slip"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "s_ottoline_ledger",
+   "cat": "secret",
+   "name": "The real ledger is under the stair",
+   "text": "The counting-house's real ledger sits under the third stair.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "corvin:slip",
+    "tally_house:found"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "s_corvin_brother",
+   "cat": "secret",
+   "name": "Corvin's brother drowned",
+   "text": "Corvin's brother drowned in the Stairs. He hates the Reach for it.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "cobb:overheard",
+    "fen:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "s_doon_husband",
+   "cat": "secret",
+   "name": "Doon's husband died at the Weir",
+   "text": "Doon's husband drowned in the Weir's first flood. She has not left the gatehouse since.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "brack:told",
+    "fen:told",
+    "doon:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "s_wimble_sells",
+   "cat": "secret",
+   "name": "Wimble sells the records",
+   "text": "Clerk Wimble sells access to the records if paid and unobserved.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "doss:sold",
+    "vosk:told"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "s_marl_smugglers",
+   "cat": "secret",
+   "name": "Smugglers use the Marl wharf",
+   "text": "Smugglers use the Marl Cross wharf at dusk.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "doss:sold",
+    "pax_smuggler:told",
+    "marl_landing:witnessed"
+   ],
+   "rumor": [],
+   "unlocks": []
+  },
+  {
+   "id": "r_word_1",
+   "cat": "route",
+   "name": "Turning Word: first",
+   "text": "The first Turning Word is 'Ebb'. Fen sings it when drunk.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "fen:overheard",
+    "croy:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "road:turn"
+   ]
+  },
+  {
+   "id": "r_word_2",
+   "cat": "route",
+   "name": "Turning Word: second",
+   "text": "The second Turning Word is 'Hold'. It is in the nursery rhyme Ma Cobb hums.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "cobb:told",
+    "yarrow:told",
+    "croy:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "road:turn"
+   ]
+  },
+  {
+   "id": "r_word_3",
+   "cat": "route",
+   "name": "Turning Word: third",
+   "text": "The third Turning Word is 'Turn'. It is cut into the plaque at the Lesser Gate.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "weir_gatehouse:witnessed",
+    "doon:told",
+    "brack:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "road:turn"
+   ]
+  },
+  {
+   "id": "r_third_bell",
+   "cat": "route",
+   "name": "The turn is done at the third bell",
+   "text": "The turning is done at the third bell, and only during Full Slack.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "hesper:told",
+    "wenna:told",
+    "doon:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "road:turn"
+   ]
+  },
+  {
+   "id": "r_gate_seal",
+   "cat": "route",
+   "name": "The gatehouse door knows a master seal",
+   "text": "The gatehouse door answers to a Customs master seal.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "vosk:told",
+    "wimble:sold",
+    "doon:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "entry:seal"
+   ]
+  },
+  {
+   "id": "r_cistern_knock",
+   "cat": "route",
+   "name": "Knock twice, pause, once",
+   "text": "At the Bellmaker's cistern, knock twice, pause, then once.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "fen:told",
+    "wenna:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "entry:cistern"
+   ]
+  },
+  {
+   "id": "r_assize_call",
+   "cat": "route",
+   "name": "Three witnesses convene the Assize",
+   "text": "Three witnesses' worth of corroborated tokens will convene the Wardens' Assize at Far Wend.",
+   "truth": "always",
+   "group": null,
+   "src": [
+    "brack:told",
+    "vosk:told"
+   ],
+   "rumor": [],
+   "unlocks": [
+    "road:word"
+   ]
+  }
+ ],
+ "common_turn": {
+  "tokens": [
+   "r_word_1",
+   "r_word_2",
+   "r_word_3",
+   "r_third_bell"
+  ],
+  "note": "Every road ends with speaking the three Turning Words at the third bell of Full Slack."
+ },
+ "entry_methods": {
+  "seal": {
+   "seeds": "ABC",
+   "tokens": [
+    "r_gate_seal"
+   ],
+   "items": [
+    "skeleton_seal"
+   ],
+   "cost": 0,
+   "values": {},
+   "needs_passage": true
+  },
+  "welcome": {
+   "seeds": "A",
+   "tokens": [
+    "p_doon",
+    "s_doon_husband"
+   ],
+   "items": [],
+   "cost": 0,
+   "values": {
+    "mercy": 5
+   },
+   "needs_passage": true
+  },
+  "bribe": {
+   "seeds": "B",
+   "tokens": [
+    "c1b"
+   ],
+   "items": [
+    "bribe_guard_b"
+   ],
+   "cost": 25,
+   "values": {},
+   "needs_passage": true
+  },
+  "cistern": {
+   "seeds": "ABC",
+   "tokens": [
+    "t_cistern_way",
+    "r_cistern_knock",
+    "b_wight_salt",
+    "b_lull_decoy"
+   ],
+   "items": [
+    "storm_lantern",
+    "salt_pouch",
+    "salt_pouch",
+    "salt_pouch",
+    "iron_pot"
+   ],
+   "cost": null,
+   "values": {},
+   "needs_passage": false
+  }
+ },
+ "passage": {
+  "tokens": [
+   "t_weir_gates"
+  ],
+  "items_any": [
+   [
+    "boat_hire"
+   ],
+   [
+    "ferry_patience"
+   ]
+  ]
+ },
+ "roads": {
+  "word": {
+   "A": {
+    "tokens": [
+     "c1a",
+     "c4a",
+     "c5a",
+     "ev_a_lantern",
+     "r_assize_call"
+    ],
+    "min_reliability": 75,
+    "items": [
+     "assize_fee"
+    ],
+    "values": {
+     "candor": 5
+    },
+    "result": "The Assize compels Doon to release the gate."
+   },
+   "B": {
+    "tokens": [
+     "c1b",
+     "c4b",
+     "c5b",
+     "ev_b_paystub",
+     "r_assize_call"
+    ],
+    "min_reliability": 75,
+    "items": [
+     "assize_fee"
+    ],
+    "values": {
+     "candor": 5
+    },
+    "result": "The Assize convicts the consortium; the crew walks."
+   },
+   "C": {
+    "tokens": [
+     "c1c",
+     "c3c",
+     "c4c",
+     "ev_c_hum"
+    ],
+    "min_reliability": 75,
+    "items": [],
+    "values": {
+     "patience": 6
+    },
+    "result": "You read the Choir the name in Harrow's chart; it quiets."
+   }
+  },
+  "bargain": {
+   "A": {
+    "tokens": [
+     "c5a",
+     "p_doon",
+     "s_doon_husband"
+    ],
+    "min_reliability": 75,
+    "items_any": [
+     [
+      "bell_of_turning"
+     ],
+     [
+      "warding_wick"
+     ]
+    ],
+    "values": {
+     "mercy": 5,
+     "fidelity": 5
+    },
+    "result": "You help Doon reseal the Underworks; she opens the gate willingly."
+   },
+   "B": {
+    "tokens": [
+     "c5b",
+     "p_ottoline",
+     "s_ottoline_ledger"
+    ],
+    "min_reliability": 75,
+    "items_any": [
+     [
+      "truthglass"
+     ],
+     [
+      "coin60"
+     ]
+    ],
+    "values": {
+     "fairness": 5
+    },
+    "result": "Ottoline stands the crew down in exchange for your silence and a fee."
+   },
+   "C": {
+    "tokens": [
+     "c5c",
+     "r_third_bell"
+    ],
+    "min_reliability": 75,
+    "items": [
+     "bell_of_turning"
+    ],
+    "values": {
+     "patience": 7
+    },
+    "result": "You ring the Bell; the Choir settles."
+   }
+  },
+  "hand": {
+   "A": {
+    "tokens": [
+     "t_weir_gates"
+    ],
+    "min_reliability": 55,
+    "items_any": [
+     [
+      "lull_cutter"
+     ],
+     [
+      "boarding_pike"
+     ]
+    ],
+    "armor": true,
+    "extra_items": [
+     "storm_lantern",
+     "ginger_tonic",
+     "ginger_tonic"
+    ],
+    "values": {
+     "nerve": 6
+    },
+    "result": "You take the gatehouse by force. The tide turns; Doon does not forgive you."
+   },
+   "B": {
+    "tokens": [
+     "c4b"
+    ],
+    "min_reliability": 55,
+    "items_any": [
+     [
+      "lull_cutter"
+     ],
+     [
+      "boarding_pike"
+     ]
+    ],
+    "armor": true,
+    "extra_items": [
+     "storm_lantern",
+     "ginger_tonic",
+     "ginger_tonic"
+    ],
+    "values": {
+     "nerve": 6
+    },
+    "result": "You break the crew's hold at the sluice-house. Tally House remembers."
+   },
+   "C": {
+    "tokens": [
+     "b_choir_wick",
+     "b_wight_salt",
+     "b_lull_sound"
+    ],
+    "min_reliability": 55,
+    "items_any": [
+     [
+      "lull_cutter"
+     ],
+     [
+      "boarding_pike"
+     ]
+    ],
+    "armor": true,
+    "extra_items": [
+     "storm_lantern",
+     "ginger_tonic",
+     "ginger_tonic",
+     "salt_pouch",
+     "salt_pouch",
+     "salt_pouch"
+    ],
+    "values": {
+     "nerve": 6
+    },
+    "result": "You silence the Choir with flame and steel. It stays silent, and so does the Weir."
+   }
+  }
+ },
+ "income_model": {
+  "days": 14,
+  "wage_per_day": 6,
+  "board_per_day": 2,
+  "tips_per_crossing": [
+   1.0,
+   1.5,
+   2.2
+  ],
+  "crossings_per_day": 3,
+  "parcels_per_day": [
+   0.5,
+   1.0,
+   1.5
+  ],
+  "parcel_fee": [
+   2,
+   4,
+   6
+  ],
+  "info_sales": [
+   20,
+   70,
+   130
+  ],
+  "salvage": [
+   0,
+   40,
+   90
+  ]
+ },
+ "presentation": "2d_ui_text_led"
+}

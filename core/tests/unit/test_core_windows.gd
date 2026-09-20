@@ -210,8 +210,8 @@ func test_clear_all_empties_every_window() -> void:
 
 
 func test_sample_game_layout_file_is_valid() -> void:
-	var layout := CoreLayoutDefinition.load_file("res://ink/zork_layout.json")
+	var layout := CoreLayoutDefinition.load_file("res://ink/sample_layout.json")
 	assert_not_null(layout, "the shipped sample layout should parse")
-	assert_eq(layout.id, "zork")
+	assert_eq(layout.id, "sample")
 	assert_has(layout.variant_ids(), "wide")
 	assert_has(layout.declared_roles(), "dialogue")

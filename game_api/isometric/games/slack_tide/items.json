@@ -1,0 +1,121 @@
+{
+  "_comment": "Prices are the spec's tally figures. Slack inflation (+4%/day from day 6, cap +60%) is applied at the shop by slack_tide_boot.gd, not baked in here - buy early or pay more.",
+  "items": [
+    { "id": "tally", "display_name": "Tally", "category": "currency", "value": 1,
+      "description": "A notched brass sliver. The Reach counts in tallies because the Reach does not trust coin." },
+
+    { "id": "drowned_mark", "display_name": "Drowned mark", "category": "currency", "value": 0,
+      "description": "A coin from the city under the river. Worthless above water. The Pale Collector wants three." },
+
+    { "id": "deckhand_hook", "display_name": "Deckhand's hook", "category": "weapon", "weight": 1.5,
+      "equip_slot": "main_hand", "value": 2,
+      "description": "A short boat-hook worn smooth by your own hands. It is a tool. It is a poor weapon and everyone can tell.",
+      "damage": { "pierce": [2, 4] }, "abilities": ["hook_jab"] },
+
+    { "id": "oilskin_cap", "display_name": "Oilskin cap", "category": "armor", "weight": 0.3,
+      "equip_slot": "head", "value": 1, "stats": { "armor": 1 },
+      "description": "Keeps the rain off. Does nothing else, and does that well." },
+
+    { "id": "storm_lantern", "display_name": "Storm lantern", "category": "misc", "weight": 1.5, "value": 10,
+      "shop": { "seller": "goldie", "price": 10 },
+      "description": "Shuttered against wind. Required below the Salt Steps; the dark down there is not the ordinary kind." },
+
+    { "id": "storm_lantern_lit", "display_name": "Storm lantern (lit)", "category": "misc", "weight": 1.5, "value": 10,
+      "description": "Lit. A small warm circle, and the certainty that something outside it is counting your steps." },
+
+    { "id": "salt_pouch", "display_name": "Salt pouch", "category": "consumable", "weight": 0.5, "value": 4,
+      "shop": { "seller": "goldie", "price": 4 }, "charges": 1,
+      "description": "One line of salt stops a wight pack for a scene. They remember what salt meant.",
+      "counters": ["silt_wight"], "requires_intel": "b_wight_salt" },
+
+    { "id": "iron_nails", "display_name": "Iron nails", "category": "consumable", "weight": 0.8, "value": 5,
+      "shop": { "seller": "goldie", "price": 5 }, "charges": 2,
+      "description": "Scatter them and a gulcher will not cross. It cannot say why; nor can anyone.",
+      "counters": ["gulcher"], "requires_intel": "b_gulcher_iron" },
+
+    { "id": "iron_pot", "display_name": "Iron pot", "category": "consumable", "weight": 2.0, "value": 2,
+      "shop": { "seller": "goldie", "price": 2 }, "charges": 1,
+      "description": "Throw it far and it lands loud. The lullhound goes to the noise, not the meat.",
+      "counters": ["lullhound"], "requires_intel": "b_lull_decoy" },
+
+    { "id": "felt_overshoes", "display_name": "Felt overshoes", "category": "armor", "weight": 0.6,
+      "equip_slot": "off_hand", "value": 12, "shop": { "seller": "goldie", "price": 12 },
+      "description": "Absurd to look at. Silent to walk in. The lullhound hunts on sound alone.",
+      "counters": ["lullhound"], "requires_intel": "b_lull_sound" },
+
+    { "id": "rope_grapnel", "display_name": "Rope and grapnel", "category": "misc", "weight": 3.0, "value": 8,
+      "shop": { "seller": "goldie", "price": 8 },
+      "description": "Crosses the rotten third stair, and a good deal else that is rotten." },
+
+    { "id": "oilskin_coat", "display_name": "Oilskin coat", "category": "armor", "weight": 2.0,
+      "equip_slot": "body", "value": 18, "shop": { "seller": "goldie", "price": 18 },
+      "stats": { "armor": 3 }, "resistances": { "cold": 0.2 },
+      "description": "Stiff, stinking, and the difference between wet and dangerously wet." },
+
+    { "id": "oiled_leather", "display_name": "Oiled leather jerkin", "category": "armor", "weight": 6.0,
+      "equip_slot": "body", "value": 70, "shop": { "seller": "goldie", "price": 70 },
+      "stats": { "armor": 9 }, "resistances": { "cold": 0.15, "slash": 0.2 },
+      "description": "Seventy tallies. Nearly a fortnight of wages, to make one bad night survivable." },
+
+    { "id": "boarding_pike", "display_name": "Boarding pike", "category": "weapon", "weight": 5.0,
+      "equip_slot": "main_hand", "two_handed": true, "value": 60,
+      "shop": { "seller": "goldie", "price": 60 },
+      "description": "Reach enough to kill what you never wanted to touch. The expensive answer to every creature, and never the best one.",
+      "damage": { "pierce": [7, 12] }, "stats": { "attack": 3 }, "abilities": ["pike_thrust"],
+      "counters": ["silt_wight", "gulcher", "lullhound"] },
+
+    { "id": "ginger_tonic", "display_name": "Ginger tonic", "category": "consumable", "weight": 0.3, "value": 6,
+      "shop": { "seller": "goldie", "price": 6 }, "charges": 1,
+      "description": "Burns going down. Carry two for any hard road.", "abilities": ["drink_tonic"] },
+
+    { "id": "tide_almanac", "display_name": "Tide almanac", "category": "misc", "weight": 0.4, "value": 6,
+      "shop": { "seller": "goldie", "price": 6 },
+      "description": "Printed tables, six years old and still righter than any man on the wharf.",
+      "intel_method_override": { "tags": ["tide"], "method": "document" } },
+
+    { "id": "fresh_eels", "display_name": "Fresh eels (three)", "category": "consumable", "weight": 1.2, "value": 6,
+      "shop": { "seller": "toma", "price": 6 }, "charges": 1,
+      "description": "Still moving. The Kelpmother takes tribute and takes nothing else.",
+      "counters": ["kelpmother"], "requires_intel": "b_kelp_tribute" },
+
+    { "id": "sluice_log_page", "display_name": "Page of the night-sluice log", "category": "evidence",
+      "weight": 0.1, "value": 0,
+      "description": "A single page. Times, initials, a crew paid in Tally coin - if that is what your seed made true.",
+      "evidence_for": "q1" },
+
+    { "id": "harrow_satchel", "display_name": "Harrow's satchel", "category": "quest", "weight": 1.0, "value": 0,
+      "description": "Warden-Courier Harrow's satchel, salt-stiff. What is inside it is not the same thing twice.",
+      "grants_intel_group": "q3" },
+
+    { "id": "skeleton_seal", "display_name": "The Skeleton Seal", "category": "charm", "weight": 0.2,
+      "equip_slot": "charm", "value": 0, "gift_from": "vosk",
+      "description": "Vosk's old master seal. Opens a parcel and closes it again with nobody the wiser - and the gatehouse door knows it too.",
+      "abilities": ["read_parcel_clean"], "counters": ["gatehouse_guard"] },
+
+    { "id": "warding_wick", "display_name": "The Warding Wick", "category": "charm", "weight": 0.3,
+      "equip_slot": "charm", "value": 0, "charges": 3, "gift_from": "croy",
+      "description": "Three charges of a light that is not light. Banishes wights outright and sears the Choir.",
+      "counters": ["silt_wight", "sunken_choir"] },
+
+    { "id": "truthglass", "display_name": "The Truthglass", "category": "charm", "weight": 0.2,
+      "equip_slot": "charm", "value": 0, "gift_from": "yarrow",
+      "description": "Yarrow's lens. Look through it at a written thing and a forgery will not hold its shape.",
+      "abilities": ["examine_forgery"] },
+
+    { "id": "lull_cutter", "display_name": "The Lull-Cutter", "category": "weapon", "weight": 2.5,
+      "equip_slot": "main_hand", "value": 0, "gift_from": "brack",
+      "description": "Brack's Warden blade, made for things that do not bleed. She gives it to people who have already proved they will not need it.",
+      "damage": { "slash": [9, 14] }, "stats": { "attack": 4 }, "abilities": ["cutter_strike"],
+      "counters": ["silt_wight", "gulcher", "lullhound", "sunken_choir", "gatehouse_guard"] },
+
+    { "id": "eelskin_cloak", "display_name": "The Eelskin Cloak", "category": "armor", "weight": 1.5,
+      "equip_slot": "body", "value": 0, "gift_from": "toma", "stats": { "armor": 5 },
+      "resistances": { "cold": 0.5 },
+      "description": "Toma's own. Cold water runs off it and, if Toma is to be believed, so does the Reach's attention." },
+
+    { "id": "bell_of_turning", "display_name": "The Bell of Turning", "category": "charm", "weight": 2.0,
+      "equip_slot": "charm", "value": 0, "gift_from": "wenna",
+      "description": "Small, and far heavier than small. Rung at the third bell of Full Slack, the Choir sleeps.",
+      "counters": ["sunken_choir"], "requires_intel": "r_third_bell" }
+  ]
+}
