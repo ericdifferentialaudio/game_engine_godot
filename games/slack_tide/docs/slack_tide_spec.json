@@ -364,7 +364,7 @@
   },
   "corvin": {
    "name": "Corvin Ashe",
-   "role": "Tally House agent. Nervous temper.",
+   "role": "Corvin Ashe, Tally House clerk. Culprit B is not a villain: he moved a date two weeks and the sluice silted. He is bailing out his own cellar and has not slept.",
    "location": "tally_house"
   },
   "wimble": {
@@ -404,7 +404,7 @@
   },
   "doon": {
    "name": "Ilsabet Doon",
-   "role": "Weirkeeper. Culprit A; ally or obstacle.",
+   "role": "Weirkeeper, and Lisle Harrow's widow. Culprit A: she holds the gate because the Choir sings with his voice. Gated source (mercy 5) - the moral centre of seed A.",
    "location": "weir_gatehouse"
   },
   "collector": {
@@ -414,7 +414,7 @@
   },
   "harrow": {
    "name": "Warden-Courier Lisle Harrow",
-   "role": "Dies on Day 2 leaving a sealed satchel.",
+   "role": "Warden-Courier Lisle Harrow. Doon's husband. Dies on your deck on Day 2 leaving a sealed satchel that would have stopped this had it arrived. You are always already too late.",
    "location": "ferry_deck"
   },
   "gatehouse_guard": {
@@ -794,7 +794,7 @@
    "id": "c1c",
    "cat": "case",
    "name": "Nobody works the sluice",
-   "text": "No hand touches the night sluice. It closes on its own, humming.",
+   "text": "No hand touches the night sluice. It closes on its own, humming, and it has been listening to us say its name for four hundred years.",
    "truth": "culprit=C",
    "group": "q1",
    "src": [
@@ -866,7 +866,7 @@
    "id": "c3a",
    "cat": "case",
    "name": "The satchel holds Doon's plea",
-   "text": "The satchel holds Doon's own letter to the Wardens, begging for bell-founders before the Weir fails.",
+   "text": "The satchel holds Doon's own letter to the Wardens, begging for bell-founders before the Weir fails. It is dated three weeks ago.",
    "truth": "culprit=A",
    "group": "q3",
    "src": [
@@ -884,7 +884,7 @@
    "id": "c3b",
    "cat": "case",
    "name": "The satchel holds the log",
-   "text": "The satchel holds a page of the night-sluice log naming a paid crew.",
+   "text": "The satchel holds a page of the night-sluice log naming a paid crew, and one clerk's initials against a moved date.",
    "truth": "culprit=B",
    "group": "q3",
    "src": [
@@ -902,7 +902,7 @@
    "id": "c3c",
    "cat": "case",
    "name": "The satchel holds a hum chart",
-   "text": "The satchel holds a chart of hum-marks along the causeway, drawn in Harrow's hand.",
+   "text": "The satchel holds a chart of hum-marks along the causeway, drawn in Harrow's hand. The last mark is not a place. It is a name.",
    "truth": "culprit=C",
    "group": "q3",
    "src": [
@@ -957,7 +957,7 @@
    "id": "c4c",
    "cat": "case",
    "name": "It begins beneath the Steps",
-   "text": "The Long Slack begins in the Underworks under the Salt Steps, where the water hums.",
+   "text": "The Long Slack begins in the Underworks under the Salt Steps, where the water hums in a voice people keep saying they recognise.",
    "truth": "culprit=C",
    "group": "q4",
    "src": [
@@ -975,7 +975,7 @@
    "id": "c5a",
    "cat": "case",
    "name": "Only the Assize can free Doon",
-   "text": "Only the Wardens' Assize can release Doon from her oath. Then she will open the gate.",
+   "text": "Only the Wardens' Assize can release Doon from her oath. Then she will open the gate - and the voice in the Underworks will stop.",
    "truth": "culprit=A",
    "group": "q5",
    "src": [
@@ -1012,7 +1012,7 @@
    "id": "c5c",
    "cat": "case",
    "name": "Ring the Bell",
-   "text": "Ring the Bell of Turning at the third bell of Full Slack and the Choir will sleep.",
+   "text": "Ring the Bell of Turning at the third bell of Full Slack and the Choir will sleep. Harrow's chart says it would rather be asked.",
    "truth": "culprit=C",
    "group": "q5",
    "src": [
@@ -1030,7 +1030,7 @@
    "id": "ev_a_lantern",
    "cat": "evidence",
    "name": "Doon's lantern log",
-   "text": "A lantern log in Doon's hand: a trimmed wick and a mark at every third bell of the night.",
+   "text": "A lantern log in Doon's hand: a trimmed wick and a mark at every third bell of the night. Eleven months of them, without a gap.",
    "truth": "culprit=A",
    "group": "ev_a",
    "src": [
@@ -1090,7 +1090,7 @@
    "id": "ev_c_hum",
    "cat": "evidence",
    "name": "The stone hums",
-   "text": "Stand on the Salt Steps at slack and the stone hums up through your boots.",
+   "text": "Stand on the Salt Steps at slack and the stone hums up through your boots. Everyone who hears it names someone different.",
    "truth": "culprit=C",
    "group": null,
    "src": [
@@ -1572,7 +1572,7 @@
    "id": "p_doon",
    "cat": "people",
    "name": "Doon answers to her oath",
-   "text": "Ilsabet Doon has kept the Weir since her husband died there. She answers to her oath before anyone.",
+   "text": "Ilsabet Doon has kept the Weir since her husband died there. She answers to her oath before anyone, and she answers to him before the oath.",
    "truth": "always",
    "group": null,
    "src": [
@@ -1786,7 +1786,7 @@
    "id": "s_doon_husband",
    "cat": "secret",
    "name": "Doon's husband died at the Weir",
-   "text": "Doon's husband drowned in the Weir's first flood. She has not left the gatehouse since.",
+   "text": "Doon's husband drowned in the Weir's first flood. His name was Lisle Harrow. She has not left the gatehouse since, and she has never been given a body to bury.",
    "truth": "always",
    "group": null,
    "src": [
@@ -2242,5 +2242,6 @@
    90
   ]
  },
- "presentation": "2d_ui_text_led"
+ "presentation": "2d_ui_text_led",
+ "story_remap": "harrow_widow_v1"
 }

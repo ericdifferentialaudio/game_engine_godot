@@ -42,8 +42,44 @@ day 6, cap +60%) and an information market where selling raises a token's
 *spread* and weakens it as leverage.
 
 `intel.json` is **generated** — edit `docs/slack_tide_spec.json` and run
-`tools/convert_slack_tide.py` (the only game-specific tool; it encodes this
-game's 0–100 reliability model, so it stays in the package).
+`tools/convert_slack_tide.py` (it encodes this game's 0–100 reliability model,
+so it stays in the package).
+
+**Slack Tide balance + story (2026-09-19).** The game now has a measured
+objective, and it is deliberately **not** chaos. `CoreChaosMetrics` maximises
+`outcome_entropy`, which peaks at a coin flip — the opposite of "challenging,
+but a competent player usually wins". Filed as **CR-004** (with CR-005 for a
+graphics-window hotspot overlay); the replacement lives in the package as pure
+Python, so a 10k-seed sweep costs seconds instead of a Godot process per run:
+
+- `tools/model.py` — paper model of clock/economy/tokens/roads/gifts/endings,
+  reading the same spec the engine data is generated from.
+- `tools/tune.py` — grid search against a **band**, `tools/diagnose.py` —
+  attributes each loss to the requirement that blocked it.
+- `tools/regress.py` + `docs/BALANCE.json` — gate on **held-out** seeds.
+  Verified by fault injection: making the game easier (win 0.882) is reported
+  as a regression, "the player can no longer lose".
+- `tools/gen_topics.py` -> **`topics.json`** (design milestone M0, previously
+  missing) and `tools/check_solvable.py` — proves every seed is winnable, and
+  independently confirms Hand (152–164t) is unaffordable on the low income
+  curve while Word/Bargain stay open.
+
+Current: competent **0.804**, naive **0.129**, 74 min, 7 endings (top 35%).
+All four gates run in `run_tests.ps1`.
+
+`docs/STORY_BIBLE.md` rewrites the three culprits as moral traps rather than
+whodunit answers, and makes **Lisle Harrow — the courier who dies on your deck
+on day 2 — Doon's husband**, so the gated endgame source is the widow of the
+man whose satchel you did or did not open. `tools/remap_story.py` applies it to
+the spec idempotently (`--check` in CI); ids, groups and reliabilities are
+untouched, so solvability and balance still hold.
+
+**UI is built** (`slack_tide_ui.gd` + reworked `layout.json`): scene card NW,
+map and status across the top band, **full-width narration south** with the
+journal as a right rail. Five roles bound through `CoreWindowRegistry`,
+choices and hotspots routed, reliability shown as bands with conflict and
+disproved glyphs. 8 GUT tests in `game_api/isometric/tests/unit/`. Not yet
+instantiated from the boot path — `main.gd` has no narrative main scene.
 
 **Shared narrative validation (2026-09-19).** `core/tools/validate_narrative.py`
 + `core/tools/narrative/{dialogue_graph,ink_inspect}.py`. Engine-agnostic and

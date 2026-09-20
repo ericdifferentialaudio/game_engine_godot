@@ -1,0 +1,36 @@
+{
+  "_comment": "Committed balance baseline for Slack Tide, found by tools/tune.py and verified on held-out seeds by tools/regress.py. The objective is a BAND, not a maximum: chaos/entropy is maximised by a coin flip, which is the opposite of a game a competent player usually wins. Regenerate with `python tools/tune.py`, verify with `python tools/regress.py`.",
+  "tuning": {
+    "learn_per_slot": 2.0,
+    "corroborate_chance": 1.0,
+    "value_gain_per_day": 4.8,
+    "full_slack_low": 18,
+    "full_slack_high": 20
+  },
+  "targets": {
+    "competent_win_rate": [
+      0.75,
+      0.88
+    ],
+    "naive_win_rate_max": 0.35,
+    "minutes": [
+      60.0,
+      90.0
+    ],
+    "min_distinct_endings": 6,
+    "max_top_outcome_share": 0.4
+  },
+  "baseline": {
+    "_note": "2000 held-out seeds (start=900001). Tolerances in tools/regress.py.",
+    "competent": {
+      "win_rate": 0.802,
+      "understood_rate": 0.997,
+      "avg_minutes": 74.1,
+      "distinct_outcomes": 7,
+      "top_outcome_share": 0.352
+    },
+    "naive": {
+      "win_rate": 0.13
+    }
+  }
+}

@@ -6,37 +6,37 @@
     {
       "id": "wide",
       "min_aspect": 1.4,
-      "_comment": "Landscape. Left column: scene card over narration. Right column: journal (the core mechanic, given the most room), Reach map, status strip.",
+      "_comment": "Landscape. TOP BAND: scene card north-west (the illustrated location), Reach map centre, status north-east. SOUTH BAND, full width: narration and its choice buttons - this is where the player reads and clicks, so it gets the whole width and the majority of the height. The journal sits to its right as a rail, because reliability and conflicts must be readable WHILE reading the prose that argues about them.",
       "root": {
-        "orientation": "horizontal",
-        "ratio": 0.62,
+        "orientation": "vertical",
+        "ratio": 0.44,
         "children": [
           {
-            "orientation": "vertical",
+            "orientation": "horizontal",
             "ratio": 0.42,
             "children": [
               { "role": "scene", "type": "graphics", "title": "The Reach",
-                "min_size": [280, 160], "keep_aspect": true },
-              { "role": "narration", "type": "text", "title": "",
-                "min_size": [360, 220], "max_lines": 600 }
+                "min_size": [300, 200], "keep_aspect": true },
+              {
+                "orientation": "horizontal",
+                "ratio": 0.52,
+                "children": [
+                  { "role": "map", "type": "map", "title": "The Sallow Reach",
+                    "min_size": [240, 200] },
+                  { "role": "status", "type": "icon_text", "title": "Status",
+                    "min_size": [220, 200] }
+                ]
+              }
             ]
           },
           {
-            "orientation": "vertical",
-            "ratio": 0.5,
+            "orientation": "horizontal",
+            "ratio": 0.68,
             "children": [
+              { "role": "narration", "type": "text", "title": "",
+                "min_size": [480, 260], "max_lines": 600 },
               { "role": "journal", "type": "icon_text", "title": "Journal",
-                "min_size": [240, 200], "max_entries": 120 },
-              {
-                "orientation": "vertical",
-                "ratio": 0.55,
-                "children": [
-                  { "role": "map", "type": "map", "title": "The Sallow Reach",
-                    "min_size": [220, 160] },
-                  { "role": "status", "type": "icon_text", "title": "Status",
-                    "min_size": [220, 140] }
-                ]
-              }
+                "min_size": [260, 260], "max_entries": 120 }
             ]
           }
         ]

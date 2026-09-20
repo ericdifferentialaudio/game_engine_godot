@@ -161,6 +161,33 @@ Write-Host ""
 Write-Host "Checking slack_tide generated data..." -ForegroundColor Cyan
 python (Join-Path $repoRoot "games\slack_tide\tools\convert_slack_tide.py") --check
 if ($LASTEXITCODE -ne 0) { $overallExitCode = 1 }
+python (Join-Path $repoRoot "games\slack_tide\tools\gen_topics.py") --check
+if ($LASTEXITCODE -ne 0) { $overallExitCode = 1 }
+# topics.json names 26 speaking sources; actors.json once had 6, so most of
+# the cast -- including Doon and Brack, who are the endgame -- did not exist.
+python (Join-Path $repoRoot "games\slack_tide\tools\gen_actors.py") --check
+if ($LASTEXITCODE -ne 0) { $overallExitCode = 1 }
+# Standing-cast dialogue is generated from topics.json (see
+# CONVERSATION_GENERATOR.md); the 5 story-carrying NPCs are hand-written and
+# the generator refuses to touch a file missing its own generated header.
+python (Join-Path $repoRoot "games\slack_tide\tools\gen_dialogue.py") --check
+if ($LASTEXITCODE -ne 0) { $overallExitCode = 1 }
+python (Join-Path $repoRoot "games\slack_tide\tools\remap_story.py") --check
+if ($LASTEXITCODE -ne 0) { $overallExitCode = 1 }
+
+# The puzzle must be provably winnable in every seed (design milestone M0), and
+# the BALANCE must stay inside its design band. The band matters more than any
+# single number: a change that pushes the competent win rate to 0.95 is a
+# REGRESSION, not an improvement, because the player stops being able to lose.
+# Both run in pure Python -- no Godot, no engine -- so they cost seconds.
+Write-Host ""
+Write-Host "Checking slack_tide solvability and balance..." -ForegroundColor Cyan
+Push-Location (Join-Path $repoRoot "games\slack_tide\tools")
+python check_solvable.py --quiet
+if ($LASTEXITCODE -ne 0) { $overallExitCode = 1 }
+python regress.py --seeds 1500 --quiet
+if ($LASTEXITCODE -ne 0) { $overallExitCode = 1 }
+Pop-Location
 
 # Narrative validation is SHARED, so it runs over EVERY game package, not just
 # the one being worked on. Dangling dialogue knots, references to tokens that

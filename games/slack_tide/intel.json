@@ -132,7 +132,7 @@
       "id": "c1c",
       "title": "Nobody works the sluice",
       "category": "case",
-      "summary": "No hand touches the night sluice. It closes on its own, humming.",
+      "summary": "No hand touches the night sluice. It closes on its own, humming, and it has been listening to us say its name for four hundred years.",
       "reliability": 0.55,
       "tags": [
         "case"
@@ -316,7 +316,7 @@
       "id": "c3a",
       "title": "The satchel holds Doon's plea",
       "category": "case",
-      "summary": "The satchel holds Doon's own letter to the Wardens, begging for bell-founders before the Weir fails.",
+      "summary": "The satchel holds Doon's own letter to the Wardens, begging for bell-founders before the Weir fails. It is dated three weeks ago.",
       "reliability": 0.7,
       "tags": [
         "case"
@@ -362,7 +362,7 @@
       "id": "c3b",
       "title": "The satchel holds the log",
       "category": "case",
-      "summary": "The satchel holds a page of the night-sluice log naming a paid crew.",
+      "summary": "The satchel holds a page of the night-sluice log naming a paid crew, and one clerk's initials against a moved date.",
       "reliability": 0.7,
       "tags": [
         "case"
@@ -408,7 +408,7 @@
       "id": "c3c",
       "title": "The satchel holds a hum chart",
       "category": "case",
-      "summary": "The satchel holds a chart of hum-marks along the causeway, drawn in Harrow's hand.",
+      "summary": "The satchel holds a chart of hum-marks along the causeway, drawn in Harrow's hand. The last mark is not a place. It is a name.",
       "reliability": 0.7,
       "tags": [
         "case"
@@ -551,7 +551,7 @@
       "id": "c4c",
       "title": "It begins beneath the Steps",
       "category": "case",
-      "summary": "The Long Slack begins in the Underworks under the Salt Steps, where the water hums.",
+      "summary": "The Long Slack begins in the Underworks under the Salt Steps, where the water hums in a voice people keep saying they recognise.",
       "reliability": 0.9,
       "tags": [
         "case"
@@ -597,7 +597,7 @@
       "id": "c5a",
       "title": "Only the Assize can free Doon",
       "category": "case",
-      "summary": "Only the Wardens' Assize can release Doon from her oath. Then she will open the gate.",
+      "summary": "Only the Wardens' Assize can release Doon from her oath. Then she will open the gate - and the voice in the Underworks will stop.",
       "reliability": 0.55,
       "tags": [
         "case"
@@ -694,7 +694,7 @@
       "id": "c5c",
       "title": "Ring the Bell",
       "category": "case",
-      "summary": "Ring the Bell of Turning at the third bell of Full Slack and the Choir will sleep.",
+      "summary": "Ring the Bell of Turning at the third bell of Full Slack and the Choir will sleep. Harrow's chart says it would rather be asked.",
       "reliability": 0.7,
       "tags": [
         "case"
@@ -740,7 +740,7 @@
       "id": "ev_a_lantern",
       "title": "Doon's lantern log",
       "category": "evidence",
-      "summary": "A lantern log in Doon's hand: a trimmed wick and a mark at every third bell of the night.",
+      "summary": "A lantern log in Doon's hand: a trimmed wick and a mark at every third bell of the night. Eleven months of them, without a gap.",
       "reliability": 0.7,
       "tags": [
         "evidence"
@@ -858,7 +858,7 @@
       "id": "ev_c_hum",
       "title": "The stone hums",
       "category": "evidence",
-      "summary": "Stand on the Salt Steps at slack and the stone hums up through your boots.",
+      "summary": "Stand on the Salt Steps at slack and the stone hums up through your boots. Everyone who hears it names someone different.",
       "reliability": 0.9,
       "tags": [
         "evidence"
@@ -1705,7 +1705,7 @@
       "id": "p_doon",
       "title": "Doon answers to her oath",
       "category": "people",
-      "summary": "Ilsabet Doon has kept the Weir since her husband died there. She answers to her oath before anyone.",
+      "summary": "Ilsabet Doon has kept the Weir since her husband died there. She answers to her oath before anyone, and she answers to him before the oath.",
       "reliability": 0.55,
       "tags": [
         "people"
@@ -2085,7 +2085,7 @@
       "id": "s_doon_husband",
       "title": "Doon's husband died at the Weir",
       "category": "secret",
-      "summary": "Doon's husband drowned in the Weir's first flood. She has not left the gatehouse since.",
+      "summary": "Doon's husband drowned in the Weir's first flood. His name was Lisle Harrow. She has not left the gatehouse since, and she has never been given a body to bury.",
       "reliability": 0.55,
       "tags": [
         "secret"

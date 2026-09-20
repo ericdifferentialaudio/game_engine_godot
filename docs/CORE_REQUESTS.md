@@ -122,3 +122,56 @@ the first one written, which would have trained everyone to ignore the tool.
 
 Fixed to recognise all three forms. `corvin.ink` went from 12 errors to 0, and
 its detected target count from 5 to 17.
+
+---
+
+## CR-004 — `CoreChaosMetrics` optimises entropy, which fights "usually wins"
+
+**Status: OPEN** · **Severity:** medium — the metric rewards the wrong shape
+· Raised by: slack_tide, 2026-09-19
+
+`scorecard()` weights `outcome_entropy` at 0.25 under `combinatorial`. Shannon
+entropy is **maximised when every outcome is equally likely** — a coin flip.
+For a game that should be *challenging but usually winnable by a competent
+player*, maximising that term actively makes the game worse: it pushes the win
+rate toward 1/n, not toward the design target.
+
+`solvable` (win rate >= 0.55) is a floor, not a band, so nothing in core
+objects to a game that has become trivially easy — arguably the more common
+failure in tuning.
+
+Two gaps alongside it: there is **no duration metric** and **no win-variety
+metric**, so "is a run the right length?" and "do players reach different
+endings?" cannot be scored at all.
+
+**Request** (any subset):
+1. An optional target **band** for win rate, e.g.
+   `opts.win_rate_band = [lo, hi]`, gated rather than maximised.
+2. `avg_duration` / `duration_band` from a `duration` field on episode records.
+3. `outcome_variety`: distinct outcomes plus the top outcome's share, which is
+   what "many real endings" means — entropy conflates it with a coin flip.
+
+**Workaround in the meantime:** `games/slack_tide/tools/{model,tune,regress}.py`
+implement exactly this band-based objective in pure Python, against the same
+spec the engine data is generated from. Chaos is still reported, but as a
+diagnostic rather than the objective. If the pattern proves out, promoting it
+into `CoreChaosMetrics` would let every package share it.
+
+---
+
+## CR-005 — no hotspot overlay on the `graphics` window
+
+**Status: OPEN** · **Severity:** low — a workaround exists
+· Raised by: slack_tide, 2026-09-19
+
+Slack Tide's eleven scene cards need **clickable hotspots on an illustration**.
+`CoreMapWindow` has the right model already (`set_marker(id, normalised_pos,
+icon)`, `remove_marker`, `marker_clicked`), but `CoreGraphicsWindow` has only
+`set_image`/`set_caption`.
+
+**Request:** the same normalised-position marker model on `CoreGraphicsWindow`,
+reporting through `CoreWindowRegistry.report_marker` so listeners do not care
+which window type was clicked.
+
+**Workaround:** hotspots ride the map window, which works but puts the
+clickable region in the wrong place on screen for a scene card.
