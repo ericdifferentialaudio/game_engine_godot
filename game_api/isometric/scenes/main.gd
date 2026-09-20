@@ -26,9 +26,48 @@ func _ready() -> void:
 		return
 	GameManager.start_new_game(int(args.get("seed", -1)))
 	if GameManager.smoke_mode:
-		var smoke := SmokeTest.new()
-		add_child(smoke)
-		smoke.run()
+		# SmokeTest exercises the hex world, units and terrain, none of which a
+		# narrative package has. Such a package gets a boot check instead:
+		# did the data load, and did the shared core come up with it?
+		if GameManager.is_narrative_package():
+			_narrative_boot_check(game_id)
+		else:
+			var smoke := SmokeTest.new()
+			add_child(smoke)
+			smoke.run()
+
+
+## Minimal headless check for a text-led package: the package loaded, its
+## intel graph reached CoreRegistry, and the boot script installed itself.
+func _narrative_boot_check(game_id: String) -> void:
+	var failures := 0
+	var checks := 0
+
+	checks += 1
+	if GameManager.game_id != game_id:
+		push_error("boot: package id is '%s', expected '%s'"
+			% [GameManager.game_id, game_id])
+		failures += 1
+
+	checks += 1
+	var tokens := CoreRegistry.ids("intel")
+	if tokens.is_empty():
+		push_error("boot: no intel tokens registered")
+		failures += 1
+
+	checks += 1
+	if CoreContext.adapter == null:
+		push_error("boot: no engine adapter installed")
+		failures += 1
+
+	checks += 1
+	if GameManager.state != GameManager.State.PLAYING:
+		push_error("boot: expected PLAYING state")
+		failures += 1
+
+	print("NARRATIVE BOOT (%s): %d/%d passed, %d tokens"
+		% [game_id, checks - failures, checks, tokens.size()])
+	get_tree().quit(1 if failures > 0 else 0)
 
 
 func _parse_args() -> Dictionary:

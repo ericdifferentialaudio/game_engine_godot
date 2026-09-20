@@ -49,8 +49,16 @@ func phase_name() -> String:
 
 ## Begin the first turn. Called by GameManager.start_new_game().
 func start() -> void:
-	running = true
 	turn_order.assign(FactionRegistry.turn_order())
+	# With no factions there is nobody to give a turn to, and _activate_faction
+	# would end the turn immediately and begin the next one, spinning forever.
+	# A narrative package has no factions in this sense: it advances its own
+	# clock (see GameManager.is_narrative_package).
+	if turn_order.is_empty():
+		running = false
+		phase = Phase.IDLE
+		return
+	running = true
 	_begin_turn()
 
 

@@ -108,12 +108,28 @@ func start_new_game(seed_override: int = -1) -> void:
 	EntityRegistry.reset()
 	GameClock.reset()
 	var seed_val := seed_override if seed_override >= 0 else int(game_config.get("seed", randi() % 1_000_000))
-	WorldManager.enter_root_map(game_config.get("start_map", ""), seed_val)
-	FactionRegistry.instantiate_all()
-	WorldManager.place_starting_entities()
+	# A narrative package (game.json "presentation": "2d_ui_...") has no
+	# terrains, no generated tile world and no units to place: its "maps" are
+	# scene cards and small hand-authored tile maps. Running the hex world
+	# generator over it would fail on every tile with `unknown terrain ''`.
+	if is_narrative_package():
+		# No world to generate, but the RNG still has to be seeded here so the
+		# run is reproducible: the boot script rolls the hidden culprit from it.
+		CoreContext.rng().seed = seed_val
+	else:
+		WorldManager.enter_root_map(game_config.get("start_map", ""), seed_val)
+		FactionRegistry.instantiate_all()
+		WorldManager.place_starting_entities()
 	set_state(State.PLAYING)
 	EventBus.game_started.emit(game_id)
 	TurnManager.start()
+
+
+## True for a text-led package whose locations are scene cards rather than a
+## generated hex world. Such a package ships no terrains.json/units.json and
+## drives its own presentation; see docs/NARRATIVE.md.
+func is_narrative_package() -> bool:
+	return str(game_config.get("presentation", "")).begins_with("2d_ui")
 
 
 ## Rule lookup with dotted path, e.g. rule("combat.randomness", 0.2).
