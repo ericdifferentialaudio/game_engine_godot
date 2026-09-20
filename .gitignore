@@ -55,10 +55,6 @@ __pycache__/
 #
 # The files are still on your disk; they are simply not committed. See
 # docs/ASSETS.md for where they live and how to regenerate them.
-#
-# tools/inklecate/ is DELIBERATELY still tracked: it is the Ink compiler the
-# narrative platform depends on, and a fresh clone must be able to rebuild
-# .ink -> .ink.json without hunting down a download.
 games/*/graphics/
 *.glb
 *.gltf
@@ -68,6 +64,14 @@ games/*/graphics/
 *.psd
 *.tga
 *.exr
+
+# --- Ink compiler toolchain: NOT tracked ----------------------------------
+# tools/inklecate/ used to be committed so a fresh clone had the Ink compiler
+# out of the box, but inklecate.exe alone is ~59 MB - too large to keep in git
+# history. The files still live on disk; they are simply not committed.
+# See tools/inklecate/README.md for how to obtain/restore them.
+tools/inklecate/*.exe
+tools/inklecate/*.dll
 
 # Scratch/debug output
 _*.log
