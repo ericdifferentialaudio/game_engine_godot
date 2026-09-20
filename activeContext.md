@@ -26,14 +26,96 @@ spread, trade, give), interactions (8 kinds) and live places.
 
 Both engines boot with the core installed and feed it their real game package.
 
-**First real game: `games/zork/`** (fps layer). 15 rooms as separate 3D maps,
-troll + thief with branching dialogue whose answers are `check`ed against the
-intel journal (true tokens vs. false rumours linked by `conflicts`; `debunk`
-marks lies). Engine gained: melee execution, actor spawning/death/loot,
-`examine`/`pickup`/`container` interactions, talkable actors (`ActorTalk`),
-`DialogueUi`, narration-log HUD with score/moves, dark rooms + light sources,
-`boot_script` hook, `tools/sync_game.ps1`. fps now 23/23 Â· zork boot check 8/8
-Â· zork playtest 48/48 (troll, thief, cyclops) (`tools/zork_playtest.gd`).
+**First real game: `games/slack_tide/`** (isometric layer, 2D text-led with a
+UI). **Renamed from `zork` on 2026-09-19** — the 3D rooms, props, fps copies,
+playtest and unit tests were deleted; what survives is the *mechanic*, which
+is the part that was ever worth keeping. The `zork` package no longer exists.
+
+Slack Tide: a deckhand on a ferry where the tide has stopped turning. 75
+information tokens with reliability (0–100), provenance-by-method (overheard
+30 … witnessed 90), corroboration (+20, cap 95), perishable hearsay (<50 loses
+5/day to a floor of 10) and `conflicts` groups. **Three possible culprits, one
+real per seed**, so the same rumour is true on one run and false on the next.
+15 locations (11 scene cards with hotspots, 4 tile maps), 25 items, 6
+factions, 8 values, a wage/board economy with Slack inflation (+4%/day from
+day 6, cap +60%) and an information market where selling raises a token's
+*spread* and weakens it as leverage.
+
+`intel.json` is **generated** — edit `docs/slack_tide_spec.json` and run
+`tools/convert_slack_tide.py` (the only game-specific tool; it encodes this
+game's 0–100 reliability model, so it stays in the package).
+
+**Shared narrative validation (2026-09-19).** `core/tools/validate_narrative.py`
++ `core/tools/narrative/{dialogue_graph,ink_inspect}.py`. Engine-agnostic and
+game-agnostic: dangling dialogue knots, checks against non-existent tokens,
+actors in places that don't exist, and **Ink stories calling an EXTERNAL that
+`CoreInkBindings` never binds** — the last of which compiles with exit 0 and
+crashes only when a player reaches that line, so nothing else catches it.
+File layout is *discovered*, not configured (`places|maps|sites.json`,
+`actors|units.json`), so it runs on all six games with no per-game setup:
+aevum 65 tokens/140 actors, chorus, hollow_ledger, paragon 10/6, slack_tide
+75/6, wardens — **all 0 errors**. `run_tests.ps1` now runs it over every
+directory under `games/`. Verified by fault injection (broken knot, typo'd
+token, unbound EXTERNAL → all caught, exit 1).
+
+**Validator reconciliation (2026-09-19).** `game_api/{iso,fps}/tools/validate_data.py`
+each carried their own copy of the `CoreIntelQuery` grammar and had **drifted
+in opposite directions**: iso invented `era`/`turn`/`faction_flag` (core never
+evaluates them, so such a query silently returns false) and omitted core's
+`holder_flag`/`time`; fps knew only 8 of core's 19 keys and wrongly rejected
+valid data. A package accepted by one engine could be rejected by the other.
+Both now import `core/tools/narrative/intel_query.py`, whose
+`check_keys_match_core()` reads `CoreIntelQuery.KEYS` from the GDScript and
+errors on drift — verified by injecting a bogus key. The bulk of each
+validator stays engine-local, because grid topology and portals/spawns really
+are different things; only the shared grammar moved.
+
+**Three engine bugs found and fixed** (`docs/CORE_REQUESTS.md`, a new file
+for needs a game/engine has of core — filed, not patched in place):
+
+- **CR-001 (resolved).** The iso engine had a *second live* query evaluator at
+  `framework/intel/intel_query.gd` with a different grammar; 19 authored
+  queries used `faction_flag`, which core never evaluated. `CoreIntelQuery`
+  gained `era` (via a new `CoreEngineAdapter.era()`) and an `ALIASES` map
+  (`faction_flag`→`holder_flag`, `turn`→`time`); the engine-local evaluator now
+  does `const KEYS := CoreIntelQuery.KEYS` so the two cannot drift again. No
+  authored data changed. 9 new tests in `test_core_intel_query_aliases.gd`.
+- **CR-002 (resolved).** `TurnManager.start()` with an empty turn order looped
+  forever — `_activate_faction(0)` ended the turn, which began the next, which
+  activated faction 0 again. Unreachable until a package had no factions;
+  presented as a silent headless hang.
+- **CR-003 (resolved).** `CoreInkValidator` recognised only `=== knots ===`,
+  not stitches (`= name`) or gather labels (`- (name)`) — so a normally-written
+  conversation hub reported every internal divert as broken. `corvin.ink` went
+  from 12 false errors to 0.
+
+**Narrative packages on the iso engine.** A package declaring
+`"presentation": "2d_ui_*"` has no terrains, units or generated hex world.
+`GameManager.is_narrative_package()` now skips world generation (it was failing
+on every tile with `unknown terrain ''`), `validate_data.py` skips the
+strategy-schema checks, and `--smoke` runs a narrative boot check instead of
+`SmokeTest`. Result: `NARRATIVE BOOT (slack_tide): 4/4 passed, 75 tokens`.
+
+`slack_tide_boot.gd` was rewritten against the **real** iso API — it had been
+written against fps assumptions and called `Shop.give_currency`,
+`EventBus.day_advanced`, `CoreIntel.journal_of` and others that do not exist
+there. It now drives off `EventBus.turn_started` (one turn = one slot, six
+slots = a day) and uses `CoreAssets.give/spend` and `CoreIntel.journal_for`.
+
+Dialogue is moving to **Ink**, because `knows()` *is* the reliability model
+(`CoreKnowledge` is a façade over `CoreIntel`: 0.3 reads false, corroborated
+reads true), so a writer types `{ knows("c1b") }` instead of hand-maintaining
+`min_reliability` on every branch. `ink/corvin.ink` is the proven port — all
+10 externals bound, all 6 tokens exist. `inklecate.exe` is vendored and
+`run.ps1` recompiles stale `.ink` automatically. The topic matrix stays JSON:
+Ink is bad at enumeration, and `topics.json` must be machine-checkable for
+solvability. See `games/slack_tide/docs/INFORMATION_ARCHITECTURE.md`.
+
+Engine finding: the presentation doc assumed a shared GUI layout API still had
+to be built. It **already exists** (`core/addons/game_core/ui/`) — the five
+windows map onto `CoreLayoutDefinition.WINDOW_TYPES` with zero core changes,
+and `CoreMapWindow` already has clickable markers, which is the hotspot
+mechanism. See `games/slack_tide/docs/SLACK_TIDE_PRESENTATION.md` §10.1.
 
 **Verified** (Godot 4.7.2, `tools/run_tests.ps1`):
 core 130/130 (94 + 24 goal-selector + 12 road-builder) Â· isometric 10/10

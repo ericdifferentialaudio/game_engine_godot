@@ -11,7 +11,7 @@ A game engine platform: **one set of game mechanics, two graphics engines.**
 core/               shared engine-agnostic platform (game_core addon) + headless harness
 game_api/isometric/ 2D hex/iso engine API layer   (own Godot project)
 game_api/fps/       3D first-person engine API layer (own Godot project)
-games/              playable game packages (zork, paragon, aevum, others)
+games/              playable game packages (slack_tide, paragon, aevum, others)
 docs/               API.md · ARCHITECTURE.md · RESOURCE_SCHEMA.md · NARRATIVE.md
 tools/              run_tests.ps1 · sync_core.ps1 · sync_game.ps1 · generate_assets.ps1
 ```
@@ -70,6 +70,8 @@ Godot must be resolvable: `godot` on PATH, `$env:GODOT_BIN`, or
 4. `docs/RESOURCE_SCHEMA.md` — the data contract.
 5. `docs/NARRATIVE.md` — Ink dialogue, knowledge vs. physical assets, standing,
    the conversation-pattern library, the validators, and the window system.
+6. `docs/CORE_REQUESTS.md` — needs a game or engine has of `core/`, filed
+   rather than patched (see the rule above about shared surfaces).
 6. `game_api/<engine>/ENGINE_README.md` — that layer's own notes.
 
 ## Skills & agents
