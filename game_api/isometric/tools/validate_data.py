@@ -31,6 +31,21 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 GAMES_DIR = ROOT / "games"
 
+# The IntelQuery grammar is a CORE concept, not an engine one, so it is
+# imported rather than redeclared. This file previously carried its own copy,
+# which had drifted: it invented `era`, `turn` and `faction_flag` (which core
+# never evaluates, so such a query silently fails at runtime) and omitted
+# core's `holder_flag` and `time`. The FPS copy had drifted the other way,
+# knowing only 8 of the 19 keys. A package accepted by one engine could be
+# rejected by the other, which defeats a shared data contract.
+_REPO = ROOT.parents[1]
+sys.path.insert(0, str(_REPO / "core" / "tools"))
+from narrative import intel_query as _iq          # noqa: E402
+
+QUERY_KEYS = _iq.KEYS
+COMPARE_OPS = _iq.COMPARE_OPS
+_ALIASES = _iq.ALIASES
+
 KNOWN_INTERACTIONS = {"intel", "reward", "shop", "dialogue", "portal", "spawn", "combat", "flag"}
 KNOWN_MAP_KINDS = {"overworld", "region", "city", "dungeon", "interior", "special"}
 KNOWN_TOPOLOGIES = {"hex", "square_iso", "iso", "square"}
@@ -43,10 +58,7 @@ KNOWN_STANCES = {"war", "hostile", "peace", "friendly", "allied"}
 KNOWN_CHANNELS = {"observed", "told", "read", "traded", "stolen", "spread", "derived", "scripted"}
 KNOWN_SPREAD_FILTERS = {"all", "allies", "friendly", "peaceful", "enemies", "trade_partners", "neighbors"}
 KNOWN_SCOPES = {"global", "region", "tile", "site", "unit", "faction", "item"}
-QUERY_KEYS = {"has", "subject", "tag", "scope", "category", "fact", "provenance", "source", "contradicted",
-              "flag", "faction_flag", "resource", "turn", "era", "owns_site", "unit_count", "stance",
-              "all", "any", "not"}
-COMPARE_OPS = {">=", ">", "<=", "<", "==", "=", "!="}
+# QUERY_KEYS / COMPARE_OPS are imported from core above, not redeclared here.
 DATA_FILES = ["game", "terrains", "maps", "units", "items", "factions", "intel", "intel_rules", "sites", "assets", "ai_profiles"]
 OPTIONAL_FILES = {"intel_rules", "ai_profiles"}
 
@@ -113,12 +125,21 @@ def collect_query_refs(query, ctx: str, rep: Report, refs: Refs) -> None:
         return
     if not query:
         return
-    keys = set(query) & QUERY_KEYS
+    # Legacy spellings (`faction_flag`, `turn`) resolve to their canonical key
+    # via CoreIntelQuery.ALIASES, so either form validates identically.
+    keys = {_ALIASES.get(k, k) for k in query} & QUERY_KEYS
     if len(keys) != 1:
         rep.error(f"{ctx}: query must have exactly one of the query keys, got {sorted(query)}")
         return
     key = keys.pop()
-    val = query[key]
+    if key in query:
+        val = query[key]
+    else:
+        val = next(query[lg] for lg, canon in _ALIASES.items()
+                   if canon == key and lg in query)
+    for legacy, canonical in _iq.deprecated_keys_in(query):
+        rep.warn(f"{ctx}: '{legacy}' is the old spelling of '{canonical}' "
+                 f"(still supported; see docs/CORE_REQUESTS.md CR-001)")
     if key == "has":
         refs.req_tokens.add(val)
         if not _num_in_range(query.get("min_reliability", 0), 0, 1):
@@ -149,9 +170,11 @@ def collect_query_refs(query, ctx: str, rep: Report, refs: Refs) -> None:
             rep.error(f"{ctx}: {key} must be [id, op, number]")
         elif key == "unit_count":
             refs.units.add(val[0])
-    elif key == "turn":
+    elif key == "time":
         if not (isinstance(val, list) and len(val) == 2 and val[0] in COMPARE_OPS):
-            rep.error(f"{ctx}: turn must be [op, number]")
+            rep.error(f"{ctx}: time must be [op, number]")
+    elif key == "holder_flag":
+        refs.flags.add(val)
     elif key == "owns_site":
         refs.sites.add(val)
     elif key == "stance":
@@ -531,6 +554,21 @@ def validate_package(pkg: Path) -> Report:
     if not (pkg / "game.json").exists():
         rep.error(f"{pkg}: game.json not found")
         return rep
+
+    # Not every package on this engine is a hex/tile strategy game. A package
+    # declaring `"presentation": "2d_ui_text_led"` (Slack Tide) is narrative:
+    # it has no terrains, units, sites or generated assets, and demanding them
+    # would be validating it against a schema it never claimed to use. Its
+    # narrative content is checked by core/tools/validate_narrative.py instead.
+    _game_probe = load_json(pkg / "game.json", rep)
+    _narrative_only = _game_probe.get("presentation", "").startswith("2d_ui")
+    if _narrative_only:
+        rep.warn(f"{pkg.name}: narrative package "
+                 f"(presentation={_game_probe.get('presentation')}); "
+                 f"skipping strategy-schema checks - "
+                 f"run core/tools/validate_narrative.py for its content")
+        return rep
+
     docs = {name: load_json(pkg / f"{name}.json", rep, required=name not in OPTIONAL_FILES) for name in DATA_FILES}
     if not rep.ok:
         return rep

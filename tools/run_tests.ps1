@@ -111,13 +111,13 @@ $inkChecks = @(
                 "--axes=res://ink/round_room_fence.axes.json"
     },
     @{
-        Name  = "fps zork ink (round_room_fence)"
-        Path  = Join-Path $repoRoot "game_api\fps"
-        Args  = "--story=res://games/zork/ink/round_room_fence.ink.json " +
-                "--source=res://games/zork/ink/round_room_fence.ink " +
-                "--source=res://games/zork/ink/patterns.ink " +
-                "--axes=res://games/zork/ink/round_room_fence.axes.json " +
-                "--package=res://games/zork"
+        Name  = "iso slack_tide ink (corvin)"
+        Path  = Join-Path $repoRoot "game_api\isometric"
+        Args  = "--story=res://games/slack_tide/ink/corvin.ink.json " +
+                "--source=res://games/slack_tide/ink/corvin.ink " +
+                "--source=res://games/slack_tide/ink/patterns.ink " +
+                "--axes=res://games/slack_tide/ink/corvin.axes.json " +
+                "--package=res://games/slack_tide"
     }
 )
 
@@ -143,16 +143,43 @@ foreach ($check in $inkChecks) {
 $runtimeChecks = @(
     @{ Name = "isometric (smoke)";   Path = Join-Path $repoRoot "game_api\isometric"; Arg = "--smoke" },
     @{ Name = "fps (boot check)";    Path = Join-Path $repoRoot "game_api\fps";       Arg = "--boot-check" },
-    @{ Name = "fps zork (boot check)"; Path = Join-Path $repoRoot "game_api\fps";     Arg = "--game=zork --boot-check" },
-    @{ Name = "fps zork (playtest)";   Path = Join-Path $repoRoot "game_api\fps";     Arg = "--game=zork --playtest" }
+    @{ Name = "iso slack_tide (smoke)"; Path = Join-Path $repoRoot "game_api\isometric"; Arg = "--game=slack_tide --smoke" }
 )
 
 # Game packages under games/ are copied into the engine layer to run; make
 # sure the copy is not stale (see tools/sync_game.ps1).
 Write-Host ""
 Write-Host "Checking games/ sync..." -ForegroundColor Cyan
-& (Join-Path $PSScriptRoot "sync_game.ps1") -Game zork -Check
+& (Join-Path $PSScriptRoot "sync_game.ps1") -Game slack_tide -Engine isometric -Check
 if ($LASTEXITCODE -ne 0) { $overallExitCode = 1 }
+
+# slack_tide's intel.json is GENERATED from docs/slack_tide_spec.json; a stale
+# copy means the tokens on disk no longer match the design source of truth.
+Write-Host ""
+Write-Host "Checking slack_tide generated data..." -ForegroundColor Cyan
+python (Join-Path $repoRoot "games\slack_tide\tools\convert_slack_tide.py") --check
+if ($LASTEXITCODE -ne 0) { $overallExitCode = 1 }
+
+# Narrative validation is SHARED, so it runs over EVERY game package, not just
+# the one being worked on. Dangling dialogue knots, references to tokens that
+# do not exist and Ink stories calling unbound EXTERNALs are the same class of
+# bug everywhere, and a game with no narrative content simply reports zero.
+Write-Host ""
+Write-Host "Validating narrative content (all games)..." -ForegroundColor Cyan
+Get-ChildItem (Join-Path $repoRoot "games") -Directory | ForEach-Object {
+    python (Join-Path $repoRoot "core\tools\validate_narrative.py") $_.FullName --quiet
+    if ($LASTEXITCODE -ne 0) { $overallExitCode = 1 }
+}
+
+# Per-engine data schemas. Both now import the IntelQuery grammar from core
+# rather than each declaring their own (they had silently diverged: iso knew
+# 20 keys, fps knew 8, core defines 19). See docs/CORE_REQUESTS.md CR-001.
+Write-Host ""
+Write-Host "Validating package data (per engine)..." -ForegroundColor Cyan
+foreach ($engine in @("isometric", "fps")) {
+    python (Join-Path $repoRoot "game_api\$engine\tools\validate_data.py") --all
+    if ($LASTEXITCODE -ne 0) { $overallExitCode = 1 }
+}
 
 foreach ($check in $runtimeChecks) {
     Write-Host ""

@@ -24,6 +24,19 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 GAMES_DIR = ROOT / "games"
+
+# The IntelQuery grammar is a CORE concept, not an engine one, so it is
+# imported rather than redeclared. This file previously carried its own copy
+# that knew only 8 of core's 19 keys, so it rejected valid authored data using
+# `scope`, `category`, `provenance`, `source`, `contradicted`, `holder_flag`,
+# `resource`, `time`, `owns_site`, `unit_count` or `stance`. The isometric
+# copy had drifted the other way, inventing keys core never evaluates.
+_REPO = ROOT.parents[1]
+sys.path.insert(0, str(_REPO / "core" / "tools"))
+from narrative import intel_query as _iq          # noqa: E402
+
+QUERY_KEYS = _iq.KEYS
+COMPARE_OPS = _iq.COMPARE_OPS
 KNOWN_INTERACTIONS = {"intel", "reward", "shop", "dialogue", "portal", "examine", "pickup", "container"}
 
 
@@ -38,7 +51,7 @@ def _token_ids(entries) -> set:
             out.add(e)
     return out
 KNOWN_MAP_KINDS = {"overworld", "region", "town", "castle", "dungeon", "interior", "special"}
-QUERY_KEYS = {"has", "subject", "tag", "fact", "flag", "all", "any", "not"}
+# QUERY_KEYS / COMPARE_OPS are imported from core above, not redeclared here.
 
 
 class Report:

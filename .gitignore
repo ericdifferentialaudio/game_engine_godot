@@ -42,6 +42,10 @@ godot.local.json
 .claude/settings.local.json
 .claude/*.local.json
 
+# Python bytecode from the shared tools (core/tools/, games/*/tools/)
+__pycache__/
+*.pyc
+
 # Scratch/debug output
 _*.log
 

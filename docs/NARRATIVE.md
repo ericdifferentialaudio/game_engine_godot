@@ -211,6 +211,77 @@ your specialised methods, then register the type in
 
 ---
 
+## Validating a package from the command line
+
+Before the in-engine validators, there is a cheap Python pass that needs no
+Godot and works on **any** game package:
+
+```powershell
+python core/tools/validate_narrative.py games/<id>
+python core/tools/validate_narrative.py games/<id> --quiet
+```
+
+It catches the bugs that valid JSON and a *successfully compiling* `.ink`
+cannot:
+
+| Finding | Severity | Why it matters |
+|---|---|---|
+| dialogue choice routes to a knot nobody wrote | ERROR | guaranteed dead end at runtime |
+| `check`/`requires` names a token that does not exist | ERROR | a gate no player can ever satisfy |
+| actor placed in a location that is not a place | ERROR | the NPC is unreachable |
+| place links to a place that is not there | ERROR | broken navigation |
+| `.ink` calls an EXTERNAL `CoreInkBindings` never binds | ERROR | **compiles clean, crashes on that line** |
+| knot nothing ever routes to | warning | may be staged content |
+
+The last one is worth dwelling on: `inklecate` rejects an *undeclared*
+EXTERNAL, but a **declared-but-unbound** one compiles with exit 0 and fails
+only when a player reaches that line. This pass is what catches it.
+
+The logic lives in `core/tools/narrative/` — `dialogue_graph.py` for authored
+dialogue trees, `ink_inspect.py` for compiled stories — and neither module
+knows anything about a particular game. File layout is discovered, not
+configured: places may be `places.json`, `maps.json` or `sites.json`, and
+actors may be `actors.json` or `units.json`. A package with no narrative
+content reports zero and passes.
+
+`tools/run_tests.ps1` runs this over **every** directory under `games/`.
+
+### One query grammar, checked against core
+
+`core/tools/narrative/intel_query.py` holds the **only** offline copy of the
+`CoreIntelQuery` grammar. Both engines' `tools/validate_data.py` import it
+rather than declaring their own, and `check_keys_match_core()` reads
+`CoreIntelQuery.KEYS` straight from the GDScript and fails the build if the
+two have drifted.
+
+This guard exists because they *had* drifted. The isometric copy accepted
+`era`, `turn` and `faction_flag` — none of which core evaluates, so such a
+query silently returns false — while the FPS copy knew only 8 of core's 19
+keys and wrongly rejected valid data. A package accepted by one engine could
+be rejected by the other.
+
+`faction_flag` is still used by 19 authored queries (aevum, paragon,
+example_realm_iso) and still works, because the isometric engine has a
+*second* live evaluator at `framework/intel/intel_query.gd`. That is reported
+as a **warning** pointing at `docs/CORE_REQUESTS.md` CR-001, not an error:
+the data is not broken today, but it will stop working the moment those call
+sites move to core.
+
+A game needing extra rules imports the shared pieces rather than
+reimplementing them:
+
+```python
+from narrative.dialogue_graph import Findings, check_package, load_json
+
+f = Findings()
+check_package(actors, known_ids, place_ids, f)
+if my_game_specific_problem:
+    f.err("...")
+raise SystemExit(f.report())
+```
+
+---
+
 ## Running the validators
 
 Dialogue gates on world state, so a static graph walk is not enough: a knot can
