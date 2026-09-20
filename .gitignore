@@ -46,6 +46,29 @@ godot.local.json
 __pycache__/
 *.pyc
 
+# --- Binary art assets: NOT tracked -------------------------------------------
+# This repo is text: code, data, design docs. Generated art is large, churns
+# constantly and is never diffed, so it lives on disk (and in whatever asset
+# store you use) rather than in git history. games/aevum/graphics alone was
+# 3.0 GB across 3,254 files - roughly 99.8% of the repository - against ~3.5 MB
+# of everything that is actually reviewable.
+#
+# The files are still on your disk; they are simply not committed. See
+# docs/ASSETS.md for where they live and how to regenerate them.
+#
+# tools/inklecate/ is DELIBERATELY still tracked: it is the Ink compiler the
+# narrative platform depends on, and a fresh clone must be able to rebuild
+# .ink -> .ink.json without hunting down a download.
+games/*/graphics/
+*.glb
+*.gltf
+*.fbx
+*.blend
+*.blend1
+*.psd
+*.tga
+*.exr
+
 # Scratch/debug output
 _*.log
 
