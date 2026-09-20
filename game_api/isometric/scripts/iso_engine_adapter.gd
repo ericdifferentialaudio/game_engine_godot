@@ -121,6 +121,10 @@ func holder_resource(holder: String, resource_id: String) -> float:
 	return f.get_resource(resource_id) if f else 0.0
 
 
+func era() -> String:
+	return GameClock.current_era
+
+
 func stance(holder: String, other: String) -> String:
 	var f = FactionRegistry.get_faction(holder)
 	return f.stance_toward(other) if f else "neutral"

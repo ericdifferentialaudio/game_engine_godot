@@ -14,9 +14,11 @@
 ##   {"source": ["token_id", "source_id"]}            token was provided by that source
 ##   {"contradicted": "token_id"}                     holder also holds a conflicting token
 ##   {"flag": "asked_rumour"}                         GameManager global flag is true
-##   {"faction_flag": "met_elders"}                   holder's own flag
+##   {"holder_flag": "met_elders"}                    holder's own flag
+##       (alias: "faction_flag" — this engine's older spelling)
 ##   {"resource": ["gold", ">=", 50]}                 holder resource comparison
-##   {"turn": [">=", 10]}                             game turn comparison
+##   {"time": [">=", 10]}                             game turn comparison
+##       (alias: "turn" — this engine's older spelling)
 ##   {"era": "classical"}                             current era
 ##   {"owns_site": "site_id"}                         holder controls the site's tile
 ##   {"unit_count": ["scout", ">=", 1]}               holder owns >= N units of definition
@@ -27,9 +29,19 @@
 class_name IntelQuery
 extends RefCounted
 
-const KEYS := ["has", "subject", "tag", "scope", "category", "fact", "provenance", "source",
-	"contradicted", "flag", "faction_flag", "resource", "turn", "era", "owns_site",
-	"unit_count", "stance", "all", "any", "not"]
+## Derived from [CoreIntelQuery] rather than restated, so the two can no longer
+## drift. This class previously declared its own 20 keys while core declared 19
+## and the FPS validator knew 8; identical query JSON could therefore pass in
+## one engine and silently return false in another. Core is now the single
+## authority, and the legacy spellings it does not use canonically
+## (`faction_flag`, `turn`) are carried as aliases. See docs/CORE_REQUESTS.md
+## CR-001.
+##
+## This evaluator still exists because it reads [IntelJournal]s, while core's
+## reads [CoreIntelJournal]s; retiring it is part of the wider duplicate-class
+## migration, not a query concern.
+const KEYS := CoreIntelQuery.KEYS
+const ALIASES := CoreIntelQuery.ALIASES
 
 
 static func evaluate(q: Dictionary, holder: String) -> bool:
@@ -101,15 +113,18 @@ static func _evaluate_leaf(q: Dictionary, holder: String, journal: IntelJournal,
 		return false
 	if q.has("flag"):
 		return GameManager.has_flag(q["flag"])
-	if q.has("faction_flag"):
+	# Accept core's canonical `holder_flag` as well as this engine's older
+	# `faction_flag`, so either spelling works in either engine.
+	if q.has("faction_flag") or q.has("holder_flag"):
 		var f := FactionRegistry.get_faction(holder)
-		return f != null and f.has_flag(q["faction_flag"])
+		return f != null and f.has_flag(CoreIntelQuery.value_for(q, "holder_flag"))
 	if q.has("resource"):
 		var spec: Array = q["resource"]
 		var f := FactionRegistry.get_faction(holder)
 		return f != null and spec.size() == 3 and _compare(f.get_resource(spec[0]), spec[1], float(spec[2]))
-	if q.has("turn"):
-		var spec: Array = q["turn"]
+	# `time` is core's canonical spelling of this engine's `turn`.
+	if q.has("turn") or q.has("time"):
+		var spec: Array = CoreIntelQuery.value_for(q, "time")
 		return spec.size() == 2 and _compare(float(GameClock.turn), spec[0], float(spec[1]))
 	if q.has("era"):
 		return GameClock.current_era == q["era"]

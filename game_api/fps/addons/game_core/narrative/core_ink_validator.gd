@@ -240,12 +240,29 @@ static func _declared_externals(source_paths: Array) -> Array[String]:
 	return out
 
 
+## Every divertable target declared in the sources. Ink offers three, and all
+## three are legitimate divert destinations:
+##
+##   === name ===     a knot
+##   = name           a stitch, addressable from inside its parent knot
+##   - (name)         a gather label, the usual way to write a hub
+##
+## Recognising only knots made any file built from stitches and gathers - the
+## normal shape for a conversation hub - look like a wall of broken diverts.
 static func _declared_knots(source_paths: Array) -> Array[String]:
 	var out: Array[String] = []
-	var re := RegEx.create_from_string("^\\s*===+\\s*([A-Za-z_][A-Za-z0-9_]*)")
+	var knot_re := RegEx.create_from_string("^\\s*===+\\s*([A-Za-z_][A-Za-z0-9_]*)")
+	var stitch_re := RegEx.create_from_string("^\\s*=\\s*([A-Za-z_][A-Za-z0-9_]*)")
+	var label_re := RegEx.create_from_string("^\\s*[-*+]+\\s*\\(([A-Za-z_][A-Za-z0-9_]*)\\)")
 	for path in source_paths:
 		for line in _read(str(path)).split("\n"):
-			var m := re.search(line)
+			var m := knot_re.search(line)
+			if m == null:
+				# A stitch: one leading '=', not two or more.
+				m = stitch_re.search(line)
+			if m == null:
+				# A gather or choice label: - (hub), * (opt), + (opt).
+				m = label_re.search(line)
 			if m != null and m.get_string(1) not in out:
 				out.append(m.get_string(1))
 	return out

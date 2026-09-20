@@ -32,8 +32,48 @@ class_name CoreIntelQuery
 extends RefCounted
 
 const KEYS := ["has", "subject", "tag", "scope", "category", "fact", "provenance",
-	"source", "contradicted", "flag", "holder_flag", "resource", "time",
+	"source", "contradicted", "flag", "holder_flag", "resource", "time", "era",
 	"owns_site", "unit_count", "stance", "all", "any", "not"]
+
+## Spellings kept working from the isometric engine's older `IntelQuery`, which
+## this class replaced. Authored data in aevum, paragon and example_realm_iso
+## still uses `faction_flag`. Aliases are resolved here, in core, so both
+## engines agree rather than one silently returning false. New content should
+## use the canonical spelling; see docs/CORE_REQUESTS.md CR-001.
+##
+## One deliberate difference: `turn` compared the *integer* turn counter, while
+## `time` uses the adapter clock, which in the isometric engine is
+## `turn + tick/ticks_per_turn`. They agree exactly in sequential play, where
+## tick is always 0; in `realtime_pause` mode a `turn` query can now become
+## true partway through a turn rather than on its boundary. That is the more
+## correct reading of "has this much time passed", and no shipped data uses
+## `turn` today, so nothing changes in practice.
+const ALIASES := {
+	"faction_flag": "holder_flag",
+	"turn": "time",
+}
+
+
+## Canonical key for [param q], resolving a legacy alias if one is present.
+## Returns "" when the query holds no recognised key.
+static func canonical_key(q: Dictionary) -> String:
+	for k in q.keys():
+		var key := String(k)
+		if key in KEYS:
+			return key
+		if ALIASES.has(key):
+			return String(ALIASES[key])
+	return ""
+
+
+## Value for [param canonical], accepting either spelling.
+static func value_for(q: Dictionary, canonical: String):
+	if q.has(canonical):
+		return q[canonical]
+	for legacy in ALIASES:
+		if ALIASES[legacy] == canonical and q.has(legacy):
+			return q[legacy]
+	return null
 
 
 ## Evaluate [param q] for [param holder] against [param journal].
@@ -112,17 +152,23 @@ static func _leaf(q: Dictionary, holder: String, journal: CoreIntelJournal, now:
 
 	if q.has("flag"):
 		return CoreContext.has_flag(q["flag"])
-	if q.has("holder_flag"):
-		return adapter.holder_flag(holder, q["holder_flag"])
+	# `faction_flag` is the isometric engine's older spelling (see ALIASES).
+	if q.has("holder_flag") or q.has("faction_flag"):
+		return adapter.holder_flag(holder, value_for(q, "holder_flag"))
 
 	if q.has("resource"):
 		var rspec: Array = q["resource"]
 		return rspec.size() == 3 and CoreDataLoader.compare(
 			adapter.holder_resource(holder, rspec[0]), rspec[1], float(rspec[2]))
 
-	if q.has("time"):
-		var tspec: Array = q["time"]
+	# `turn` is the same question as `time` in a turn-based engine, where the
+	# adapter reports the turn counter as the clock.
+	if q.has("time") or q.has("turn"):
+		var tspec: Array = value_for(q, "time")
 		return tspec.size() == 2 and CoreDataLoader.compare(now, tspec[0], float(tspec[1]))
+
+	if q.has("era"):
+		return adapter.era() == q["era"]
 
 	if q.has("owns_site"):
 		return adapter.owns_site(holder, q["owns_site"])
@@ -163,7 +209,6 @@ static func is_valid_shape(q: Dictionary) -> bool:
 			return true
 	if q.has("not"):
 		return q["not"] is Dictionary and is_valid_shape(q["not"])
-	for k in q.keys():
-		if String(k) in KEYS:
-			return true
-	return false
+	# canonical_key() accepts legacy aliases too, so data authored against the
+	# isometric engine's older IntelQuery still validates.
+	return canonical_key(q) != ""

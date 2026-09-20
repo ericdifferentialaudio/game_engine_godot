@@ -137,6 +137,14 @@ func holder_resource(_holder: String, _resource_id: String) -> float:
 
 
 ## Diplomacy/attitude stance of [param holder] toward [param other].
+## Named period of the game's timeline, or "" where an engine has no such
+## concept. The isometric engine advances eras from the turn count; the FPS
+## engine has no eras and returns "", which makes an {"era": ...} query
+## simply false there rather than an error.
+func era() -> String:
+	return ""
+
+
 func stance(_holder: String, _other: String) -> String:
 	return "neutral"
 

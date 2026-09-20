@@ -137,7 +137,17 @@ func get_token(holder: String, token_id: String) -> IntelToken:
 	return j.get_token(token_id) if j else null
 
 
-## Evaluate a query for a holder (see IntelQuery).
+## Evaluate a query for a holder.
+##
+## Still routed through the engine-local [IntelQuery] because this registry
+## stores [IntelJournal]s, while [method CoreIntelQuery.evaluate] is typed for
+## [CoreIntelJournal]. Swapping that is the journal/token type migration in
+## activeContext's "retire the duplicate classes", not a query change.
+##
+## What matters for correctness is that the two evaluators now accept the SAME
+## grammar: [IntelQuery] derives its keys from [CoreIntelQuery] and resolves
+## aliases in both directions, so identical JSON gives identical answers in
+## either engine. See docs/CORE_REQUESTS.md CR-001.
 func evaluate(query: Dictionary, holder: String) -> bool:
 	return IntelQuery.evaluate(query, holder)
 
