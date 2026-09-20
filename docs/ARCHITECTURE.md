@@ -10,8 +10,32 @@ foundation, and a home for the actual playable games built with them:
 - `game_api/isometric/` — turn-based / grid-based isometric engine API
 - `game_api/fps/` — first-person 3D engine API
 - `games/` — actual playable game projects, each consuming one of the
-  `game_api/<engine>/` layers above (currently empty, awaiting the first
-  real game)
+  `game_api/<engine>/` layers above
+
+### How a game reaches its engine
+
+`games/<id>/` is the **single source of truth** for every package. Godot
+cannot resolve `res://` across project roots, so `./tools/sync_game.ps1 -All`
+copies each package into the engine layer it targets. The copy under
+`game_api/<engine>/games/<id>/` is a **generated artifact**: it is gitignored
+and must never be edited by hand.
+
+Routing is data-driven — a package declares its layer in its own `game.json`:
+
+```json
+{ "id": "wardens", "engine": "fps" }
+```
+
+`"engine"` is `"isometric"` or `"fps"` (defaulting to `isometric`), so `-All`
+sends every game to the right place with no per-game configuration in the
+tooling. `run_tests.ps1` runs `-All -Check` and fails if **any** package is
+stale, which makes the "engine silently runs older data than the source"
+failure impossible to commit rather than merely detectable.
+
+Current packages: `aevum`, `chorus`, `hollow_ledger`, `paragon`,
+`slack_tide` (isometric) and `wardens` (fps). The `example_realm` /
+`example_realm_iso` fixtures are the one exception — they live only inside
+their engine layer, have no `games/` source, and stay tracked.
 
 Both engine API layers share the exact same resource tree (tokens, units,
 items, virtues, lore) and the exact same gameplay-logic managers (virtue
@@ -51,7 +75,8 @@ game_engine_godot/
 │       ├── scripts/               # FpsEngineAdapter + fps-only glue
 │       └── (same shape as isometric/)
 │
-├── games/                        # actual playable game projects (empty for now)
+├── games/                        # playable game packages (SOURCE OF TRUTH)
+│                                 # synced into game_api/*/games/ to run
 │
 ├── docs/                         # API.md, ARCHITECTURE.md, RESOURCE_SCHEMA.md
 ├── tools/run_tests.ps1           # runs GUT across all three project roots

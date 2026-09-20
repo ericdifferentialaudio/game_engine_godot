@@ -2,6 +2,7 @@
   "id": "paragon",
   "title": "Paragon",
   "version": "0.1.0",
+  "engine": "isometric",
   "description": "Isometric, turn-based party RPG: knowledge-driven discovery, hidden virtue simulation, a procedurally generated world. This package is the first playable slice (M0/M1): the Anchor Town (Integrity) token chain and the Compassion shrine/companion, authored per docs/QUEST_TREE.md and docs/content/.",
   "grid": { "topology": "square_iso", "orientation": "pointy", "tile_size": [64, 32], "wrap_x": false },
   "turns": { "mode": "sequential", "timer_seconds": 0, "ticks_per_turn": 10, "seconds_per_tick": 1.0 },

@@ -389,6 +389,33 @@ combat files. fps is now **30/30**.
     see "Seeded FPS combat RNG" above. The iso layer and all of `core/` already
     used the shared generator; the FPS layer now does too.
 
+## Game package delivery fixed (2026-09-19)
+
+`games/<id>/` is now unambiguously the single source of truth, and the engine
+copies are generated artifacts.
+
+The bug: `run_tests.ps1` only ever checked **`slack_tide`** for staleness, so
+`aevum` and `paragon` had silently drifted — the engine was running older data
+than the source, with nothing reporting it — and `chorus`, `hollow_ledger` and
+`wardens` had no engine copy at all, meaning half the catalogue could not be
+launched through the API. Both copies were also *tracked*, so the same
+`units.json` existed twice in git and could legitimately disagree.
+
+- **Routing is data-driven**: each `game.json` declares `"engine"`
+  (`isometric` | `fps`, default `isometric`). No mapping lives in the tooling.
+- **`sync_game.ps1 -All`** syncs every package to its declared engine;
+  `-Game <id>` still does one, and `-Engine` still overrides.
+- **`run_tests.ps1` runs `-All -Check`** — drift now fails the suite instead of
+  waiting to be noticed.
+- **`game_api/*/games/*` is gitignored** (except the `example_realm*` fixtures,
+  which have no `games/` source), and the 3 tracked copies were untracked.
+
+All 6 packages now sync clean and run: core 220/220, iso 26/26, fps 17/17,
+iso smoke 40/40, aevum smoke 40/40 on *fresh* data, slack_tide 75 tokens,
+fps boot 8/8, both `validate_data.py --all` green (wardens is validated for
+the first time). Verified by fault injection: touching `games/aevum/` makes
+`-All -Check` exit 1.
+
 ## Working notes
 
 - After **any** edit under `core/addons/game_core/`, run

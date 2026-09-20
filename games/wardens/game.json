@@ -2,6 +2,7 @@
   "id": "wardens",
   "title": "Wardens of the Verdant Hush",
   "version": "0.1.0",
+  "engine": "fps",
   "description": "",
   "start_map": "overworld",
   "start_spawn": "default",

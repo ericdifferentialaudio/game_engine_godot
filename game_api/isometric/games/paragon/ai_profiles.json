@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "idle":   { "behavior": "idle" },
-    "guard":  { "behavior": "guard", "radius": 1, "attack_range": 1 },
-    "hunter": { "behavior": "hunt", "sight_bonus": 1, "flee_below_health": 0.25 }
-  },
-  "abilities": {}
-}

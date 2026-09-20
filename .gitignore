@@ -65,6 +65,22 @@ games/*/graphics/
 *.tga
 *.exr
 
+# --- Synced game packages: NOT tracked ----------------------------------------
+# games/<id>/ is the single source of truth. Godot cannot resolve res:// across
+# project roots, so ./tools/sync_game.ps1 copies each package into the engine
+# layer its game.json declares. Those copies are GENERATED ARTIFACTS: tracking
+# them meant the same units.json existed twice and could disagree, which is how
+# aevum and paragon ended up running stale data with nothing reporting it.
+#
+# Never edit game_api/*/games/<id>/ - edit games/<id>/ and re-run sync_game.ps1.
+# run_tests.ps1 fails if any package is out of sync.
+#
+# The example_* packages are exempt: they are engine fixtures that live only
+# inside their engine layer and have no games/ source to sync from.
+game_api/*/games/*
+!game_api/*/games/example_realm/
+!game_api/*/games/example_realm_iso/
+
 # --- Ink compiler toolchain: NOT tracked ----------------------------------
 # tools/inklecate/ used to be committed so a fresh clone had the Ink compiler
 # out of the box, but inklecate.exe alone is ~59 MB - too large to keep in git

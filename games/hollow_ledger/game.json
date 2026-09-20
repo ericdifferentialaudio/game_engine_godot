@@ -2,6 +2,7 @@
   "id": "hollow_ledger",
   "title": "The Hollow Ledger",
   "version": "0.1.0",
+  "engine": "isometric",
   "description": "",
   "grid": {
     "topology": "square_iso",

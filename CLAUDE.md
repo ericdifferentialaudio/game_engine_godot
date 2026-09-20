@@ -33,8 +33,15 @@ physically copied. These are not optional:
 | After editing…                | Run                                        |
 |-------------------------------|--------------------------------------------|
 | `core/addons/**`, `core/ink/**` | `./tools/sync_core.ps1`                  |
-| `games/<id>/**`               | `./tools/sync_game.ps1 -Game <id>`         |
+| `games/<id>/**`               | `./tools/sync_game.ps1 -All`               |
 | anything, before "done"       | `./tools/run_tests.ps1`                    |
+
+`games/<id>/` is the **single source of truth**. The copies under
+`game_api/*/games/<id>/` are generated artifacts, are gitignored, and must
+never be edited directly. Each package declares its target engine with
+`"engine": "isometric" | "fps"` in its `game.json`, so `-All` routes every
+game to the right layer without anyone having to remember the mapping.
+`run_tests.ps1` fails if **any** package is out of sync.
 
 `-Check` on either sync script verifies without copying (non-zero exit if stale).
 `run_tests.ps1` runs GUT across all three project roots plus the headless

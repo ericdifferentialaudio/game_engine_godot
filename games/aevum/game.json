@@ -2,6 +2,7 @@
   "id": "aevum",
   "title": "Aevum: Age of Shrines",
   "version": "0.1.0",
+  "engine": "isometric",
   "description": "Eight of twelve clans race across a hex world to meditate every shrine and become Avatar, build a Seeker, steal the Dragon's egg and carry it home uncontested - or eliminate every rival first.",
   "grid": {
     "topology": "hex",

@@ -147,10 +147,12 @@ $runtimeChecks = @(
 )
 
 # Game packages under games/ are copied into the engine layer to run; make
-# sure the copy is not stale (see tools/sync_game.ps1).
+# sure NO copy is stale (see tools/sync_game.ps1). This checks every package,
+# not a hand-picked one: aevum and paragon silently ran stale data for exactly
+# as long as this check named only slack_tide.
 Write-Host ""
-Write-Host "Checking games/ sync..." -ForegroundColor Cyan
-& (Join-Path $PSScriptRoot "sync_game.ps1") -Game slack_tide -Engine isometric -Check
+Write-Host "Checking games/ sync (all packages)..." -ForegroundColor Cyan
+& (Join-Path $PSScriptRoot "sync_game.ps1") -All -Check
 if ($LASTEXITCODE -ne 0) { $overallExitCode = 1 }
 
 # slack_tide's intel.json is GENERATED from docs/slack_tide_spec.json; a stale
